@@ -190,15 +190,9 @@ async@0.2.x:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
 
-async@2.1.4:
+async@2.1.4, async@^2.0.1:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/async/-/async-2.1.4.tgz#2d2160c7788032e4dd6cbe2502f1f9a2c8f6cde4"
-  dependencies:
-    lodash "^4.14.0"
-
-async@^2.0.1, async@^2.1.2:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.1.5.tgz#e587c68580994ac67fc56ff86d3ac56bdbe810bc"
   dependencies:
     lodash "^4.14.0"
 
@@ -286,7 +280,7 @@ bluebird@^2.10.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
 
-bluebird@^3.0, bluebird@^3.0.6, bluebird@^3.1.5, bluebird@^3.4.0:
+bluebird@^3.0, bluebird@^3.0.6, bluebird@^3.1.5, bluebird@^3.4.0, bluebird@^3.4.7:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
