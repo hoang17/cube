@@ -33,7 +33,7 @@ dotenv.load({ path: '.env.example' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const groupController = require('./controllers/group');
+const groupsController = require('./controllers/groups');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
@@ -127,7 +127,7 @@ app.use(express.static(publicDir, { maxAge: 31557600000 }));
  * Primary app routes.
  */
 app.get('/', homeController.index);
-app.get('/groups', groupController.index);
+app.get('/groups', groupsController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

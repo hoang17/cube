@@ -8,10 +8,9 @@ exports.index = (req, res) => {
   graph.setAccessToken(token.accessToken);
   graph.get(`${req.user.facebook}/groups?limit=200`, (err, results) => {
     if (err) { return next(err); }
-    console.log(results)
     res.render('groups', {
       title: 'Groups',
-      profile: results
+      groups: results.data
     });
   });
 };
