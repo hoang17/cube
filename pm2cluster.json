@@ -1,0 +1,9 @@
+{
+  "apps" : [{
+    "name": "dayflow",
+    "script"    : "app.js",
+    "watch": true,
+    "instances" : 0,
+    "exec_mode" : "cluster"
+  }]
+}

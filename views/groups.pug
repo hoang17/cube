@@ -1,0 +1,78 @@
+extends layout
+
+block content
+  #app
+    header.header
+      nav.inner
+        a(href='/')
+    .news-view.view
+      .news-list-nav
+        a.disabled < prev
+        span 1/25
+        a(href='/top/2') more >
+      .news-list
+        ul
+          li.news-item(style='')
+            span.score 34
+            span.title
+              a(href='http://www.bbc.com/news/world-us-canada-39943267', target='_blank', rel='noopener') Vancouver bans whales and dolphins at aquarium
+              span.host  (bbc.com)
+            br
+            span.meta
+              span.by
+                | by 
+                a(href='/user/tempestn') tempestn
+              span.time
+                | 5 hours ago
+              span.comments-link
+                | 
+                a(href='/item/14355720') 12 comments
+            // 
+          li.news-item(style='')
+            span.score 182
+            span.title
+              a(href='https://www.nytimes.com/2017/05/16/business/hyundai-south-korea-whistle-blower-recall.html?em_pos=large&emc=edit_dk_20170516&nl=dealbook&nlid=65508833&ref=headline&te=1&_r=0', target='_blank', rel='noopener') Hyundai Whistle-Blower, in Rarity for South Korea, Prompts Recall
+              span.host  (nytimes.com)
+            br
+            span.meta
+              span.by
+                | by 
+                a(href='/user/JumpCrisscross') JumpCrisscross
+              span.time
+                | 11 hours ago
+              span.comments-link
+                | 
+                a(href='/item/14353748') 62 comments
+            // 
+          li.news-item
+            span.score 143
+            span.title
+              a(href='http://www.zdnet.com/article/in-encryption-push-senate-approves-signal-for-encrypted-messaging/', target='_blank', rel='noopener') U.S. Senate staff can now use Signal
+              span.host  (zdnet.com)
+            br
+            span.meta
+              span.by
+                | by 
+                a(href='/user/bshanks') bshanks
+              span.time
+                | 10 hours ago
+              span.comments-link
+                | 
+                a(href='/item/14354177') 55 comments
+            // 
+          li.news-item
+            span.score 195
+            span.title
+              a(href='https://xkcd.com/1838/', target='_blank', rel='noopener') Xkcd: Machine Learning
+              span.host  (xkcd.com)
+            br
+            span.meta
+              span.by
+                | by 
+                a(href='/user/denzil_correa') denzil_correa
+              span.time
+                | 2 hours ago
+              span.comments-link
+                | 
+                a(href='/item/14356377') 32 comments
+            // 
