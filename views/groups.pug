@@ -16,13 +16,4 @@ block content
             li.news-item(style='')
               span.score= i+1
               span.title
-                a(href='http://www.bbc.com/news/world-us-canada-39943267', target='_blank', rel='noopener')= group.name
-                span.host  (bbc.com)
-              br
-              span.meta
-                span.time
-                  | 5 hours ago
-                span.comments-link
-                  | 
-                  a(href='/item/14355720') 12 comments
-              // 
+                a(href="http://facebook.com/" + group.id, target='_blank', rel='noopener')= group.name

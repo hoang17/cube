@@ -24,10 +24,12 @@ const multer = require('multer');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
+const isProd = process.env.NODE_ENV === 'production'
+
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env' });
 
 /**
  * Controllers (route handlers).
@@ -121,7 +123,18 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+const resolve = file => path.resolve(__dirname, file)
+
+const serve = (path, cache) => express.static(resolve(path), {
+  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+})
+
 app.use(express.static(publicDir, { maxAge: 31557600000 }));
+
+app.use('/dist', serve('./dist', true))
+app.use('/manifest.json', serve('./manifest.json', true))
+app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 /**
  * Primary app routes.
