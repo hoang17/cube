@@ -21,8 +21,6 @@ const sass = require('node-sass-middleware');
 const stylus = require('express-stylus');
 const nib = require('nib');
 const multer = require('multer');
-const webpack = require('webpack');
-const webpackConfig = require('./build/webpack.client.config');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -51,13 +49,6 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
-
-var compiler = webpack(webpackConfig);
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: webpackConfig.output.publicPath
-}));
 
 /**
  * Connect to MongoDB.
@@ -132,6 +123,29 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+if (!isProd) {
+  // In development server with watch, hot-reload
+  // and create a new renderer on bundle / index template update.
+  const webpack = require('webpack');
+  const clientConfig = require('./build/webpack.client.config');
+
+  // modify client config to work with hot middleware
+  // clientConfig.entry.main = ['webpack-hot-middleware/client', clientConfig.entry.main]
+  clientConfig.output.filename = '[name].js'
+  clientConfig.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),    
+    new webpack.NoEmitOnErrorsPlugin()
+  )
+
+  var clientCompiler = webpack(clientConfig);
+  app.use(require('webpack-dev-middleware')(clientCompiler, {
+    publicPath: clientConfig.output.publicPath,
+    noInfo: true
+  }));
+  app.use(require('webpack-hot-middleware')(clientCompiler))
+}
 
 const resolve = file => path.resolve(__dirname, file)
 

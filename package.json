@@ -9,11 +9,10 @@
   "author": "Sahat Yalkabov",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "nodemon --ignore client/ --ignore dist/ server.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
     "start": "cross-env NODE_ENV=production node server.js",
-    "build-dev": "rimraf dist && cross-env NODE_ENV=development webpack --config build/webpack.client.config.js --progress --hide-modules",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules"
   },
   "dependencies": {
@@ -69,6 +68,7 @@
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
+    "react-hot-loader": "next",
     "react-select": "^1.0.0-rc.4",
     "request": "^2.78.0",
     "stripe": "^4.12.0",

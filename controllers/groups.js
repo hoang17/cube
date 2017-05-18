@@ -6,7 +6,7 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 exports.index = (req, res) => {
   const groups = db.get('groups')
   groups.find().then(docs => {
-    console.log(docs)
+    // console.log(docs)
     res.render('groups', {
       title: 'Groups',
       groups: docs
