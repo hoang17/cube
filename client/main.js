@@ -1,5 +1,11 @@
-$(document).ready(function() {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-  // Place JavaScript code here...
+// import './index.css';
+// import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 
-});
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);

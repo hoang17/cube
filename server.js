@@ -21,6 +21,8 @@ const sass = require('node-sass-middleware');
 const stylus = require('express-stylus');
 const nib = require('nib');
 const multer = require('multer');
+const webpack = require('webpack');
+const webpackConfig = require('./build/webpack.client.config');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -49,6 +51,13 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+
+var compiler = webpack(webpackConfig);
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: webpackConfig.output.publicPath
+}));
 
 /**
  * Connect to MongoDB.
