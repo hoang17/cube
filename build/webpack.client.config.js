@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
+const vueConfig = require('./vue-loader.config')
 
 module.exports = {
   target: 'web',
@@ -26,13 +27,20 @@ module.exports = {
   },
   // watch: isProd ? false : true,
   resolve: {
+    extensions: ['.js', '.vue', '.json'],
     alias: {
+      vue: 'vue/dist/vue.js',
       'public': path.resolve(__dirname, '../public')
     }
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: vueConfig
+      },
       {
         test: /\.jsx?$/,
         use: ['babel-loader'],

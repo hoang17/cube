@@ -1,5 +1,5 @@
-const bluebird = require('bluebird');
-const graph = bluebird.promisifyAll(require('fbgraph'));
+const bluebird = require('bluebird')
+const graph = bluebird.promisifyAll(require('fbgraph'))
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
@@ -15,9 +15,9 @@ exports.index = (req, res) => {
 };
 
 exports.fetchData = (req, res) => {
-  const token = req.user.tokens.find(token => token.kind === 'facebook');
-  graph.setVersion("2.3");
-  graph.setAccessToken(token.accessToken);
+  const token = req.user.tokens.find(token => token.kind === 'facebook')
+  graph.setVersion("2.3")
+  graph.setAccessToken(token.accessToken)
   graph.getAsync(`${req.user.facebook}/groups`, {limit: 20}).then(results => {
     const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
     const groups = db.get('groups')
