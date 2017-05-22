@@ -16,7 +16,7 @@
         option(value='DD, d MM, yy') Full - DD, d MM, yy
         option(value="'day' d 'of' MM 'in the year' yy") With text - 'day' d 'of' MM 'in the year' yy
 
-    date-picker(:date-format='dateFormat', @update-date="updateDate")
+    date-picker(:date="date", :date-format='dateFormat', @update-date="updateDate")
     router-view
 </template>
 
@@ -25,8 +25,8 @@ import Vue from 'vue'
 import VueSelect from "vue-select"
 
 Vue.component('date-picker', {
-  template: '<input/>',
-  props: [ 'dateFormat' ],
+  template: '<input v-model="date"/>',
+  props: [ 'date', 'dateFormat' ],
   watch: {
     dateFormat: function (val) {
       $(this.$el).datepicker( "option", "dateFormat", val);
@@ -61,7 +61,7 @@ export default {
         { value: 'one', label: 'One' },
         { value: 'two', label: 'Two' }
       ],
-      date: null,
+      date: $.datepicker.formatDate('yy-mm-dd', new Date()),
       dateFormat: 'yy-mm-dd'
     }
   },
