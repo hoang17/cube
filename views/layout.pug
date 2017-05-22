@@ -10,21 +10,25 @@ html
     link(rel='shortcut icon', href='/favicon.png')
     link(rel='stylesheet', href='/css/main.css')
     link(rel='stylesheet', href='/css/groups.css')
+    link(rel='stylesheet', href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
 
   body
     include partials/header
 
-    #root
-    #app
-      
     .container
+      #root
+      #app
       include partials/flash
       block content
 
     //- include partials/footer
+    
+    //- script(src='/js/lib/jquery-3.1.1.min.js')
+    //- script(src='/js/lib/bootstrap.min.js')
 
-    script(src='/js/lib/jquery-3.1.1.min.js')
-    script(src='/js/lib/bootstrap.min.js')
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
     script(src='/dist/main.js')
 
     //- Google Analytics: change UA-XXXXX-X to be your site's ID
