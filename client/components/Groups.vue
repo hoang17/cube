@@ -1,16 +1,44 @@
-body
-  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size 15px
-  background-color lighten(#eceef1, 30%)
-  margin 0
-  padding-top 55px
-  color #34495e
-  overflow-y scroll
+<template lang="pug">
+  #groups
+    header.header
+      nav.inner
+        a(href='/')
+    .news-view.view
+      .news-list-nav
+        a.disabled < prev
+        span 1/25
+        a(href='/top/2') more >
+      .news-list
+        ul
+          li.news-item(v-for="(group, i) in groups")
+            span.score {{ i + 1 }}
+            span.title
+              a(:href="'http://facebook.com/' + group.id", target='_blank', rel='noopener') {{ group.name }}
+</template>
 
-a
-  color #34495e
-  text-decoration none
+<script>
+export default {
+  name: 'groups',
+  components: {
+    // 'vue-select': VueSelect
+  },
+  data() {
+    return {
+      // date: 'yy-mm-dd',
+      groups: [
+        {id: 1, name: "tada"}
+      ]
+    }
+  },
+  methods: {
+    // updateDate: function(date) {
+    //   this.date = date
+    // }
+  }
+}
+</script>
 
+<style lang="stylus" scoped>
 .header
   background-color #ff6600
   position fixed
@@ -78,6 +106,7 @@ a
 
 
 .news-view
+  text-align left
   padding-top 45px
 
 .news-list-nav, .news-list
@@ -154,3 +183,4 @@ a
       text-decoration underline
       &:hover
         color #ff6600
+</style>

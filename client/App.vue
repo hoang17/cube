@@ -3,7 +3,7 @@
     img(src="./logo.png")
     h1 {{ message.label }}
     h2 {{ date }}
-    vue-select(v-model="message", :value.sync="selected", :options="options")
+    vue-select(v-model="message", :options="options")
 
     p
       | Format options:
@@ -56,7 +56,6 @@ export default {
   data() {
     return {
       message: { value: 'one', label: 'One' },
-      selected: null,
       options: [
         { value: 'one', label: 'One' },
         { value: 'two', label: 'Two' }
@@ -67,19 +66,14 @@ export default {
   },
   methods: {
     updateDate: function(date) {
-      this.date = date;
+      this.date = date
     }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus" scoped>
+#app
+  text-align center
+  margin-top 60px
 </style>
