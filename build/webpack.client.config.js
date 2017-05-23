@@ -25,7 +25,6 @@ module.exports = {
     filename: '[name].js'
     // filename: isProd ? '[name].[chunkhash].js' :'[name].js'
   },
-  // watch: isProd ? false : true,
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {

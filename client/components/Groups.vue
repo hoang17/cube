@@ -68,17 +68,6 @@ export default {
       font-weight 400
     &:nth-child(6)
       margin-right 0
-  .github
-    color #fff
-    font-size .9em
-    margin 0
-    float right
-
-.logo
-  width 24px
-  margin-right 10px
-  display inline-block
-  vertical-align middle
 
 .view
   max-width 800px
@@ -106,7 +95,6 @@ export default {
 
 
 .news-view
-  text-align left
   padding-top 45px
 
 .news-list-nav, .news-list
