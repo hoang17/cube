@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'groups',
   components: {
@@ -24,15 +26,36 @@ export default {
   },
   data() {
     return {
-      // date: 'yy-mm-dd',
-      groups: [
-        {id: 1, name: "tada"}
-      ]
+      groups: []
     }
   },
+  mounted() {
+    axios.get(`http://localhost:3000/api/groups`)
+      .then(response => {
+        this.groups = response.data
+      }).catch(error => { console.log(error) })
+
+      // async / await version (created() becomes async created())
+      //
+      // try {
+      //   const response = await axios.get(`http://jsonplaceholder.typicode.com/posts`)
+      //   this.posts = response.data
+      // } catch (e) {
+      //   this.errors.push(e)
+      // }
+  },
   methods: {
-    // updateDate: function(date) {
-    //   this.date = date
+    getGroups() {
+      // let url = buildUrl();
+      // axios.get(url).then((response) => {
+      //   this.groups = response.data
+      // }).catch( error => { console.log(error) })
+    }
+  },
+  computed: {
+    // processedPosts() {
+    //   let groups = this.groups
+    //   return groups
     // }
   }
 }
@@ -92,7 +115,6 @@ export default {
       margin-right 1em
     .github
       display none
-
 
 .news-view
   padding-top 45px

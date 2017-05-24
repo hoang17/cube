@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 // import VueSelect from "vue-select"
 
 // Vue.component('date-picker', {
@@ -47,7 +47,6 @@ import Vue from 'vue'
 //     $(this.$el).datepicker('hide').datepicker('destroy');
 //   }
 // });
-
 
 export default {
   name: 'app',
@@ -74,7 +73,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-#app
-  // text-align center
-  // margin-top 60px
+// #app
+//   text-align center
+//   margin-top 60px
 </style>

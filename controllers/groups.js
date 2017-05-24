@@ -1,17 +1,47 @@
 const bluebird = require('bluebird')
 const graph = bluebird.promisifyAll(require('fbgraph'))
 
+var Group = require('../models/Group');
+
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
+const Vue = require('vue')
+
 exports.index = (req, res) => {
-  const groups = db.get('groups')
-  groups.find().then(docs => {
-    res.render('groups', {
-      title: 'Groups',
-      groups: docs
-    });
+
+  const app = new Vue({
+    data: {
+      url: req.url
+    },
+    template: `<div>The visited URL is: {{ url }} - ssr</div>`
   })
-};
+
+  Group.find(function(err, groups) {
+    if (err)
+      res.send(err)
+
+    let data = {
+      title: 'Groups',
+      groups: groups
+    }
+
+    res.render('groups', data, function(err, template) {
+
+      const renderer = require('vue-server-renderer').createRenderer({
+        template: template
+      })
+
+      renderer.renderToString(app, (err, html) => {
+        if (err) {
+          res.status(500).end('Internal Server Error')
+          return
+        }
+        res.end(html)
+      })
+    })
+
+  })
+}
 
 exports.fetchData = (req, res) => {
   const token = req.user.tokens.find(token => token.kind === 'facebook')
@@ -22,4 +52,4 @@ exports.fetchData = (req, res) => {
     const groups = db.get('groups')
     groups.insert(results.data).then(() => db.close())
   })
-};
+}

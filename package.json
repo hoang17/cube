@@ -11,11 +11,13 @@
   "scripts": {
     "dev": "nodemon --ignore client/ --ignore dist/ server.js",
     "test": "mocha --reporter spec",
-    "postinstall": "npm rebuild node-sass",
     "start": "cross-env NODE_ENV=production node server.js",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules"
+    "build": "rimraf dist && npm run build:server && npm run build:client",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-preset-react": "^6.24.1",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.4.7",
@@ -41,6 +43,7 @@
     "jquery": "^3.2.1",
     "lastfm": "^0.9.2",
     "lob": "^3.9.0",
+    "lru-cache": "^4.0.2",
     "lusca": "^1.4.1",
     "mongodb": "^2.2.26",
     "mongoose": "^4.6.6",
@@ -82,7 +85,8 @@
     "valuelink": "^1.5.1",
     "vue": "^2.3.3",
     "vue-router": "^2.5.3",
-    "vue-select": "sagalbot/vue-select"
+    "vue-select": "sagalbot/vue-select",
+    "vue-server-renderer": "^2.3.3"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -112,6 +116,7 @@
     "supertest": "^3.0.0",
     "url-loader": "^0.5.8",
     "vue-loader": "^12.1.0",
+    "vue-ssr-webpack-plugin": "^3.0.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.3.3",
     "webpack": "^2.5.1",
