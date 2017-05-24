@@ -137,7 +137,7 @@ const resolve = file => path.resolve(__dirname, file)
 
 const { createBundleRenderer } = require('vue-server-renderer')
 
-const template = fs.readFileSync(resolve('./index.template.html'), 'utf-8')
+const template = fs.readFileSync(resolve('./client/index.template.html'), 'utf-8')
 
 function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
