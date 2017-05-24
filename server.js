@@ -182,7 +182,7 @@ if (isProd) {
 const useMicroCache = process.env.MICRO_CACHE !== 'false'
 const microCache = LRU({
   max: 100,
-  maxAge: 10000
+  maxAge: 1000
 })
 
 // since this app has no user-specific content, every page is micro-cacheable.

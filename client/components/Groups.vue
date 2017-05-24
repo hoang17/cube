@@ -17,46 +17,46 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'groups',
   components: {
     // 'vue-select': VueSelect
   },
+  asyncData ({ store, route }) {
+    // return the Promise from the action
+    return store.dispatch('getGroups')
+  },
   data() {
     return {
-      groups: []
+      // groups: []
     }
   },
-  mounted() {
-    axios.get(`http://localhost:3000/api/groups`)
-      .then(response => {
-        this.groups = response.data
-      }).catch(error => { console.log(error) })
+  created() {
+    // axios.get(`http://localhost:3000/api/groups`)
+    //   .then(response => {
+    //     this.groups = response.data
+    //   }).catch(error => { console.log(error) })
 
-      // async / await version (created() becomes async created())
-      //
-      // try {
-      //   const response = await axios.get(`http://jsonplaceholder.typicode.com/posts`)
-      //   this.posts = response.data
-      // } catch (e) {
-      //   this.errors.push(e)
-      // }
+    // async / await version (created() becomes async created())
+    // try {
+    //   console.log('async created')
+    //   const response = await axios.get(`http://localhost:3000/api/groups`)
+    //   this.groups = response.data
+    // } catch (e) {
+    //   console.log(e)
+    // }
   },
   methods: {
-    getGroups() {
-      // let url = buildUrl();
-      // axios.get(url).then((response) => {
-      //   this.groups = response.data
-      // }).catch( error => { console.log(error) })
+    hello() {
+      console.log("hello")
     }
   },
   computed: {
-    // processedPosts() {
-    //   let groups = this.groups
-    //   return groups
-    // }
+    groups () {
+      return this.$store.state.groups
+    },
   }
 }
 </script>

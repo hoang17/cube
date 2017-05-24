@@ -1,5 +1,4 @@
 const bluebird = require('bluebird');
-const request = bluebird.promisifyAll(require('request'), { multiArgs: true });
 const graph = bluebird.promisifyAll(require('fbgraph'));
 const dotenv = require('dotenv');
 
@@ -8,16 +7,14 @@ dotenv.load({ path: '.env' });
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 const fetchData = url => {
-  graph.getAsync(url, {limit: 500})
+  return graph.getAsync(url, { limit: 500 })
     .then(res => {
-      groups.insert(res.data)
-        .then(() => {
-          if (res.paging && res.paging.next) {
-            fetchData(res.paging.next)
-          } else {
-            db.close()
-          }
-        })
+      if (res.paging && res.paging.next) {
+        groups.insert(res.data)
+        return fetchData(res.paging.next)
+      } else {
+        return groups.insert(res.data)
+      }
     })
 }
 
@@ -26,4 +23,4 @@ graph.setVersion("2.3");
 graph.setAccessToken(token);
 const groups = db.get('groups')
 groups.drop()
-fetchData("504368183/groups")
+fetchData("504368183/groups").then(() => { db.close() })
