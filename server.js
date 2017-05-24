@@ -171,8 +171,8 @@ if (isProd) {
   // and create a new renderer on bundle / index template update.
   console.log("is prod", isProd)
   readyPromise = require('./build/setup-dev-server')(app, (bundle, options) => {
-    console.log("setup dev server callback")
-    console.log(bundle)
+    // console.log("setup dev server callback")
+    // console.log(bundle)
     renderer = createRenderer(bundle, options)
   })
 }

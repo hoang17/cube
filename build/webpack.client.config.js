@@ -79,18 +79,12 @@ module.exports = {
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css'
         }),
-        new webpack.LoaderOptionsPlugin({
-          minimize: true
-        }),
         new VueSSRClientPlugin()
       ]
     : [
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify('development'),
           'process.env.VUE_ENV': '"client"'
-        }),
-        new webpack.LoaderOptionsPlugin({
-          minimize: true
         }),
         new FriendlyErrorsPlugin(),
         new VueSSRClientPlugin()
