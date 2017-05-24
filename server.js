@@ -179,17 +179,16 @@ if (isProd) {
 // 1-second microcache.
 // https://www.nginx.com/blog/benefits-of-microcaching-nginx/
 
-// const useMicroCache = process.env.MICRO_CACHE !== 'false'
-// const microCache = LRU({
-//   max: 100,
-//   maxAge: 1000
-// })
+const useMicroCache = process.env.MICRO_CACHE !== 'false'
+const microCache = LRU({
+  max: 100,
+  maxAge: 10000
+})
 
 // since this app has no user-specific content, every page is micro-cacheable.
 // if your app involves user-specific content, you need to implement custom
-// logic to determine whether a request is cacheable based on its url and
-// headers.
-// const isCacheable = req => useMicroCache
+// logic to determine whether a request is cacheable based on its url and headers.
+const isCacheable = req => useMicroCache
 
 function render (req, res) {
   const s = Date.now()
@@ -205,16 +204,17 @@ function render (req, res) {
     }
   }
 
-  // const cacheable = isCacheable(req)
-  // if (cacheable) {
-  //   const hit = microCache.get(req.url)
-  //   if (hit) {
-  //     if (!isProd) {
-  //       console.log(`cache hit!`)
-  //     }
-  //     return res.end(hit)
-  //   }
-  // }
+  const cacheable = isCacheable(req)
+  if (cacheable) {
+    const hit = microCache.get(req.url)
+    if (hit) {
+      res.end(hit)
+      if (!isProd) {
+        console.log(`cache hit! whole request: ${Date.now() - s}ms`)
+      }
+      return
+    }
+  }
 
   const context = {
     title: 'Vue HN 2.0', // default title
@@ -225,9 +225,9 @@ function render (req, res) {
       return handleError(err)
     }
     res.end(html)
-    // if (cacheable) {
-    //   microCache.set(req.url, html)
-    // }
+    if (cacheable) {
+      microCache.set(req.url, html)
+    }
     if (!isProd) {
       console.log(`whole request: ${Date.now() - s}ms`)
     }
