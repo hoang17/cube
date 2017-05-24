@@ -19,8 +19,8 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-const stylus = require('express-stylus');
-const nib = require('nib');
+// const stylus = require('express-stylus');
+// const nib = require('nib');
 const multer = require('multer');
 const LRU = require('lru-cache')
 
@@ -78,11 +78,11 @@ app.use(sass({
   src: publicDir,
   dest: publicDir
 }));
-app.use(stylus({
-  src: publicDir,
-  use: [nib()],
-  import: ['nib']
-}));
+// app.use(stylus({
+//   src: publicDir,
+//   use: [nib()],
+//   import: ['nib']
+// }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -169,7 +169,6 @@ if (isProd) {
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
-  console.log("is prod", isProd)
   readyPromise = require('./build/setup-dev-server')(app, (bundle, options) => {
     // console.log("setup dev server callback")
     // console.log(bundle)
