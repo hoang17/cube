@@ -16,31 +16,29 @@ exports.index = (req, res) => {
     template: `<div>The visited URL is: {{ url }} - ssr</div>`
   })
 
-  Group.find(function(err, groups) {
-    if (err)
-      res.send(err)
+  res.render('groups', {title: 'Groups'}, (err, template) => {
 
-    let data = {
-      title: 'Groups',
-      groups: groups
-    }
-
-    res.render('groups', data, function(err, template) {
-
-      const renderer = require('vue-server-renderer').createRenderer({
-        template: template
-      })
-
-      renderer.renderToString(app, (err, html) => {
-        if (err) {
-          res.status(500).end('Internal Server Error')
-          return
-        }
-        res.end(html)
-      })
+    const renderer = require('vue-server-renderer').createRenderer({
+      template: template
     })
 
+    renderer.renderToString(app, (err, html) => {
+      if (err) {
+        res.status(500).end('Internal Server Error')
+        return
+      }
+      res.end(html)
+    })
   })
+
+  // Group.find((err, groups) => {
+  //   if (err)
+  //     res.send(err)
+  //   res.render('groups', {
+  //     title: 'Groups',
+  //     groups: groups
+  //   })
+  // })
 }
 
 exports.fetchData = (req, res) => {

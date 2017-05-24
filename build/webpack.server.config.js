@@ -57,15 +57,13 @@ module.exports = {
   performance: {
     hints: false
   },
-  // Avoids bundling external dependencies, so node can load them directly from node_modules/
-  // externals: Object.keys(require('../package.json').dependencies),
+  // Avoids bundling external dependencies,
+  // so node can load them directly from node_modules/
   externals: nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
     whitelist: /\.css$/
   }),
-  // No need to put these behind a production env variable.
   plugins: [
-    // Add the SSR plugin here.
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"'
@@ -75,7 +73,7 @@ module.exports = {
       compress: { warnings: false }
     }),
     new ExtractTextPlugin({
-      filename: 'common.[chunkhash].css'
+      filename: 'common.css'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true

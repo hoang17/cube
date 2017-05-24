@@ -77,7 +77,7 @@ module.exports = {
         }),
         new webpack.optimize.AggressiveMergingPlugin(),
         new ExtractTextPlugin({
-          filename: 'common.[chunkhash].css'
+          filename: 'common.css'
         }),
         new VueSSRClientPlugin()
       ]
