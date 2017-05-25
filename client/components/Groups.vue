@@ -1,7 +1,8 @@
 <template lang="pug">
   .news-view.view
     .news-list-nav
-      router-link(v-if='page > 1', :to="'/' + type + '/' + (page - 1)") < prev
+      router-link(v-if='page == 2', :to="'/' + type") < prev
+      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
       span {{ page }}/{{ maxPage }}
       router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
@@ -16,20 +17,16 @@
 </template>
 
 <script>
-// import axios from 'axios'
-
 export default {
   name: 'groups',
   title: 'Groups',
   components: {
     // 'vue-select': VueSelect
   },
-
   asyncData ({ store, route }) {
     // return the Promise from the action
     return store.dispatch('getGroups')
   },
-
   data() {
     return {
       type: 'groups',
@@ -38,17 +35,8 @@ export default {
       displayedItems: this.$store.getters.activeGroups
     }
   },
-
-  created() {
-    // axios.get(`http://localhost:3000/api/groups`)
-    //   .then(response => {
-    //     this.groups = response.data
-    //   }).catch(error => { console.log(error) })
-  },
-
   computed: {
     groups () {
-      // return this.$store.getters.activeGroups
       return this.$store.state.groups
     },
     page () {
@@ -65,13 +53,11 @@ export default {
       return this.page < this.maxPage
     }
   },
-
   watch: {
     page (to, from) {
       this.loadItems(to, from)
     }
   },
-
   methods: {
     loadItems (to = this.page, from = -1) {
       this.$bar.start()
@@ -97,7 +83,6 @@ export default {
       // })
     }
   }
-
 }
 </script>
 
