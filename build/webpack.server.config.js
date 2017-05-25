@@ -5,10 +5,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const vueConfig = require('./vue-loader.config')
 
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
   target: 'node',
   context: path.resolve(__dirname, '../client'),
-  devtool: '#source-map',
+  devtool: isProd
+    ? false
+    : '#cheap-module-source-map',
   entry: './entry-server.js',
   output: {
     path: path.resolve(__dirname, '../dist'),

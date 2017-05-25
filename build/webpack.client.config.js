@@ -14,9 +14,7 @@ module.exports = {
   context: path.resolve(__dirname, '../client'),
   devtool: isProd ? false : '#cheap-module-source-map',
   entry: {
-    app: [
-      'webpack-hot-middleware/client?noInfo=false',
-      './entry-client.js']
+    app: './entry-client.js'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
