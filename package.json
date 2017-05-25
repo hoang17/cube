@@ -1,12 +1,11 @@
 {
-  "name": "hackathon-starter",
-  "version": "4.3.0",
+  "name": "dayflow",
+  "version": "1.0.0",
   "description": "A boilerplate for Node.js web applications",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+  "engines": {
+    "node": "7.10.0"
   },
-  "author": "Sahat Yalkabov",
+  "author": "Hoang Le <lehuyhoang117@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --ignore client/ --ignore dist/ server.js",
@@ -14,7 +13,8 @@
     "start": "cross-env NODE_ENV=production node server",
     "build": "rimraf dist && npm run build:server && npm run build:client",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
-    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules"
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "axios": "^0.16.1",
