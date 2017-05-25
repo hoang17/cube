@@ -5,7 +5,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 // Assume we have a universal API that returns Promises
-// and ignore the implementation details
 import { getGroups } from './api'
 
 export function createStore () {
@@ -29,7 +28,3 @@ export function createStore () {
     }
   })
 }
-
-// export default {
-//     groups: []
-// }

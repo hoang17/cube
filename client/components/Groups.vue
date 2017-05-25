@@ -21,6 +21,7 @@
 
 export default {
   name: 'groups',
+  title: 'Groups',
   components: {
     // 'vue-select': VueSelect
   },

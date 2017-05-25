@@ -5,6 +5,15 @@ const Vue = require('vue')
 
 exports.index = (req, res) => {
 
+  // var Group = require('../models/Group')
+  // Group.find((err, groups) => {
+  //   if (err) res.send(err)
+  //   res.render('groups', {
+  //     title: 'Groups',
+  //     groups: groups
+  //   })
+  // })
+
   res.render('groups', {title: 'Groups'})
 
   // const app = new Vue({
@@ -26,16 +35,6 @@ exports.index = (req, res) => {
   //       return
   //     }
   //     res.end(html)
-  //   })
-  // })
-
-  // var Group = require('../models/Group')
-  // Group.find((err, groups) => {
-  //   if (err)
-  //     res.send(err)
-  //   res.render('groups', {
-  //     title: 'Groups',
-  //     groups: groups
   //   })
   // })
 }

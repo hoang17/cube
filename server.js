@@ -137,10 +137,13 @@ const resolve = file => path.resolve(__dirname, file)
 
 const { createBundleRenderer } = require('vue-server-renderer')
 
-const template = fs.readFileSync(resolve('./client/index.template.html'), 'utf-8')
+const pug = require('pug')
+
+const template = pug.renderFile(resolve('./views/layout.pug'), {title: 'Vue 2.0', messages:[]})
+
+// const template = fs.readFileSync(resolve('./client/index.template.html'), 'utf-8')
 
 function createRenderer (bundle, options) {
-  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return createBundleRenderer(bundle, Object.assign(options, {
     template,
     // for component caching
@@ -217,9 +220,10 @@ function render (req, res) {
   }
 
   const context = {
-    title: 'Vue HN 2.0', // default title
+    title: 'Vue 2.0', // default title
     url: req.url
   }
+
   renderer.renderToString(context, (err, html) => {
     if (err) {
       return handleError(err)
@@ -234,11 +238,12 @@ function render (req, res) {
   })
 }
 
-app.get('/hello', isProd ? render : (req, res) => {
-  readyPromise.then(() => render(req, res))
-})
+app.get('/hello', isProd ? render : (req, res) => { readyPromise.then(() => render(req, res)) })
 
+// ********************** //
 // --- End of Vue SSR --- //
+// ********************** //
+
 
 const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
