@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A boilerplate for Node.js web applications",
   "engines": {
-    "node": "7.9.0"
+    "node": "7.10.0"
   },
   "author": "Hoang Le <lehuyhoang117@gmail.com>",
   "license": "MIT",
@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "babel-preset-react": "^6.24.1",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
@@ -68,14 +67,6 @@
     "paypal-rest-sdk": "^1.7.0",
     "prop-types": "^15.5.10",
     "pug": "^2.0.0-beta6",
-    "react": "^15.5.4",
-    "react-bootstrap": "^0.31.0",
-    "react-dom": "^15.5.4",
-    "react-gravatar": "^2.6.2",
-    "react-highlight-words": "^0.7.2",
-    "react-hot-loader": "next",
-    "react-router": "^4.1.1",
-    "react-select": "^1.0.0-rc.4",
     "request": "^2.78.0",
     "stripe": "^4.12.0",
     "tumblr.js": "^1.1.1",
