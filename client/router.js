@@ -30,7 +30,7 @@ export function createRouter () {
     routes: [
       { path: '/', name: 'Home', component: Home },
       { path: '/groups', name: 'Groups', component: Groups },
-      { path: '/hello', component: Groups },
+      { path: '/hello', component: Hello },
       { path: '/item/:id', component: Item }
     ]
   })

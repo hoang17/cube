@@ -238,7 +238,7 @@ function render (req, res) {
   })
 }
 
-app.get('/hello', isProd ? render : (req, res) => { readyPromise.then(() => render(req, res)) })
+app.get('/groups', isProd ? render : (req, res) => { readyPromise.then(() => render(req, res)) })
 
 // ********************** //
 // --- End of Vue SSR --- //
@@ -259,7 +259,7 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
  * Primary app routes.
  */
 app.get('/', homeController.index);
-app.get('/groups', groupsController.index);
+app.get('/hello', groupsController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

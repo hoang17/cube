@@ -35,19 +35,19 @@ Vue.mixin({
       next()
     }
   },
-  beforeMount () {
-    console.log("@@@@ beforeMount ", this.$options.name)
-    const { asyncData } = this.$options
-    if (asyncData) {
-      // assign the fetch operation to a promise
-      // so that in components we can do `this.dataPromise.then(...)` to
-      // perform other tasks after data is ready
-      this.dataPromise = asyncData({
-        store: this.$store,
-        route: this.$route
-      })
-    }
-  }
+  // beforeMount () {
+  //   console.log("@@@@ beforeMount ", this.$options.name)
+  //   const { asyncData } = this.$options
+  //   if (asyncData) {
+  //     // assign the fetch operation to a promise
+  //     // so that in components we can do `this.dataPromise.then(...)` to
+  //     // perform other tasks after data is ready
+  //     this.dataPromise = asyncData({
+  //       store: this.$store,
+  //       route: this.$route
+  //     })
+  //   }
+  // }
 })
 
 const { app, router, store } = createApp()
