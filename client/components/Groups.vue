@@ -1,17 +1,16 @@
 <template lang="pug">
-  #groups
-    header.header
-      nav.inner
-        a(href='/')
-    .news-view.view
-      .news-list-nav
-        a.disabled < prev
-        span 1/25
-        a(href='/top/2') more >
-      .news-list
-        ul
-          li.news-item(v-for="(group, i) in groups")
-            span.score {{ i + 1 }}
+  .news-view.view
+    .news-list-nav
+      router-link(v-if='page > 1', :to="'/' + type + '/' + (page - 1)") < prev
+      a.disabled(v-else='') < prev
+      span {{ page }}/{{ maxPage }}
+      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+      a.disabled(v-else='') more >
+    transition(:name='transition')
+      .news-list(:key='displayedPage', v-if='displayedPage > 0')
+        transition-group(tag='ul', name='item')
+          li.news-item(v-for="(group, i) in displayedItems", :key="group.id")
+            span.score {{ from + i + 1 }}
             span.title
               a(:href="'http://facebook.com/' + group.id", target='_blank', rel='noopener') {{ group.name }}
 </template>
@@ -25,98 +24,84 @@ export default {
   components: {
     // 'vue-select': VueSelect
   },
+
   asyncData ({ store, route }) {
     // return the Promise from the action
     return store.dispatch('getGroups')
   },
+
   data() {
     return {
-      // groups: []
+      type: 'groups',
+      transition: 'slide-right',
+      displayedPage: Number(this.$store.state.route.params.page) || 1,
+      displayedItems: this.$store.getters.activeGroups
     }
   },
+
   created() {
     // axios.get(`http://localhost:3000/api/groups`)
     //   .then(response => {
     //     this.groups = response.data
     //   }).catch(error => { console.log(error) })
+  },
 
-    // async / await version (created() becomes async created())
-    // try {
-    //   console.log('async created')
-    //   const response = await axios.get(`http://localhost:3000/api/groups`)
-    //   this.groups = response.data
-    // } catch (e) {
-    //   console.log(e)
-    // }
-  },
-  methods: {
-    hello() {
-      console.log("hello")
-    }
-  },
   computed: {
     groups () {
+      // return this.$store.getters.activeGroups
       return this.$store.state.groups
     },
+    page () {
+      return Number(this.$store.state.route.params.page) || 1
+    },
+    maxPage () {
+      const { itemsPerPage, groups } = this.$store.state
+      return Math.ceil(groups.length / itemsPerPage)
+    },
+    from () {
+      return (this.page-1) * this.$store.state.itemsPerPage
+    },
+    hasMore () {
+      return this.page < this.maxPage
+    }
+  },
+
+  watch: {
+    page (to, from) {
+      this.loadItems(to, from)
+    }
+  },
+
+  methods: {
+    loadItems (to = this.page, from = -1) {
+      this.$bar.start()
+      if (this.page < 0 || this.page > this.maxPage) {
+        this.$router.replace(`/${this.type}`)
+        return
+      }
+      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      this.displayedPage = to
+      this.displayedItems = this.$store.getters.activeGroups
+      this.$bar.finish()
+
+      // this.$store.dispatch('getGroups')
+      // .then(() => {
+      //   if (this.page < 0 || this.page > this.maxPage) {
+      //     this.$router.replace(`/${this.type}`)
+      //     return
+      //   }
+      //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      //   this.displayedPage = to
+      //   this.displayedItems = this.$store.getters.activeGroups
+      //   this.$bar.finish()
+      // })
+    }
   }
+
 }
 </script>
 
 <style lang="stylus" scoped>
-.header
-  background-color #ff6600
-  position fixed
-  z-index 999
-  height 55px
-  top 0
-  left 0
-  right 0
-  .inner
-    max-width 800px
-    box-sizing border-box
-    margin 0px auto
-    padding 15px 5px
-  a
-    color rgba(255, 255, 255, .8)
-    line-height 24px
-    transition color .15s ease
-    display inline-block
-    vertical-align middle
-    font-weight 300
-    letter-spacing .075em
-    margin-right 1.8em
-    &:hover
-      color #fff
-    &.router-link-active
-      color #fff
-      font-weight 400
-    &:nth-child(6)
-      margin-right 0
-
-.view
-  max-width 800px
-  margin 0 auto
-  position relative
-
-.fade-enter-active, .fade-leave-active
-  transition all .2s ease
-
-.fade-enter, .fade-leave-active
-  opacity 0
-
-@media (max-width 860px)
-  .header .inner
-    padding 15px 30px
-
-@media (max-width 600px)
-  .header
-    .inner
-      padding 15px
-    a
-      margin-right 1em
-    .github
-      display none
-
 .news-view
   padding-top 45px
 
@@ -194,4 +179,5 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
 </style>

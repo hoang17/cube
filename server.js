@@ -138,9 +138,7 @@ const resolve = file => path.resolve(__dirname, file)
 const { createBundleRenderer } = require('vue-server-renderer')
 
 // const pug = require('pug')
-//
 // const template = pug.renderFile(resolve('./views/layout.pug'), {title: 'Vue 2.0', messages:[]})
-
 // const template = fs.readFileSync(resolve('./client/index.template.html'), 'utf-8')
 
 function createRenderer (bundle, options, template) {
@@ -232,7 +230,7 @@ function render (req, res) {
     if (hit) {
       res.end(hit)
       if (!isProd) {
-        console.log(`cache hit! whole request: ${Date.now() - s}ms`)
+        console.log(chalk.blue(`cache hit! whole request: ${Date.now() - s}ms`))
       }
       return
     }
@@ -257,7 +255,7 @@ function render (req, res) {
   })
 }
 
-app.get('/groups', (req, res) => {
+app.get('/groups/:page?', (req, res) => {
   res.render('groups', {title: 'Groups'}, (err, template) => {
     getRenderer(template)
     isProd
@@ -285,7 +283,7 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
  * Primary app routes.
  */
 app.get('/', homeController.index);
-app.get('/hello', groupsController.index);
+app.get('/hello', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

@@ -1,5 +1,9 @@
 <template lang="pug">
   #app
+    header.header
+      nav.inner
+        a(href='/')
+
     //- img(src="./logo.png")
     //- h1 {{ message.label }}
     //- vue-select(v-model="message", :options="options")
@@ -18,7 +22,7 @@
     //-
     //- date-picker(:date="date", :date-format='dateFormat', @update-date="updateDate")
 
-    router-view
+    router-view.view
 </template>
 
 <script>
@@ -83,10 +87,65 @@ body
   overflow-y scroll
 
 a
-  color #34495e
-  text-decoration none
+  &:hover
+  &:active
+  &:focus
+    text-decoration none
+    color #34495e
+.disabled
+    cursor:default
 
-// #app
-//   text-align center
-//   margin-top 60px
+.header
+  background-color #ff6600
+  position fixed
+  z-index 999
+  height 55px
+  top 0
+  left 0
+  right 0
+  .inner
+    max-width 800px
+    box-sizing border-box
+    margin 0px auto
+    padding 15px 5px
+  a
+    color rgba(255, 255, 255, .8)
+    line-height 24px
+    transition color .15s ease
+    display inline-block
+    vertical-align middle
+    font-weight 300
+    letter-spacing .075em
+    margin-right 1.8em
+    &:hover
+      color #fff
+    &.router-link-active
+      color #fff
+      font-weight 400
+    &:nth-child(6)
+      margin-right 0
+
+.view
+  max-width 800px
+  margin 0 auto
+  position relative
+
+.fade-enter-active, .fade-leave-active
+  transition all .2s ease
+
+.fade-enter, .fade-leave-active
+  opacity 0
+
+@media (max-width 860px)
+  .header .inner
+    padding 15px 30px
+
+@media (max-width 600px)
+  .header
+    .inner
+      padding 15px
+    a
+      margin-right 1em
+    .github
+      display none
 </style>
