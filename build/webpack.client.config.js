@@ -71,7 +71,8 @@ module.exports = {
           'process.env.VUE_ENV': '"client"'
         }),
         new webpack.optimize.UglifyJsPlugin({
-          compress: { warnings: false }
+          compress: { warnings: false },
+          output: {comments: false}
         }),
         new webpack.optimize.AggressiveMergingPlugin(),
         new ExtractTextPlugin({
