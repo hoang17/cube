@@ -7,23 +7,6 @@ import Item from './components/Item'
 
 Vue.use(Router)
 
-// export default new Router({
-//   mode: 'history',
-//   scrollBehavior: () => ({ y: 0 }),
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'Home',
-//       component: Home
-//     },
-//     {
-//       path: '/groups',
-//       name: 'Groups',
-//       component: Groups
-//     }
-//   ]
-// })
-
 export function createRouter () {
   return new Router({
     mode: 'history',
