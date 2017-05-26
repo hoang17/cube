@@ -1,11 +1,9 @@
-const glob = require('glob')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const vueConfig = require('./vue-loader.config')
-// const CompressionPlugin = require('compression-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 
