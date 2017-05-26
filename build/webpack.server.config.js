@@ -81,7 +81,7 @@ module.exports = {
           output: {comments: false}
         }),
         new ExtractTextPlugin({
-          filename: 'common.css'
+          filename: 'common.[chunkhash].css'
         }),
         new webpack.LoaderOptionsPlugin({
           minimize: true
