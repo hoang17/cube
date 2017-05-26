@@ -71,8 +71,8 @@ mongoose.connection.on('error', (err) => {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.use(compression())
 app.use(expressStatusMonitor());
-app.use(compression());
 const publicDir = path.join(__dirname, '/public');
 app.use(sass({
   src: publicDir,
@@ -228,11 +228,10 @@ function render (req, res) {
   if (cacheable) {
     const hit = microCache.get(req.url)
     if (hit) {
-      res.end(hit)
       if (!isProd) {
         console.log(chalk.blue(`cache hit! whole request: ${Date.now() - s}ms`))
       }
-      return
+      return res.end(hit)
     }
   }
 
