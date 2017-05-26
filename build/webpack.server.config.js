@@ -74,7 +74,8 @@ module.exports = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
-      compress: { warnings: false }
+      compress: { warnings: false },
+      output: {comments: false}
     }),
     new ExtractTextPlugin({
       filename: 'common.css'
