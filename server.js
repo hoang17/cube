@@ -19,7 +19,7 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-var helmet = require('helmet')
+// var helmet = require('helmet')
 
 // const stylus = require('express-stylus');
 // const nib = require('nib');
@@ -76,7 +76,7 @@ mongoose.connection.on('error', (err) => {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(helmet())
+// app.use(helmet())
 app.use(compression())
 app.use(expressStatusMonitor());
 const publicDir = path.join(__dirname, '/public');
