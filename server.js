@@ -144,21 +144,6 @@ const { createBundleRenderer } = require('vue-server-renderer')
 // const template = pug.renderFile(resolve('./views/layout.pug'), {title: 'Vue 2.0', messages:[]})
 // const template = fs.readFileSync(resolve('./client/index.template.html'), 'utf-8')
 
-function createRenderer (bundle, options, template) {
-  return createBundleRenderer(bundle, Object.assign(options, {
-    template,
-    // for component caching
-    cache: LRU({
-      max: 1000,
-      maxAge: 1000 * 60 * 15
-    }),
-    // this is only needed when vue-server-renderer is npm-linked
-    basedir: resolve('./dist'),
-    // recommended for performance
-    runInNewContext: false
-  }))
-}
-
 let bundle
 let options
 let readyPromise
@@ -182,9 +167,14 @@ if (isProd) {
   })
 }
 
+const cache = LRU({ max: 1000, maxAge: 1000 * 60 * 15 })
+const basedir = resolve('./dist')
 
-function getRenderer(template) {
-  renderer = createRenderer(bundle, options, template)
+function createRenderer(template) {
+  renderer = createBundleRenderer(bundle, Object.assign(options, { template, cache,
+    basedir, // this is only needed when vue-server-renderer is npm-linked
+    runInNewContext: false // recommended for performance
+  }))
 }
 
 // 1-second microcache.
@@ -247,7 +237,7 @@ function render (req, res) {
 
 app.get('/groups/:page?', (req, res) => {
   res.render('template', {title: 'Groups'}, (err, template) => {
-    getRenderer(template)
+    createRenderer(template)
     isProd
       ? render(req, res)
       : readyPromise.then(() => render(req, res))
@@ -256,7 +246,7 @@ app.get('/groups/:page?', (req, res) => {
 
 app.get('/likes/:page?', (req, res) => {
   res.render('template', {title: 'Likes'}, (err, template) => {
-    getRenderer(template)
+    createRenderer(template)
     isProd
       ? render(req, res)
       : readyPromise.then(() => render(req, res))
