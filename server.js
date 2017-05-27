@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
-const sass = require('node-sass-middleware');
+// const sass = require('node-sass-middleware');
 // var helmet = require('helmet')
 
 // const stylus = require('express-stylus');
@@ -80,10 +80,10 @@ app.set('view engine', 'pug');
 app.use(compression())
 app.use(expressStatusMonitor());
 const publicDir = path.join(__dirname, '/public');
-app.use(sass({
-  src: publicDir,
-  dest: publicDir
-}));
+// app.use(sass({
+//   src: publicDir,
+//   dest: publicDir
+// }));
 // app.use(stylus({
 //   src: publicDir,
 //   use: [nib()],
