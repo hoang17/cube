@@ -10,10 +10,10 @@
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
-          li.news-item(v-for="(group, i) in displayedItems", :key="group.id")
+          li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
             span.score {{ from + i + 1 }}
             span.title
-              a(:href="'http://facebook.com/' + group.id", target='_blank', rel='noopener') {{ group.name }}
+              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
 </template>
 
 <script>

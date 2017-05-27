@@ -1,42 +1,14 @@
 // const bluebird = require('bluebird')
 // const graph = bluebird.promisifyAll(require('fbgraph'))
 
-const Vue = require('vue')
+exports.groups = (req, res) => {
 
-exports.index = (req, res) => {
-
-  // var Group = require('../models/Group')
-  // Group.find((err, groups) => {
-  //   if (err) res.send(err)
-  //   res.render('groups', {
-  //     title: 'Groups',
-  //     groups: groups
-  //   })
-  // })
-
-  res.render('groups', {title: 'Groups'})
-
-  // const app = new Vue({
-  //   data: {
-  //     url: req.url
-  //   },
-  //   template: `<div>The visited URL is: {{ url }} - ssr</div>`
-  // })
-  //
-  // res.render('groups', {title: 'Groups'}, (err, template) => {
-  //
-  //   const renderer = require('vue-server-renderer').createRenderer({
-  //     template: template
-  //   })
-  //
-  //   renderer.renderToString(app, (err, html) => {
-  //     if (err) {
-  //       res.status(500).end('Internal Server Error')
-  //       return
-  //     }
-  //     res.end(html)
-  //   })
-  // })
+  const Group = require('../models/Group')
+  let groups = await Group.find().lean()
+  res.render('groups', {
+    title: 'Groups',
+    groups: groups
+  })
 }
 
 // exports.fetchData = (req, res) => {
