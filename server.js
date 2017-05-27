@@ -33,8 +33,6 @@ const LRU = require('lru-cache')
 
 const isProd = process.env.NODE_ENV === 'production'
 
-var Group = require('./models/Group');
-
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
@@ -44,7 +42,6 @@ dotenv.load({ path: '.env' })
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const groupsController = require('./controllers/groups');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
@@ -187,19 +184,7 @@ if (isProd) {
 
 
 function getRenderer(template) {
-
   renderer = createRenderer(bundle, options, template)
-
-  // if (isProd) {
-  //   renderer = createRenderer(bundle, options, template)
-  // } else {
-  //   In development: setup the dev server with watch and hot-reload,
-  //   and create a new renderer on bundle / index template update.
-  //   readyPromise = setupDevServer(app, (bundle, options) => {
-  //     console.log(bundle)
-  //     renderer = createRenderer(bundle, options, template)
-  //   })
-  // }
 }
 
 // 1-second microcache.
@@ -261,13 +246,23 @@ function render (req, res) {
 }
 
 app.get('/groups/:page?', (req, res) => {
-  res.render('groups', {title: 'Groups'}, (err, template) => {
+  res.render('template', {title: 'Groups'}, (err, template) => {
     getRenderer(template)
     isProd
       ? render(req, res)
       : readyPromise.then(() => render(req, res))
   })
 })
+
+app.get('/likes/:page?', (req, res) => {
+  res.render('template', {title: 'Likes'}, (err, template) => {
+    getRenderer(template)
+    isProd
+      ? render(req, res)
+      : readyPromise.then(() => render(req, res))
+  })
+})
+
 
 // ********************** //
 // --- End of Vue SSR --- //
@@ -339,22 +334,36 @@ app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAutho
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
 
+
+// **** BEGIN API *****
+
+const Group = require('./models/Group');
+const Like = require('./models/Like');
+
 var router = express.Router();
 router.route('/groups')
-  .post(function(req, res) {
-    var group = new Group()
-    group.name = req.body.name
-    group.save(function(err) {
-      if (err)
-        res.send(err);
-      res.json({ message: 'Group created!' });
-    })
-  })
   .get(function(req, res) {
     Group.find().lean().exec(function(err, groups) {
       if (err)
         res.send(err)
       res.json(groups)
+    })
+  })
+  // .post(function(req, res) {
+  //   var group = new Group()
+  //   group.name = req.body.name
+  //   group.save(function(err) {
+  //     if (err)
+  //       res.send(err);
+  //     res.json({ message: 'Group created!' });
+  //   })
+  // })
+router.route('/likes')
+  .get(function(req, res) {
+    Like.find().lean().exec(function(err, likes) {
+      if (err)
+        res.send(err)
+      res.json(likes)
     })
   })
 app.use('/api', router)
@@ -366,7 +375,7 @@ app.get('/auth/instagram', passport.authenticate('instagram'));
 app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile', 'user_groups', 'user_managed_groups', 'manage_pages', 'publish_pages', 'publish_actions', 'read_stream'] }));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile', 'user_likes', 'user_friends', 'user_posts', 'user_groups', 'user_managed_groups', 'manage_pages', 'publish_pages', 'publish_actions', 'read_stream'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
