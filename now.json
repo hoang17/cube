@@ -6,9 +6,6 @@
    "engines": {
      "node": ">= 7.10.0"
    },
-   "files": [
-     "./public/css/main.css"
-   ],
    "aliases": [
      "active.now.sh",
      "live.now.sh",
