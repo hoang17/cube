@@ -2,9 +2,10 @@
   #app
     header.header
       nav.inner
-        a(href='/')
-      //- img(src="./logo.png")
-    router-view.view
+        router-link(to='/groups') Groups
+        router-link(to='/likes') Likes
+    transition(name='fade', mode='out-in')
+      router-view.view
 </template>
 
 <script>
@@ -49,10 +50,10 @@ a
   background-color #ff6600
   position fixed
   z-index 999
-  height 55px
-  top 0
+  height 51px
+  //top 0
   left 0
-  right 0
+  //right 0
   .inner
     max-width 800px
     box-sizing border-box
