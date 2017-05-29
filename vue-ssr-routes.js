@@ -1,12 +1,11 @@
+const express = require('express')
 const path = require('path')
 const LRU = require('lru-cache')
+const chalk = require('chalk')
+
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = function(app) {
-
-  // |-----------------| //
-  // |  Setup Vue SSR  | //
-  // |-----------------| //
 
   const resolve = file => path.resolve(__dirname, file)
 
@@ -42,11 +41,14 @@ module.exports = function(app) {
   const cache = LRU({ max: 1000, maxAge: 1000 * 60 * 15 })
   const basedir = resolve('./dist')
 
-  function createRenderer(template) {
+  function createRenderer(req, res, template) {
     renderer = createBundleRenderer(bundle, Object.assign(options, { template, cache,
       basedir, // this is only needed when vue-server-renderer is npm-linked
       runInNewContext: false // recommended for performance
     }))
+    isProd
+      ? render(req, res)
+      : readyPromise.then(() => render(req, res))
   }
 
   // 1-second microcache.
@@ -109,20 +111,22 @@ module.exports = function(app) {
 
   app.get('/groups/:page?', (req, res) => {
     res.render('template', {title: 'Groups'}, (err, template) => {
-      createRenderer(template)
-      isProd
-        ? render(req, res)
-        : readyPromise.then(() => render(req, res))
+      createRenderer(req, res, template)
     })
   })
 
   app.get('/likes/:page?', (req, res) => {
     res.render('template', {title: 'Likes'}, (err, template) => {
-      createRenderer(template)
-      isProd
-        ? render(req, res)
-        : readyPromise.then(() => render(req, res))
+      createRenderer(req, res, template)
     })
   })
 
+  // Serve static assets
+  const serve = (path, cache) => express.static(resolve(path), {
+    maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+  })
+
+  app.use('/dist', serve('./dist', true))
+  app.use('/manifest.json', serve('./manifest.json', true))
+  app.use('/service-worker.js', serve('./dist/service-worker.js'))
 }

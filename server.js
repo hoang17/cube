@@ -1,37 +1,33 @@
 /**
  * Module dependencies.
  */
-const fs = require('fs')
-const express = require('express');
-const compression = require('compression');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const chalk = require('chalk');
-const errorHandler = require('errorhandler');
-const lusca = require('lusca');
-const dotenv = require('dotenv');
-const MongoStore = require('connect-mongo')(session);
-const flash = require('express-flash');
-const path = require('path');
-const mongoose = require('mongoose');
-const passport = require('passport');
-const expressValidator = require('express-validator');
-const expressStatusMonitor = require('express-status-monitor');
+const express = require('express')
+const compression = require('compression')
+const session = require('express-session')
+const bodyParser = require('body-parser')
+const logger = require('morgan')
+const chalk = require('chalk')
+const errorHandler = require('errorhandler')
+const lusca = require('lusca')
+const dotenv = require('dotenv')
+const MongoStore = require('connect-mongo')(session)
+const flash = require('express-flash')
+const path = require('path')
+const mongoose = require('mongoose')
+const passport = require('passport')
+const expressValidator = require('express-validator')
+const expressStatusMonitor = require('express-status-monitor')
+
 // const sass = require('node-sass-middleware');
 // var helmet = require('helmet')
 
 // const stylus = require('express-stylus');
 // const nib = require('nib');
 
-const LRU = require('lru-cache')
-
 // Commented out this mkdir ./upload 'cause we wont upload files to application server
 // All files will be stored on Amazon S3 or Google Drive
 // const multer = require('multer');
 // const upload = multer({ dest: path.join(__dirname, 'uploads') });
-
-const isProd = process.env.NODE_ENV === 'production'
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -41,42 +37,44 @@ dotenv.load({ path: '.env' })
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
-const contactController = require('./controllers/contact');
+const homeController = require('./controllers/home')
+const userController = require('./controllers/user')
+const apiController = require('./controllers/api')
+const contactController = require('./controllers/contact')
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+const passportConfig = require('./config/passport')
+
+const publicDir = path.join(__dirname, '/public')
 
 /**
  * Create Express server.
  */
-const app = express();
+const app = express()
 
 /**
  * Connect to MongoDB.
  */
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.Promise = global.Promise
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 mongoose.connection.on('error', (err) => {
-  console.error(err);
-  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-  process.exit();
+  console.error(err)
+  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'))
+  process.exit()
 });
 
 /**
  * Express configuration.
  */
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+const port = process.env.PORT || 3000
+app.set('port', port)
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
 // app.use(helmet())
 app.use(compression())
-app.use(expressStatusMonitor());
-const publicDir = path.join(__dirname, '/public');
+app.use(expressStatusMonitor())
 // app.use(sass({
 //   src: publicDir,
 //   dest: publicDir
@@ -86,10 +84,10 @@ const publicDir = path.join(__dirname, '/public');
 //   use: [nib()],
 //   import: ['nib']
 // }));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(expressValidator())
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -99,23 +97,23 @@ app.use(session({
     autoReconnect: true,
     clear_interval: 3600
   })
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
 app.use((req, res, next) => {
   if (req.path === '/api/upload') {
-    next();
+    next()
   } else {
-    lusca.csrf()(req, res, next);
+    lusca.csrf()(req, res, next)
   }
-});
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+})
+app.use(lusca.xframe('SAMEORIGIN'))
+app.use(lusca.xssProtection(true))
 app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
+  res.locals.user = req.user
+  next()
+})
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
@@ -123,28 +121,23 @@ app.use((req, res, next) => {
       req.path !== '/signup' &&
       !req.path.match(/^\/auth/) &&
       !req.path.match(/\./)) {
-    req.session.returnTo = req.path;
+    req.session.returnTo = req.path
   } else if (req.user &&
       req.path == '/account') {
-    req.session.returnTo = req.path;
+    req.session.returnTo = req.path
   }
-  next();
-});
-
-
-require('./vue-ssr-routes')(app)
-
-const resolve = file => path.resolve(__dirname, file)
-
-const serve = (path, cache) => express.static(resolve(path), {
-  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+  next()
 })
 
-app.use(express.static(publicDir, { maxAge: 31557600000 }));
+// Setup SSR
+require('./vue-ssr-routes')(app)
 
-app.use('/dist', serve('./dist', true))
-app.use('/manifest.json', serve('./manifest.json', true))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
+// Setup API routes
+const apiRoutes = require('./api-routes.js')
+app.use('/api', apiRoutes)
+
+// Cache static assets in ./public
+app.use(express.static(publicDir, { maxAge: 31557600000 }));
 
 /**
  * Primary app routes.
@@ -201,10 +194,6 @@ app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAutho
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
 
-// API routes
-const apiRoutes = require('./api-routes.js')
-app.use('/api', apiRoutes)
-
 /**
  * OAuth authentication routes. (Sign in)
  */
@@ -256,14 +245,14 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 /**
  * Error Handler.
  */
-app.use(errorHandler());
+app.use(errorHandler())
 
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env')); 
-  console.log('  Press CTRL-C to stop\n');
-});
+app.listen(port, () => {
+  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), port, app.get('env'))
+  console.log('  Press CTRL-C to stop\n')
+})
 
-module.exports = app;
+module.exports = app
