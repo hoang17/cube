@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      type: 'likes',
+      type: this.$options.name,
       transition: 'slide-right',
       displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: this.$store.getters.activeLikes

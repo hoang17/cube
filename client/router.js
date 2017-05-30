@@ -8,6 +8,8 @@ const Hello = () => import('./components/Hello')
 const Item = () => import('./components/Item')
 const Groups = () => import('./components/Groups')
 const Likes = () => import('./components/Likes')
+const Feeds = () => import('./components/Feeds')
+const Friends = () => import('./components/Friends')
 
 export function createRouter () {
   return new Router({
@@ -17,7 +19,9 @@ export function createRouter () {
       { path: '/hello', component: Hello },
       { path: '/item/:id', component: Item },
       { path: '/groups/:page(\\d+)?', name: 'Groups', component: Groups },
-      { path: '/likes/:page(\\d+)?', name: 'Likes', component: Likes }
+      { path: '/likes/:page(\\d+)?', name: 'Likes', component: Likes },
+      { path: '/feeds/:page(\\d+)?', name: 'Feeds', component: Feeds },
+      { path: '/friends/:page(\\d+)?', name: 'Friends', component: Friends }
     ]
   })
 }

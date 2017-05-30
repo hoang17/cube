@@ -2,7 +2,11 @@ const router = require('express').Router()
 
 const Group = require('./models/Group')
 const Like = require('./models/Like')
-// const Feed = require('./models/Feed')
+const Friend = require('./models/Friend')
+
+const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
+
+const Feed = db.get('feeds')
 
 router.route('/groups')
   .get(function(req, res) {
@@ -27,6 +31,24 @@ router.route('/likes')
       if (err)
         res.send(err)
       res.json(likes)
+    })
+  })
+
+router.route('/feeds')
+  .get(function(req, res) {
+    Feed.find().then(function(feeds) {
+      res.json(feeds)
+    }).catch((err) => {
+      res.send(err)
+    }).then(() => db.close())
+  })
+
+router.route('/friends')
+  .get(function(req, res) {
+    Friend.find().lean().exec(function(err, friends) {
+      if (err)
+        res.send(err)
+      res.json(friends)
     })
   })
 

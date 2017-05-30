@@ -121,6 +121,18 @@ module.exports = function(app) {
     })
   })
 
+  app.get('/feeds/:page?', (req, res) => {
+    res.render('template', {title: 'Feeds'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
+  app.get('/friends/:page?', (req, res) => {
+    res.render('template', {title: 'Friends'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
   // Serve static assets
   const serve = (path, cache) => express.static(resolve(path), {
     maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0

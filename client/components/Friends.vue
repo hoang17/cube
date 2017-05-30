@@ -18,33 +18,33 @@
 
 <script>
 export default {
-  name: 'groups',
-  title: 'Groups',
+  name: 'friends',
+  title: 'Friends',
   components: {
     // 'vue-select': VueSelect
   },
   asyncData ({ store, route }) {
     // return the Promise from the action
-    return store.dispatch('getGroups')
+    return store.dispatch('getFriends')
   },
   data() {
     return {
       type: this.$options.name,
       transition: 'slide-right',
       displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: this.$store.getters.activeGroups
+      displayedItems: this.$store.getters.activeFriends
     }
   },
   computed: {
-    groups () {
-      return this.$store.state.groups
+    friends () {
+      return this.$store.state.friends
     },
     page () {
       return Number(this.$store.state.route.params.page) || 1
     },
     maxPage () {
-      const { itemsPerPage, groups } = this.$store.state
-      return Math.ceil(groups.length / itemsPerPage)
+      const { itemsPerPage, friends } = this.$store.state
+      return Math.ceil(friends.length / itemsPerPage)
     },
     from () {
       return (this.page-1) * this.$store.state.itemsPerPage
@@ -67,20 +67,8 @@ export default {
       }
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
       this.displayedPage = to
-      this.displayedItems = this.$store.getters.activeGroups
+      this.displayedItems = this.$store.getters.activeFriends
       this.$bar.finish()
-
-      // this.$store.dispatch('getGroups')
-      // .then(() => {
-      //   if (this.page < 0 || this.page > this.maxPage) {
-      //     this.$router.replace(`/${this.type}`)
-      //     return
-      //   }
-      //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      //   this.displayedPage = to
-      //   this.displayedItems = this.$store.getters.activeGroups
-      //   this.$bar.finish()
-      // })
     }
   }
 }
