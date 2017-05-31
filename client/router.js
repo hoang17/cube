@@ -24,14 +24,14 @@ export function createRouter () {
       { path: '/likes/:page(\\d+)?', name: 'Likes', component: Likes },
       { path: '/feeds/:page(\\d+)?', name: 'Feeds', component: Feeds },
       { path: '/friends/:page(\\d+)?', name: 'Friends', component: Friends }
-    ],
-    scrollBehavior (to, from, savedPosition) {
-      if (savedPosition)
-        return savedPosition
-      if (to.hash)
-        return { selector: to.hash }
-      return { x: 0, y: 0 }
-    }
+    ]
+    // scrollBehavior (to, from, savedPosition) {
+    //   if (savedPosition)
+    //     return savedPosition
+    //   if (to.hash)
+    //     return { selector: to.hash }
+    //   return { x: 0, y: 0 }
+    // }
   })
   // if (process.env.VUE_ENV === 'client'){
   //   router.beforeEach(function (to, from, next) {

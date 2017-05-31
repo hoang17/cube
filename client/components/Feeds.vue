@@ -19,13 +19,6 @@
             //- p.host {{ item.type }}
             a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
               img(:src="item.full_picture")
-    .news-list-nav.bottom
-      router-link(v-if='page == 2', :to="'/' + type") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
-      a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
-      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
-      a.disabled(v-else='') more >
 </template>
 
 <script>
@@ -108,9 +101,6 @@ export default {
   .disabled
     color #ccc
 
-.news-list-nav.bottom
-  display:none
-
 .news-list
   position absolute
   margin 30px 0
@@ -146,7 +136,7 @@ export default {
     margin 10px 0
     margin-bottom 60px
 
-  .news-list-nav.bottom
+  .news-list-nav
     position fixed
     top auto
     bottom 0px
