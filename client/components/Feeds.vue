@@ -114,6 +114,7 @@ export default {
 
 .news-list
   position absolute
+  margin-bottom 30px
   // margin 30px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
