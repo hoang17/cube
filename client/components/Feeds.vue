@@ -95,7 +95,7 @@ export default {
   border-radius 2px
 
 .news-list-nav
-  margin-bottom 15px
+  // margin-bottom 10px
   padding 15px 30px
   // position fixed
   text-align center
@@ -114,8 +114,7 @@ export default {
 
 .news-list
   position absolute
-  margin-bottom 30px
-  // margin 30px 0
+  margin 30px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul
@@ -143,9 +142,9 @@ export default {
   opacity 0
   transform translate(30px, 0)
 
-// @media (max-width 600px)
-//   .news-list
-//     margin 10px 0
+@media (max-width 600px)
+  .news-list
+    margin 10px 0
 
 .news-item
   background-color #fff
