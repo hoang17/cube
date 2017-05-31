@@ -150,7 +150,9 @@ export default {
     // margin-top -10px
     a
       color #ff6600
-
+  img
+    max-width: 100%
+    max-height:500px
   .title
     font-size .9em
     white-space: pre-wrap
