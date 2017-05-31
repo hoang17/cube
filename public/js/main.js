@@ -13,7 +13,7 @@ $(document).ready(function(){
     // }
     // prev = cur
 
-    if ($(this).scrollTop() > 30) {
+    if ($(this).scrollTop() > 0) {
         $('.navbar').fadeOut()
     } else {
         $('.navbar').fadeIn()
