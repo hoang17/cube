@@ -28,14 +28,14 @@ const run = async function(){
 
   var previousHeight, currentHeight = 0
 
-  while(previousHeight !== currentHeight && count < 20) {
+  while(previousHeight !== currentHeight && count < 10) {
     previousHeight = currentHeight
 
     var currentHeight = await nm.evaluate(function() {
       return document.body.scrollHeight;
     })
 
-    await nm.scrollTo(currentHeight, 0).wait(3000)
+    await nm.scrollTo(currentHeight, 0).wait(2000)
     count++
   }
 

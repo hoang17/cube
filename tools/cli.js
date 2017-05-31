@@ -10,17 +10,29 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 program
   .version('0.0.1')
   .option('-e, --endpoint [endpoint]', 'facebook Graph API endpoint')
+  .option('-c, --collection [collection]', 'MongoDB collection name')
   .parse(process.argv)
 
 const endpoint = program.endpoint
+const collection = program.collection
+
+console.log(endpoint)
+console.log(collection)
+
+const maxPage = 100
+let page = 0
 
 const fetchData = async function(url, model) {
+  page++
+  console.log("page", page)
+  console.log("begin fetching...")
   const res = await graph.getAsync(url, { limit: 500 })
-  console.log(res)
-  if (res.paging && res.paging.next) {
+  console.log("data fetched", res.data.length)
+  if (res.paging && res.paging.next && page < maxPage) {
     await model.insert(res.data)
     return fetchData(res.paging.next, model)
   } else {
+    console.log("page end", page)
     return model.insert(res.data)
   }
 }
@@ -29,23 +41,14 @@ const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1g
 graph.setVersion("2.3");
 graph.setAccessToken(token);
 
-const model = db.get(endpoint)
+const model = db.get(collection)
 
 model.drop()
 
-let ep = endpoint
+// fetchData(`504368183/${endpoint}`, model).then(() => {
 
-switch (endpoint){
-  case "invitable_friends":
-    ep = "friends"
-  // case "home":
-  //   ep = "feeds"
-  default:
-    ep = endpoint
-}
-
-console.log(ep)
-
-fetchData(`504368183/${ep}`, model).then(() => {
+fetchData(`${endpoint}`, model).then(function(){
   db.close()
+}).catch(function(e){
+  console.log(e)
 })
