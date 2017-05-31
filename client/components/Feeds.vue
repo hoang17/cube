@@ -152,15 +152,17 @@ export default {
     a
       color #ff6600
   img
-    max-width: 100%
-    max-height:500px
+    max-width 100%
+    max-height 500px
   .title
     font-size .9em
     white-space: pre-wrap
     // word-wrap: break-word
 
-  p.title::first-line
-      font-weight:bold
+    &::first-line
+      font-weight bold
+      line-height 28px
+      // font-size 1.1em
 
   .meta, .host
     font-size .85em
