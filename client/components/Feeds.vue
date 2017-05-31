@@ -95,7 +95,7 @@ export default {
   border-radius 2px
 
 .news-list-nav
-  margin-bottom 30px
+  margin-bottom 15px
   padding 15px 30px
   // position fixed
   text-align center
