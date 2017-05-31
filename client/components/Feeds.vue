@@ -134,7 +134,8 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
-    margin-bottom 60px
+    // margin-bottom 60px
+    padding-bottom 60px
 
   .news-list-nav
     position fixed
