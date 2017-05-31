@@ -2,8 +2,8 @@
   #app
     header.header
       nav.inner
-        router-link(to='/') Home
-        router-link(to='/contact') Contact
+        //- router-link(to='/' exact) Home
+        //- router-link(to='/contact') Contact
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
         router-link(to='/feeds') Feeds
@@ -60,6 +60,7 @@ a
   height 51px
   //top 0
   left 0
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
   //right 0
   .inner
     max-width 800px
