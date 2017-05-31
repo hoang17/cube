@@ -150,6 +150,7 @@ export default {
     position fixed
     top auto
     bottom 0px
+    display: block
 
 .news-item
   background-color #fff
