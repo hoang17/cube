@@ -2,8 +2,12 @@
   #app
     header.header
       nav.inner
+        router-link(to='/') Home
+        router-link(to='/contact') Contact
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
+        router-link(to='/feeds') Feeds
+        router-link(to='/friends') Friends
     transition(name='fade', mode='out-in')
       router-view.view
 </template>
@@ -33,7 +37,7 @@ body
   font-size 15px
   background-color lighten(#eceef1, 30%)
   margin 0
-  padding-top 55px
+  // padding-top 55px
   color #34495e
   overflow-y scroll
 
@@ -47,8 +51,11 @@ a
     cursor:default
 
 .header
+  margin 0px auto
+  max-width 800px
   background-color #ff6600
-  position fixed
+  // background-color #777
+  // position fixed
   z-index 999
   height 51px
   //top 0
@@ -58,7 +65,7 @@ a
     max-width 800px
     box-sizing border-box
     margin 0px auto
-    padding 15px 5px
+    padding 15px 30px
   a
     color rgba(255, 255, 255, .8)
     line-height 24px
@@ -87,16 +94,10 @@ a
 .fade-enter, .fade-leave-active
   opacity 0
 
-@media (max-width 860px)
-  .header .inner
-    padding 15px 30px
-
 @media (max-width 600px)
   .header
     .inner
       padding 15px
     a
       margin-right 1em
-    .github
-      display none
 </style>

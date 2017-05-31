@@ -18,6 +18,8 @@ export function createRouter () {
       { path: '/', name: 'Home', component: Home },
       { path: '/hello', component: Hello },
       { path: '/item/:id', component: Item },
+      { path: '/contact', component: Hello },
+      { path: '/api', component: Hello },
       { path: '/groups/:page(\\d+)?', name: 'Groups', component: Groups },
       { path: '/likes/:page(\\d+)?', name: 'Likes', component: Likes },
       { path: '/feeds/:page(\\d+)?', name: 'Feeds', component: Feeds },

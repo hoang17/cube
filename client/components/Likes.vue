@@ -77,7 +77,7 @@ export default {
 
 <style lang="stylus" scoped>
 .news-view
-  padding-top 45px
+  padding-top 10px
 
 .news-list-nav, .news-list
   background-color #fff
@@ -85,7 +85,7 @@ export default {
 
 .news-list-nav
   padding 15px 30px
-  position fixed
+  // position fixed
   text-align center
   top 55px
   left 0
