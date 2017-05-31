@@ -135,7 +135,7 @@ export default {
   transform translate(30px, 0)
 
 .item-leave-active
-  position absolute
+  // position absolute
   opacity 0
   transform translate(30px, 0)
 
