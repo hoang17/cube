@@ -13,10 +13,10 @@ $(document).ready(function(){
     // }
     // prev = cur
 
-    if ($(this).scrollTop() > 10) {
-        $('.navbar').fadeOut()
-    } else {
-        $('.navbar').fadeIn()
-    }
+    // if ($(this).scrollTop() > 10) {
+    //     $('.navbar').fadeOut()
+    // } else {
+    //     $('.navbar').fadeIn()
+    // }
   })
 })

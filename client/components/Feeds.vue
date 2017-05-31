@@ -1,6 +1,6 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav
+    .news-list-nav(@click.stop="")
       router-link(v-if='page == 2', :to="'/' + type") < prev
       router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
@@ -17,8 +17,9 @@
               |   {{ item.message }}
             p.host {{ item.from ? item.from.name : '' }}
             //- p.host {{ item.type }}
-            a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-              img(:src="item.full_picture")
+            div.photo
+              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                img(:src="item.full_picture")
 </template>
 
 <script>
@@ -79,6 +80,21 @@ export default {
 }
 </script>
 
+<style lang="stylus">
+@media (max-width 600px)
+  body
+    padding-top 0
+
+  .navbar
+    display none
+
+  .header
+    display none
+
+  .container
+    padding 0
+</style>
+
 <style lang="stylus" scoped>
 .news-view
   padding-top 10px
@@ -132,16 +148,20 @@ export default {
   transform translate(30px, 0)
 
 @media (max-width 600px)
+  .news-view
+    padding-top 0
   .news-list
-    margin 10px 0
-    // margin-bottom 60px
-    padding-bottom 60px
+    margin 0
+    padding-bottom 50px
 
   .news-list-nav
     position fixed
     top auto
     bottom 0px
-    display: block
+
+  .photo
+    margin-left -10px
+    margin-right -10px
 
 .news-item
   background-color #fff
@@ -149,6 +169,12 @@ export default {
   border-bottom 1px solid #eee
   position relative
   line-height 20px
+  // column-count 2
+  // column-rule 1px solid black
+  // column-fill balance
+  // column-width 100px
+  // height 500px
+
   .score
     color #ff6600
     // position absolute
@@ -162,6 +188,7 @@ export default {
   img
     max-width 100%
     max-height 500px
+
   .title
     font-size .9em
     white-space: pre-wrap
@@ -170,7 +197,6 @@ export default {
     &::first-line
       font-weight bold
       line-height 28px
-      // font-size 1.1em
 
   .meta, .host
     font-size .85em
