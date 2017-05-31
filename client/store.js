@@ -16,7 +16,7 @@ const activeItems =  function(page, itemsPerPage, items){
 export function createStore () {
   return new Vuex.Store({
     state: {
-      itemsPerPage: 20,
+      itemsPerPage: 1,
       groups: [],
       likes: [],
       feeds: [],
