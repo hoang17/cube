@@ -19,13 +19,13 @@
             //- p.host {{ item.type }}
             a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
               img(:src="item.full_picture")
-    .news-list-nav
-      router-link(v-if='page == 2', :to="'/' + type") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
-      a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
-      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
-      a.disabled(v-else='') more >
+        .news-list-nav.bottom
+          router-link(v-if='page == 2', :to="'/' + type") < prev
+          router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
+          a.disabled(v-else='') < prev
+          span {{ page }}/{{ maxPage }}
+          router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+          a.disabled(v-else='') more >
 </template>
 
 <script>
@@ -109,9 +109,12 @@ export default {
   .disabled
     color #ccc
 
+.news-list-nav.bottom
+  margin-bottom 0
+
 .news-list
-  // position absolute
-  margin 30px 0
+  position absolute
+  // margin 30px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul
@@ -135,7 +138,7 @@ export default {
   transform translate(30px, 0)
 
 .item-leave-active
-  // position absolute
+  position absolute
   opacity 0
   transform translate(30px, 0)
 
