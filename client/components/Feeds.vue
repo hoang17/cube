@@ -11,9 +11,10 @@
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ from + i + 1 }}
-            p.title {{ item.message }}
+            p.title
+              span.score
+                a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') ✣ {{ from + i + 1 }} ✣
+              |   {{ item.message }}
             p.host {{ item.from ? item.from.name : '' }}
             //- p.host {{ item.type }}
             a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
@@ -136,13 +137,13 @@ export default {
 
 .news-item
   background-color #fff
-  padding 10px 10px 10px 60px
+  padding 10px 10px 10px 10px
   border-bottom 1px solid #eee
   position relative
   line-height 20px
   .score
     color #ff6600
-    position absolute
+    // position absolute
     // top 50%
     left 0
     width 60px
@@ -157,6 +158,9 @@ export default {
     font-size .9em
     white-space: pre-wrap
     // word-wrap: break-word
+
+  p.title::first-line
+      font-weight:bold
 
   .meta, .host
     font-size .85em
