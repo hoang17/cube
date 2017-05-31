@@ -11,10 +11,13 @@
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score {{ from + i + 1 }}
-            span.title
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
-            span.host  - {{ item.category }}
+            span.score
+              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ from + i + 1 }}
+            p.title {{ item.message }}
+            p.host {{ item.from ? item.from.name : '' }}
+            //- p.host {{ item.type }}
+            a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+              img(:src="item.full_picture")
 </template>
 
 <script>
@@ -140,11 +143,19 @@ export default {
   .score
     color #ff6600
     position absolute
-    top 50%
+    // top 50%
     left 0
     width 60px
     text-align center
-    margin-top -10px
+    // margin-top -10px
+    a
+      color #ff6600
+
+  .title
+    font-size .9em
+    white-space: pre-wrap
+    // word-wrap: break-word
+
   .meta, .host
     font-size .85em
     color #828282
