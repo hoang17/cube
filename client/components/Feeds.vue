@@ -19,13 +19,13 @@
             //- p.host {{ item.type }}
             a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
               img(:src="item.full_picture")
-        .news-list-nav.bottom
-          router-link(v-if='page == 2', :to="'/' + type") < prev
-          router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
-          a.disabled(v-else='') < prev
-          span {{ page }}/{{ maxPage }}
-          router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
-          a.disabled(v-else='') more >
+    .news-list-nav.bottom
+      router-link(v-if='page == 2', :to="'/' + type") < prev
+      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
+      a.disabled(v-else='') < prev
+      span {{ page }}/{{ maxPage }}
+      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+      a.disabled(v-else='') more >
 </template>
 
 <script>
@@ -95,7 +95,6 @@ export default {
   border-radius 2px
 
 .news-list-nav
-  // margin-bottom 10px
   padding 15px 30px
   // position fixed
   text-align center
@@ -110,7 +109,7 @@ export default {
     color #ccc
 
 .news-list-nav.bottom
-  margin-bottom 0
+  display:none
 
 .news-list
   position absolute
@@ -145,6 +144,12 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
+    margin-bottom 60px
+
+  .news-list-nav.bottom
+    position fixed
+    top auto
+    bottom 0px
 
 .news-item
   background-color #fff
