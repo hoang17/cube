@@ -22,13 +22,16 @@ graph.setAccessToken(token);
 
 const groups = db.get('groups')
 const likes = db.get('likes')
+const friends = db.get('friends')
 
 groups.drop()
 likes.drop()
+friends.drop()
 
 Promise.all([
-    fetchData("504368183/groups", groups),
-    fetchData("504368183/likes", likes)
+  fetchData("504368183/groups", groups),
+  fetchData("504368183/likes", likes)
+  fetchData("504368183/invitable_friends", friends)
 ]).then(() => {
   db.close()
 })
