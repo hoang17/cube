@@ -6,8 +6,8 @@
         //- router-link(to='/contact') Contact
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
-        router-link(to='/feeds') Feeds
         router-link(to='/friends') Friends
+        router-link(to='/feeds') Feeds
     transition(name='fade', mode='out-in')
       router-view.view
 </template>

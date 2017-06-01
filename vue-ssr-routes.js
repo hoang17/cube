@@ -121,14 +121,20 @@ module.exports = function(app) {
     })
   })
 
+  app.get('/friends/:page?', (req, res) => {
+    res.render('template', {title: 'Friends'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
   app.get('/feeds/:page?', (req, res) => {
     res.render('template', {title: 'Feeds'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/friends/:page?', (req, res) => {
-    res.render('template', {title: 'Friends'}, (err, template) => {
+  app.get('/groups/id/:id/:page?', (req, res) => {
+    res.render('template', {title: 'Groups Items'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })

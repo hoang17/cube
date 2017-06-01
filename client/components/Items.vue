@@ -1,6 +1,6 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav
+    .news-list-nav(@click.stop="")
       router-link(v-if='page == 2', :to="'/' + type") < prev
       router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
@@ -11,41 +11,51 @@
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score {{ from + i + 1 }}
-            span.title
-              router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
-              //- a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
+            p.title
+              span.avatar
+                a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                  img(:src="item.from.picture.data.url")
+              //- span.score
+              //-   a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') ✣ {{ from + i + 1 }} ✣
+              span {{ item.from.name }}
+              br
+              | {{ item.message }}
+            //- p.host {{ item.type }}
+            div.photo
+              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                img(:src="item.full_picture")
 </template>
 
 <script>
 export default {
-  name: 'groups',
-  title: 'Groups',
+  name: 'items',
+  title: 'Items',
   components: {
     // 'vue-select': VueSelect
   },
   asyncData ({ store, route }) {
+    console.log(route.params.id)
     // return the Promise from the action
-    return store.dispatch('getGroups')
+    return store.dispatch('fetchItems', route)
   },
   data() {
     return {
-      type: this.$options.name,
+      type: 'groups/id',
       transition: 'slide-right',
       displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: this.$store.getters.activeGroups
+      displayedItems: this.$store.getters.activeItems
     }
   },
   computed: {
-    groups () {
-      return this.$store.state.groups
+    items () {
+      return this.$store.state.items
     },
     page () {
       return Number(this.$store.state.route.params.page) || 1
     },
     maxPage () {
-      const { itemsPerPage, groups } = this.$store.state
-      return Math.ceil(groups.length / itemsPerPage)
+      const { itemsPerPage, items } = this.$store.state
+      return Math.ceil(items.length / itemsPerPage)
     },
     from () {
       return (this.page-1) * this.$store.state.itemsPerPage
@@ -68,24 +78,27 @@ export default {
       }
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
       this.displayedPage = to
-      this.displayedItems = this.$store.getters.activeGroups
+      this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
-
-      // this.$store.dispatch('getGroups')
-      // .then(() => {
-      //   if (this.page < 0 || this.page > this.maxPage) {
-      //     this.$router.replace(`/${this.type}`)
-      //     return
-      //   }
-      //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      //   this.displayedPage = to
-      //   this.displayedItems = this.$store.getters.activeGroups
-      //   this.$bar.finish()
-      // })
     }
   }
 }
 </script>
+
+<style lang="stylus">
+@media (max-width 600px)
+  body
+    padding-top 0
+
+  .navbar
+    display none
+
+  // .header
+  //   display none
+  //
+  .container
+    padding 7px
+</style>
 
 <style lang="stylus" scoped>
 .news-view
@@ -140,23 +153,63 @@ export default {
   transform translate(30px, 0)
 
 @media (max-width 600px)
+  .news-view
+    padding-top 0
   .news-list
-    margin 10px 0
+    margin 0
+    padding-bottom 50px
+
+  .news-list-nav
+    position fixed
+    top auto
+    bottom 0px
+
+  .photo
+    margin-left -10px
+    margin-right -10px
 
 .news-item
   background-color #fff
-  padding 10px 10px 10px 60px
+  padding 10px 10px 10px 70px
   border-bottom 1px solid #eee
   position relative
   line-height 20px
+
+  // column-count 2
+  // column-rule 1px solid black
+  // column-fill balance
+  // column-width 100px
+  // height 500px
+  .avatar
+    position absolute
+    left 10px
+    width 50px
+    text-align center
+    margin-top 5px
+
   .score
     color #ff6600
     position absolute
-    top 50%
+    // top 50%
     left 0
     width 60px
     text-align center
-    margin-top -10px
+    margin-top 5px
+    a
+      color #ff6600
+  img
+    max-width 100%
+    max-height 500px
+
+  .title
+    font-size .95em
+    white-space: pre-wrap
+    word-wrap: break-word
+
+    &::first-line
+      font-weight bold
+      line-height 28px
+
   .meta, .host
     font-size .85em
     color #828282
@@ -165,5 +218,25 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+@media (max-width 600px)
+  .news-item
+    padding-left 10px
+
+    .score
+      position relative
+    .avatar
+      position relative
+      left 0
+      width 40px
+      float left
+      margin-right 10px
+      margin-bottom 5px
+
+      img
+        width 40px
+      // text-align center
+      // margin-top 5px
+
 
 </style>
