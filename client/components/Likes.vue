@@ -13,7 +13,8 @@
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
             span.score {{ from + i + 1 }}
             span.title
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
+              router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
+              //- a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
             span.host  - {{ item.category }}
 </template>
 

@@ -15,7 +15,7 @@ export function fetch(endpoint){
 const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1grPeDrJo32NK5n529g3m0jHbcAdlZA7RyRwnTr3TP1JDbnXt3ZBtzWNNt4MeoV1sMnxWPGs8zqbf1FStll5U5sZCKjhbhruMQ2q52jk0rjogZDZD"
 
 const fb = axios.create({
-  baseURL: 'https://graph.facebook.com/v2.4/',
+  baseURL: 'https://graph.facebook.com/v2.3/',
   params: { access_token: token }
 })
 

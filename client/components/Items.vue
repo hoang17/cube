@@ -2,12 +2,9 @@
   .news-view.view
     .news-list-nav(@click.stop="")
       button(v-if='canPrev' @click="prev") < prev
-      //- router-link(v-if='page == 2', :to="'/' + type") < prev
-      //- router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
       span(style="white-space: pre-wrap") &emsp;&emsp;
       button(v-if='canNext' @click="next") next >
-      //- router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
       a.disabled(v-else='') more >
     transition(:name='transition')
       .news-list(:key='id')
@@ -17,8 +14,6 @@
               span.avatar
                 a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                   img(:src="item.from.picture.data.url")
-              //- span.score
-              //-   a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') ✣ {{ from + i + 1 }} ✣
               span {{ item.from.name }}
               br(v-if="item.message")
               span(v-if="item.message") {{ item.message }}
@@ -26,15 +21,13 @@
               span.meta(v-if="item.name") {{ item.name }}
               br(v-if="item.description")
               span.meta(v-if="item.description") {{ item.description }}
-              br(v-if="item.attachments")
-              span.meta(v-if="item.attachments") {{ item.attachments.data[0].description }}
+              br(v-if="item.attachments && !item.full_picture")
+              span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
               br(v-if="item.story")
               span.meta(v-if="item.story") {{ item.story }}
               br(v-if="item.link")
               span.meta(v-if="item.link")
                 a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-            //- p.host {{ item.from ? item.from.name : '' }}
-            //- p.host {{ item.type }}
             div.photo(v-if="item.full_picture")
               a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                 img(:src="item.full_picture")
@@ -55,9 +48,7 @@ export default {
   },
   data() {
     return {
-      type: `groups/id/${this.$route.params.id}`,
       transition: 'slide-right',
-      // displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: this.$store.getters.activeItems
     }
   },
@@ -68,56 +59,27 @@ export default {
     id () {
       return this.$store.state.route.params.id
     },
-    // page () {
-    //   return Number(this.$store.state.route.params.page) || 1
-    // },
-    // maxPage () {
-    //   return 100
-    // },
-    // from () {
-    //   return (this.page-1) * this.$store.state.itemsPerPage
-    // },
     canNext () {
       return this.items.data.length == this.$store.state.itemsPerPage
-      // return this.items.length == this.$store.state.itemsPerPage
-      // return this.page < this.maxPage
     },
     canPrev () {
       return true
-      // return this.page < this.maxPage
     }
   },
-  // watch: {
-  //   page (to, from) {
-  //     this.loadItems(to, from)
-  //   }
-  // },
   methods: {
     async prev () {
       this.$bar.start()
-      // if (this.page < 0 || this.page > this.maxPage) {
-      //   this.$router.replace(`/${this.type}`)
-      //   return
-      // }
       await this.$store.dispatch('fetchPrev')
       window.scrollTo(0, 0)
       this.transition = 'slide-right'
-      // this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      // this.displayedPage = to
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
     },
     async next () {
       this.$bar.start()
-      // if (this.page < 0 || this.page > this.maxPage) {
-      //   this.$router.replace(`/${this.type}`)
-      //   return
-      // }
       await this.$store.dispatch('fetchNext')
       window.scrollTo(0, 0)
       this.transition = 'slide-left'
-      // this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      // this.displayedPage = to
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
     }
@@ -147,7 +109,7 @@ export default {
 
 .news-list-nav
   padding 15px 30px
-  // position fixed
+  position fixed
   text-align center
   top 55px
   left 0
@@ -219,16 +181,6 @@ export default {
     text-align center
     margin-top 5px
 
-  .score
-    color #ff6600
-    position absolute
-    // top 50%
-    left 0
-    width 60px
-    text-align center
-    margin-top 5px
-    a
-      color #ff6600
   img
     max-width 100%
     max-height 500px
@@ -256,6 +208,7 @@ export default {
         color #ff6600
 
 @media (max-width 600px)
+
   .news-item
     padding-left 10px
 

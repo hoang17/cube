@@ -134,7 +134,13 @@ module.exports = function(app) {
   })
 
   app.get('/groups/id/:id/:page?', (req, res) => {
-    res.render('template', {title: 'Groups Items'}, (err, template) => {
+    res.render('template', {title: 'Groups'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
+  app.get('/likes/id/:id/:page?', (req, res) => {
+    res.render('template', {title: 'Likes'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })

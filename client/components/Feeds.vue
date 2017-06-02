@@ -24,8 +24,8 @@
               span.meta(v-if="item.name") {{ item.name }}
               br(v-if="item.description")
               span.meta(v-if="item.description") {{ item.description }}
-              br(v-if="item.attachments")
-              span.meta(v-if="item.attachments") {{ item.attachments.data[0].description }}
+              br(v-if="item.attachments && !item.full_picture")
+              span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
               br(v-if="item.story")
               span.meta(v-if="item.story") {{ item.story }}
               br(v-if="item.link")

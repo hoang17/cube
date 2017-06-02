@@ -97,7 +97,7 @@ export default {
 
 .news-list-nav
   padding 15px 30px
-  // position fixed
+  position fixed
   text-align center
   top 55px
   left 0
@@ -142,6 +142,10 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
+
+  .news-list-nav
+    top auto
+    bottom 0px
 
 .news-item
   background-color #fff
