@@ -121,9 +121,11 @@ export default {
 
 .news-list-nav
   padding 15px 30px
-  // position fixed
+  position fixed
   text-align center
-  top 55px
+  // top 55px
+  top auto
+  bottom 0px
   left 0
   right 0
   z-index 998
@@ -136,6 +138,7 @@ export default {
 .news-list
   position absolute
   margin 30px 0
+  margin-top 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul

@@ -99,7 +99,9 @@ export default {
   padding 15px 30px
   position fixed
   text-align center
-  top 55px
+  top auto
+  bottom 0px
+  // top 55px
   left 0
   right 0
   z-index 998
@@ -112,6 +114,7 @@ export default {
 .news-list
   position absolute
   margin 30px 0
+  margin-top 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul
@@ -142,10 +145,6 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
-
-  .news-list-nav
-    top auto
-    bottom 0px
 
 .news-item
   background-color #fff
