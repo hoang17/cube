@@ -1,14 +1,16 @@
 <template lang="pug">
   .news-view.view
     .news-list-nav(@click.stop="")
-      router-link(v-if='page == 2', :to="'/' + type") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
+      button(v-if='canPrev' @click="prev") < prev
+      //- router-link(v-if='page == 2', :to="'/' + type") < prev
+      //- router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
-      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+      span(style="white-space: pre-wrap") &emsp;&emsp;
+      button(v-if='canNext' @click="next") next >
+      //- router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
       a.disabled(v-else='') more >
     transition(:name='transition')
-      .news-list(:key='displayedPage', v-if='displayedPage > 0')
+      .news-list(:key='id')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
             p.title
@@ -18,12 +20,27 @@
               //- span.score
               //-   a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') ✣ {{ from + i + 1 }} ✣
               span {{ item.from.name }}
-              br
-              | {{ item.message }}
+              br(v-if="item.message")
+              span(v-if="item.message") {{ item.message }}
+              br(v-if="item.name")
+              span.meta(v-if="item.name") {{ item.name }}
+              br(v-if="item.description")
+              span.meta(v-if="item.description") {{ item.description }}
+              br(v-if="item.attachments")
+              span.meta(v-if="item.attachments") {{ item.attachments.data[0].description }}
+              br(v-if="item.story")
+              span.meta(v-if="item.story") {{ item.story }}
+              br(v-if="item.link")
+              span.meta(v-if="item.link")
+                a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
+            //- p.host {{ item.from ? item.from.name : '' }}
             //- p.host {{ item.type }}
-            div.photo
+            div.photo(v-if="item.full_picture")
               a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                 img(:src="item.full_picture")
+            div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
+              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                img(:src="item.attachments.data[0].media.image.src")
 </template>
 
 <script>
@@ -34,15 +51,13 @@ export default {
     // 'vue-select': VueSelect
   },
   asyncData ({ store, route }) {
-    console.log(route.params.id)
-    // return the Promise from the action
     return store.dispatch('fetchItems', route)
   },
   data() {
     return {
-      type: 'groups/id',
+      type: `groups/id/${this.$route.params.id}`,
       transition: 'slide-right',
-      displayedPage: Number(this.$store.state.route.params.page) || 1,
+      // displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: this.$store.getters.activeItems
     }
   },
@@ -50,34 +65,59 @@ export default {
     items () {
       return this.$store.state.items
     },
-    page () {
-      return Number(this.$store.state.route.params.page) || 1
+    id () {
+      return this.$store.state.route.params.id
     },
-    maxPage () {
-      const { itemsPerPage, items } = this.$store.state
-      return Math.ceil(items.length / itemsPerPage)
+    // page () {
+    //   return Number(this.$store.state.route.params.page) || 1
+    // },
+    // maxPage () {
+    //   return 100
+    // },
+    // from () {
+    //   return (this.page-1) * this.$store.state.itemsPerPage
+    // },
+    canNext () {
+      return this.items.data.length == this.$store.state.itemsPerPage
+      // return this.items.length == this.$store.state.itemsPerPage
+      // return this.page < this.maxPage
     },
-    from () {
-      return (this.page-1) * this.$store.state.itemsPerPage
-    },
-    hasMore () {
-      return this.page < this.maxPage
+    canPrev () {
+      return true
+      // return this.page < this.maxPage
     }
   },
-  watch: {
-    page (to, from) {
-      this.loadItems(to, from)
-    }
-  },
+  // watch: {
+  //   page (to, from) {
+  //     this.loadItems(to, from)
+  //   }
+  // },
   methods: {
-    loadItems (to = this.page, from = -1) {
+    async prev () {
       this.$bar.start()
-      if (this.page < 0 || this.page > this.maxPage) {
-        this.$router.replace(`/${this.type}`)
-        return
-      }
-      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      this.displayedPage = to
+      // if (this.page < 0 || this.page > this.maxPage) {
+      //   this.$router.replace(`/${this.type}`)
+      //   return
+      // }
+      await this.$store.dispatch('fetchPrev')
+      window.scrollTo(0, 0)
+      this.transition = 'slide-right'
+      // this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      // this.displayedPage = to
+      this.displayedItems = this.$store.getters.activeItems
+      this.$bar.finish()
+    },
+    async next () {
+      this.$bar.start()
+      // if (this.page < 0 || this.page > this.maxPage) {
+      //   this.$router.replace(`/${this.type}`)
+      //   return
+      // }
+      await this.$store.dispatch('fetchNext')
+      window.scrollTo(0, 0)
+      this.transition = 'slide-left'
+      // this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      // this.displayedPage = to
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
     }
@@ -93,9 +133,6 @@ export default {
   .navbar
     display none
 
-  // .header
-  //   display none
-  //
   .container
     padding 7px
 </style>
@@ -175,11 +212,6 @@ export default {
   position relative
   line-height 20px
 
-  // column-count 2
-  // column-rule 1px solid black
-  // column-fill balance
-  // column-width 100px
-  // height 500px
   .avatar
     position absolute
     left 10px
@@ -200,6 +232,10 @@ export default {
   img
     max-width 100%
     max-height 500px
+
+  .photo
+    img
+      margin-top 5px
 
   .title
     font-size .95em
@@ -223,20 +259,14 @@ export default {
   .news-item
     padding-left 10px
 
-    .score
-      position relative
     .avatar
       position relative
       left 0
       width 40px
       float left
       margin-right 10px
-      margin-bottom 5px
+      margin-bottom 3px
 
       img
         width 40px
-      // text-align center
-      // margin-top 5px
-
-
 </style>

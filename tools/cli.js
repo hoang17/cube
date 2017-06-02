@@ -47,7 +47,7 @@ model.drop()
 
 // fetchData(`504368183/${endpoint}`, model).then(() => {
 
-fetchData(`${endpoint}`, model).then(function(){
+fetchData(`${endpoint}?fields=id,message,picture,full_picture,place,type,from{name,picture},story,link,name,description,attachments,created_time`, model).then(function(){
   db.close()
 }).catch(function(e){
   console.log(e)

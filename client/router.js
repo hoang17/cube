@@ -20,11 +20,11 @@ export function createRouter () {
       { path: '/api', component: Hello },
       { path: '/contact', component: Hello },
       { path: '/groups/:page(\\d+)?', name: 'Groups', component: Groups },
-      { path: '/groups/id/:id/:page(\\d+)?', component: Items },
+      { path: '/groups/id/:id', component: Items },
       { path: '/likes/:page(\\d+)?', name: 'Likes', component: Likes },
-      { path: '/likes/id/:id/:page(\\d+)?', component: Items },
+      { path: '/likes/id/:id', component: Items },
       { path: '/friends/:page(\\d+)?', name: 'Friends', component: Friends },
-      { path: '/friends/id/:id/:page(\\d+)?', component: Items },
+      { path: '/friends/id/:id', component: Items },
       { path: '/feeds/:page(\\d+)?', name: 'Feeds', component: Feeds }
     ],
     scrollBehavior (to, from, savedPosition) {

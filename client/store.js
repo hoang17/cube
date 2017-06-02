@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { fetch, fetchItems } from './api'
+import { fetch, fetchItems, fetchUrl } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items){
   page = Number(page) || 1
@@ -21,15 +21,21 @@ export function createStore () {
       likes: [],
       friends: [],
       feeds: [],
-      items: [],
+      items: []
     },
     actions: {
+      fetchNext ({ state, commit }) {
+        return fetchUrl(state.items.paging.next).then(items => {
+          commit('setItems', { items })
+        })
+      },
+      fetchPrev ({ state, commit }) {
+        return fetchUrl(state.items.paging.previous).then(items => {
+          commit('setItems', { items })
+        })
+      },
       fetchItems ({ state, commit }, route) {
-        // console.log(route)
-        // if (state.items.length >0 )
-        //   return Promise.resolve(state.items)
         return fetchItems(route.params.id, state.itemsPerPage).then(items => {
-          // console.log(items)
           commit('setItems', { items })
         })
       },
@@ -101,7 +107,7 @@ export function createStore () {
       },
 
       activeItems (state) {
-        return state.items
+        return state.items.data
         // let page = state.route.params.page
         // return getActiveItems(page, state.itemsPerPage, state.items)
       }

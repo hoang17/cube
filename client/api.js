@@ -15,16 +15,19 @@ export function fetch(endpoint){
 const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1grPeDrJo32NK5n529g3m0jHbcAdlZA7RyRwnTr3TP1JDbnXt3ZBtzWNNt4MeoV1sMnxWPGs8zqbf1FStll5U5sZCKjhbhruMQ2q52jk0rjogZDZD"
 
 const fb = axios.create({
-  baseURL: 'https://graph.facebook.com/v2.3/',
+  baseURL: 'https://graph.facebook.com/v2.4/',
   params: { access_token: token }
 })
 
 const fetchData = async function(url, params) {
   let res = await fb.get(url, {params: params})
-  console.log(res)
-  return res.data.data
+  return res.data
 }
 
 export function fetchItems(id, limit){
-  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},created_time', limit: limit })
+  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,created_time', limit: limit })
+}
+
+export function fetchUrl(url){
+  return fetchData(url)
 }
