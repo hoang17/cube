@@ -14,7 +14,10 @@ module.exports = {
   devtool: isProd
     ? false
     : '#cheap-module-source-map',
-  entry: './entry-server.js',
+  entry: [
+    'babel-polyfill',
+    './entry-server.js'
+  ],
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',

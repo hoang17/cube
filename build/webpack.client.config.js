@@ -12,7 +12,10 @@ module.exports = {
   context: path.resolve(__dirname, '../client'),
   devtool: isProd ? false : '#cheap-module-source-map',
   entry: {
-    app: './entry-client.js'
+    app: [
+      'babel-polyfill',
+      './entry-client.js'
+    ]
   },
   output: {
     path: path.resolve(__dirname, '../dist'),

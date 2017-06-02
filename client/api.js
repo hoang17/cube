@@ -20,8 +20,12 @@ const fb = axios.create({
 })
 
 const fetchData = async function(url, params) {
-  let res = await fb.get(url, {params: params})
-  return res.data
+  try {
+    let res = await fb.get(url, {params: params})
+    return res.data
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export function fetchItems(id, limit){
