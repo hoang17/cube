@@ -175,8 +175,6 @@ export default {
   transform translate(30px, 0)
 
 @media (max-width 600px)
-  .news-view
-    padding-top 0
   .news-list
     padding-bottom 50px
 

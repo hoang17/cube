@@ -76,18 +76,6 @@ export default {
       this.displayedPage = to
       this.displayedItems = this.$store.getters.activeGroups
       this.$bar.finish()
-
-      // this.$store.dispatch('getGroups')
-      // .then(() => {
-      //   if (this.page < 0 || this.page > this.maxPage) {
-      //     this.$router.replace(`/${this.type}`)
-      //     return
-      //   }
-      //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      //   this.displayedPage = to
-      //   this.displayedItems = this.$store.getters.activeGroups
-      //   this.$bar.finish()
-      // })
     }
   }
 }
@@ -147,6 +135,10 @@ export default {
   opacity 0
   transform translate(30px, 0)
 
+@media (max-width 600px)
+  .news-list
+    padding-bottom 50px
+    
 .news-item
   background-color #fff
   padding 10px 10px 10px 60px

@@ -134,6 +134,10 @@ export default {
   opacity 0
   transform translate(30px, 0)
 
+@media (max-width 600px)
+  .news-list
+    padding-bottom 50px
+
 .news-item
   background-color #fff
   padding 10px 10px 10px 60px
