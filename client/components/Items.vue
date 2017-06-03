@@ -7,11 +7,11 @@
       button(v-if='canNext' @click="next") next >
       a.disabled(v-else='') more >
     transition(:name='transition')
-      .news-list(:key='id')
+      .news-list(:key='key')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            p.title
-              span.avatar
+            div.title
+              div.avatar
                 a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                   img(:src="item.from.picture.data.url")
               span {{ item.from.name }}
@@ -48,7 +48,8 @@ export default {
   },
   data() {
     return {
-      transition: 'slide-right',
+      key: 0,
+      transition: 'slide-left',
       displayedItems: this.$store.getters.activeItems
     }
   },
@@ -56,29 +57,49 @@ export default {
     items () {
       return this.$store.state.items
     },
-    id () {
-      return this.$store.state.route.params.id
-    },
     canNext () {
-      return this.items.data.length == this.$store.state.itemsPerPage
+      return this.items.data && this.items.data.length == this.$store.state.itemsPerPage
     },
     canPrev () {
-      return true
+      return this.items.paging && this.items.paging.previous
     }
   },
+  beforeMount () {
+    if (this.$root._isMounted) {
+      this.loadItems()
+    }
+  },
+  beforeDestroy () {
+    let items = []
+    this.$store.commit('setItems', { items })
+  },
   methods: {
+    async loadItems () {
+      this.$bar.start()
+      await this.$store.dispatch('fetchItems', this.$store.state.route)
+      this.key++
+      this.transition = 'slide-left'
+      this.displayedItems = this.$store.getters.activeItems
+      this.$bar.finish()
+    },
     async prev () {
       this.$bar.start()
+      this.key--
+      this.transition = 'slide-right'
+      this.displayedItems = []
       await this.$store.dispatch('fetchPrev')
-      window.scrollTo(0, 0)
+      this.key--
       this.transition = 'slide-right'
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
     },
     async next () {
       this.$bar.start()
+      this.key++
+      this.transition = 'slide-left'
+      this.displayedItems = []
       await this.$store.dispatch('fetchNext')
-      window.scrollTo(0, 0)
+      this.key++
       this.transition = 'slide-left'
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
@@ -157,7 +178,6 @@ export default {
   .news-view
     padding-top 0
   .news-list
-    margin 0
     padding-bottom 50px
 
   .photo
@@ -205,7 +225,6 @@ export default {
         color #ff6600
 
 @media (max-width 600px)
-
   .news-item
     padding-left 10px
 

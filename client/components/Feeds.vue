@@ -45,9 +45,6 @@
 export default {
   name: 'feeds',
   title: 'Feeds',
-  components: {
-    // 'vue-select': VueSelect
-  },
   asyncData ({ store, route }) {
     // return the Promise from the action
     return store.dispatch('getFeeds')
@@ -78,14 +75,20 @@ export default {
       return this.page < this.maxPage
     }
   },
+  beforeMount () {
+    if (this.$root._isMounted) {
+      this.loadItems(this.page)
+    }
+  },
   watch: {
     page (to, from) {
       this.loadItems(to, from)
     }
   },
   methods: {
-    loadItems (to = this.page, from = -1) {
+    async loadItems (to = this.page, from = -1) {
       this.$bar.start()
+      await this.$store.dispatch('getFeeds')
       if (this.page < 0 || this.page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
@@ -194,16 +197,6 @@ export default {
     text-align center
     margin-top 5px
 
-  .score
-    color #ff6600
-    position absolute
-    // top 50%
-    left 0
-    width 60px
-    text-align center
-    // margin-top -10px
-    a
-      color #ff6600
   img
     max-width 100%
     max-height 500px

@@ -1,16 +1,24 @@
 <!-- borrowed from Nuxt! -->
 
 <template>
-  <div class="progress" :style="{
-    'width': percent+'%',
-    'height': height,
-    'background-color': canSuccess? color : failedColor,
-    'opacity': show ? 1 : 0
-  }"></div>
+  <div>
+    <div class="progress" :style="{
+      'width': percent+'%',
+      'height': height,
+      'background-color': canSuccess? color : failedColor,
+      'opacity': show ? 1 : 0
+    }"></div>
+    <spinner :show="show"></spinner>
+  </div>
 </template>
 
 <script>
+import Spinner from './Spinner.vue'
+
 export default {
+  components: {
+    'spinner': Spinner
+  },
   data () {
     return {
       percent: 0,
@@ -18,7 +26,7 @@ export default {
       canSuccess: true,
       duration: 3000,
       height: '2px',
-      color: '#ffca2b',
+      color: '#29d',
       failedColor: '#ff0000',
     }
   },
@@ -96,7 +104,15 @@ export default {
   width: 0%;
   transition: width 0.2s, opacity 0.4s;
   opacity: 1;
-  background-color: #efc14e;
+  background-color: #29d;
   z-index: 999999;
+
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  /*box-shadow: 0 0 10px #efc14e, 0 0 5px #efc14e;*/
+
+  /*-webkit-transform: rotate(3deg) translate(0px, -4px);
+      -ms-transform: rotate(3deg) translate(0px, -4px);
+          transform: rotate(3deg) translate(0px, -4px);*/
+
 }
 </style>

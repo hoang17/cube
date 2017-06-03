@@ -54,14 +54,20 @@ export default {
       return this.page < this.maxPage
     }
   },
+  beforeMount () {
+    if (this.$root._isMounted) {
+      this.loadItems(this.page)
+    }
+  },
   watch: {
     page (to, from) {
       this.loadItems(to, from)
     }
   },
   methods: {
-    loadItems (to = this.page, from = -1) {
+    async loadItems (to = this.page, from = -1) {
       this.$bar.start()
+      await this.$store.dispatch('getGroups')
       if (this.page < 0 || this.page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
