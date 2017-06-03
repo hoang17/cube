@@ -117,7 +117,7 @@ export default {
   left 0
   right 0
   z-index 998
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
+  box-shadow 0 1px 2px rgba(0,0,0,.5)
   a
     margin 0 1em
   .disabled
@@ -125,8 +125,7 @@ export default {
 
 .news-list
   position absolute
-  margin 30px 0
-  margin-top 0
+  margin 0 0 80px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul

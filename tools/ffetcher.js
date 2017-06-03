@@ -15,8 +15,8 @@ program
 const id = program.id
 const collection = "feeds_" + id
 
-console.log(id)
-console.log(collection)
+console.log('id:', id)
+console.log('collection:' ,collection)
 
 const maxPage = 500
 let page = 0
