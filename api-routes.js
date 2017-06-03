@@ -6,7 +6,7 @@ const Friend = require('./models/Friend')
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
-const Feed = db.get('feeds_240265526005884')
+const Feed = db.get('feeds_153841081324271')
 
 router.route('/groups')
   .get(function(req, res) {
