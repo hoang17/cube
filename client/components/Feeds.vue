@@ -15,8 +15,6 @@
               div.avatar
                 a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                   img(:src="item.from.picture.data.url")
-              //- span.score
-              //-   a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') ✣ {{ from + i + 1 }} ✣
               span {{ item.from.name }}
               br(v-if="item.message")
               span(v-if="item.message") {{ item.message }}
@@ -31,8 +29,6 @@
               br(v-if="item.link")
               span.meta(v-if="item.link")
                 a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-            //- p.host {{ item.from ? item.from.name : '' }}
-            //- p.host {{ item.type }}
             div.photo(v-if="item.full_picture")
               a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                 img(:src="item.full_picture")
@@ -46,7 +42,6 @@ export default {
   name: 'feeds',
   title: 'Feeds',
   asyncData ({ store, route }) {
-    // return the Promise from the action
     return store.dispatch('getFeeds')
   },
   data() {

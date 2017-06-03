@@ -22,14 +22,14 @@ const fb = axios.create({
 const fetchData = async function(url, params) {
   try {
     let res = await fb.get(url, {params: params})
-    return res.data
+    return res.data.data
   } catch (e) {
     console.log(e)
   }
 }
 
-export function fetchItems(id, limit){
-  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,created_time', limit: limit })
+export function fetchItems(id, offset, limit){
+  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,created_time', offset: offset, limit: limit })
 }
 
 export function fetchUrl(url){

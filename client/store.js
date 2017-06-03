@@ -24,18 +24,8 @@ export function createStore () {
       items: []
     },
     actions: {
-      fetchNext ({ state, commit }) {
-        return fetchUrl(state.items.paging.next).then(items => {
-          commit('setItems', { items })
-        })
-      },
-      fetchPrev ({ state, commit }) {
-        return fetchUrl(state.items.paging.previous).then(items => {
-          commit('setItems', { items })
-        })
-      },
-      fetchItems ({ state, commit }, route) {
-        return fetchItems(route.params.id, state.itemsPerPage).then(items => {
+      fetchItems ({ state, commit }, {id, offset}) {
+        return fetchItems(id, offset, state.itemsPerPage).then(items => {
           commit('setItems', { items })
         })
       },
@@ -107,7 +97,7 @@ export function createStore () {
       },
 
       activeItems (state) {
-        return state.items.data
+        return state.items
         // let page = state.route.params.page
         // return getActiveItems(page, state.itemsPerPage, state.items)
       }

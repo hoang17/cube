@@ -1,13 +1,14 @@
 <template lang="pug">
   .news-view.view
     .news-list-nav(@click.stop="")
-      button(v-if='canPrev' @click="prev") < prev
+      router-link(v-if='page == 2', :to="'/' + type + '/id/' + id") < prev
+      router-link(v-else-if='page > 2', :to="'/' + type + '/id/' + id + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
-      span(style="white-space: pre-wrap") &emsp;&emsp;
-      button(v-if='canNext' @click="next") next >
+      span {{ page }}/{{ maxPage }}
+      router-link(v-if='hasMore', :to="'/' + type + '/id/' + id + '/' + (page + 1)") more >
       a.disabled(v-else='') more >
     transition(:name='transition')
-      .news-list(:key='key')
+      .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
             div.title
@@ -40,16 +41,14 @@
 export default {
   name: 'items',
   title: 'Items',
-  components: {
-    // 'vue-select': VueSelect
-  },
   asyncData ({ store, route }) {
-    return store.dispatch('fetchItems', route)
+    let offset = (route.params.page-1) * store.state.itemsPerPage || 0
+    return store.dispatch('fetchItems', {id: route.params.id, offset: offset })
   },
   data() {
     return {
-      key: 0,
-      transition: 'slide-left',
+      transition: 'slide-right',
+      displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: this.$store.getters.activeItems
     }
   },
@@ -57,50 +56,52 @@ export default {
     items () {
       return this.$store.state.items
     },
-    canNext () {
-      return this.items.data && this.items.data.length == this.$store.state.itemsPerPage
+    id () {
+      return this.$store.state.route.params.id
     },
-    canPrev () {
-      return this.items.paging && this.items.paging.previous
+    type () {
+      return this.$store.state.route.params.type
+    },
+    page () {
+      return Number(this.$store.state.route.params.page) || 1
+    },
+    maxPage () {
+      return 100
+      // const { itemsPerPage, items } = this.$store.state
+      // return Math.ceil(items.length / itemsPerPage)
+    },
+    offset () {
+      return (this.page-1) * this.$store.state.itemsPerPage
+    },
+    hasMore () {
+      return this.page < this.maxPage
     }
   },
   beforeMount () {
     if (this.$root._isMounted) {
-      this.loadItems()
+      this.loadItems(this.page)
     }
   },
   beforeDestroy () {
-    let items = []
-    this.$store.commit('setItems', { items })
+    this.$store.commit('setItems', { items:[] })
+  },
+  watch: {
+    page (to, from) {
+      this.loadItems(to, from)
+    }
   },
   methods: {
-    async loadItems () {
+    async loadItems (to = this.page, from = -1) {
       this.$bar.start()
-      await this.$store.dispatch('fetchItems', this.$store.state.route)
-      this.key++
-      this.transition = 'slide-left'
-      this.displayedItems = this.$store.getters.activeItems
-      this.$bar.finish()
-    },
-    async prev () {
-      this.$bar.start()
-      this.key--
-      this.transition = 'slide-right'
+      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      this.displayedPage = this.maxPage+1
       this.displayedItems = []
-      await this.$store.dispatch('fetchPrev')
-      this.key--
-      this.transition = 'slide-right'
-      this.displayedItems = this.$store.getters.activeItems
-      this.$bar.finish()
-    },
-    async next () {
-      this.$bar.start()
-      this.key++
-      this.transition = 'slide-left'
-      this.displayedItems = []
-      await this.$store.dispatch('fetchNext')
-      this.key++
-      this.transition = 'slide-left'
+      await this.$store.dispatch('fetchItems', {id: this.id, offset: this.offset })
+      if (this.page < 0 || this.page > this.maxPage) {
+        this.$router.replace(`/${this.type}`)
+        return
+      }
+      this.displayedPage = to
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
     }
@@ -205,7 +206,7 @@ export default {
       margin-top 5px
 
   .title
-    font-size .95em
+    font-size .9em
     white-space: pre-wrap
     word-wrap: break-word
 
@@ -236,4 +237,5 @@ export default {
 
       img
         width 40px
+
 </style>
