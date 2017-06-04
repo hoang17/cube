@@ -5,10 +5,6 @@ import { createApp } from './app'
 
 import ProgressBar from './components/ProgressBar.vue'
 
-// import InfiniteLoading from 'vue-infinite-loading'
-
-// Vue.component('infinite-loading', InfiniteLoading)
-
 // global progress bar
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)

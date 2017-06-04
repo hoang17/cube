@@ -1,81 +1,60 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav
-      router-link(v-if='page == 2', :to="'/' + type") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
-      a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
-      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
-      a.disabled(v-else='') more >
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score {{ from + i + 1 }}
+            span.score {{ i + 1 }}
             span.title
               router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
-              //- a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
+        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
 export default {
   name: 'groups',
   title: 'Groups',
-  components: {
-    // 'vue-select': VueSelect
-  },
   asyncData ({ store, route }) {
-    // return the Promise from the action
     return store.dispatch('getGroups')
   },
   data() {
     return {
       type: this.$options.name,
-      transition: 'slide-right',
-      displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: this.$store.getters.activeGroups
+      transition: 'slide-left',
+      displayedPage: 1,
+      displayedItems: this.$store.getters.activeGroups(1),
+      page: 1
     }
   },
   computed: {
     groups () {
       return this.$store.state.groups
     },
-    page () {
-      return Number(this.$store.state.route.params.page) || 1
-    },
     maxPage () {
       const { itemsPerPage, groups } = this.$store.state
       return Math.ceil(groups.length / itemsPerPage)
     },
-    from () {
-      return (this.page-1) * this.$store.state.itemsPerPage
-    },
-    hasMore () {
-      return this.page < this.maxPage
-    }
   },
   beforeMount () {
     if (this.$root._isMounted) {
-      this.loadItems(this.page)
-    }
-  },
-  watch: {
-    page (to, from) {
-      this.loadItems(to, from)
+      this.loadItems()
     }
   },
   methods: {
-    async loadItems (to = this.page, from = -1) {
+    async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getGroups')
-      if (this.page < 0 || this.page > this.maxPage) {
-        this.$router.replace(`/${this.type}`)
-        return
-      }
-      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      this.displayedPage = to
-      this.displayedItems = this.$store.getters.activeGroups
+      this.displayedItems = this.$store.getters.activeGroups(this.page)
       this.$bar.finish()
+    },
+    onInfinite() {
+      this.page++
+      if (this.page <= this.maxPage) {
+        this.displayedItems = this.$store.getters.activeGroups(this.page)
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      } else {
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+      }
     }
   }
 }
@@ -135,10 +114,6 @@ export default {
   opacity 0
   transform translate(30px, 0)
 
-@media (max-width 600px)
-  .news-list
-    padding-bottom 50px
-    
 .news-item
   background-color #fff
   padding 10px 10px 10px 60px

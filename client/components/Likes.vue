@@ -26,7 +26,6 @@ export default {
     // 'vue-select': VueSelect
   },
   asyncData ({ store, route }) {
-    // return the Promise from the action
     return store.dispatch('getLikes')
   },
   data() {

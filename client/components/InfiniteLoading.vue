@@ -5,12 +5,12 @@
         <i :class="spinnerType"></i>
       </slot>
     </div>
-    <div class="infinite-status-prompt" v-show="!isLoading && isComplete && isFirstLoad">
+    <!-- <div class="infinite-status-prompt" v-show="!isLoading && isComplete && isFirstLoad">
       <slot name="no-results">No results :(</slot>
-    </div>
-    <div class="infinite-status-prompt" v-show="!isLoading && isComplete && !isFirstLoad">
+    </div> -->
+    <!-- <div class="infinite-status-prompt" v-show="!isLoading && isComplete && !isFirstLoad">
       <slot name="no-more">No more data :)</slot>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

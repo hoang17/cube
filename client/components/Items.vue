@@ -4,7 +4,7 @@
       router-link(v-if='page == 2', :to="'/' + type + '/id/' + id") < prev
       router-link(v-else-if='page > 2', :to="'/' + type + '/id/' + id + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
+      span {{ page }}
       router-link(v-if='hasMore', :to="'/' + type + '/id/' + id + '/' + (page + 1)") more >
       a.disabled(v-else='') more >
     transition(:name='transition')
@@ -36,19 +36,12 @@
                 a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                   img(:src="item.attachments.data[0].media.image.src")
         infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
-            span(slot='no-more') You have reached the end, there is no more feeds to show ^^
-        //- component(:is="componentType", :on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
-import InfiniteLoading from './InfiniteLoading'
-
 export default {
   name: 'items',
   title: 'Items',
-  components: {
-    InfiniteLoading
-  },
   asyncData ({ store, route }) {
     let offset = (route.params.page-1) * store.state.itemsPerPage || 0
     return store.dispatch('fetchItems', {id: route.params.id, offset: offset })
@@ -56,7 +49,6 @@ export default {
   data() {
     return {
       offset: 0,
-      // componentType: '',
       transition: 'slide-right',
       displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: this.$store.getters.activeItems
@@ -76,21 +68,14 @@ export default {
       return Number(this.$store.state.route.params.page) || 1
     },
     maxPage () {
-      return 100
+      return 999
       // const { itemsPerPage, items } = this.$store.state
       // return Math.ceil(items.length / itemsPerPage)
     },
-    // offset () {
-    //   return (this.page-1) * this.$store.state.itemsPerPage
-    // },
     hasMore () {
       return this.page < this.maxPage
     }
   },
-  // mounted(){
-  //   console.log('@@@ mounted')
-  //   this.componentType = 'infinite-loading'
-  // },
   beforeMount () {
     console.log('@@@ beforeMount')
     if (this.$root._isMounted) {
@@ -122,7 +107,7 @@ export default {
       this.$bar.finish()
     },
     async onInfinite() {
-      console.log('onInfinite', this.displayedItems.length)
+      console.log('onInfinite', this.offset)
       if (this.displayedItems.length == 0) return
 
       this.offset = this.offset + this.$store.state.itemsPerPage
@@ -133,7 +118,7 @@ export default {
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
       }
-    },
+    }
   }
 }
 </script>
@@ -160,15 +145,11 @@ export default {
 
 .news-list-nav
   padding 15px 30px
-  position fixed
+  margin-bottom 10px
+  // position fixed
   text-align center
-  // top 55px
-  top auto
-  bottom 0px
-  left 0
-  right 0
   z-index 998
-  box-shadow 0 1px 2px rgba(0,0,0,.5)
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
   a
     margin 0 1em
   .disabled
@@ -203,10 +184,6 @@ export default {
   position absolute
   opacity 0
   transform translate(30px, 0)
-
-@media (max-width 600px)
-  .news-list
-    padding-bottom 50px
 
   .photo
     margin-left -10px
