@@ -58,8 +58,12 @@ export default {
       await this.$store.dispatch('getFriends')
       this.displayedItems = this.$store.getters.activeFriends(this.page)
       this.$bar.finish()
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
     onInfinite() {
+      if (this.displayedItems.length == 0) {
+        return
+      }
       this.page++
       if (this.page <= this.maxPage) {
         this.displayedItems = this.$store.getters.activeFriends(this.page)

@@ -46,8 +46,12 @@ export default {
       await this.$store.dispatch('getGroups')
       this.displayedItems = this.$store.getters.activeGroups(this.page)
       this.$bar.finish()
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
     onInfinite() {
+      if (this.displayedItems.length == 0) {
+        return
+      }
       this.page++
       if (this.page <= this.maxPage) {
         this.displayedItems = this.$store.getters.activeGroups(this.page)

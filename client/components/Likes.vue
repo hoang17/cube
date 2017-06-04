@@ -51,19 +51,18 @@ export default {
       this.loadItems()
     }
   },
-  // watch: {
-  //   page (to, from) {
-  //     this.loadItems(to, from)
-  //   }
-  // },
   methods: {
     async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getLikes')
       this.displayedItems = this.$store.getters.activeLikes(this.page)
       this.$bar.finish()
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
     onInfinite() {
+      if (this.displayedItems.length == 0) {
+        return
+      }
       this.page++
       if (this.page <= this.maxPage) {
         this.displayedItems = this.$store.getters.activeLikes(this.page)
