@@ -94,13 +94,18 @@ export default {
       }
       this.displayedPage = to
       this.displayedItems = this.$store.getters.activeFeeds(this.page, start)
+      console.log('loadItems', this.displayedItems.length)
       this.$bar.finish()
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
     async onInfinite() {
-      if (this.displayedItems.length == 0) return
+      console.log('onInfinite', this.displayedItems.length)
+      if (this.displayedItems.length == 0) {
+        return
+      }
 
       this.offsetPage++
-      console.log('onInfinite', this.offsetPage)
+      console.log('offsetPage', this.offsetPage)
 
       const start = (this.page-1) * this.$store.state.itemsPerPage
       if (this.offsetPage <= this.maxPage) {
