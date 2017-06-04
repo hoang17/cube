@@ -83,15 +83,15 @@ export default {
   },
   methods: {
     async loadItems (to = this.page, from = -1) {
-      if (this.page < 0 || this.page > this.maxPage) {
-        this.$router.replace(`/${this.type}`)
-        return
-      }
       this.offsetPage = this.page
       this.$bar.start()
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
       const start = (this.page-1) * this.$store.state.itemsPerPage
       await this.$store.dispatch('getFeeds')
+      if (this.page < 0 || this.page > this.maxPage) {
+        this.$router.replace(`/${this.type}`)
+        return
+      }
       this.displayedPage = to
       this.displayedItems = this.$store.getters.activeFeeds(this.page, start)
       this.$bar.finish()
