@@ -8,7 +8,6 @@ import { fetch, fetchItems, fetchUrl } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items){
   page = Number(page) || 1
-  // const start = (page - 1) * itemsPerPage
   const start = 0
   const end = page * itemsPerPage
   return items.slice(start, end)
@@ -85,22 +84,15 @@ export function createStore () {
       },
     },
     getters: {
-      // activeGroups (state) {
-      //   let page = state.route.params.page
-      //   return getActiveItems(page, state.itemsPerPage, state.groups)
-      // },
-
       activeGroups : (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.groups)
       },
 
-      activeLikes (state) {
-        let page = state.route.params.page
+      activeLikes : (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.likes)
       },
 
-      activeFriends (state) {
-        let page = state.route.params.page
+      activeFriends : (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
 

@@ -1,80 +1,72 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav
-      router-link(v-if='page == 2', :to="'/' + type") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
-      a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
-      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
-      a.disabled(v-else='') more >
+    //- .news-list-nav
+    //-   router-link(v-if='page == 2', :to="'/' + type") < prev
+    //-   router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
+    //-   a.disabled(v-else='') < prev
+    //-   span {{ page }}/{{ maxPage }}
+    //-   router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+    //-   a.disabled(v-else='') more >
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
           li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score {{ from + i + 1 }}
+            span.score {{ i + 1 }}
             span.title
               a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.name }}
+        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
 export default {
   name: 'friends',
   title: 'Friends',
-  components: {
-    // 'vue-select': VueSelect
-  },
   asyncData ({ store, route }) {
-    // return the Promise from the action
     return store.dispatch('getFriends')
   },
   data() {
     return {
       type: this.$options.name,
       transition: 'slide-right',
-      displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: this.$store.getters.activeFriends
+      displayedPage: 1,
+      displayedItems: this.$store.getters.activeFriends(1),
+      page: 1
     }
   },
   computed: {
     friends () {
       return this.$store.state.friends
     },
-    page () {
-      return Number(this.$store.state.route.params.page) || 1
-    },
     maxPage () {
       const { itemsPerPage, friends } = this.$store.state
       return Math.ceil(friends.length / itemsPerPage)
     },
-    from () {
-      return (this.page-1) * this.$store.state.itemsPerPage
-    },
-    hasMore () {
-      return this.page < this.maxPage
-    }
   },
   beforeMount () {
     if (this.$root._isMounted) {
-      this.loadItems(this.page)
+      this.loadItems()
     }
   },
-  watch: {
-    page (to, from) {
-      this.loadItems(to, from)
-    }
-  },
+  // watch: {
+  //   page (to, from) {
+  //     this.loadItems()
+  //   }
+  // },
   methods: {
-    async loadItems (to = this.page, from = -1) {
+    async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getFriends')
-      if (this.page < 0 || this.page > this.maxPage) {
-        this.$router.replace(`/${this.type}`)
-        return
-      }
-      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      this.displayedPage = to
-      this.displayedItems = this.$store.getters.activeFriends
+      this.displayedItems = this.$store.getters.activeFriends(this.page)
       this.$bar.finish()
+    },
+    onInfinite() {
+      this.page++
+      if (this.page <= this.maxPage) {
+        this.displayedItems = this.$store.getters.activeFriends(this.page)
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      } else {
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+      }
     }
   }
 }
@@ -89,16 +81,11 @@ export default {
   border-radius 2px
 
 .news-list-nav
+  margin-bottom 10px
   padding 15px 30px
   position fixed
   text-align center
-  // top 55px
-  top auto
-  bottom 0px
-  left 0
-  right 0
-  z-index 998
-  box-shadow 0 1px 2px rgba(0,0,0,.5)
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
   a
     margin 0 1em
   .disabled
@@ -133,10 +120,6 @@ export default {
   position absolute
   opacity 0
   transform translate(30px, 0)
-
-@media (max-width 600px)
-  .news-list
-    padding-bottom 50px
 
 .news-item
   background-color #fff
