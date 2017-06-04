@@ -58,7 +58,6 @@ export default {
   beforeMount () {
     console.log("@@@ beforeMount")
     if (this.$root._isMounted) {
-      console.log("@@@ this.$root._isMounted")
       this.loadItems(this.page)
     }
   },

@@ -8,45 +8,55 @@
       router-link(v-if='hasMore', :to="'/' + type + '/id/' + id + '/' + (page + 1)") more >
       a.disabled(v-else='') more >
     transition(:name='transition')
-      .news-list(:key='displayedPage', v-if='displayedPage > 0')
+      .news-list(:key='displayedPage')
         transition-group(tag='ul', name='item')
-          li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            div.title
-              div.avatar
+            li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
+              .title
+                .avatar
+                  a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                    img(:src="item.from.picture.data.url")
+                span {{ item.from.name }}
+                br(v-if="item.message")
+                span(v-if="item.message") {{ item.message }}
+                br(v-if="item.name")
+                span.meta(v-if="item.name") {{ item.name }}
+                br(v-if="item.description")
+                span.meta(v-if="item.description") {{ item.description }}
+                br(v-if="item.attachments && !item.full_picture")
+                span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
+                br(v-if="item.story")
+                span.meta(v-if="item.story") {{ item.story }}
+                br(v-if="item.link")
+                span.meta(v-if="item.link")
+                  a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
+              .photo(v-if="item.full_picture")
                 a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                  img(:src="item.from.picture.data.url")
-              span {{ item.from.name }}
-              br(v-if="item.message")
-              span(v-if="item.message") {{ item.message }}
-              br(v-if="item.name")
-              span.meta(v-if="item.name") {{ item.name }}
-              br(v-if="item.description")
-              span.meta(v-if="item.description") {{ item.description }}
-              br(v-if="item.attachments && !item.full_picture")
-              span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
-              br(v-if="item.story")
-              span.meta(v-if="item.story") {{ item.story }}
-              br(v-if="item.link")
-              span.meta(v-if="item.link")
-                a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-            div.photo(v-if="item.full_picture")
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                img(:src="item.full_picture")
-            div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                img(:src="item.attachments.data[0].media.image.src")
+                  img(:src="item.full_picture")
+              .photo(v-else-if="item.attachments && item.attachments.data[0].media")
+                a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                  img(:src="item.attachments.data[0].media.image.src")
+        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+            span(slot='no-more') You have reached the end, there is no more feeds to show ^^
+        //- component(:is="componentType", :on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
+import InfiniteLoading from './InfiniteLoading'
+
 export default {
   name: 'items',
   title: 'Items',
+  components: {
+    InfiniteLoading
+  },
   asyncData ({ store, route }) {
     let offset = (route.params.page-1) * store.state.itemsPerPage || 0
     return store.dispatch('fetchItems', {id: route.params.id, offset: offset })
   },
   data() {
     return {
+      offset: 0,
+      // componentType: '',
       transition: 'slide-right',
       displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: this.$store.getters.activeItems
@@ -70,14 +80,19 @@ export default {
       // const { itemsPerPage, items } = this.$store.state
       // return Math.ceil(items.length / itemsPerPage)
     },
-    offset () {
-      return (this.page-1) * this.$store.state.itemsPerPage
-    },
+    // offset () {
+    //   return (this.page-1) * this.$store.state.itemsPerPage
+    // },
     hasMore () {
       return this.page < this.maxPage
     }
   },
+  // mounted(){
+  //   console.log('@@@ mounted')
+  //   this.componentType = 'infinite-loading'
+  // },
   beforeMount () {
+    console.log('@@@ beforeMount')
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }
@@ -96,6 +111,7 @@ export default {
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
       this.displayedPage = this.maxPage+1
       this.displayedItems = []
+      this.offset = (this.page-1) * this.$store.state.itemsPerPage
       await this.$store.dispatch('fetchItems', {id: this.id, offset: this.offset })
       if (this.page < 0 || this.page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
@@ -104,7 +120,20 @@ export default {
       this.displayedPage = to
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
-    }
+    },
+    async onInfinite() {
+      console.log('onInfinite', this.displayedItems.length)
+      if (this.displayedItems.length == 0) return
+
+      this.offset = this.offset + this.$store.state.itemsPerPage
+      await this.$store.dispatch('fetchMoreItems', {id: this.id, offset: this.offset})
+      if (this.$store.getters.activeItems.length > this.displayedItems.length) {
+        this.displayedItems = this.$store.getters.activeItems
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      } else {
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+      }
+    },
   }
 }
 </script>

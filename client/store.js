@@ -24,6 +24,11 @@ export function createStore () {
       items: []
     },
     actions: {
+      fetchMoreItems ({ state, commit }, {id, offset}) {
+        return fetchItems(id, offset, state.itemsPerPage).then(items => {
+          commit('addMoreItems', { items })
+        })
+      },
       fetchItems ({ state, commit }, {id, offset}) {
         return fetchItems(id, offset, state.itemsPerPage).then(items => {
           commit('setItems', { items })
@@ -73,6 +78,9 @@ export function createStore () {
       },
       setItems (state, { items }) {
         state.items = items
+      },
+      addMoreItems (state, { items }) {
+        state.items = state.items.concat(items)
       },
     },
     getters: {

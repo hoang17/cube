@@ -112,6 +112,8 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "glob": "^7.1.1",
     "inquirer": "^3.0.6",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.4",
     "mocha": "^3.1.2",
     "nightmare": "^2.10.0",
     "rimraf": "^2.6.1",
