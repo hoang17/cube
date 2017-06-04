@@ -40,7 +40,7 @@ document.body.appendChild(bar.$el)
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
   beforeRouteUpdate (to, from, next) {
-    console.log("@@@@ beforeRouteUpdate")
+    // console.log("@@@@ beforeRouteUpdate")
     next()
   }
 })
@@ -88,7 +88,7 @@ router.onReady(() => {
   // })
 
   router.beforeResolve((to, from, next) => {
-    console.log("@@@@ beforeResolve")
+    // console.log("@@@@ beforeResolve")
     next()
   })
 

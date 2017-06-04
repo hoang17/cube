@@ -6,9 +6,8 @@ Vue.use(Vuex)
 
 import { fetch, fetchItems, fetchUrl } from './api'
 
-const getActiveItems =  function(page, itemsPerPage, items){
+const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
-  const start = 0
   const end = page * itemsPerPage
   return items.slice(start, end)
 }
@@ -96,9 +95,8 @@ export function createStore () {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
 
-      activeFeeds (state) {
-        let page = state.route.params.page
-        return getActiveItems(page, state.itemsPerPage, state.feeds)
+      activeFeeds : (state) => (page, start) => {
+        return getActiveItems(page, state.itemsPerPage, state.feeds, start)
       },
 
       activeItems (state) {

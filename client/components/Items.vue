@@ -77,7 +77,6 @@ export default {
     }
   },
   beforeMount () {
-    console.log('@@@ beforeMount')
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }
@@ -183,6 +182,7 @@ export default {
   opacity 0
   transform translate(30px, 0)
 
+@media (max-width 600px)
   .photo
     margin-left -10px
     margin-right -10px

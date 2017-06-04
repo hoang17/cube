@@ -133,7 +133,7 @@
     methods: {
       attemptLoad() {
         const currentDistance = getCurrentDistance(this.scrollParent, this.$el, this.direction);
-        if (!this.isComplete && currentDistance <= this.distance) {
+        if (!this.isLoading && !this.isComplete && currentDistance <= this.distance) {
           this.isLoading = true;
           this.onInfinite.call();
         } else {

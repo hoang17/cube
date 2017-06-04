@@ -35,6 +35,7 @@
             div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
               a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
                 img(:src="item.attachments.data[0].media.image.src")
+        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
@@ -45,11 +46,14 @@ export default {
     return store.dispatch('getFeeds')
   },
   data() {
+    const page = Number(this.$store.state.route.params.page || 1)
+    const start = (page-1) * this.$store.state.itemsPerPage
     return {
       type: this.$options.name,
       transition: 'slide-right',
-      displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: this.$store.getters.activeFeeds
+      offsetPage: page,
+      displayedPage: page,
+      displayedItems: this.$store.getters.activeFeeds(page, start)
     }
   },
   computed: {
@@ -62,9 +66,6 @@ export default {
     maxPage () {
       const { itemsPerPage, feeds } = this.$store.state
       return Math.ceil(feeds.length / itemsPerPage)
-    },
-    from () {
-      return (this.page-1) * this.$store.state.itemsPerPage
     },
     hasMore () {
       return this.page < this.maxPage
@@ -82,17 +83,45 @@ export default {
   },
   methods: {
     async loadItems (to = this.page, from = -1) {
-      this.$bar.start()
-      await this.$store.dispatch('getFeeds')
       if (this.page < 0 || this.page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
+      this.offsetPage = this.page
+      this.$bar.start()
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      const start = (this.page-1) * this.$store.state.itemsPerPage
+      await this.$store.dispatch('getFeeds')
       this.displayedPage = to
-      this.displayedItems = this.$store.getters.activeFeeds
+      this.displayedItems = this.$store.getters.activeFeeds(this.page, start)
       this.$bar.finish()
+    },
+    async onInfinite() {
+      if (this.displayedItems.length == 0) return
+
+      this.offsetPage++
+      console.log('onInfinite', this.offsetPage)
+
+      const start = (this.page-1) * this.$store.state.itemsPerPage
+      if (this.offsetPage <= this.maxPage) {
+        this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, start)
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      } else {
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+      }
     }
+    // async loadItems (to = this.page, from = -1) {
+    //   this.$bar.start()
+    //   await this.$store.dispatch('getFeeds')
+    //   if (this.page < 0 || this.page > this.maxPage) {
+    //     this.$router.replace(`/${this.type}`)
+    //     return
+    //   }
+    //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+    //   this.displayedPage = to
+    //   this.displayedItems = this.$store.getters.activeFeeds(this.page)
+    //   this.$bar.finish()
+    // }
   }
 }
 </script>
@@ -118,16 +147,10 @@ export default {
   border-radius 2px
 
 .news-list-nav
+  margin-bottom 10px
   padding 15px 30px
-  position fixed
   text-align center
-  // top 55px
-  top auto
-  bottom 0px
-  left 0
-  right 0
-  z-index 998
-  box-shadow 0 1px 2px rgba(0,0,0,.5)
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
   a
     margin 0 1em
   .disabled
@@ -164,9 +187,6 @@ export default {
   transform translate(30px, 0)
 
 @media (max-width 600px)
-  .news-list
-    padding-bottom 50px
-
   .photo
     margin-left -10px
     margin-right -10px
