@@ -54,7 +54,7 @@ export default {
       offsetPage: page,
       displayedPage: page,
       displayedItems: this.$store.getters.activeFeeds(page, start),
-      starPage: page,
+      startPage: page,
     }
   },
   computed: {
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     async loadItems (to = this.page, from = -1) {
-      this.offsetPage = this.page
+      this.startPage = this.offsetPage = this.page
       this.$bar.start()
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
       const start = (this.page-1) * this.$store.state.itemsPerPage
@@ -106,7 +106,7 @@ export default {
       }
       this.offsetPage++
       console.log('offset page', this.offsetPage)
-      const start = (this.starPage-1) * this.$store.state.itemsPerPage
+      const start = (this.startPage-1) * this.$store.state.itemsPerPage
       this.$router.push({ params: { page: this.offsetPage }})
       if (this.offsetPage <= this.maxPage) {
         this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, start)
