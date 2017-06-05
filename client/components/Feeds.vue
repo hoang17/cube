@@ -10,31 +10,34 @@
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
-          li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            div.title
-              div.avatar
-                a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                  img(:src="item.from.picture.data.url")
-              span {{ item.from.name }}
-              br(v-if="item.message")
-              span(v-if="item.message") {{ item.message }}
-              br(v-if="item.name")
-              span.meta(v-if="item.name") {{ item.name }}
-              br(v-if="item.description")
-              span.meta(v-if="item.description") {{ item.description }}
-              br(v-if="item.attachments && !item.full_picture")
-              span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
-              br(v-if="item.story")
-              span.meta(v-if="item.story") {{ item.story }}
-              br(v-if="item.link")
-              span.meta(v-if="item.link")
-                a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-            div.photo(v-if="item.full_picture")
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                img(:src="item.full_picture")
-            div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
-              a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                img(:src="item.attachments.data[0].media.image.src")
+          li.page-item(v-for="page in displayedItems", :key="page.p", :id="page.p")
+            h3 {{ page.p }}
+            ul
+              li.news-item(v-for="(item, i) in page.c", :key="item.id")
+                div.title
+                  div.avatar
+                    a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                      img(:src="item.from.picture.data.url")
+                  span {{ item.from.name }}
+                  br(v-if="item.message")
+                  span(v-if="item.message") {{ item.message }}
+                  br(v-if="item.name")
+                  span.meta(v-if="item.name") {{ item.name }}
+                  br(v-if="item.description")
+                  span.meta(v-if="item.description") {{ item.description }}
+                  br(v-if="item.attachments && !item.full_picture")
+                  span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
+                  br(v-if="item.story")
+                  span.meta(v-if="item.story") {{ item.story }}
+                  br(v-if="item.link")
+                  span.meta(v-if="item.link")
+                    a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
+                div.photo(v-if="item.full_picture")
+                  a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                    img(:src="item.full_picture")
+                div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
+                  a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+                    img(:src="item.attachments.data[0].media.image.src")
         infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
@@ -57,7 +60,7 @@ export default {
       transition: 'slide-right',
       offsetPage: page,
       displayedPage: page,
-      displayedItems: this.$store.getters.activeFeeds(page)
+      displayedItems: this.$store.getters.activePageFeeds(page)
       // startPage: page
     }
   },
@@ -100,10 +103,13 @@ export default {
         return
       }
       this.displayedPage = this.page
-      this.displayedItems = this.$store.getters.activeFeeds(this.page)
+      // this.displayedItems = this.$store.getters.activeFeeds(this.page)
+      this.displayedItems = this.$store.getters.activePageFeeds(this.page)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       window.scrollTo(0, 0)
+
+      console.log(this.displayedItems)
     },
     async onInfinite() {
       if (this.displayedItems.length == 0) {
@@ -113,7 +119,7 @@ export default {
       console.log('offset page', this.offsetPage)
       if (this.offsetPage <= this.maxPage) {
         this.$router.push({ params: { page: this.offsetPage }})
-        this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, this.displayedPage)
+        this.displayedItems = this.$store.getters.activePageFeeds(this.offsetPage, this.displayedPage)
         console.log(this.displayedItems.length)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
@@ -240,6 +246,14 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+.page-item
+  padding 10px 0
+  background-color #f2f3f5
+  h3
+    text-align center
+    padding-bottom 20px
+    margin 0
 
 @media (max-width 600px)
   .news-item

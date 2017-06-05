@@ -12,6 +12,16 @@ const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   return items.slice(start, end)
 }
 
+function chunk (a, chunkSize) {
+  let chunks = [], i = 0, p =0, l = a.length
+  while (i < l) {
+    p++
+    let c = a.slice(i, i += chunkSize)
+    chunks.push({ p, c })
+  }
+  return chunks
+}
+
 export function createStore () {
   return new Vuex.Store({
     state: {
@@ -98,6 +108,13 @@ export function createStore () {
       activeFeeds : (state) => (page, startPage = page) => {
         const start = (startPage-1) * state.itemsPerPage
         return getActiveItems(page, state.itemsPerPage, state.feeds, start)
+      },
+
+      activePageFeeds : (state) => (page, startPage = page) => {
+        const pageItems = chunk(state.feeds, state.itemsPerPage)
+        console.log(pageItems.length)
+        console.log(startPage, page)
+        return pageItems.slice(startPage-1, page)
       },
 
       activeItems (state) {
