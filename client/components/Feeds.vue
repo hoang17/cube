@@ -52,14 +52,13 @@ export default {
   },
   data() {
     const page = Number(this.$store.state.route.params.page || 1)
-    const start = (page-1) * this.$store.state.itemsPerPage
     return {
       type: this.$options.name,
       transition: 'slide-right',
       offsetPage: page,
       displayedPage: page,
-      displayedItems: this.$store.getters.activeFeeds(page, start),
-      startPage: page,
+      displayedItems: this.$store.getters.activeFeeds(page)
+      // startPage: page
     }
   },
   computed: {
@@ -91,17 +90,17 @@ export default {
   },
   methods: {
     async loadItems (to = this.page, from = -1) {
-      this.startPage = this.offsetPage = this.page
+      // this.startPage = this.page
+      this.offsetPage = this.page
       this.$bar.start()
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      const start = (this.page-1) * this.$store.state.itemsPerPage
       await this.$store.dispatch('getFeeds')
       if (this.page < 0 || this.page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
-      this.displayedPage = to
-      this.displayedItems = this.$store.getters.activeFeeds(this.page, start)
+      this.displayedPage = this.page
+      this.displayedItems = this.$store.getters.activeFeeds(this.page)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       window.scrollTo(0, 0)
@@ -113,9 +112,8 @@ export default {
       this.offsetPage++
       console.log('offset page', this.offsetPage)
       if (this.offsetPage <= this.maxPage) {
-        const start = (this.startPage-1) * this.$store.state.itemsPerPage
         this.$router.push({ params: { page: this.offsetPage }})
-        this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, start)
+        this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, this.displayedPage)
         console.log(this.displayedItems.length)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {

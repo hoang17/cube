@@ -95,7 +95,8 @@ export function createStore () {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
 
-      activeFeeds : (state) => (page, start) => {
+      activeFeeds : (state) => (page, startPage = page) => {
+        const start = (startPage-1) * state.itemsPerPage
         return getActiveItems(page, state.itemsPerPage, state.feeds, start)
       },
 
