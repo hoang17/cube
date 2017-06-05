@@ -1,6 +1,6 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav(@click.stop="")
+    .news-list-nav(@click.stop="" v-sticky="{ stickyClass: 'sticky-header' }")
       router-link(v-if='page == 2', :to="'/' + type") < prev
       router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
       a.disabled(v-else='') < prev
@@ -39,9 +39,14 @@
 </template>
 
 <script>
+import Sticky  from './Sticky.js'
+
 export default {
   name: 'feeds',
   title: 'Feeds',
+  directives: {
+    'sticky': Sticky,
+  },
   asyncData ({ store, route }) {
     return store.dispatch('getFeeds')
   },
@@ -99,6 +104,7 @@ export default {
       this.displayedItems = this.$store.getters.activeFeeds(this.page, start)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      window.scrollTo(0, 0)
     },
     async onInfinite() {
       if (this.displayedItems.length == 0) {
@@ -106,9 +112,9 @@ export default {
       }
       this.offsetPage++
       console.log('offset page', this.offsetPage)
-      const start = (this.startPage-1) * this.$store.state.itemsPerPage
-      this.$router.push({ params: { page: this.offsetPage }})
       if (this.offsetPage <= this.maxPage) {
+        const start = (this.startPage-1) * this.$store.state.itemsPerPage
+        this.$router.push({ params: { page: this.offsetPage }})
         this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, start)
         console.log(this.displayedItems.length)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
