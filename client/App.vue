@@ -9,7 +9,8 @@
         router-link(to='/friends') Friends
         router-link(to='/feeds') Feeds
     transition(name='fade', mode='out-in')
-      router-view.view
+      keep-alive(exclude="items")
+        router-view.view
 </template>
 
 <script>
