@@ -53,7 +53,8 @@ export default {
       transition: 'slide-right',
       offsetPage: page,
       displayedPage: page,
-      displayedItems: this.$store.getters.activeFeeds(page, start)
+      displayedItems: this.$store.getters.activeFeeds(page, start),
+      starPage: page,
     }
   },
   computed: {
@@ -72,13 +73,15 @@ export default {
     }
   },
   beforeMount () {
+    console.log('beforeMount', this.page)
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }
   },
   watch: {
     page (to, from) {
-      this.loadItems(to, from)
+      if (to != this.offsetPage)
+        this.loadItems(to, from)
     }
   },
   methods: {
@@ -103,9 +106,11 @@ export default {
       }
       this.offsetPage++
       console.log('offset page', this.offsetPage)
-      const start = (this.page-1) * this.$store.state.itemsPerPage
+      const start = (this.starPage-1) * this.$store.state.itemsPerPage
+      this.$router.push({ params: { page: this.offsetPage }})
       if (this.offsetPage <= this.maxPage) {
         this.displayedItems = this.$store.getters.activeFeeds(this.offsetPage, start)
+        console.log(this.displayedItems.length)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')

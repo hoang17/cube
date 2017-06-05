@@ -15,22 +15,22 @@ export function createRouter () {
   let router = new Router({
     mode: 'history',
     routes: [
-      { path: '/', name: 'Home', component: Home },
+      { path: '/', name: 'home', component: Home },
       { path: '/hello', component: Hello },
       { path: '/api', component: Hello },
       { path: '/contact', component: Hello },
-      { path: '/groups/:page(\\d+)?', name: 'Groups', component: Groups },
-      { path: '/likes/:page(\\d+)?', name: 'Likes', component: Likes },
-      { path: '/friends/:page(\\d+)?', name: 'Friends', component: Friends },
-      { path: '/feeds/:page(\\d+)?', name: 'Feeds', component: Feeds },
-      { path: '/:type/id/:id/:page(\\d+)?', component: Items }
+      { path: '/groups/:page(\\d+)?', name: 'groups', component: Groups },
+      { path: '/likes/:page(\\d+)?', name: 'likes', component: Likes },
+      { path: '/friends/:page(\\d+)?', name: 'friends', component: Friends },
+      { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
+      { path: '/:type/id/:id/:page(\\d+)?', name: 'items', component: Items }
     ],
     scrollBehavior (to, from, savedPosition) {
       if (savedPosition)
         return savedPosition
       if (to.hash)
         return { selector: to.hash }
-      return { x: 0, y: 0 }
+      // return { x: 0, y: 0 }
     }
   })
   // if (process.env.VUE_ENV === 'client'){
