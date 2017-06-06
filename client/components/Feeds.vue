@@ -2,43 +2,16 @@
   .news-view.view
     .nav-wrapper
       .news-list-nav(@click.stop="" v-sticky="{ stickyClass: 'sticky-header' }")
-        router-link(v-if='page > 1', :to="{ name: type, params: { page: page-1 }}") < prev
-        a.disabled(v-else='') < prev
-        span {{ page }}/{{ maxPage }}
-        router-link(v-if='hasMore', :to="{ name: type, params: { page: page+1 }}") more >
-        a.disabled(v-else='') more >
+        h3
+          a(v-if='page > 1', @click.prevent="previousPage", href="") ←
+          a.disabled(v-else='') ←
+          | {{ page }}
+          a(v-if='hasMore', @click.prevent="nextPage", href="") →
+          a.disabled(v-else='') →
     transition(:name='transition')
-      .news-list(:key='displayedPage', v-if='displayedPage > 0')
+      .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-          feed-item(v-for="page in displayedItems", :page="page", :key="page.p", :id="page.p", @page-changed="pageChanged", @center-appeared="pageChanged(page.p)")
-          //- li.page-item(v-for="page in displayedItems", :key="page.p", :id="page.p")
-          //-   h3 {{ page.p }}
-          //-   ul
-          //-     li.news-item(v-for="(item, i) in page.c", :key="item.id")
-          //-       div.title
-          //-         div.avatar
-          //-           a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          //-             img(:src="item.from.picture.data.url")
-          //-         span {{ item.from.name }}
-          //-         br(v-if="item.message")
-          //-         span(v-if="item.message") {{ item.message }}
-          //-         br(v-if="item.name")
-          //-         span.meta(v-if="item.name") {{ item.name }}
-          //-         br(v-if="item.description")
-          //-         span.meta(v-if="item.description") {{ item.description }}
-          //-         br(v-if="item.attachments && !item.full_picture")
-          //-         span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
-          //-         br(v-if="item.story")
-          //-         span.meta(v-if="item.story") {{ item.story }}
-          //-         br(v-if="item.link")
-          //-         span.meta(v-if="item.link")
-          //-           a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-          //-       div.photo(v-if="item.full_picture")
-          //-         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          //-           img(:src="item.full_picture")
-          //-       div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
-          //-         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          //-           img(:src="item.attachments.data[0].media.image.src")
+          feed-item(v-for="(p, i) in displayedItems", :page="p", :i="i", :key="p.p", :id="p.p", @page-changed="pageChanged", @center-appeared="pageChanged(p.p)")
         infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
@@ -59,13 +32,13 @@ export default {
     return store.dispatch('getFeeds')
   },
   data() {
-    const page = Number(this.$store.state.route.params.page || 1)
+    let  p = Number(this.$store.state.route.params.page || 1)
     return {
       type: this.$options.name,
       transition: 'slide-right',
-      offsetPage: page,
-      displayedPage: page,
-      displayedItems: this.$store.getters.activePageFeeds(page),
+      offsetPage: p,
+      originPage: p,
+      displayedItems: this.$store.getters.activePageFeeds(p),
       pageScroll: false
     }
   },
@@ -85,29 +58,36 @@ export default {
     }
   },
   beforeMount () {
-    console.log('beforeMount', this.displayedPage)
+    console.log('beforeMount', this.page)
     if (this.$root._isMounted) {
-      this.loadItems(this.displayedPage)
+      this.loadItems(this.page)
     }
   },
-  watch: {
-    page (to, from) {
-      // if (to != this.offsetPage)
-      //   this.loadItems(to, from)
-    }
-  },
+  // watch: {
+  //   page (to, from) {
+  //     if (to != this.offsetPage)
+  //       this.loadItems(to, from)
+  //   }
+  // },
   methods: {
-    async loadItems (to, from = -1) {
+    async previousPage() {
+      await this.loadItems(this.page-1, false)
+    },
+    async nextPage() {
+      await this.loadItems(this.page+1)
+    },
+    async loadItems (to, next = true) {
       this.offsetPage = to
       this.$bar.start()
-      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+      this.transition = next ? 'slide-left' : 'slide-right'
       await this.$store.dispatch('getFeeds')
       if (to < 0 || to > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
-      this.displayedPage = to
-      this.displayedItems = this.$store.getters.activePageFeeds(this.displayedPage)
+      this.originPage = to
+      this.$router.push({ params: { page: to }})
+      this.displayedItems = this.$store.getters.activePageFeeds(to)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       window.scrollTo(0, 0)
@@ -117,17 +97,14 @@ export default {
         return
       }
       this.offsetPage++
-      // console.log('offset page', this.offsetPage)
       if (this.offsetPage <= this.maxPage) {
-        this.displayedItems = this.$store.getters.activePageFeeds(this.offsetPage, this.displayedPage)
-        // console.log(this.displayedItems.length)
+        this.displayedItems = this.$store.getters.activePageFeeds(this.offsetPage, this.originPage)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
       }
     },
     pageChanged(page) {
-      // console.log('pageChanged', page)
       this.$router.push({ params: { page }})
     }
   }

@@ -25,13 +25,13 @@ export function createRouter () {
       { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
       { path: '/:type/id/:id/:page(\\d+)?', name: 'items', component: Items }
     ],
-    scrollBehavior (to, from, savedPosition) {
-      if (savedPosition)
-        return savedPosition
-      if (to.hash)
-        return { selector: to.hash }
-      // return { x: 0, y: 0 }
-    }
+    // scrollBehavior (to, from, savedPosition) {
+    //   if (savedPosition)
+    //     return savedPosition
+    //   if (to.hash)
+    //     return { selector: to.hash }
+    //   return { x: 0, y: 0 }
+    // }
   })
   // if (process.env.VUE_ENV === 'client'){
   //   router.beforeEach(function (to, from, next) {

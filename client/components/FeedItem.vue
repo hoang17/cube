@@ -1,6 +1,6 @@
 <template lang="pug">
 li.page-item
-  h3 {{ page.p }}
+  h3(v-if="i>0") {{ page.p }}
   ul
     li.news-item(v-for="(item, i) in page.c", :key="item.id")
       div.title
@@ -37,6 +37,10 @@ export default {
   props: {
 		page: {
 			type: Object,
+			required: true
+		},
+    i: {
+			type: Number,
 			required: true
 		},
   }
