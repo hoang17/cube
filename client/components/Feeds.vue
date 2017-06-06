@@ -63,12 +63,12 @@ export default {
       this.loadItems(this.page)
     }
   },
-  // watch: {
-  //   page (to, from) {
-  //     if (to != this.offsetPage)
-  //       this.loadItems(to, from)
-  //   }
-  // },
+  watch: {
+    page (to, from) {
+      if (!this.$store.state.route.params.page)
+        this.loadItems(to, false)
+    }
+  },
   methods: {
     async previousPage() {
       await this.loadItems(this.page-1, false)
