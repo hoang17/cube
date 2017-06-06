@@ -28,14 +28,14 @@ export default {
     // new Sticky('.sticky')
     sticky(el)
   }
-};
+}
 
 function sticky(el, top, options) {
 
-  var requiredOriginalStyles = ['position', 'top', 'left', 'z-index'];
+  var requiredOriginalStyles = ['position', 'top', 'left', 'z-index']
 
-  var requiredTop = top || 0;
-  var originalRect = calcRect(el);
+  var requiredTop = top || 0
+  var originalRect = calcRect(el)
 
   if (originalRect.width == 0) return
 
@@ -48,27 +48,27 @@ function sticky(el, top, options) {
   }
 
   if(options && options.enforceWidth) {
-    styles.width = originalRect.width + 'px';
+    styles.width = originalRect.width + 'px'
   }
 
   var originalStyles = {}
   requiredOriginalStyles.forEach(function(key) {
-    originalStyles[key] = el.style[key];
+    originalStyles[key] = el.style[key]
   });
 
   var onscroll;
   if (window.onscroll) {
-    onscroll = window.onscroll;
+    onscroll = window.onscroll
   }
 
   window.onscroll = function(event) {
     if (getWindowScroll().top > originalRect.top - requiredTop) {
       for (var key in styles) {
-        el.style[key] = styles[key];
+        el.style[key] = styles[key]
       }
     } else {
       for (var key in originalStyles) {
-        el.style[key] = originalStyles[key];
+        el.style[key] = originalStyles[key]
       }
     }
     onscroll && onscroll(event)

@@ -1,12 +1,13 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav(@click.stop="" v-sticky="{ stickyClass: 'sticky-header' }")
-      router-link(v-if='page == 2', :to="'/' + type") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
-      a.disabled(v-else='') < prev
-      span {{ page }}/{{ maxPage }}
-      router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
-      a.disabled(v-else='') more >
+    .nav-wrapper
+      .news-list-nav(@click.stop="" v-sticky="{ stickyClass: 'sticky-header' }")
+        router-link(v-if='page == 2', :to="'/' + type") < prev
+        router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
+        a.disabled(v-else='') < prev
+        span {{ page }}/{{ maxPage }}
+        router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+        a.disabled(v-else='') more >
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
@@ -108,8 +109,6 @@ export default {
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       window.scrollTo(0, 0)
-
-      console.log(this.displayedItems)
     },
     async onInfinite() {
       if (this.displayedItems.length == 0) {
@@ -161,6 +160,9 @@ export default {
 .news-list-nav, .news-list
   background-color #fff
   border-radius 2px
+
+.nav-wrapper
+  height 55px
 
 .news-list-nav
   margin-bottom 10px
