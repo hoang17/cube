@@ -11,13 +11,28 @@
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-          feed-item(v-for="(p, i) in displayedItems", :page="p", :i="i", :key="p.p", :id="p.p", @page-changed="pageChanged", @center-appeared="pageChanged(p.p)")
+          feed-item(v-for="p in displayedItems", :page="p", :key="p.p", :id="'p'+p.p", @page-changed="pageChanged", @center-appeared="pageChanged(p.p)")
         infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
 import Sticky from './Sticky'
 import FeedItem from './FeedItem'
+import VueScrollTo from 'vue-scrollto'
+
+const scrollTo = function(page) {
+  var options = {
+      easing: 'ease',
+      offset: -10,
+      // onDone: function() {
+      //   // scrolling is done
+      // },
+      // onCancel: function() {
+      //   // scrolling has been interrupted
+      // }
+  }
+  VueScrollTo.scrollTo(`#p${page}`, 500, options)
+}
 
 export default {
   name: 'feeds',
@@ -71,10 +86,23 @@ export default {
   },
   methods: {
     async previousPage() {
-      await this.loadItems(this.page-1, false)
+      let p = this.page-1
+      if (document.getElementById(`p${p}`))
+        scrollTo(p)
+      else {
+        // await this.onInfinite()
+        this.loadItems(p, false)
+      }
     },
     async nextPage() {
-      await this.loadItems(this.page+1)
+      let p = this.page+1
+      if (document.getElementById(`p${p}`))
+        scrollTo(p)
+      else {
+        await this.onInfinite()
+        scrollTo(p)
+        // this.loadItems(p)
+      }
     },
     async loadItems (to, next = true) {
       this.offsetPage = to
@@ -133,6 +161,8 @@ export default {
 
 .nav-wrapper
   height 55px
+  z-index 999
+  position relative
 
 .news-list-nav
   margin-bottom 10px
@@ -146,7 +176,7 @@ export default {
 
 .news-list
   position absolute
-  margin 0 0 80px 0
+  margin -45px 0 80px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul
