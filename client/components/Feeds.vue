@@ -2,52 +2,56 @@
   .news-view.view
     .nav-wrapper
       .news-list-nav(@click.stop="" v-sticky="{ stickyClass: 'sticky-header' }")
-        router-link(v-if='page == 2', :to="'/' + type") < prev
-        router-link(v-else-if='page > 2', :to="'/' + type + '/' + (page - 1)") < prev
+        router-link(v-if='page > 1', :to="{ name: type, params: { page: page-1 }}") < prev
         a.disabled(v-else='') < prev
         span {{ page }}/{{ maxPage }}
-        router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
+        router-link(v-if='hasMore', :to="{ name: type, params: { page: page+1 }}") more >
         a.disabled(v-else='') more >
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
-          li.page-item(v-for="page in displayedItems", :key="page.p", :id="page.p")
-            h3 {{ page.p }}
-            ul
-              li.news-item(v-for="(item, i) in page.c", :key="item.id")
-                div.title
-                  div.avatar
-                    a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                      img(:src="item.from.picture.data.url")
-                  span {{ item.from.name }}
-                  br(v-if="item.message")
-                  span(v-if="item.message") {{ item.message }}
-                  br(v-if="item.name")
-                  span.meta(v-if="item.name") {{ item.name }}
-                  br(v-if="item.description")
-                  span.meta(v-if="item.description") {{ item.description }}
-                  br(v-if="item.attachments && !item.full_picture")
-                  span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
-                  br(v-if="item.story")
-                  span.meta(v-if="item.story") {{ item.story }}
-                  br(v-if="item.link")
-                  span.meta(v-if="item.link")
-                    a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-                div.photo(v-if="item.full_picture")
-                  a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                    img(:src="item.full_picture")
-                div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
-                  a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                    img(:src="item.attachments.data[0].media.image.src")
+          feed-item(v-for="page in displayedItems", :page="page", :key="page.p", :id="page.p", @page-changed="pageChanged", @center-appeared="pageChanged(page.p)")
+          //- li.page-item(v-for="page in displayedItems", :key="page.p", :id="page.p")
+          //-   h3 {{ page.p }}
+          //-   ul
+          //-     li.news-item(v-for="(item, i) in page.c", :key="item.id")
+          //-       div.title
+          //-         div.avatar
+          //-           a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+          //-             img(:src="item.from.picture.data.url")
+          //-         span {{ item.from.name }}
+          //-         br(v-if="item.message")
+          //-         span(v-if="item.message") {{ item.message }}
+          //-         br(v-if="item.name")
+          //-         span.meta(v-if="item.name") {{ item.name }}
+          //-         br(v-if="item.description")
+          //-         span.meta(v-if="item.description") {{ item.description }}
+          //-         br(v-if="item.attachments && !item.full_picture")
+          //-         span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
+          //-         br(v-if="item.story")
+          //-         span.meta(v-if="item.story") {{ item.story }}
+          //-         br(v-if="item.link")
+          //-         span.meta(v-if="item.link")
+          //-           a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
+          //-       div.photo(v-if="item.full_picture")
+          //-         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+          //-           img(:src="item.full_picture")
+          //-       div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
+          //-         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+          //-           img(:src="item.attachments.data[0].media.image.src")
         infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
-import Sticky  from './Sticky.js'
+import Sticky from './Sticky'
+import FeedItem from './FeedItem'
 
 export default {
   name: 'feeds',
   title: 'Feeds',
+  components: {
+    FeedItem,
+  },
   directives: {
     'sticky': Sticky,
   },
@@ -61,8 +65,8 @@ export default {
       transition: 'slide-right',
       offsetPage: page,
       displayedPage: page,
-      displayedItems: this.$store.getters.activePageFeeds(page)
-      // startPage: page
+      displayedItems: this.$store.getters.activePageFeeds(page),
+      pageScroll: false
     }
   },
   computed: {
@@ -81,31 +85,29 @@ export default {
     }
   },
   beforeMount () {
-    console.log('beforeMount', this.page)
+    console.log('beforeMount', this.displayedPage)
     if (this.$root._isMounted) {
-      this.loadItems(this.page)
+      this.loadItems(this.displayedPage)
     }
   },
   watch: {
     page (to, from) {
-      if (to != this.offsetPage)
-        this.loadItems(to, from)
+      // if (to != this.offsetPage)
+      //   this.loadItems(to, from)
     }
   },
   methods: {
-    async loadItems (to = this.page, from = -1) {
-      // this.startPage = this.page
-      this.offsetPage = this.page
+    async loadItems (to, from = -1) {
+      this.offsetPage = to
       this.$bar.start()
       this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
       await this.$store.dispatch('getFeeds')
-      if (this.page < 0 || this.page > this.maxPage) {
+      if (to < 0 || to > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
-      this.displayedPage = this.page
-      // this.displayedItems = this.$store.getters.activeFeeds(this.page)
-      this.displayedItems = this.$store.getters.activePageFeeds(this.page)
+      this.displayedPage = to
+      this.displayedItems = this.$store.getters.activePageFeeds(this.displayedPage)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       window.scrollTo(0, 0)
@@ -115,28 +117,19 @@ export default {
         return
       }
       this.offsetPage++
-      console.log('offset page', this.offsetPage)
+      // console.log('offset page', this.offsetPage)
       if (this.offsetPage <= this.maxPage) {
-        this.$router.push({ params: { page: this.offsetPage }})
         this.displayedItems = this.$store.getters.activePageFeeds(this.offsetPage, this.displayedPage)
-        console.log(this.displayedItems.length)
+        // console.log(this.displayedItems.length)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
       }
+    },
+    pageChanged(page) {
+      // console.log('pageChanged', page)
+      this.$router.push({ params: { page }})
     }
-    // async loadItems (to = this.page, from = -1) {
-    //   this.$bar.start()
-    //   await this.$store.dispatch('getFeeds')
-    //   if (this.page < 0 || this.page > this.maxPage) {
-    //     this.$router.replace(`/${this.type}`)
-    //     return
-    //   }
-    //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-    //   this.displayedPage = to
-    //   this.displayedItems = this.$store.getters.activeFeeds(this.page)
-    //   this.$bar.finish()
-    // }
   }
 }
 </script>
@@ -204,72 +197,5 @@ export default {
   opacity 0
   transform translate(30px, 0)
 
-@media (max-width 600px)
-  .photo
-    margin-left -10px
-    margin-right -10px
-
-.news-item
-  background-color #fff
-  padding 10px 10px 10px 70px
-  border-bottom 1px solid #eee
-  position relative
-  line-height 20px
-
-  .avatar
-    position absolute
-    left 10px
-    width 50px
-    text-align center
-    margin-top 5px
-
-  img
-    max-width 100%
-    max-height 500px
-
-  .photo
-    img
-      margin-top 5px
-
-  .title
-    font-size .9em
-    white-space: pre-wrap
-    word-wrap: break-word
-
-    &::first-line
-      font-weight bold
-      line-height 28px
-
-  .meta, .host
-    font-size .85em
-    color #828282
-    a
-      color #828282
-      text-decoration underline
-      &:hover
-        color #ff6600
-
-.page-item
-  padding 10px 0
-  background-color #f2f3f5
-  h3
-    text-align center
-    padding-bottom 20px
-    margin 0
-
-@media (max-width 600px)
-  .news-item
-    padding-left 10px
-
-    .avatar
-      position relative
-      left 0
-      width 40px
-      float left
-      margin-right 10px
-      margin-bottom 3px
-
-      img
-        width 40px
-
+// @media (max-width 600px)
 </style>

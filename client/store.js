@@ -112,8 +112,6 @@ export function createStore () {
 
       activePageFeeds : (state) => (page, startPage = page) => {
         const pageItems = chunk(state.feeds, state.itemsPerPage)
-        console.log(pageItems.length)
-        console.log(startPage, page)
         return pageItems.slice(startPage-1, page)
       },
 
