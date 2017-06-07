@@ -1,8 +1,9 @@
 {
   "presets": [
-    ["env", { "modules": false }]
+    "env"
   ],
   "plugins": [
-    "syntax-dynamic-import"
+    "syntax-dynamic-import",
+    "lodash"
   ]
 }

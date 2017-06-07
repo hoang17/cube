@@ -38,7 +38,7 @@ export default {
 		page: {
 			type: Object,
 			required: true
-		},
+		}
   }
 }
 </script>

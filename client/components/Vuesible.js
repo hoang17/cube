@@ -12,6 +12,8 @@ const getRect = function(el) {
   }
 }
 
+import throttle from 'lodash/throttle';
+
 module.exports = function() {
   return {
     mounted: function() {
@@ -91,10 +93,11 @@ module.exports = function() {
           return prev = current
         };
       })(this);
-      return document.addEventListener('scroll', this.vuesibleCallback, true)
+      this.scrollListener = throttle(this.vuesibleCallback, 500, { leading: true })
+      return document.addEventListener('scroll', this.scrollListener, true)
     },
     beforeDestroy: function() {
-      return document.removeEventListener('scroll', this.vuesibleCallback)
+      return document.removeEventListener('scroll', this.scrollListener)
     }
   };
 };
