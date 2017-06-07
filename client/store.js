@@ -12,11 +12,11 @@ const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   return items.slice(start, end)
 }
 
-function chunk (a, chunkSize) {
+function chunk (a, size) {
   let chunks = [], i = 0, p =0, l = a.length
   while (i < l) {
     p++
-    let c = a.slice(i, i += chunkSize)
+    let c = a.slice(i, i += size)
     chunks.push({ p, c })
   }
   return chunks
