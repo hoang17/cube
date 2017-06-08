@@ -2,7 +2,7 @@
   .news-view.view
     .nav-wrapper
       .news-list-nav(@click.stop="", v-sticky="{ stickyClass: 'sticky-header' }", v-if="maxPage")
-        a(v-if='page > 1', @click.prevent="throttlePrev", href="") ←
+        a(v-if='page > 1', @click.prevent="previousPage", href="") ←
         a.disabled(v-else='') ←
         span.mdl-selectfield
           select.mdc-select(v-model="selectedPage", @change="pageSelected")
@@ -103,8 +103,9 @@ export default {
       if (document.getElementById(`p${p}`))
         await this.scrollTo(p)
       else {
-        await this.loadPreviousPage()
-        await this.scrollTo(p)
+        this.loadItems(p, false)
+        // await this.loadPreviousPage()
+        // await this.scrollTo(p)
       }
     },
     async nextPage() {
@@ -130,7 +131,7 @@ export default {
       this.displayedItems = await this.$store.getters.activePageFeeds(to)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
-      await scroll('body')
+      scroll('body')
     },
     async loadNextPage() {
       if (this.displayedItems.length == 0) {
@@ -222,7 +223,7 @@ export default {
     color #ccc
 
   select
-    // font-size 18px
+    font-size 22px
     background-color transparent
     color #666
     border none
