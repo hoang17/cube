@@ -2,7 +2,7 @@
   .news-view.view
     .nav-wrapper
       .news-list-nav(@click.stop="", v-sticky="{ stickyClass: 'sticky-header' }", v-if="maxPage")
-        a(v-if='page > 1', @click.prevent="previousPage", href="") ←
+        a(v-if='page > 1', @click.prevent="throttlePrev", href="") ←
         a.disabled(v-else='') ←
         span.mdl-selectfield
           select.mdc-select(v-model="selectedPage", @change="pageSelected")
@@ -225,7 +225,6 @@ export default {
   select
     font-size 22px
     background-color transparent
-    color #666
     border none
     border-bottom 1px solid rgba(0,0,0, 0.12)
     padding 4px 17px 4px 2px
