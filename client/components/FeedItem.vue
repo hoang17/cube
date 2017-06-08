@@ -1,6 +1,6 @@
 <template lang="pug">
 li.page-item
-  h3 {{ page.p }}
+  h4 {{ page.p }}
   ul
     li.news-item(v-for="(item, i) in page.c", :key="item.id")
       div.title
@@ -93,10 +93,10 @@ export default {
 .page-item
   padding 10px 0
   background-color #f2f3f5
-  h3
+  h4
     text-align center
     padding-bottom 20px
-    margin 0
+    margin 5px 0
 
 @media (max-width 600px)
   .news-item

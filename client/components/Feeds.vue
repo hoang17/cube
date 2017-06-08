@@ -1,38 +1,28 @@
 <template lang="pug">
   .news-view.view
     .nav-wrapper
-      .news-list-nav(@click.stop="" v-sticky="{ stickyClass: 'sticky-header' }")
-        h3
-          a(v-if='page > 1', @click.prevent="previousPage", href="") ←
-          a.disabled(v-else='') ←
-          | {{ page }}
-          a(v-if='hasMore', @click.prevent="nextPage", href="") →
-          a.disabled(v-else='') →
+      .news-list-nav(@click.stop="", v-sticky="{ stickyClass: 'sticky-header' }", v-if="maxPage")
+        a(v-if='page > 1', @click.prevent="throttlePrev", href="") ←
+        a.disabled(v-else='') ←
+        span.mdl-selectfield
+          select.mdc-select(v-model="selectedPage", @change="pageSelected")
+            option(v-for="n in range", :value="n", :disabled="n=='...'") {{ n }}
+        a(v-if='hasMore', @click.prevent="throttleNext", href="") →
+        a.disabled(v-else='') →
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
           feed-item(v-for="p in displayedItems", :page="p", :key="p.p", :id="'p'+p.p", @page-changed="pageChanged", @center-appeared="pageChanged(p.p)")
-        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+        infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
 </template>
 
 <script>
 import Sticky from './Sticky'
 import FeedItem from './FeedItem'
-import VueScrollTo from 'vue-scrollto'
-
-const scrollTo = function(page) {
-  var options = {
-      easing: 'ease',
-      offset: -10,
-      // onDone: function() {
-      //   // scrolling is done
-      // },
-      // onCancel: function() {
-      //   // scrolling has been interrupted
-      // }
-  }
-  VueScrollTo.scrollTo(`#p${page}`, 500, options)
-}
+import { range, union, throttle } from 'lodash'
+import bluebird from 'bluebird'
+import scrollTo from './Scroll'
+const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 
 export default {
   name: 'feeds',
@@ -48,16 +38,38 @@ export default {
   },
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
+
     return {
       type: this.$options.name,
       transition: 'slide-right',
       offsetPage: p,
       originPage: p,
+      selectedPage: p,
       displayedItems: this.$store.getters.activePageFeeds(p),
-      pageScroll: false
+      pageScroll: false,
+      throttlePrev: throttle(this.previousPage, 200, { leading: true }),
+      throttleNext: throttle(this.nextPage, 200, { leading: true }),
     }
   },
   computed: {
+    range() {
+      let delta = 100
+      if (this.maxPage <= delta + 20)
+        return range(1, this.maxPage+1)
+      let begin = this.page-delta > 0 ? this.page-delta : 1
+      let end = this.page+delta > this.maxPage ? this.maxPage : this.page+delta
+      let middle = range(begin, end+1)
+      let first = range(1, 6)
+      let last = range(this.maxPage-5, this.maxPage+1)
+
+      if (begin <= 6)
+        return [...union(first, middle), '...', ...last]
+
+      if (end >= this.maxPage-6)
+        return [...first, '...', ...union(middle, last)]
+
+      return [...first, '...', ...middle, '...', ...last]
+    },
     feeds () {
       return this.$store.state.feeds
     },
@@ -80,28 +92,28 @@ export default {
   },
   watch: {
     page (to, from) {
+      this.selectedPage = to
       if (!this.$store.state.route.params.page)
         this.loadItems(to, false)
-    }
+    },
   },
   methods: {
     async previousPage() {
       let p = this.page-1
       if (document.getElementById(`p${p}`))
-        scrollTo(p)
+        await this.scrollTo(p)
       else {
-        // await this.onInfinite()
-        this.loadItems(p, false)
+        await this.loadPreviousPage()
+        await this.scrollTo(p)
       }
     },
     async nextPage() {
       let p = this.page+1
       if (document.getElementById(`p${p}`))
-        scrollTo(p)
+        await this.scrollTo(p)
       else {
-        await this.onInfinite()
-        scrollTo(p)
-        // this.loadItems(p)
+        await this.loadNextPage()
+        await this.scrollTo(p)
       }
     },
     async loadItems (to, next = true) {
@@ -115,25 +127,56 @@ export default {
       }
       this.originPage = to
       this.$router.push({ params: { page: to }})
-      this.displayedItems = this.$store.getters.activePageFeeds(to)
+      this.displayedItems = await this.$store.getters.activePageFeeds(to)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
-      window.scrollTo(0, 0)
+      await scroll('body')
     },
-    async onInfinite() {
+    async loadNextPage() {
       if (this.displayedItems.length == 0) {
         return
       }
       this.offsetPage++
       if (this.offsetPage <= this.maxPage) {
-        this.displayedItems = this.$store.getters.activePageFeeds(this.offsetPage, this.originPage)
+        this.displayedItems = await this.$store.getters.activePageFeeds(this.offsetPage, this.originPage)
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
       }
     },
+    async loadPreviousPage() {
+      this.originPage--
+      this.selectedPage = this.originPage
+      this.$router.push({ params: { page: this.originPage }})
+      this.displayedItems = await this.$store.getters.activePageFeeds(this.offsetPage, this.originPage)
+    },
     pageChanged(page) {
+      this.selectedPage = page
       this.$router.push({ params: { page }})
+    },
+    async pageSelected(){
+      if (document.getElementById(`p${this.selectedPage}`))
+        await this.scrollTo(this.selectedPage)
+      else if (this.page+1 == this.selectedPage){
+        await this.loadNextPage()
+        await this.scrollTo(this.selectedPage)
+      }
+      else if (this.page-1 == this.selectedPage){
+        await this.loadPreviousPage()
+        await this.scrollTo(this.selectedPage)
+      }
+      else
+        await this.loadItems(this.selectedPage, false)
+    },
+    scrollTo (page) {
+      if (page == this.originPage) {
+        return scroll('body')
+      }
+      var options = {
+          easing: 'ease',
+          offset: -10,
+      }
+      return scroll(`#p${page}`, 200, options)
     }
   }
 }
@@ -165,14 +208,48 @@ export default {
   position relative
 
 .news-list-nav
+  font-family "HelveticaNeue-CondensedBold", "Helvetica Neue", Arial, sans-serif
+  font-weight 500
+  font-size 18px
   margin-bottom 10px
-  padding 15px 30px
+  padding 10px 30px
   text-align center
   box-shadow 0 1px 2px rgba(0,0,0,.1)
   a
+    font-size 24px
     margin 0 1em
   .disabled
     color #ccc
+
+  select
+    // font-size 18px
+    background-color transparent
+    color #666
+    border none
+    border-bottom 1px solid rgba(0,0,0, 0.12)
+    padding 4px 17px 4px 2px
+    border-radius 0
+    &:focus
+      outline none
+
+  .mdl-selectfield
+    position relative
+    select
+      -webkit-appearance none
+      -moz-appearance none
+      appearance none
+    &:after
+      position absolute
+      top 0.55em
+      right 0.1em
+      width 0
+      height 0
+      padding 0
+      content ''
+      border-left .25em solid transparent
+      border-right .25em solid transparent
+      border-top 0.375em solid #ccc
+      pointer-events none
 
 .news-list
   position absolute
@@ -203,6 +280,4 @@ export default {
   position absolute
   opacity 0
   transform translate(30px, 0)
-
-// @media (max-width 600px)
 </style>

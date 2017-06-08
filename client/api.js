@@ -9,7 +9,8 @@ const api = axios.create({
 })
 
 export function fetch(endpoint){
-  return api.get(endpoint).then(response => { return response.data })
+  return api.get(endpoint).then(response => {
+    return response.data })
 }
 
 const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1grPeDrJo32NK5n529g3m0jHbcAdlZA7RyRwnTr3TP1JDbnXt3ZBtzWNNt4MeoV1sMnxWPGs8zqbf1FStll5U5sZCKjhbhruMQ2q52jk0rjogZDZD"
