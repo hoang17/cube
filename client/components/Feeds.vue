@@ -163,8 +163,9 @@ export default {
         await this.scrollTo(this.selectedPage)
       }
       else if (this.page-1 == this.selectedPage){
-        await this.loadPreviousPage()
-        await this.scrollTo(this.selectedPage)
+        await this.loadItems(this.selectedPage, false)
+        // await this.loadPreviousPage()
+        // await this.scrollTo(this.selectedPage)
       }
       else
         await this.loadItems(this.selectedPage, false)
@@ -223,7 +224,7 @@ export default {
     color #ccc
 
   select
-    font-size 22px
+    font-size 18px
     background-color transparent
     border none
     border-bottom 1px solid rgba(0,0,0, 0.12)
@@ -250,6 +251,11 @@ export default {
       border-right .25em solid transparent
       border-top 0.375em solid #ccc
       pointer-events none
+
+@media (max-width 600px)
+  .news-list-nav
+    select
+      font-size 22px
 
 .news-list
   position absolute
