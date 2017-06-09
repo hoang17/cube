@@ -1,11 +1,12 @@
 /**
  * Module dependencies.
  */
+const logging = require('./logging')
 const express = require('express')
 const compression = require('compression')
 const session = require('express-session')
 const bodyParser = require('body-parser')
-const logger = require('morgan')
+const morgan = require('morgan')
 const chalk = require('chalk')
 const errorHandler = require('errorhandler')
 const lusca = require('lusca')
@@ -17,6 +18,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const expressValidator = require('express-validator')
 const expressStatusMonitor = require('express-status-monitor')
+
 
 // const sass = require('node-sass-middleware');
 // var helmet = require('helmet')
@@ -84,7 +86,7 @@ app.use(expressStatusMonitor())
 //   use: [nib()],
 //   import: ['nib']
 // }));
-app.use(logger('dev'))
+app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())

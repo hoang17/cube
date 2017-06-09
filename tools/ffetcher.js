@@ -47,5 +47,5 @@ model.drop()
 fetchData(`${id}/feed?fields=id,message,picture,full_picture,place,type,from{name,picture},story,link,name,description,attachments,created_time`, model).then(function(){
   db.close()
 }).catch(function(e){
-  console.log(e)
+  console.error(e)
 })

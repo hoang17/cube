@@ -1,9 +1,10 @@
-const bluebird = require('bluebird');
-const graph = bluebird.promisifyAll(require('fbgraph'));
-const dotenv = require('dotenv');
-const program = require('commander');
+const logging = require('../logging')
+const bluebird = require('bluebird')
+const graph = bluebird.promisifyAll(require('fbgraph'))
+const dotenv = require('dotenv')
+const program = require('commander')
 
-dotenv.load({ path: '.env' });
+dotenv.load({ path: '.env' })
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
@@ -50,5 +51,5 @@ model.drop()
 fetchData(`${endpoint}?fields=id,message,picture,full_picture,place,type,from{name,picture},story,link,name,description,attachments,created_time`, model).then(function(){
   db.close()
 }).catch(function(e){
-  console.log(e)
+  console.error(e)
 })
