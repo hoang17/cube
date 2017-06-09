@@ -41,7 +41,8 @@ export default {
 
     return {
       type: this.$options.name,
-      transition: 'slide-right',
+      // transition: 'slide-right',
+      transition: 'fade',
       offsetPage: p,
       originPage: p,
       selectedPage: p,
@@ -120,7 +121,7 @@ export default {
     async loadItems (to, next = true) {
       this.offsetPage = to
       this.$bar.start()
-      this.transition = next ? 'slide-left' : 'slide-right'
+      // this.transition = next ? 'slide-left' : 'slide-right'
       await this.$store.dispatch('getFeeds')
       if (to < 0 || to > this.maxPage) {
         this.$router.replace(`/${this.type}`)
@@ -267,13 +268,29 @@ export default {
     padding 0
     margin 0
 
-.slide-left-enter, .slide-right-leave-to
+
+/*.item-move, .item-enter-active, .item-leave-active
+  transition all .5s cubic-bezier(.55,0,.1,1)*/
+
+.item-enter-active, .item-leave-active
+  transition all .2s ease
+
+.item-enter, .item-leave-active
+  opacity 0
+
+/*.slide-left-enter, .slide-right-leave-to
   opacity 0
   transform translate(30px, 0)
 
 .slide-left-leave-to, .slide-right-enter
   opacity 0
   transform translate(-30px, 0)
+
+.fade-enter-active, .fade-leave-active
+  transition all .2s ease
+
+.fade-enter, .fade-leave-active
+  opacity 0
 
 .item-move, .item-enter-active, .item-leave-active
   transition all .5s cubic-bezier(.55,0,.1,1)
@@ -285,5 +302,6 @@ export default {
 .item-leave-active
   position absolute
   opacity 0
-  transform translate(30px, 0)
+  transform translate(30px, 0)*/
+
 </style>
