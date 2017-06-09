@@ -20,8 +20,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
-    filename: '[name].js'
-    // filename: isProd ? '[name].[chunkhash].js' :'[name].js'
+    // filename: '[name].js'
+    filename: isProd ? '[name].[chunkhash].js' :'[name].js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
