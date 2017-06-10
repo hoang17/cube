@@ -24,7 +24,6 @@ async function getFeeds(req, res) {
   }
   log(options)
   tr.error(options)
-  console.debug(options)
   
   let data = await findFeeds({}, options)
   res.json(data)
