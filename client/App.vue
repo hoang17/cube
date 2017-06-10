@@ -100,9 +100,18 @@ a
   opacity 0
 
 @media (max-width 600px)
+  body
+    padding-top 0
+
+  .navbar
+    display none
+
+  .container
+    padding 7px
+
   .header
     .inner
       padding 15px
     a
-      margin-right 1em
+      margin-right 1em      
 </style>

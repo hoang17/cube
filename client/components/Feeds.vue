@@ -1,25 +1,17 @@
 <template lang="pug">
   .news-view.view
-    .nav-wrapper
-      .news-list-nav(@click.stop="", v-sticky="{ stickyClass: 'sticky-header' }", v-if="maxPage")
-        a(v-if='page > 1', @click.prevent="throttlePrev", href="") ←
-        a.disabled(v-else='') ←
-        span.mdl-selectfield
-          select.mdc-select(v-model="selectedPage", @change="pageSelected")
-            option(v-for="n in range", :value="n", :disabled="n=='...'") {{ n }}
-        a(v-if='hasMore', @click.prevent="throttleNext", href="") →
-        a.disabled(v-else='') →
+    list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-          feed-item(v-for="p in displayedItems", :page="p", :key="p.p", :id="'p'+p.p", @page-changed="pageChanged", @center-appeared="pageChanged(p.p)")
+          feed-item(v-for="p in displayedItems", :page="p", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
         infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
 </template>
 
 <script>
-import Sticky from './Sticky'
 import FeedItem from './FeedItem'
-import { range, union, throttle } from 'lodash'
+import ListNav from './ListNav'
+import { throttle } from 'lodash'
 import bluebird from 'bluebird'
 import scrollTo from './Scroll'
 const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
@@ -29,9 +21,7 @@ export default {
   title: 'Feeds',
   components: {
     FeedItem,
-  },
-  directives: {
-    'sticky': Sticky,
+    ListNav
   },
   asyncData ({ store, route }) {
     let  p = Number(route.params.page || 1)
@@ -39,51 +29,24 @@ export default {
   },
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
-
     return {
       type: this.$options.name,
       // transition: 'slide-right',
       transition: 'fade',
-      offsetPage: p,
       originPage: p,
-      selectedPage: p,
+      offsetPage: p,
       displayedItems: this.$store.getters.activeFeeds,
-      pageScroll: false,
       throttlePrev: throttle(this.previousPage, 200, { leading: true }),
       throttleNext: throttle(this.nextPage, 200, { leading: true }),
     }
   },
   computed: {
-    range() {
-      let delta = 100
-      if (this.maxPage <= delta + 20)
-        return range(1, this.maxPage+1)
-      let begin = this.page-delta > 0 ? this.page-delta : 1
-      let end = this.page+delta > this.maxPage ? this.maxPage : this.page+delta
-      let middle = range(begin, end+1)
-      let first = range(1, 6)
-      let last = range(this.maxPage-5, this.maxPage+1)
-
-      if (begin <= 6)
-        return [...union(first, middle), '...', ...last]
-
-      if (end >= this.maxPage-6)
-        return [...first, '...', ...union(middle, last)]
-
-      return [...first, '...', ...middle, '...', ...last]
-    },
-    feeds () {
-      return this.$store.state.feeds
-    },
     page () {
       return Number(this.$store.state.route.params.page) || 1
     },
     maxPage () {
       const { itemsPerPage, feedCount } = this.$store.state
       return Math.ceil(feedCount / itemsPerPage) || 1
-    },
-    hasMore () {
-      return this.page < this.maxPage
     }
   },
   beforeMount () {
@@ -94,7 +57,6 @@ export default {
   },
   watch: {
     page (to, from) {
-      this.selectedPage = to
       if (!this.$store.state.route.params.page)
         this.loadItems(to)
     },
@@ -151,28 +113,26 @@ export default {
     },
     async loadPreviousPage() {
       this.originPage--
-      this.selectedPage = this.originPage
       this.$router.push({ params: { page: this.originPage }})
       this.displayedItems = this.$store.getters.activeFeeds
     },
     pageChanged(page) {
-      this.selectedPage = page
       this.$router.push({ params: { page }})
     },
-    async pageSelected(){
-      if (document.getElementById(`p${this.selectedPage}`))
-        await this.scrollTo(this.selectedPage)
-      else if (this.page+1 == this.selectedPage){
+    async pageSelected(page){
+      if (document.getElementById(`p${page}`))
+        await this.scrollTo(page)
+      else if (this.page+1 == page){
         await this.loadNextPage()
-        await this.scrollTo(this.selectedPage)
+        await this.scrollTo(page)
       }
-      else if (this.page-1 == this.selectedPage){
-        await this.loadItems(this.selectedPage)
+      else if (this.page-1 == page){
+        await this.loadItems(page)
         // await this.loadPreviousPage()
-        // await this.scrollTo(this.selectedPage)
+        // await this.scrollTo(page)
       }
       else
-        await this.loadItems(this.selectedPage)
+        await this.loadItems(page)
     },
     scrollTo (page) {
       if (page == this.originPage) {
@@ -188,80 +148,13 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@media (max-width 600px)
-  body
-    padding-top 0
-
-  .navbar
-    display none
-
-  .container
-    padding 7px
-</style>
-
 <style lang="stylus" scoped>
 .news-view
   padding-top 10px
 
-.news-list-nav, .news-list
+.news-list
   background-color #fff
   border-radius 2px
-
-.nav-wrapper
-  height 55px
-  z-index 999
-  position relative
-
-.news-list-nav
-  font-family "HelveticaNeue-CondensedBold", "Helvetica Neue", Arial, sans-serif
-  font-weight 500
-  font-size 18px
-  margin-bottom 10px
-  padding 10px 30px
-  text-align center
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
-  a
-    font-size 24px
-    margin 0 1em
-  .disabled
-    color #ccc
-
-  select
-    font-size 18px
-    background-color transparent
-    border none
-    border-bottom 1px solid rgba(0,0,0, 0.12)
-    padding 4px 17px 4px 2px
-    border-radius 0
-    &:focus
-      outline none
-
-  .mdl-selectfield
-    position relative
-    select
-      -webkit-appearance none
-      -moz-appearance none
-      appearance none
-    &:after
-      position absolute
-      top 0.55em
-      right 0.1em
-      width 0
-      height 0
-      padding 0
-      content ''
-      border-left .25em solid transparent
-      border-right .25em solid transparent
-      border-top 0.375em solid #ccc
-      pointer-events none
-
-@media (max-width 600px)
-  .news-list-nav
-    select
-      font-size 22px
-
-.news-list
   position absolute
   margin -45px 0 80px 0
   width 100%
@@ -271,9 +164,8 @@ export default {
     padding 0
     margin 0
 
-
-/*.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)*/
+.item-move, .item-enter-active, .item-leave-active
+  transition all .5s cubic-bezier(.55,0,.1,1)
 
 .item-enter-active, .item-leave-active
   transition all .2s ease
@@ -306,5 +198,4 @@ export default {
   position absolute
   opacity 0
   transform translate(30px, 0)*/
-
 </style>
