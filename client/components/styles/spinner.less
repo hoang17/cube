@@ -5,7 +5,7 @@
 .loading-default{
   position: relative;
   border: 1px solid #999;
-  animation: ease loading-rotating 1.5s infinite;
+  animation: loading-rotating ease 1.5s infinite;
   &:before{
     @size: 6px;
     content: '';
@@ -25,7 +25,7 @@
 .loading-spiral{
   border: 2px solid #777;
   border-right-color: transparent;
-  animation: linear loading-rotating .85s infinite;
+  animation: loading-rotating linear .85s infinite;
 }
 
 @keyframes loading-rotating{
