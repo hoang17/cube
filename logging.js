@@ -39,11 +39,19 @@ function formatArgs(args){
   return [util.format.apply(util.format, Array.prototype.slice.call(args))]
 }
 
-br = require('bristol')
-br.addTarget('console')
-    .withFormatter('human')
+// br = require('bristol')
+// br.addTarget('console')
+//     .withFormatter('human')
 
-tr = require('tracer').colorConsole()
+tr = require('tracer').colorConsole({
+		format: [
+      "{{title}} {{message}} ({{file}}:{{line}})", //default format
+      { error : "{{title}} {{message}} ({{file}}:{{line}})\nCall Stack:\n{{stack}}" } // error format
+		],
+		preprocess :  function(data){
+			data.title = data.title.toUpperCase();
+		}
+})
 log = tr.info
 dbg = tr.debug
 
