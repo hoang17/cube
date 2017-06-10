@@ -80,7 +80,7 @@ export default {
     },
     maxPage () {
       const { itemsPerPage, feedCount } = this.$store.state
-      return Math.ceil(feedCount / itemsPerPage)
+      return Math.ceil(feedCount / itemsPerPage) || 1
     },
     hasMore () {
       return this.page < this.maxPage
@@ -119,17 +119,18 @@ export default {
         await this.scrollTo(p)
       }
     },
-    async loadItems (to) {
-      if (to < 0 || to > this.maxPage) {
+    async loadItems (page) {
+      if (page < 0 || page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
-      this.offsetPage = to
+      this.offsetPage = page
       this.$bar.start()
       await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
-      this.originPage = to
-      this.$router.push({ params: { page: to }})
+      this.originPage = page
+      this.$router.push({ params: { page }})
       this.displayedItems = this.$store.getters.activeFeeds
+      console.log(this.displayedItems)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       scroll('body')
