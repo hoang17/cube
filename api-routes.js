@@ -8,6 +8,31 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 const Feed = db.get('feeds_498287336961883')
 
+async function findFeeds(query, options){
+  let feeds = await Feed.find(query, options)
+  let count = await Feed.count(query)
+  db.close()
+  return { feeds, count }
+}
+
+async function getFeeds(req, res) {
+  let query = req.query
+  let options = {
+    'limit': Number(query.limit),
+    'skip': Number(query.skip)
+    // 'sort': query.sort
+  }
+  let data = await findFeeds({}, options)
+  res.json(data)
+
+  // dbg(options)
+  // Feed.find({}, options).then(function(feeds) {
+  //   res.json(feeds)
+  // }).catch((err) => {
+  //   res.send(err)
+  // }).then(() => db.close())
+}
+
 router.route('/groups')
   .get(function(req, res) {
     Group.find().lean().exec(function(err, groups) {
@@ -34,26 +59,7 @@ router.route('/likes')
     })
   })
 
-router.route('/feeds')
-  .get(function(req, res) {
-    let query = req.query
-    let options = {
-      'limit': Number(query.limit),
-      'skip': Number(query.skip)
-      // 'sort': query.sort
-    }
-
-    tr.warn(options)
-
-    Feed.find({}, options).then(function(feeds) {
-
-      dbg(options)
-
-      res.json(feeds)
-    }).catch((err) => {
-      res.send(err)
-    }).then(() => db.close())
-  })
+router.route('/feeds').get(getFeeds)
 
 router.route('/friends')
   .get(function(req, res) {

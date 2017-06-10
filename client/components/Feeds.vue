@@ -79,9 +79,8 @@ export default {
       return Number(this.$store.state.route.params.page) || 1
     },
     maxPage () {
-      return 100
-      // const { itemsPerPage, feeds } = this.$store.state
-      // return Math.ceil(feeds.length / itemsPerPage)
+      const { itemsPerPage, feedCount } = this.$store.state
+      return Math.ceil(feedCount / itemsPerPage)
     },
     hasMore () {
       return this.page < this.maxPage

@@ -30,7 +30,8 @@ export function createStore () {
       likes: [],
       friends: [],
       feeds: [],
-      items: []
+      items: [],
+      feedCount: 0
     },
     actions: {
       fetchMoreItems ({ state, commit }, {id, offset}) {
@@ -77,8 +78,9 @@ export function createStore () {
           'skip': offset,
           'limit': state.itemsPerPage
         }
-        return fetch('feeds', params).then(feeds => {
-          commit('setFeeds', [{ p: offsetPage, c: feeds}])
+        return fetch('feeds', params).then(data => {
+          commit('setFeedCount', { count: data.count })
+          commit('setFeeds', [{ p: offsetPage, c: data.feeds}])
         })
       },
       fetchMoreFeeds ({ state, commit }, { offsetPage }) {
@@ -87,8 +89,9 @@ export function createStore () {
           'skip': offset,
           'limit': state.itemsPerPage
         }
-        return fetch('feeds', params).then(feeds => {
-          commit('addMoreFeeds', { p: offsetPage, c: feeds})
+        return fetch('feeds', params).then(data => {
+          commit('setFeedCount', { count: data.count })
+          commit('addMoreFeeds', { p: offsetPage, c: data.feeds})
         })
       },
     },
@@ -113,6 +116,9 @@ export function createStore () {
       },
       addMoreFeeds (state, feeds) {
         state.feeds = state.feeds.concat(feeds)
+      },
+      setFeedCount (state, { count }) {
+        state.feedCount = count
       },
     },
     getters: {
