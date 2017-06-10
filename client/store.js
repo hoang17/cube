@@ -71,6 +71,26 @@ export function createStore () {
           commit('setFeeds', { feeds })
         })
       },
+      fetchFeeds ({ state, commit }, { offsetPage }) {
+        const offset = (offsetPage-1) * state.itemsPerPage
+        let params = {
+          'skip': offset,
+          'limit': state.itemsPerPage
+        }
+        return fetch('feeds', params).then(feeds => {
+          commit('setFeeds', [{ p: offsetPage, c: feeds}])
+        })
+      },
+      fetchMoreFeeds ({ state, commit }, { offsetPage }) {
+        const offset = (offsetPage-1) * state.itemsPerPage
+        let params = {
+          'skip': offset,
+          'limit': state.itemsPerPage
+        }
+        return fetch('feeds', params).then(feeds => {
+          commit('addMoreFeeds', { p: offsetPage, c: feeds})
+        })
+      },
     },
     mutations: {
       setGroups (state, { groups }) {
@@ -82,7 +102,7 @@ export function createStore () {
       setFriends (state, { friends }) {
         state.friends = friends
       },
-      setFeeds (state, { feeds }) {
+      setFeeds (state, feeds) {
         state.feeds = feeds
       },
       setItems (state, { items }) {
@@ -90,6 +110,9 @@ export function createStore () {
       },
       addMoreItems (state, { items }) {
         state.items = state.items.concat(items)
+      },
+      addMoreFeeds (state, feeds) {
+        state.feeds = state.feeds.concat(feeds)
       },
     },
     getters: {
@@ -105,15 +128,19 @@ export function createStore () {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
 
-      activeFeeds : (state) => (page, startPage = page) => {
-        const start = (startPage-1) * state.itemsPerPage
-        return getActiveItems(page, state.itemsPerPage, state.feeds, start)
+      // activeFeeds : (state) => (page, startPage = page) => {
+      //   const start = (startPage-1) * state.itemsPerPage
+      //   return getActiveItems(page, state.itemsPerPage, state.feeds, start)
+      // },
+
+      activeFeeds (state) {
+        return state.feeds
       },
 
-      activePageFeeds : (state) => (page, startPage = page) => {
-        const pageItems = chunk(state.feeds, state.itemsPerPage)
-        return pageItems.slice(startPage-1, page)
-      },
+      // activePageFeeds : (state) => (page, startPage = page) => {
+      //   const pageItems = chunk(state.feeds, state.itemsPerPage)
+      //   return pageItems.slice(startPage-1, page)
+      // },
 
       activeItems (state) {
         return state.items

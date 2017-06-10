@@ -36,7 +36,19 @@ router.route('/likes')
 
 router.route('/feeds')
   .get(function(req, res) {
-    Feed.find().then(function(feeds) {
+    let query = req.query
+    let options = {
+      'limit': Number(query.limit),
+      'skip': Number(query.skip)
+      // 'sort': query.sort
+    }
+
+    tr.warn(options)
+
+    Feed.find({}, options).then(function(feeds) {
+
+      dbg(options)
+
       res.json(feeds)
     }).catch((err) => {
       res.send(err)

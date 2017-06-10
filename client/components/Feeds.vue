@@ -34,7 +34,8 @@ export default {
     'sticky': Sticky,
   },
   asyncData ({ store, route }) {
-    return store.dispatch('getFeeds')
+    let  p = Number(route.params.page || 1)
+    return store.dispatch('fetchFeeds', { offsetPage: p })
   },
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
@@ -46,7 +47,7 @@ export default {
       offsetPage: p,
       originPage: p,
       selectedPage: p,
-      displayedItems: this.$store.getters.activePageFeeds(p),
+      displayedItems: this.$store.getters.activeFeeds,
       pageScroll: false,
       throttlePrev: throttle(this.previousPage, 200, { leading: true }),
       throttleNext: throttle(this.nextPage, 200, { leading: true }),
@@ -78,8 +79,9 @@ export default {
       return Number(this.$store.state.route.params.page) || 1
     },
     maxPage () {
-      const { itemsPerPage, feeds } = this.$store.state
-      return Math.ceil(feeds.length / itemsPerPage)
+      return 100
+      // const { itemsPerPage, feeds } = this.$store.state
+      // return Math.ceil(feeds.length / itemsPerPage)
     },
     hasMore () {
       return this.page < this.maxPage
@@ -95,7 +97,7 @@ export default {
     page (to, from) {
       this.selectedPage = to
       if (!this.$store.state.route.params.page)
-        this.loadItems(to, false)
+        this.loadItems(to)
     },
   },
   methods: {
@@ -104,7 +106,7 @@ export default {
       if (document.getElementById(`p${p}`))
         await this.scrollTo(p)
       else {
-        this.loadItems(p, false)
+        this.loadItems(p)
         // await this.loadPreviousPage()
         // await this.scrollTo(p)
       }
@@ -118,18 +120,17 @@ export default {
         await this.scrollTo(p)
       }
     },
-    async loadItems (to, next = true) {
-      this.offsetPage = to
-      this.$bar.start()
-      // this.transition = next ? 'slide-left' : 'slide-right'
-      await this.$store.dispatch('getFeeds')
+    async loadItems (to) {
       if (to < 0 || to > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
+      this.offsetPage = to
+      this.$bar.start()
+      await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
       this.originPage = to
       this.$router.push({ params: { page: to }})
-      this.displayedItems = await this.$store.getters.activePageFeeds(to)
+      this.displayedItems = this.$store.getters.activeFeeds
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       scroll('body')
@@ -140,7 +141,10 @@ export default {
       }
       this.offsetPage++
       if (this.offsetPage <= this.maxPage) {
-        this.displayedItems = await this.$store.getters.activePageFeeds(this.offsetPage, this.originPage)
+        this.$bar.start()
+        await this.$store.dispatch('fetchMoreFeeds', { offsetPage: this.offsetPage })
+        this.displayedItems = this.$store.getters.activeFeeds
+        this.$bar.finish()
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
@@ -150,7 +154,7 @@ export default {
       this.originPage--
       this.selectedPage = this.originPage
       this.$router.push({ params: { page: this.originPage }})
-      this.displayedItems = await this.$store.getters.activePageFeeds(this.offsetPage, this.originPage)
+      this.displayedItems = this.$store.getters.activeFeeds
     },
     pageChanged(page) {
       this.selectedPage = page
@@ -164,12 +168,12 @@ export default {
         await this.scrollTo(this.selectedPage)
       }
       else if (this.page-1 == this.selectedPage){
-        await this.loadItems(this.selectedPage, false)
+        await this.loadItems(this.selectedPage)
         // await this.loadPreviousPage()
         // await this.scrollTo(this.selectedPage)
       }
       else
-        await this.loadItems(this.selectedPage, false)
+        await this.loadItems(this.selectedPage)
     },
     scrollTo (page) {
       if (page == this.originPage) {
