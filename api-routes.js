@@ -22,8 +22,10 @@ async function getFeeds(req, res) {
     'skip': Number(query.skip)
     // 'sort': query.sort
   }
-  tr.warn(options)
+  log(options)
   tr.error(options)
+  console.debug(options)
+  
   let data = await findFeeds({}, options)
   res.json(data)
 }
