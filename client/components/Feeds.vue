@@ -124,16 +124,15 @@ export default {
         this.$router.replace(`/${this.type}`)
         return
       }
+      window.scroll(0,0)
       this.offsetPage = page
       this.$bar.start()
       await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
       this.originPage = page
       this.$router.push({ params: { page }})
       this.displayedItems = this.$store.getters.activeFeeds
-      console.log(this.displayedItems)
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
-      scroll('body')
     },
     async loadNextPage() {
       if (this.displayedItems.length == 0) {
