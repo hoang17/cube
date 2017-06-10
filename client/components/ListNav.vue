@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Sticky from './Sticky'
+import Sticky from '../addons/Sticky'
 import { range, union, throttle } from 'lodash'
 
 export default {

@@ -30,7 +30,7 @@ li.page-item
 </template>
 
 <script>
-import Vuesible from './Vuesible'
+import Vuesible from '../addons/Vuesible'
 
 export default {
   mixins: [Vuesible()],

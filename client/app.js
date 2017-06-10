@@ -6,7 +6,7 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 
-import InfiniteLoading from './components/InfiniteLoading'
+import InfiniteLoading from './addons/InfiniteLoading'
 
 Vue.component('infinite-loading', InfiniteLoading)
 

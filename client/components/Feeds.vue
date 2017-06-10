@@ -13,7 +13,7 @@ import FeedItem from './FeedItem'
 import ListNav from './ListNav'
 import { throttle } from 'lodash'
 import bluebird from 'bluebird'
-import scrollTo from './Scroll'
+import scrollTo from '../addons/Scroll'
 const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 
 export default {
