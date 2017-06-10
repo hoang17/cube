@@ -22,15 +22,10 @@ async function getFeeds(req, res) {
     'skip': Number(query.skip)
     // 'sort': query.sort
   }
-  dbg(options)
+  tr.warn(options)
+  tr.error(options)
   let data = await findFeeds({}, options)
   res.json(data)
-
-  // Feed.find({}, options).then(function(feeds) {
-  //   res.json(feeds)
-  // }).catch((err) => {
-  //   res.send(err)
-  // }).then(() => db.close())
 }
 
 router.route('/groups')
