@@ -45,8 +45,10 @@ function formatArgs(args){
 
 tr = require('tracer').colorConsole({
 		format: [
-      "{{title}} {{message}} ({{file}}:{{line}})", //default format
-      { error : "{{title}} {{message}} ({{file}}:{{line}})\nCall Stack:\n{{stack}}" } // error format
+      "{{message}} ({{file}}:{{line}})", //default format
+      { debug : "{{title}} {{message}} ({{file}}:{{line}})",
+        warn : "{{title}} {{message}} ({{file}}:{{line}})",
+        error : "{{title}} {{message}} ({{file}}:{{line}})\nCall Stack:\n{{stack}}" }, // error format
 		],
 		preprocess :  function(data){
 			data.title = data.title.toUpperCase();
