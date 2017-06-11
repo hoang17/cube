@@ -1,0 +1,599 @@
+<html>
+
+<head>
+    <link rel="import" href="../bower_components/polymer/polymer.html?v=1334">
+    <link rel="import" href="components/tiki-shared-styles.html?v=1334">
+    <link rel="import" href="data/tiki-key.html?v=1334">
+    <link rel="import" href="data/tiki-route-data.html?v=1334">
+    <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html?v=1334">
+    <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html?v=1334">
+    <link rel="import" href="../bower_components/app-layout/app-header/app-header.html?v=1334">
+    <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html?v=1334">
+    <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html?v=1334">
+    <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html?v=1334">
+    <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html?v=1334">
+    <link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html?v=1334">
+    <link rel="import" href="../bower_components/paper-menu/paper-menu.html?v=1334">
+    <link rel="import" href="../bower_components/paper-item/paper-item.html?v=1334">
+    <link rel="import" href="../bower_components/paper-progress/paper-progress.html?v=1334">
+    <link rel="import" href="../bower_components/app-route/app-location.html?v=1334">
+    <link rel="import" href="../bower_components/app-route/app-route.html?v=1334">
+    <link rel="import" href="../bower_components/iron-pages/iron-pages.html?v=1334">
+    <link rel="import" href="../bower_components/tiki-icons/tiki-icons.html?v=1334">
+    <link rel="import" href="components/tiki-scrollpos-control.html?v=1334">
+    <link rel="import" href="components/tiki-header-effects.html?v=1334">
+    <link rel="import" href="data/tiki-token-data.html?v=1334">
+    <link rel="import" href="data/tiki-cart-data.html?v=1334">
+    <link rel="import" href="layouts/tiki-drawer-content.html?v=1334">
+    <link rel="import" href="layouts/tiki-burger-menu.html?v=1334">
+    <link rel="import" href="behaviors/tiki-tracking.html?v=1334">
+    <link rel="import" href="screens/tiki-search.html?v=1334">
+    <link rel="import" href="components/tiki-cart-button.html?v=1334">
+    <link rel="import" href="components/tiki-snackbar.html?v=1334">
+    <link rel="import" href="data/tiki-user-data.html?v=1334">
+</head>
+
+<body>
+    <dom-module id="tiki-app">
+        <template>
+            <style include="tiki-shared-styles tiki-typography">
+                :host {
+                    display: block;
+                    width: 100%;
+                    --primary-color: #1ba8ff;
+                    --app-primary-color: #1ba8ff;
+                    --secondary-color: #fd820a;
+                    --app-success-color: #009688;
+                    --danger-color: #e53935;
+                    --line-separated-color: #ebebec;
+                    @apply --paper-font-common-base;
+                    color: var(--paper-grey-900);
+                    --app-drawer-width: 288px;
+                }
+                app-header {
+                    background: var(--primary-color);
+                }
+                app-toolbar .title {
+                    pointer-events: all !important;
+                    overflow: hidden;
+                    height: 64px;
+                    margin-left: 8px !important;
+                    text-overflow: ellipsis;
+                    color: white;
+                    font-weight: 500 !important;
+                    font-size: 16px;
+                    line-height: 64px;
+                }
+                iron-pages#pages {
+                    display: block;
+                }
+                paper-dropdown-menu {
+                    --paper-input-container-color: none;
+                    --paper-input-container-focus-color: none;
+                    --paper-input-container-input: {
+                        color: white !important;
+                        @apply (--paper-font-title);
+                    }
+                    ;
+                    --paper-dropdown-menu-icon: {
+                        color: white;
+                    }
+                    ;
+                }
+                paper-menu-button {
+                    max-width: calc(100vw - 176px);
+                    overflow: hidden;
+                    padding: 0;
+                }
+                a {
+                    color: inherit;
+                }
+                app-toolbar {
+                    height: 56px;
+                    color: white;
+                    padding: 8px;
+                }
+                form {
+                    pointer-events: all !important;
+                }
+                #searchInput {
+                    width: 100%;
+                    border-radius: 2px;
+                    background: white;
+                    border: none;
+                    height: 40px;
+                    padding: 6px 8px;
+                    @apply --paper-font-body1;
+                    -webkit-appearance: none;
+                    transition: box-shadow 0.2s ease;
+                }
+                #searchInput:focus {
+                    outline: none;
+                }
+                #closeIcon {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+                    color: var(--paper-grey-600);
+                }
+                :host([screen="authentication"]) app-toolbar {
+                    height: 42vw;
+                    max-height: 300px;
+                    background: url("/images/authentication.svg") no-repeat;
+                    background-size: contain;
+                    background-position: center center;
+                }
+                paper-progress {
+                    display: block;
+                    width: 100%;
+                    --paper-progress-active-color: rgba(255, 255, 255, 0.5);
+                    --paper-progress-container-color: transparent;
+                }
+                :host([screen="search"]) form {
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+                app-toolbar:not([hidden])+app-toolbar {
+                    margin-top: -8px;
+                }
+            </style>
+            <iron-meta key="ENV" value="production"></iron-meta>
+            <iron-meta key="API_URL" value="https://api.tiki.vn/v2"></iron-meta>
+            <iron-meta key="API_KEY" value="26a5f1d209a1444ab2a29e92f2cee3a5"></iron-meta>
+            <iron-meta key="API_URL_V1" value="https://mapi.tiki.vn"></iron-meta>
+            <iron-meta key="API_PLATFORM" value="frontend-mobile2"></iron-meta>
+            <iron-meta key="DATA_LAYER_ID" value="GTM-KR9FQH"></iron-meta>
+            <iron-meta key="PICTURE_PREFIX" value="https://vcdn.tikicdn.com/cache"></iron-meta>
+            <iron-meta key="FACEBOOK_APP_ID" value="220558114759707"></iron-meta>
+            <iron-meta key="GOOGLE_CLIENT_ID" value="603940932442-lsh6fp6s1iqeb8i48cjhko7ai7ulrtc6.apps.googleusercontent.com"></iron-meta>
+            <tiki-perf></tiki-perf>
+            <app-location id="appLocation" route="{{route}}"></app-location>
+            <app-location id="hashLocation" route="{{hashRoute}}" use-hash-as-path=""></app-location>
+            <tiki-route-data route="[[route]]" hash-route="[[hashRoute]]" data="{{routeData}}" tail="{{subroute}}" query-params="{{queryParams}}"></tiki-route-data>
+            <tiki-token-data id="tokenData" data="{{tokenData}}"></tiki-token-data>
+            <tiki-cart-data id="cartData" data="{{cartData}}" cart-detail-loading="{{cartDetailLoading}}"></tiki-cart-data>
+            <tiki-user-data for-welcome="" data="{{userData}}"></tiki-user-data>
+            <tiki-scrollpos-control scroll-target="document" id="scrollPosControl"></tiki-scrollpos-control>
+            <app-drawer-layout force-narrow="" id="drawerLayout">
+                <app-drawer disable-swipe="" opened="{{drawerOpened}}">
+                    <tiki-drawer-content user-data="[[userData]]" disable-upgrade="[[!drawerOpened]]" class="scroll" screen="[[screen]]"></tiki-drawer-content>
+                </app-drawer>
+                <app-header-layout>
+                    <app-header id="header" fixed="[[_shouldFixed(screen)]]" condenses="[[_shouldCondense(screen)]]" effects="[[_getEffectName(screen)]]">
+                        <app-toolbar hidden$="[[!_shouldRenderMainToolbar(screen)]]" class="layout horizontal">
+                            <template is="dom-if" if="[[_shouldRenderDrawer(screen, routeData)]]">
+                                <paper-icon-button noink="" class="flex-none" icon="icons:menu" on-tap="_openDrawer"></paper-icon-button>
+                            </template>
+                            <template is="dom-if" if="[[!_shouldRenderDrawer(screen, routeData)]]">
+                                <paper-icon-button noink="" class="flex-none self-start" icon="tiki:[[_getBackButtonIcon(screen)]]" on-tap="_goBack"></paper-icon-button>
+                            </template>
+                            <div class="title flex-auto" main-title="">
+                                <template is="dom-if" if="[[_shouldRenderLogo(screen)]]">
+                                    <iron-icon logo="" id="logo" icon="tiki:logo" style="width: 90px; height: 24px; margin-top: -8px; margin-left: -8px" on-tap="_goHome"></iron-icon>
+                                </template>
+                                <template is="dom-if" if="[[_shouldRenderTitle(screen)]]">[[title]]</template>
+                                <template is="dom-if" if="[[_shouldRenderDropdown(screen)]]">
+                                    <paper-menu-button opened="{{dropdownOpened}}" vertical-offset="48" horizontal-align="left">
+                                        <div class="dropdown-trigger layout horizontal center">
+                                            <div class="flex-auto" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">[[title]]</div>
+                                            <template is="dom-if" if="[[dropdownData]]">
+                                                <iron-icon icon="tiki:arrow-drop-down" class="flex-none"></iron-icon>
+                                            </template>
+                                        </div>
+                                        <paper-menu class="dropdown-content" selected="-1">
+                                            <template is="dom-repeat" items="[[dropdownData]]">
+                                                <tiki-link href$="/[[item.url_key]]/c[[item.id]]">
+                                                    <paper-item>[[item.name]]</paper-item>
+                                                </tiki-link>
+                                            </template>
+                                        </paper-menu>
+                                    </paper-menu-button>
+                                </template>
+                            </div>
+                            <template is="dom-if" if="[[_shouldRenderFavoriteButton(screen)]]">
+                                <tiki-favorite-button product-id="[[productId]]"></tiki-favorite-button>
+                            </template>
+                            <template is="dom-if" if="[[_shouldRenderSearchButton(screen)]]">
+                                <paper-icon-button noink="" class="flex-none" icon="tiki:search" on-tap="_visitSearch"></paper-icon-button>
+                            </template>
+                            <template is="dom-if" if="[[_shouldRenderCartButton(screen)]]">
+                                <tiki-cart-button class="flex-none" cart-count="[[userData.cart_item_count]]"></tiki-cart-button>
+                            </template>
+                            <template is="dom-if" if="[[_shouldRenderBurgerMenu(screen)]]">
+                                <tiki-burger-menu class="flex-none"></tiki-burger-menu>
+                            </template>
+                        </app-toolbar>
+                        <template is="dom-if" if="[[_shouldRenderSearchInput(screen)]]">
+                            <app-toolbar>
+                                <template is="dom-if" if="[[!_shouldRenderMainToolbar(screen)]]">
+                                    <paper-icon-button noink="" icon="tiki:arrow-back" on-tap="_goBack" style="margin-right: 8px"></paper-icon-button>
+                                </template>
+                                <form id="searchForm" main-title="" search-input="">
+                                    <input placeholder="TÃ¬m sáº£n pháº©m, danh má»¥c hay thÆ°Æ¡ng hiá»‡u..." autocomplete="off" name="q" type="search" id="searchInput" is="iron-input" bind-value="{{searchInput}}" on-focus="_focusSearch">
+                                </form>
+                            </app-toolbar>
+                        </template>
+                        <paper-progress value="10" indeterminate="" class="bottom fit"></paper-progress>
+                    </app-header>
+                    <iron-pages id="pages" role="main" selected="[[screen]]" attr-for-selected="name" selected-attribute="visible">
+                        <tiki-category-detail route-data="[[routeData]]" subroute="[[subroute]]" name="category-detail"></tiki-category-detail>
+                        <tiki-search-result query-params="[[queryParams]]" name="search-result"></tiki-search-result>
+                        <tiki-brand route-data="[[routeData]]" name="brand"></tiki-brand>
+                        <tiki-landing-page name="landing-page" route-data="[[routeData]]" query-params="[[queryParams]]"></tiki-landing-page>
+                        <tiki-search q="[[searchInput]]" id="search" name="search"></tiki-search>
+                        <tiki-home user-data="[[userData]]" name="home"></tiki-home>
+                        <tiki-category category-id="[[categoryId]]" name="category"></tiki-category>
+                        <tiki-product-detail query-params="[[queryParams]]" product-id="[[productId]]" name="product-detail"></tiki-product-detail>
+                        <tiki-customer user-data="[[userData]]" name="customer"></tiki-customer>
+                        <tiki-customer-address name="customer-address"></tiki-customer-address>
+                        <tiki-customer-address-new name="customer-address-new" user-data="[[userData]]" route-data="[[routeData]]"></tiki-customer-address-new>
+                        <tiki-customer-address-edit name="customer-address-edit" user-data="[[userData]]" route-data="[[routeData]]"></tiki-customer-address-edit>
+                        <tiki-customer-favorite-list name="customer-favorite-list" user-data="[[userData]]" route-data="[[routeData]]"></tiki-customer-favorite-list>
+                        <tiki-customer-buy-later name="customer-buy-later"></tiki-customer-buy-later>
+                        <tiki-cart loading="[[cartDetailLoading]]" user-data="[[userData]]" name="cart" cart-data="[[cartData]]" token-data="[[tokenData]]"></tiki-cart>
+                        <tiki-checkout name="checkout" cart-data="[[cartData]]" token-data="[[tokenData]]" route="[[subroute]]"></tiki-checkout>
+                        <tiki-email name="email"></tiki-email>
+                        <tiki-q-and-a name="q-and-a"></tiki-q-and-a>
+                        <tiki-return-policy name="return-policy"></tiki-return-policy>
+                        <tiki-delivery-policy name="delivery-policy"></tiki-delivery-policy>
+                        <tiki-order-status parent-code="[[queryParams.parent]]" user-data="[[userData]]" name="order-status" code="[[queryParams.code]]"></tiki-order-status>
+                        <tiki-order-list name="order-list"></tiki-order-list>
+                        <tiki-order-detail name="order-detail" route="[[route]]"></tiki-order-detail>
+                        <tiki-order-cancel name="order-cancel" route="[[route]]"></tiki-order-cancel>
+                        <tiki-offline-installment name="offline-installment" route-data="[[routeData]]" user-data="[[userData]]" token-data="[[tokenData]]"></tiki-offline-installment>
+                        <tiki-offline-installment-register name="offline-installment-register" route-data="[[routeData]]" token-data="[[tokenData]]" user-data="[[userData]]"></tiki-offline-installment-register>
+                        <tiki-offline-installment-order-success name="offline-installment-order-success" route-data="[[routeData]]" user-data="[[userData]]"></tiki-offline-installment-order-success>
+                        <tiki-offline-installment-order-view name="offline-installment-order-view" route-data="[[routeData]]" user-data="[[userData]]"></tiki-offline-installment-order-view>
+                        <tiki-offline-installment-order-list name="offline-installment-order-list" user-data="[[userData]]"></tiki-offline-installment-order-list>
+                        <tiki-authentication query-params="[[queryParams]]" type="[[_getAuthenticationType(queryParams)]]" name="authentication" login-email="{{loginEmail}}"></tiki-authentication>
+                        <tiki-forgot-password name="forgot-password" login-email="[[loginEmail]]"></tiki-forgot-password>
+                        <tiki-pay name="pay" query-params="[[queryParams]]"></tiki-pay>
+                        <tiki-repayment name="repayment" query-params="[[queryParams]]"></tiki-repayment>
+                        <tiki-vas route="[[route]]" name="vas"></tiki-vas>
+                        <tiki-vas-payment name="vas-payment"></tiki-vas-payment>
+                        <tiki-404 name="404"></tiki-404>
+                    </iron-pages>
+                </app-header-layout>
+            </app-drawer-layout>
+        </template>
+        <script>
+            Polymer({
+                is: 'tiki-app',
+                behaviors: [Polymer.TikiTrackingBehavior],
+                properties: {
+                    queryParams: Object,
+                    tokenData: Object,
+                    categoryId: String,
+                    productId: String,
+                    cartData: Object,
+                    routeData: Object,
+                    subroute: Object,
+                    route: Object,
+                    screen: {
+                        type: String,
+                        reflectToAttribute: !0
+                    },
+                    redirectAfterLoginUrl: {
+                        type: String,
+                        value: '/'
+                    },
+                    drawerOpened: Boolean
+                },
+                observers: ['_setHTMLBackground(screen)', '_routeDataAndTokenDataChanged(routeData, tokenData)', '_isRedirectFromPay123(queryParams.is_redirect)'],
+                listeners: {
+                    'track-purchase': '_onTrackPurchase',
+                    'show-404': '_onShow404',
+                    'need-update-cart': '_onNeedUpdateCart',
+                    'need-update-user': '_onNeedUpdateUser',
+                    'remove-product': '_onRemoveFromCart',
+                    'add-to-cart': '_onAddToCart',
+                    'add-to-cart-success': '_onAddToCartSuccess',
+                    'cart-changed': '_onCartChanged',
+                    'change-product-quantity': '_onChangeProductQuantity',
+                    notify: '_onNotify',
+                    'login-success': '_onLoginSuccess',
+                    logout: '_onLogout',
+                    register: '_onRegister',
+                    'register-success': '_onRegisterSuccess',
+                    'change-route': '_onChangeRoute',
+                    'change-section': '_onChangeSection',
+                    'should-reset-cart': '_onShouldResetCart',
+                    'replace-route': '_onReplaceRoute',
+                    'reset-layout': '_onResetLayout',
+                    'reset-scroll': '_onResetScroll',
+                    'close-drawer': '_onCloseDrawer',
+                    'apply-coupon-success': '_onShouldResetCart',
+                    'remove-coupon-success': '_onShouldResetCart',
+                    'open-dialog': '_onOpenDialog'
+                },
+                _onTrackPurchase: function() {
+                    this.$$('tiki-order-status').needToTrackPurchase = !0
+                },
+                _isRedirectFromPay123: function(b) {
+                    b && (this.$$('tiki-order-status').needToTrackPurchase = !0, this.fire('replace-route', '/checkout/payment/response?code=' + this.queryParams.code + (this.queryParams.parent ? '&parent=' + this.queryParams.parent : '')))
+                },
+                _getAuthenticationType: function(b) {
+                    return b && '/checkout/shipping' === b.ret ? 'checkout' : 'normal'
+                },
+                _shouldFixed: function(b) {
+                    return 'authentication' !== b
+                },
+                _goHome: function() {
+                    'home' !== this.screen && this.fire('change-route', '/')
+                },
+                _visitSearch: function() {
+                    this.fire('change-route', '/#search')
+                },
+                _shouldRenderSearchButton: function(b) {
+                    return 'brand' === b || 'category-detail' === b ? 'true' : void 0
+                },
+                _shouldRenderMainToolbar: function(b) {
+                    return 'search' !== b
+                },
+                _shouldCondense: function(b) {
+                    return 'home' === b
+                },
+                _getEffectName: function(b) {
+                    return 'home' === b ? 'resize-input' : 'search' === b ? 'keep-size-input' : ''
+                },
+                _focusSearch: function() {
+                    'home' === this.screen && this._visitSearch()
+                },
+                _onNeedUpdateUser: function() {
+                    this.$$('tiki-user-data').update()
+                },
+                _onShow404: function() {
+                    this.importHref(this.resolveUrl('screens/tiki-404.html?v=1334'), function() {
+                        this.screen = '404'
+                    }.bind(this), null, !0)
+                },
+                _onOpenDialog: function(b, c) {
+                    var d = c,
+                        e = d.cloneNode(!0);
+                    for (var f in d.properties) e[f] = d[f];
+                    Polymer.dom(this.root).appendChild(e), e.addEventListener('iron-overlay-closed', function() {
+                        e.remove()
+                    }), e.open()
+                },
+                _setHTMLBackground: function(b) {
+                    switch (b) {
+                        case 'authentication':
+                        case 'category':
+                            document.querySelector('html').style.background = 'white';
+                            break;
+                        default:
+                            document.querySelector('html').style.background = '#eee';
+                    }
+                },
+                _getBackButtonIcon: function(b) {
+                    return 'pay' === b || 'authentication' === b || 'order-status' === b ? 'close' : 'arrow-back'
+                },
+                _onResetScroll: function() {
+                    this.$.header.scroll(0, 0)
+                },
+                _clearSearchInput: function() {
+                    this.searchInput = '', this.$$('#closeIcon') && this.$$('#closeIcon').blur(), this.debounce('focus', function() {
+                        this.$$('#searchInput').focus()
+                    }.bind(this), 100)
+                },
+                _onResetLayout: function() {
+                    this.$.header.resetLayout()
+                },
+                _getScrollPosId: function(b, c, d, e) {
+                    return 'home' === b ? JSON.stringify(c.path) : 'search-result' === b ? JSON.stringify(c.path) + JSON.stringify(e) : JSON.stringify(c.path) + JSON.stringify(d.path)
+                },
+                _openDrawer: function() {
+                    this.drawerOpened = !0
+                },
+                _onCloseDrawer: function() {
+                    this.drawerOpened = !1
+                },
+                _goBack: function() {
+                    2 < history.length ? (this.backScrollPos = {
+                        top: document.body.scrollTop,
+                        left: document.body.scrollLeft
+                    }, history.back(), this.backScrollPos && (document.body.scrollTop = this.backScrollPos.top, document.body.scrollLeft = this.backScrollPos.left, this.backScrollPos = null)) : this.fire('replace-route', '/')
+                },
+                _shouldRenderBurgerMenu: function(b) {
+                    return 'search-result' === b || 'brand' === b || 'category-detail' === b || 'category' === b || 'landing-page' === b || 'product-detail' === b || 'offline-installment' === b
+                },
+                _shouldRenderDropdown: function(b) {
+                    return 'category-detail' === b
+                },
+                _shouldRenderDrawer: function(b, c) {
+                    if (c.categoryId) return !1;
+                    return 'home' === b || 'category' === b || 'customer' === b
+                },
+                _shouldRenderLogo: function(b) {
+                    return 'home' === b || 'product-detail' === b ? (this.debounce('show-logo', function() {
+                        this.$$('#logo') && (this.$$('#logo').style.opacity = 1)
+                    }.bind(this), 50), !0) : void 0
+                },
+                _shouldRenderSearchInput: function(b) {
+                    return 'search' === b && this.debounce('focus-search', function() {
+                        this.$$('#searchInput').focus(), this.$$('form').addEventListener('submit', function(d) {
+                            d.preventDefault(), this.searchInput && this._onChangeRoute(new CustomEvent('submit-search', {
+                                detail: '/search?q=' + this.searchInput
+                            }))
+                        }.bind(this))
+                    }.bind(this), 50), 'home' === b || 'search' === b
+                },
+                _shouldRenderCartButton: function(b) {
+                    return 'search-result' === b || 'brand' === b || 'home' === b || 'category' === b || 'category-detail' === b || 'product-detail' === b || 'landing-page' === b || 'offline-installment' === b
+                },
+                _shouldRenderTitle: function(b) {
+                    switch (b) {
+                        case 'search-result':
+                        case 'brand':
+                        case 'vas-payment':
+                        case 'vas':
+                        case 'category':
+                        case 'order-status':
+                        case 'offline-installment-register':
+                        case 'order-list':
+                        case 'order-detail':
+                        case 'order-cancel':
+                        case 'customer':
+                        case 'cart':
+                        case 'landing-page':
+                        case 'checkout':
+                        case 'offline-installment':
+                        case 'offline-installment-order-success':
+                        case 'forgot-password':
+                        case 'customer-address':
+                        case 'pay':
+                        case 'customer-address-new':
+                        case 'customer-address-edit':
+                        case 'customer-favorite-list':
+                        case 'customer-buy-later':
+                        case '404':
+                        case 'repayment':
+                        case 'offline-installment-order-list':
+                        case 'offline-installment-order-view':
+                            return !0;
+                        default:
+                    }
+                },
+                _shouldRenderFavoriteButton: function(b) {
+                    switch (b) {
+                        case 'product-detail':
+                            return Polymer.RenderStatus.afterNextRender(this, function() {
+                                this.importHref(this.resolveUrl('components/tiki-favorite-button.html?v=1334'), null, null, !0)
+                            }.bind(this)), !0;
+                        default:
+                    }
+                },
+                _onShouldResetCart: function() {
+                    this.$$('#cartData').resetCart()
+                },
+                _onNeedUpdateCart: function() {
+                    this.$$('#cartData').updateCart()
+                },
+                _onChangeSection: function(b) {
+                    var c = b.detail;
+                    c.title ? (document.title = c.title, this.title = c.title) : document.title = 'Mua H\xE0ng Tr\u1EF1c Tuy\u1EBFn Uy T\xEDn v\u1EDBi Gi\xE1 R\u1EBB H\u01A1n t\u1EA1i Tiki.vn', this.dropdownData = c.dropdownData ? c.dropdownData : null, this.fire('iron-signal', {
+                        name: 'screen-visible',
+                        data: {
+                            screen: this.screen,
+                            time: new Date
+                        }
+                    })
+                },
+                _onChangeRoute: function(b) {
+                    if ('[object Array]' === Object.prototype.toString.call(b.detail)) {
+                        for (var c = 0; c < b.detail.length;) window.history.pushState({}, null, b.detail[c]), c++;
+                        window.dispatchEvent(new CustomEvent('location-changed'))
+                    } else window.history.pushState({}, null, b.detail), window.dispatchEvent(new CustomEvent('location-changed'))
+                },
+                _onReplaceRoute: function(b) {
+                    if ('[object Array]' === Object.prototype.toString.call(b.detail)) {
+                        window.history.replaceState({}, null, b.detail[0]);
+                        for (var c = 1; c < b.detail.length;) window.history.pushState({}, null, b.detail[c]), c++;
+                        window.dispatchEvent(new CustomEvent('location-changed'))
+                    } else window.history.replaceState({}, null, b.detail), window.dispatchEvent(new CustomEvent('location-changed'))
+                },
+                _onLoginSuccess: function(b) {
+                    this.$$('#tokenData').accessTokenInStorage = b.detail.token
+                },
+                _onLogout: function() {
+                    this.$$('#tokenData').revoke()
+                },
+                _onRegisterSuccess: function(b) {
+                    this.$$('#tokenData').getToken('password', {
+                        email: b.detail.email,
+                        password: b.detail.password
+                    })
+                },
+                _onRegister: function(b) {
+                    var c = b.detail;
+                    this.$.userData.register(c.name, c.email, c.password)
+                },
+                _onNotify: function(b) {
+                    var c = b.detail;
+                    this._notify(c.message, c.action, c.href, c.replace)
+                },
+                _notify: function(b, c, d, e) {
+                    this._snackbar || (this._snackbar = document.createElement('tiki-snackbar'), Polymer.dom(this.root).appendChild(this._snackbar)), Polymer.dom(this._snackbar).innerHTML = b, c && d ? (this._snackbar.action = c, this._snackbar.href = d) : (this._snackbar.action = null, this._snackbar.href = null), this._snackbar.replace = !!e || null, this._snackbar.open()
+                },
+                _onChangeProductQuantity: function(b) {
+                    this.$$('#cartData').changeQuantity(b.detail.productId, b.detail.quantity)
+                },
+                _onRemoveFromCart: function(b) {
+                    this.fire('notify', {
+                        message: 'B\u1EA1n v\u1EEBa x\xF3a ' + b.detail.productName
+                    }), this.$$('#cartData').removeProduct(b.detail.cartItemId)
+                },
+                _onAddToCart: function(b, c) {
+                    this.$$('#cartData').addToCart(c.id)
+                },
+                _onAddToCartSuccess: function() {
+                    'product-detail' === this.screen && this.$$('tiki-product-detail').notifyAddToCartSuccess(), 'cart' === this.screen && this.$$('tiki-cart-data').updateCart(), 'customer-buy-later' === this.screen && this.$$('tiki-customer-buy-later').updateData(), this.$$('tiki-user-data').update()
+                },
+                _routeDataAndTokenDataChanged: function(b, c) {
+                    if (this.fire('iron-signal', {
+                            name: 'route-changed',
+                            data: {
+                                screen: b.screen,
+                                time: new Date
+                            }
+                        }), b && c) {
+                        if ('production' === new Polymer.IronMetaQuery({
+                                key: 'ENV'
+                            }).value && (ga('set', 'page', this.route.path + this.hashRoute.path), ga('send', 'pageview')), this.$$('paper-progress').hidden = !1, b.title && this._onChangeSection(new CustomEvent('change-section', {
+                                detail: {
+                                    title: b.title
+                                }
+                            })), this.drawerOpened = !1, b.needLogin && 'guest' === c.type) return this.fire('replace-route', '/authentication?ret=' + encodeURIComponent(this.route.path)), void this.fire('notify', {
+                            message: 'B\u1EA1n c\u1EA7n \u0111\u0103ng nh\u1EADp \u0111\u1EC3 th\u1EF1c hi\u1EC7n thao t\xE1c n\xE0y'
+                        });
+                        if ('user' === c.type && 'authentication' === b.screen) return void(this.queryParams.ret ? this.fire('replace-route', decodeURIComponent(this.queryParams.ret)) : this.fire('replace-route', '/'));
+                        switch (b.screen) {
+                            case 'product-detail':
+                                this.productId = b.productId;
+                                break;
+                            case 'category':
+                                this.categoryId = b.categoryId || 'root';
+                        }
+                        this.$$('tiki-scrollpos-control').selected = this._getScrollPosId(b.screen, this.route, this.hashRoute, this.queryParams), this.screen = b.screen, this.importHref(this.resolveUrl('screens/tiki-' + b.screen + '.html?v=1334'), function() {
+                            this._pageLoaded(b.screen)
+                        }.bind(this), function() {
+                            var d = new CustomEvent('loading-error', {
+                                detail: {
+                                    message: 'K\u1EBFt n\u1ED1i b\u1ECB l\u1ED7i, vui l\xF2ng th\u1EED l\u1EA1i.',
+                                    action: 'Th\u1EED l\u1EA1i',
+                                    href: location.href,
+                                    replace: !0
+                                }
+                            });
+                            this.$$('paper-progress').hidden = !0, this._onNotify(d)
+                        }.bind(this), !0)
+                    }
+                },
+                _pageLoaded: function(b) {
+                    this.$$('tiki-scrollpos-control').updateScrollPos(), this.$.header.resetLayout(), this._ensureLazyLoaded(), this.$$('paper-progress').hidden = !0, this.fire('iron-signal', {
+                        name: 'screen-loaded',
+                        data: {
+                            screen: b,
+                            time: new Date
+                        }
+                    })
+                },
+                _ensureLazyLoaded: function() {
+                    this.loadComplete || Polymer.RenderStatus.afterNextRender(this, function() {
+                        this.importHref(this.resolveUrl('lazy-resources.html?v=1334'), function() {
+                            'serviceWorker' in navigator && navigator.serviceWorker.register('/service-worker.js?v=' + new Date().getTime()).catch(function() {
+                                console.info('No SW for bot')
+                            })
+                        }), this.loadComplete = !0
+                    }.bind(this))
+                }
+            });
+        </script>
+    </dom-module>
+</body>
+
+</html>
