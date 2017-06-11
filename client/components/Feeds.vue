@@ -4,7 +4,7 @@
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-          feed-item(v-for="p in displayedItems", :page="p", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
+          feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
         infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
 </template>
 
@@ -59,7 +59,7 @@ export default {
     page (to, from) {
       if (!this.$store.state.route.params.page)
         this.loadItems(to)
-    },
+    }
   },
   methods: {
     async previousPage() {
@@ -87,8 +87,9 @@ export default {
         return
       }
       window.scroll(0,0)
-      this.offsetPage = page
       this.$bar.start()
+      this.offsetPage = page
+      this.displayedItems = []
       await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
       this.originPage = page
       this.$router.push({ params: { page }})
@@ -97,9 +98,8 @@ export default {
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
     async loadNextPage() {
-      if (this.displayedItems.length == 0) {
-        return
-      }
+      if (this.displayedItems.length == 0) return
+
       this.offsetPage++
       if (this.offsetPage <= this.maxPage) {
         this.$bar.start()
@@ -156,7 +156,7 @@ export default {
   background-color #fff
   border-radius 2px
   position absolute
-  margin -45px 0 80px 0
+  margin 10px 0 80px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul

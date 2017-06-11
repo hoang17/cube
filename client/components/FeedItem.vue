@@ -1,6 +1,6 @@
 <template lang="pug">
 li.page-item
-  h4 {{ page.p }}
+  h4(v-show="index>0") {{ page.p }}
   ul
     li.news-item(v-for="(item, i) in page.c", :key="item.id")
       div.title
@@ -35,10 +35,8 @@ import Vuesible from '../addons/Vuesible'
 export default {
   mixins: [Vuesible()],
   props: {
-		page: {
-			type: Object,
-			required: true
-		}
+		page: Object,
+    index: Number
   }
 }
 </script>

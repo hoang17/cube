@@ -1,63 +1,44 @@
 <template lang="pug">
   .news-view.view
-    .news-list-nav(@click.stop="")
-      router-link(v-if='page == 2', :to="'/' + type + '/id/' + id") < prev
-      router-link(v-else-if='page > 2', :to="'/' + type + '/id/' + id + '/' + (page - 1)") < prev
-      a.disabled(v-else='') < prev
-      span {{ page }}
-      router-link(v-if='hasMore', :to="'/' + type + '/id/' + id + '/' + (page + 1)") more >
-      a.disabled(v-else='') more >
+    list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
-      .news-list(:key='displayedPage')
+      .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-            li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-              .title
-                .avatar
-                  a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                    img(:src="item.from.picture.data.url")
-                span {{ item.from.name }}
-                br(v-if="item.message")
-                span(v-if="item.message") {{ item.message }}
-                br(v-if="item.name")
-                span.meta(v-if="item.name") {{ item.name }}
-                br(v-if="item.description")
-                span.meta(v-if="item.description") {{ item.description }}
-                br(v-if="item.attachments && !item.full_picture")
-                span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
-                br(v-if="item.story")
-                span.meta(v-if="item.story") {{ item.story }}
-                br(v-if="item.link")
-                span.meta(v-if="item.link")
-                  a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-              .photo(v-if="item.full_picture")
-                a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                  img(:src="item.full_picture")
-              .photo(v-else-if="item.attachments && item.attachments.data[0].media")
-                a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-                  img(:src="item.attachments.data[0].media.image.src")
-        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+          feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
+        infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
 </template>
 
 <script>
+import FeedItem from './FeedItem'
+import ListNav from './ListNav'
+import { throttle } from 'lodash'
+import bluebird from 'bluebird'
+import scrollTo from '../addons/Scroll'
+const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
+
 export default {
   name: 'items',
   title: 'Items',
+  components: {
+    FeedItem,
+    ListNav
+  },
   asyncData ({ store, route }) {
-    let offset = (route.params.page-1) * store.state.itemsPerPage || 0
-    return store.dispatch('fetchItems', {id: route.params.id, offset: offset })
+    let  p = Number(route.params.page || 1)
+    return store.dispatch('fetchItems', {id: route.params.id, offsetPage: p })
   },
   data() {
+    let  p = Number(this.$store.state.route.params.page || 1)
     return {
-      offset: 0,
-      transition: 'slide-right',
-      displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: this.$store.getters.activeItems
+      transition: 'fade',
+      originPage: p,
+      offsetPage: p,
+      displayedItems: this.$store.getters.activeItems,
+      throttlePrev: throttle(this.previousPage, 200, { leading: true }),
+      throttleNext: throttle(this.nextPage, 200, { leading: true }),
     }
   },
   computed: {
-    items () {
-      return this.$store.state.items
-    },
     id () {
       return this.$store.state.route.params.id
     },
@@ -69,14 +50,10 @@ export default {
     },
     maxPage () {
       return 999
-      // const { itemsPerPage, items } = this.$store.state
-      // return Math.ceil(items.length / itemsPerPage)
-    },
-    hasMore () {
-      return this.page < this.maxPage
     }
   },
   beforeMount () {
+    console.log('beforeMount', this.page)
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }
@@ -86,75 +63,131 @@ export default {
   },
   watch: {
     page (to, from) {
-      this.loadItems(to, from)
+      if (!this.$store.state.route.params.page)
+        this.loadItems(to)
     }
   },
   methods: {
-    async loadItems (to = this.page, from = -1) {
-      this.$bar.start()
-      this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-      this.displayedPage = this.maxPage+1
-      this.displayedItems = []
-      this.offset = (this.page-1) * this.$store.state.itemsPerPage
-      await this.$store.dispatch('fetchItems', {id: this.id, offset: this.offset })
-      if (this.page < 0 || this.page > this.maxPage) {
+    // async loadItems (to = this.page, from = -1) {
+    //   this.$bar.start()
+    //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
+    //   this.displayedPage = this.maxPage+1
+    //   this.displayedItems = []
+    //   this.offset = (this.page-1) * this.$store.state.itemsPerPage
+    //   await this.$store.dispatch('fetchItems', {id: this.id, offset: this.offset })
+    //   if (this.page < 0 || this.page > this.maxPage) {
+    //     this.$router.replace(`/${this.type}`)
+    //     return
+    //   }
+    //   this.displayedPage = to
+    //   this.displayedItems = this.$store.getters.activeItems
+    //   this.$bar.finish()
+    // },
+    // async onInfinite() {
+    //   console.log('onInfinite', this.offset)
+    //   if (this.displayedItems.length == 0) return
+    //
+    //   this.offset = this.offset + this.$store.state.itemsPerPage
+    //   await this.$store.dispatch('fetchMoreItems', {id: this.id, offset: this.offset})
+    //   if (this.$store.getters.activeItems.length > this.displayedItems.length) {
+    //     this.displayedItems = this.$store.getters.activeItems
+    //     this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+    //   } else {
+    //     this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+    //   }
+    // }
+
+    async previousPage() {
+      let p = this.page-1
+      if (document.getElementById(`p${p}`))
+        await this.scrollTo(p)
+      else {
+        this.loadItems(p)
+        // await this.loadPreviousPage()
+        // await this.scrollTo(p)
+      }
+    },
+    async nextPage() {
+      let p = this.page+1
+      if (document.getElementById(`p${p}`))
+        await this.scrollTo(p)
+      else {
+        await this.loadNextPage()
+        await this.scrollTo(p)
+      }
+    },
+    async loadItems (page) {
+      if (page < 0 || page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
-      this.displayedPage = to
+      window.scroll(0,0)
+      this.$bar.start()
+      this.offsetPage = page
+      this.displayedItems = []
+      await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
+      this.originPage = page
+      this.$router.push({ params: { page }})
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
-    async onInfinite() {
-      console.log('onInfinite', this.offset)
+    async loadNextPage() {
+      console.log('loadNextPage')
       if (this.displayedItems.length == 0) return
-
-      this.offset = this.offset + this.$store.state.itemsPerPage
-      await this.$store.dispatch('fetchMoreItems', {id: this.id, offset: this.offset})
+      this.$bar.start()
+      this.offsetPage++
+      await this.$store.dispatch('fetchMoreItems', {id: this.id, offsetPage: this.offsetPage })
       if (this.$store.getters.activeItems.length > this.displayedItems.length) {
         this.displayedItems = this.$store.getters.activeItems
+        this.$bar.finish()
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
       }
+    },
+    async loadPreviousPage() {
+      this.originPage--
+      this.$router.push({ params: { page: this.originPage }})
+      this.displayedItems = this.$store.getters.activeItems
+    },
+    pageChanged(page) {
+      this.$router.push({ params: { page }})
+    },
+    async pageSelected(page){
+      if (document.getElementById(`p${page}`))
+        await this.scrollTo(page)
+      else if (this.page+1 == page){
+        await this.loadNextPage()
+        await this.scrollTo(page)
+      }
+      else if (this.page-1 == page){
+        await this.loadItems(page)
+        // await this.loadPreviousPage()
+        // await this.scrollTo(page)
+      }
+      else
+        await this.loadItems(page)
+    },
+    scrollTo (page) {
+      if (page == this.originPage) {
+        return scroll('body')
+      }
+      return scroll(`#p${page}`, 200, { offset: -10 })
     }
   }
 }
 </script>
 
-<style lang="stylus">
-@media (max-width 600px)
-  body
-    padding-top 0
-
-  .navbar
-    display none
-
-  .container
-    padding 7px
-</style>
-
 <style lang="stylus" scoped>
 .news-view
   padding-top 10px
 
-.news-list-nav, .news-list
+.news-list
   background-color #fff
   border-radius 2px
-
-.news-list-nav
-  margin-bottom 10px
-  padding 15px 30px
-  text-align center
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
-  a
-    margin 0 1em
-  .disabled
-    color #ccc
-
-.news-list
   position absolute
-  margin 0 0 80px 0
+  margin 10px 0 80px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul
@@ -162,84 +195,12 @@ export default {
     padding 0
     margin 0
 
-.slide-left-enter, .slide-right-leave-to
-  opacity 0
-  transform translate(30px, 0)
-
-.slide-left-leave-to, .slide-right-enter
-  opacity 0
-  transform translate(-30px, 0)
-
 .item-move, .item-enter-active, .item-leave-active
   transition all .5s cubic-bezier(.55,0,.1,1)
 
-.item-enter
+.item-enter-active, .item-leave-active
+  transition all .2s ease
+
+.item-enter, .item-leave-active
   opacity 0
-  transform translate(30px, 0)
-
-.item-leave-active
-  position absolute
-  opacity 0
-  transform translate(30px, 0)
-
-@media (max-width 600px)
-  .photo
-    margin-left -10px
-    margin-right -10px
-
-.news-item
-  background-color #fff
-  padding 10px 10px 10px 70px
-  border-bottom 1px solid #eee
-  position relative
-  line-height 20px
-
-  .avatar
-    position absolute
-    left 10px
-    width 50px
-    text-align center
-    margin-top 5px
-
-  img
-    max-width 100%
-    max-height 500px
-
-  .photo
-    img
-      margin-top 5px
-
-  .title
-    font-size .9em
-    white-space: pre-wrap
-    word-wrap: break-word
-
-    &::first-line
-      font-weight bold
-      line-height 28px
-
-  .meta, .host
-    font-size .85em
-    color #828282
-    a
-      color #828282
-      text-decoration underline
-      &:hover
-        color #ff6600
-
-@media (max-width 600px)
-  .news-item
-    padding-left 10px
-
-    .avatar
-      position relative
-      left 0
-      width 40px
-      float left
-      margin-right 10px
-      margin-bottom 3px
-
-      img
-        width 40px
-
 </style>
