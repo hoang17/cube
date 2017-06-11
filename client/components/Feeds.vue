@@ -88,11 +88,11 @@ export default {
       }
       window.scroll(0,0)
       this.$bar.start()
-      this.offsetPage = page
       this.displayedItems = []
-      await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
+      this.offsetPage = page
       this.originPage = page
       this.$router.push({ params: { page }})
+      await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
       this.displayedItems = this.$store.getters.activeFeeds
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')

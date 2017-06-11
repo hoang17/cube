@@ -124,9 +124,9 @@ export default {
       window.scroll(0,0)
       this.$bar.start()
       this.offsetPage = page
-      this.displayedItems = []
       this.originPage = page
       this.$router.push({ params: { page }})
+      this.displayedItems = []
       await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
