@@ -10,6 +10,8 @@ import InfiniteLoading from './addons/InfiniteLoading'
 
 Vue.component('infinite-loading', InfiniteLoading)
 
+Vue.config.productionTip = false
+
 // mixin for handling title
 Vue.mixin(titleMixin)
 
