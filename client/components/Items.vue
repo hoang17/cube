@@ -5,7 +5,8 @@
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
           feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
-        infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
+    infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
+    content-placeholder(:page="offsetPage", :showNumber="offsetPage>originPage")
 </template>
 
 <script>
@@ -15,13 +16,15 @@ import { throttle } from 'lodash'
 import bluebird from 'bluebird'
 import scrollTo from '../addons/Scroll'
 const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
+import ContentPlaceholder from '../addons/ContentPlaceholder'
 
 export default {
   name: 'items',
   title: 'Items',
   components: {
     FeedItem,
-    ListNav
+    ListNav,
+    ContentPlaceholder
   },
   asyncData ({ store, route }) {
     let  p = Number(route.params.page || 1)
@@ -35,7 +38,7 @@ export default {
       offsetPage: p,
       displayedItems: this.$store.getters.activeItems,
       throttlePrev: throttle(this.previousPage, 200, { leading: true }),
-      throttleNext: throttle(this.nextPage, 200, { leading: true }),
+      throttleNext: throttle(this.nextPage, 200, { leading: true })
     }
   },
   computed: {
@@ -68,35 +71,16 @@ export default {
     }
   },
   methods: {
-    // async loadItems (to = this.page, from = -1) {
-    //   this.$bar.start()
-    //   this.transition = from === -1 ? null : to > from ? 'slide-left' : 'slide-right'
-    //   this.displayedPage = this.maxPage+1
-    //   this.displayedItems = []
-    //   this.offset = (this.page-1) * this.$store.state.itemsPerPage
-    //   await this.$store.dispatch('fetchItems', {id: this.id, offset: this.offset })
-    //   if (this.page < 0 || this.page > this.maxPage) {
-    //     this.$router.replace(`/${this.type}`)
-    //     return
-    //   }
-    //   this.displayedPage = to
-    //   this.displayedItems = this.$store.getters.activeItems
-    //   this.$bar.finish()
-    // },
-    // async onInfinite() {
-    //   console.log('onInfinite', this.offset)
-    //   if (this.displayedItems.length == 0) return
-    //
-    //   this.offset = this.offset + this.$store.state.itemsPerPage
-    //   await this.$store.dispatch('fetchMoreItems', {id: this.id, offset: this.offset})
-    //   if (this.$store.getters.activeItems.length > this.displayedItems.length) {
-    //     this.displayedItems = this.$store.getters.activeItems
-    //     this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
-    //   } else {
-    //     this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
-    //   }
-    // }
-
+    async nextPage() {
+      let p = this.page+1
+      if (document.getElementById(`p${p}`))
+        await this.scrollTo(p)
+      else {
+        await scroll('.timeline-wrapper', 1, { offset: -25 })
+        // await this.loadNextPage()
+        // await this.scrollTo(p)
+      }
+    },
     async previousPage() {
       let p = this.page-1
       if (document.getElementById(`p${p}`))
@@ -107,15 +91,6 @@ export default {
         // await this.scrollTo(p)
       }
     },
-    async nextPage() {
-      let p = this.page+1
-      if (document.getElementById(`p${p}`))
-        await this.scrollTo(p)
-      else {
-        await this.loadNextPage()
-        await this.scrollTo(p)
-      }
-    },
     async loadItems(page) {
       if (page < 0 || page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
@@ -123,10 +98,10 @@ export default {
       }
       window.scroll(0,0)
       this.$bar.start()
+      this.displayedItems = []
       this.offsetPage = page
       this.originPage = page
       this.$router.push({ params: { page }})
-      this.displayedItems = []
       await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
@@ -136,6 +111,7 @@ export default {
       if (this.displayedItems.length == 0) return
       this.$bar.start()
       this.offsetPage++
+      this.$router.push({ params: { page: this.offsetPage }})
       await this.$store.dispatch('fetchMoreItems', {id: this.id, offsetPage: this.offsetPage })
       if (this.$store.getters.activeItems.length > this.displayedItems.length) {
         this.displayedItems = this.$store.getters.activeItems
@@ -172,7 +148,7 @@ export default {
       if (page == this.originPage) {
         return scroll('body')
       }
-      return scroll(`#p${page}`, 200, { offset: -10 })
+      return scroll(`#p${page}`, 1, { offset: -10 })
     }
   }
 }
@@ -183,10 +159,8 @@ export default {
   padding-top 10px
 
 .news-list
-  background-color #fff
   border-radius 2px
-  position absolute
-  margin 10px 0 80px 0
+  margin 10px 0 15px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul

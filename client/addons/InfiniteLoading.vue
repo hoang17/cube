@@ -1,6 +1,6 @@
 <template>
   <div class="infinite-loading-container">
-    <div v-show="isLoading">
+    <div v-show="false">
       <slot name="spinner">
         <i :class="spinnerType"></i>
       </slot>
