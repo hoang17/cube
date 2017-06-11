@@ -30,14 +30,16 @@ const spinnerMapping = {
  * @return {DOM}        the first scroll parent
  */
 function getScrollParent(elm) {
-  if (elm.tagName === 'BODY') {
-    return window;
-  } else if (['scroll', 'auto'].indexOf(getComputedStyle(elm).overflowY) > -1) {
-    return elm;
-  } else if (elm.hasAttribute('infinite-wrapper') || elm.hasAttribute('data-infinite-wrapper')) {
-    return elm;
-  }
-  return getScrollParent(elm.parentNode);
+  return window
+
+  // if (elm.tagName === 'BODY') {
+  //   return window;
+  // } else if (['scroll', 'auto'].indexOf(getComputedStyle(elm).overflowY) > -1) {
+  //   return elm;
+  // } else if (elm.hasAttribute('infinite-wrapper') || elm.hasAttribute('data-infinite-wrapper')) {
+  //   return elm;
+  // }
+  // return getScrollParent(elm.parentNode);
 }
 
 /**
@@ -95,7 +97,6 @@ export default {
     this.scrollParent = getScrollParent(this.$el);
 
     this.scrollHandlerOriginal = function() {
-      console.log('isLoading', this.isLoading)
       if (!this.isLoading) {
         this.attemptLoad();
       }
@@ -128,13 +129,13 @@ export default {
   /**
    * To adapt to keep-alive feature, but only work on Vue 2.2.0 and above, see: https://vuejs.org/v2/api/#keep-alive
    */
-  deactivated() {
-    this.isLoading = false;
-    this.scrollParent.removeEventListener('scroll', this.scrollHandler);
-  },
-  activated() {
-    this.scrollParent.addEventListener('scroll', this.scrollHandler);
-  },
+  // deactivated() {
+  //   this.isLoading = false;
+  //   this.scrollParent.removeEventListener('scroll', this.scrollHandler);
+  // },
+  // activated() {
+  //   this.scrollParent.addEventListener('scroll', this.scrollHandler);
+  // },
   methods: {
     attemptLoad() {
       const currentDistance = getCurrentDistance(this.scrollParent, this.$el, this.direction);

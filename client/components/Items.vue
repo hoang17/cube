@@ -116,7 +116,7 @@ export default {
         await this.scrollTo(p)
       }
     },
-    async loadItems (page) {
+    async loadItems(page) {
       if (page < 0 || page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
@@ -125,15 +125,14 @@ export default {
       this.$bar.start()
       this.offsetPage = page
       this.displayedItems = []
-      await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
       this.originPage = page
       this.$router.push({ params: { page }})
+      await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
     },
     async loadNextPage() {
-      console.log('loadNextPage')
       if (this.displayedItems.length == 0) return
       this.$bar.start()
       this.offsetPage++
