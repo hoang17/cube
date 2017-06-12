@@ -81,7 +81,7 @@ export default {
   border-radius 2px
   font-weight 500
   font-size 18px
-  padding 7px 0
+  padding 5px 0
   text-align center
   box-shadow 0 1px 2px rgba(0,0,0,.1)
   a
@@ -118,11 +118,4 @@ export default {
       border-right .25em solid transparent
       border-top 0.375em solid #ccc
       pointer-events none
-
-@media (max-width 600px)
-  .news-list-nav
-    padding 5px 0
-    select
-      font-size 18px
-      border none
 </style>

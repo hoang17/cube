@@ -43,6 +43,11 @@ export default {
 
 <style lang="stylus" scoped>
 .page-item
+  background-color #f2f3f5
+  h4
+    text-align center
+    padding 15px 0
+    margin 0
   ul
     list-style-type none
     padding 0
@@ -87,14 +92,6 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
-
-.page-item
-  padding 10px 0
-  background-color #f2f3f5
-  h4
-    text-align center
-    padding-bottom 20px
-    margin 0
 
 @media (max-width 600px)
   .news-item

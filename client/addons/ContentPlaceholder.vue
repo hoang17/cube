@@ -34,8 +34,8 @@ export default {
 <style lang="stylus" scoped>
 h4
   text-align center
-  padding-bottom 10px
-  margin 0 0 5px 0
+  padding 15px 0
+  margin 0
 </style>
 
 <style>

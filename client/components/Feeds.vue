@@ -68,7 +68,7 @@ export default {
       if (document.getElementById(`p${p}`))
         await this.scrollTo(p)
       else {
-        await scroll('.timeline-wrapper', 1, { offset: -25 })
+        await scroll('.timeline-wrapper', 1, { offset: -5 })
         // await this.loadNextPage()
         // await this.scrollTo(p)
       }
@@ -141,7 +141,7 @@ export default {
       if (page == this.originPage) {
         return scroll('body')
       }
-      return scroll(`#p${page}`, 1, { offset: -10 })
+      return scroll(`#p${page}`, 1, { offset: -5 })
     }
   }
 }
@@ -153,7 +153,6 @@ export default {
 
 .news-list
   border-radius 2px
-  margin 0 0 15px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul
