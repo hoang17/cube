@@ -3,8 +3,8 @@ li.page-item
   h4(v-show="index>0") {{ page.p }}
   ul
     li.news-item(v-for="(item, i) in page.c", :key="item.id")
-      div.title
-        div.avatar
+      .title
+        .avatar
           a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
             img(:src="item.from.picture.data.url")
         span {{ item.from.name }}
@@ -21,22 +21,22 @@ li.page-item
         br(v-if="item.link")
         span.meta(v-if="item.link")
           a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-      div.photo(v-if="item.full_picture")
-        a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          img(v-lazy="item.full_picture")
-      div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
-        a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          img(v-lazy="item.attachments.data[0].media.image.src")
+      photo(v-if="item.full_picture", :id="item.id", :src="item.full_picture")
+      photo(v-else-if="item.attachments && item.attachments.data[0].media", :id="item.id", :src="item.attachments.data[0].media.image.src")
 </template>
 
 <script>
 import Vuesible from '../addons/Vuesible'
+import Photo from '../addons/Photo'
 
 export default {
   mixins: [Vuesible()],
   props: {
 		page: Object,
-    index: Number
+    index: Number,
+  },
+  components: {
+    Photo
   }
 }
 </script>
@@ -66,14 +66,6 @@ export default {
     width 50px
     text-align center
     margin-top 5px
-
-  img
-    max-width 100%
-    max-height 500px
-
-  .photo
-    img
-      margin-top 5px
 
   .title
     font-size .9em
@@ -108,19 +100,4 @@ export default {
       margin-bottom 3px
       img
         width 40px
-
-@keyframes fadeIn
-  from {
-    opacity 0
-  }
-  to {
-    opacity 1
-  }
-
-img[lazy=loaded]
-  animation-duration .5s
-  animation-fill-mode both
-  animationmode both
-  animation-name fadeIn
-
 </style>
