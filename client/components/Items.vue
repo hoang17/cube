@@ -105,7 +105,7 @@ export default {
       await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
       this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      this.$refs.infiniteLoading.$emit('in:loaded')
     },
     async loadNextPage() {
       if (this.displayedItems.length == 0) return
@@ -116,9 +116,9 @@ export default {
       if (this.$store.getters.activeItems.length > this.displayedItems.length) {
         this.displayedItems = this.$store.getters.activeItems
         this.$bar.finish()
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+        this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+        this.$refs.infiniteLoading.$emit('in:complete')
       }
     },
     async loadPreviousPage() {

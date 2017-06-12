@@ -97,7 +97,7 @@ export default {
       await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
       this.displayedItems = this.$store.getters.activeFeeds
       this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      this.$refs.infiniteLoading.$emit('in:loaded')
     },
     async loadNextPage() {
       if (this.displayedItems.length == 0) return
@@ -109,9 +109,9 @@ export default {
         await this.$store.dispatch('fetchMoreFeeds', { offsetPage: this.offsetPage })
         this.displayedItems = this.$store.getters.activeFeeds
         this.$bar.finish()
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+        this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+        this.$refs.infiniteLoading.$emit('in:complete')
       }
     },
     async loadPreviousPage() {

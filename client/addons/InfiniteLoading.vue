@@ -1,10 +1,10 @@
 <template>
   <div class="infinite-loading-container">
-    <div v-show="false">
+    <!-- <div v-show="isLoading">
       <slot name="spinner">
         <i :class="spinnerType"></i>
       </slot>
-    </div>
+    </div> -->
     <!-- <div class="infinite-status-prompt" v-show="!isLoading && isComplete && isFirstLoad">
       <slot name="no-results">No results :(</slot>
     </div> -->
@@ -16,13 +16,13 @@
 <script>
 import throttle from 'lodash/throttle'
 
-const spinnerMapping = {
-  bubbles: 'loading-bubbles',
-  circles: 'loading-circles',
-  default: 'loading-default',
-  spiral: 'loading-spiral',
-  waveDots: 'loading-wave-dots',
-};
+// const spinnerMapping = {
+//   bubbles: 'loading-bubbles',
+//   circles: 'loading-circles',
+//   default: 'loading-default',
+//   spiral: 'loading-spiral',
+//   waveDots: 'loading-wave-dots',
+// };
 
 /**
  * get the first scroll parent of an element
@@ -76,11 +76,11 @@ export default {
       isFirstLoad: true, // save the current loading whether it is the first loading
     };
   },
-  computed: {
-    spinnerType() {
-      return spinnerMapping[this.spinner] || spinnerMapping.default;
-    },
-  },
+  // computed: {
+  //   spinnerType() {
+  //     return spinnerMapping[this.spinner] || spinnerMapping.default;
+  //   },
+  // },
   props: {
     distance: {
       type: Number,
@@ -107,18 +107,18 @@ export default {
     setTimeout(this.scrollHandler, 1);
     this.scrollParent.addEventListener('scroll', this.scrollHandler);
 
-    this.$on('$InfiniteLoading:loaded', () => {
+    this.$on('in:loaded', () => {
       this.isFirstLoad = false;
       if (this.isLoading) {
         this.$nextTick(this.attemptLoad);
       }
     });
-    this.$on('$InfiniteLoading:complete', () => {
+    this.$on('in:complete', () => {
       this.isLoading = false;
       this.isComplete = true;
       this.scrollParent.removeEventListener('scroll', this.scrollHandler);
     });
-    this.$on('$InfiniteLoading:reset', () => {
+    this.$on('in:reset', () => {
       this.isLoading = false;
       this.isComplete = false;
       this.isFirstLoad = true;
@@ -154,7 +154,8 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
+
+<!-- style lang="less" scoped>
   @import './styles/spinner';
 
   .infinite-loading-container{
@@ -178,4 +179,4 @@ export default {
     text-align: center;
     padding: 10px 0;
   }
-</style>
+</style> -->

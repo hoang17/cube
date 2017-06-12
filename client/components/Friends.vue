@@ -58,7 +58,7 @@ export default {
       await this.$store.dispatch('getFriends')
       this.displayedItems = this.$store.getters.activeFriends(this.page)
       this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+      this.$refs.infiniteLoading.$emit('in:loaded')
     },
     onInfinite() {
       if (this.displayedItems.length == 0) {
@@ -67,9 +67,9 @@ export default {
       this.page++
       if (this.page <= this.maxPage) {
         this.displayedItems = this.$store.getters.activeFriends(this.page)
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+        this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+        this.$refs.infiniteLoading.$emit('in:complete')
       }
     }
   }
