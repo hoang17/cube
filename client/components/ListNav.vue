@@ -122,6 +122,8 @@ export default {
 
 @media (max-width 600px)
   .news-list-nav
+    padding 5px 0
     select
-      font-size 22px
+      font-size 18px
+      border none
 </style>

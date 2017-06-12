@@ -1,7 +1,7 @@
 <template lang="pug">
   .timeline-wrapper
     h4(v-show="showNumber") {{ page }}
-    .timeline-item(v-for="i in 3")
+    .timeline-item(v-for="i in 5")
       .animated-background.facebook
         .background-masker.header-top
         .background-masker.header-left
