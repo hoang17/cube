@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const vueConfig = require('./vue-loader.config')
 
@@ -78,6 +79,41 @@ module.exports = {
         new webpack.optimize.AggressiveMergingPlugin(),
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css'
+        }),
+        new SWPrecachePlugin({
+          cacheId: 'vue-hn',
+          filename: 'service-worker.js',
+          minify: true,
+          dontCacheBustUrlsMatching: /./,
+          staticFileGlobsIgnorePatterns: [/\.map$/, /\.json$/],
+          // mergeStaticsConfig: true,
+          // staticFileGlobs: [
+          //   "public/**/*.{html,js,css}",
+          //   "public/fonts/**",
+          //   "public/logo/**",
+          //   "public/css/**.css",
+          //   "public/js/lib/**.js",
+          //   "dist/**.css",
+          //   "dist/**.js"
+          // ],
+          runtimeCaching: [
+            {
+              urlPattern: '/',
+              handler: 'networkFirst'
+            },
+            {
+              urlPattern: /\/(groups|likes|friends|feeds)/,
+              handler: 'networkFirst'
+            },
+            {
+              urlPattern: '/item/:id',
+              handler: 'networkFirst'
+            },
+            {
+              urlPattern: '/user/:id',
+              handler: 'networkFirst'
+            }
+          ]
         }),
         new VueSSRClientPlugin()
       ]

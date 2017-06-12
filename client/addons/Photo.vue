@@ -1,7 +1,7 @@
 <template lang="pug">
   .photo
     a(:href="'http://facebook.com/' + id", target='_blank', rel='noopener')
-      img(v-lazy="src")
+      img(:src="src")
 </template>
 
 <script>

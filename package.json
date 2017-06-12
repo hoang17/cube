@@ -129,6 +129,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "supertest": "^3.0.0",
+    "sw-precache-webpack-plugin": "^0.11.3",
     "url-loader": "^0.5.8",
     "vue-loader": "^12.2.1",
     "vue-style-loader": "^3.0.1",
@@ -137,7 +138,8 @@
     "webpack-dev-middleware": "^1.10.2",
     "webpack-hot-middleware": "^2.18.0",
     "webpack-merge": "^4.1.0",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "workbox-webpack-plugin": "^1.0.1"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
