@@ -9,6 +9,9 @@ import ProgressBar from './addons/ProgressBar.vue'
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
 
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload)
+
 // a global mixin that calls `asyncData` when a route component's params change
 // Vue.mixin({
 //   beforeRouteUpdate (to, from, next) {

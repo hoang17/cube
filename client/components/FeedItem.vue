@@ -23,10 +23,10 @@ li.page-item
           a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
       div.photo(v-if="item.full_picture")
         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          img(:src="item.full_picture")
+          img(v-lazy="item.full_picture")
       div.photo(v-else-if="item.attachments && item.attachments.data[0].media")
         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
-          img(:src="item.attachments.data[0].media.image.src")
+          img(v-lazy="item.attachments.data[0].media.image.src")
 </template>
 
 <script>
@@ -108,4 +108,19 @@ export default {
       margin-bottom 3px
       img
         width 40px
+
+@keyframes fadeIn
+  from {
+    opacity 0
+  }
+  to {
+    opacity 1
+  }
+
+img[lazy=loaded]
+  animation-duration .5s
+  animation-fill-mode both
+  animationmode both
+  animation-name fadeIn
+
 </style>
