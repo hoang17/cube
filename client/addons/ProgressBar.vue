@@ -6,19 +6,18 @@
       'width': percent+'%',
       'height': height,
       'background-color': canSuccess? color : failedColor,
-      'opacity': show ? 1 : 0
-    }"></div>
-    <spinner :show="show"></spinner>
+      'opacity': show ? 1 : 0 }"></div>
+    <!-- <spinner :show="show"></spinner> -->
   </div>
 </template>
 
 <script>
-import Spinner from './Spinner.vue'
+// import Spinner from './Spinner.vue'
 
 export default {
-  components: {
-    'spinner': Spinner
-  },
+  // components: {
+  //   'spinner': Spinner
+  // },
   data () {
     return {
       percent: 0,
