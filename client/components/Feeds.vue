@@ -6,7 +6,7 @@
         transition-group(tag='ul', name='item')
           feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
     infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
-    content-placeholder(:page="offsetPage", :showNumber="offsetPage>originPage")
+    content-placeholder(v-show="loading", :page="offsetPage", :showNumber="offsetPage>originPage")
 </template>
 
 <script>
@@ -112,6 +112,7 @@ export default {
         this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
         this.$refs.infiniteLoading.$emit('in:complete')
+        this.loading = false
       }
     },
     async loadPreviousPage() {
