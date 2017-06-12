@@ -94,7 +94,7 @@ export default {
   h4
     text-align center
     padding-bottom 20px
-    margin 5px 0
+    margin 0
 
 @media (max-width 600px)
   .news-item

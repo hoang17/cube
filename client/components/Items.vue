@@ -160,7 +160,7 @@ export default {
 
 .news-list
   border-radius 2px
-  margin 10px 0 15px 0
+  margin 0 0 15px 0
   width 100%
   transition all .5s cubic-bezier(.55,0,.1,1)
   ul

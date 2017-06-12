@@ -34,7 +34,7 @@ export default {
 <style lang="stylus" scoped>
 h4
   text-align center
-  padding-bottom 20px
+  padding-bottom 10px
   margin 0 0 5px 0
 </style>
 
@@ -69,9 +69,9 @@ h4
   border: 1px solid;
   border-color: #e5e6e9 #dfe0e4 #d0d1d5;
   border-radius: 3px;
+  /*max-width: 472px;*/
   padding: 12px;
   margin: 0 0 10px 0;
-  /*max-width: 472px;*/
   min-height: 200px;
 }
 

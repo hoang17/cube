@@ -81,8 +81,7 @@ export default {
   border-radius 2px
   font-weight 500
   font-size 18px
-  margin-bottom 10px
-  padding 10px 30px
+  padding 7px 0
   text-align center
   box-shadow 0 1px 2px rgba(0,0,0,.1)
   a
@@ -95,8 +94,8 @@ export default {
     font-size 18px
     background-color transparent
     border none
-    border-bottom 1px solid rgba(0,0,0, 0.12)
-    padding 4px 17px 4px 2px
+    /*border-bottom 1px solid rgba(0,0,0, 0.12)*/
+    padding 0 17px 0 2px
     border-radius 0
     &:focus
       outline none
