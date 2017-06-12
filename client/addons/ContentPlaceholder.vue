@@ -1,7 +1,7 @@
 <template lang="pug">
   .timeline-wrapper
     h4(v-show="showNumber") {{ page }}
-    .timeline-item(v-for="i in 5")
+    .timeline-item(v-for="i in row")
       .animated-background.facebook
         .background-masker.header-top
         .background-masker.header-left
@@ -21,13 +21,10 @@
 <script>
 export default {
   props: {
+    row: Number,
     page: Number,
-    showNumber: Boolean
-  },
-  // data () {
-  //   return {
-  //   }
-  // },
+    showNumber: Boolean,
+  }
 }
 </script>
 

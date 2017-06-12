@@ -5,8 +5,8 @@
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
           feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
-    infinite-loading(:on-infinite='loadNextPage', ref='infiniteLoading')
-    content-placeholder(v-show="loading", :page="offsetPage", :showNumber="offsetPage>originPage")
+    infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+    content-placeholder(v-show="loading", :row="row", :page="offsetPage", :showNumber="offsetPage>originPage")
 </template>
 
 <script>
@@ -33,6 +33,7 @@ export default {
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
     return {
+      row: 5,
       loading: true,
       transition: 'fade',
       originPage: p,
@@ -72,11 +73,18 @@ export default {
     }
   },
   methods: {
+    onInfinite(){
+      if (this.$bar.show) return
+      this.row = 2
+      this.loadNextPage()
+    },
     async nextPage() {
       let p = this.page+1
       if (document.getElementById(`p${p}`))
         await this.scrollTo(p)
       else {
+        this.row = 5
+        this.loadNextPage()
         await scroll('.timeline-wrapper', 1, { offset: -5 })
         // await this.loadNextPage()
         // await this.scrollTo(p)
