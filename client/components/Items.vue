@@ -119,6 +119,7 @@ export default {
         this.$bar.finish()
         this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
+        this.$bar.finish()
         this.$refs.infiniteLoading.$emit('in:complete')
         this.loading = false
       }
