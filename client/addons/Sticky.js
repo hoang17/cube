@@ -1,9 +1,6 @@
-// import Sticky from 'sticky-js';
-// var sticky = require('sticky-header');
-
 export default {
-  bind(el, binding) {
-    // console.log('update', binding)
+  inserted(el, binding) {
+    // console.log('inserted')
     // const val = binding.value
     // if (val) {
     //   if (val.marginTop) el.setAttribute('data-margin-top', val.marginTop)
@@ -15,9 +12,8 @@ export default {
     // new Sticky('.sticky')
     sticky(el)
   },
-
-  update(el, binding) {
-    // console.log('update', binding)
+    // update(el, binding) {
+    // console.log('update')
     // if (binding.oldValue && binding.oldValue.stickyClass == binding.value.stickyClass) return
     // const val = binding.value
     // if (val) {
@@ -26,8 +22,8 @@ export default {
     //   if (val.className) el.setAttribute('data-sticky-class', val.className)
     // }
     // new Sticky('.sticky')
-    sticky(el)
-  }
+    // sticky(el)
+    // }
 }
 
 function sticky(el, top, options) {
