@@ -23,9 +23,16 @@ li.page-item
           a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
       photo(v-if="item.full_picture", :id="item.id", :src="item.full_picture")
       photo(v-else-if="item.attachments && item.attachments.data[0].media", :id="item.id", :src="item.attachments.data[0].media.image.src")
+      .item-view-comments
+        p.item-view-comments-header(v-if="item.comments.data.length")
+          | {{ item.comments.summary.total_count }} comments
+          //-spinner(:show='loading')
+        ul.comment-children
+          comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
 </template>
 
 <script>
+import Comment from '../components/Comment'
 import Vuesible from '../addons/Vuesible'
 import Photo from '../addons/Photo'
 
@@ -36,7 +43,7 @@ export default {
     index: Number,
   },
   components: {
-    Photo
+    Comment, Photo
   }
 }
 </script>
@@ -69,8 +76,8 @@ export default {
 
   .title
     font-size .9em
-    white-space: pre-wrap
-    word-wrap: break-word
+    white-space pre-wrap
+    word-wrap break-word
 
     &::first-line
       font-weight bold
@@ -84,6 +91,25 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+.item-view-comments
+  background-color #fff
+  margin-top 10px
+  padding 0
+
+.item-view-comments-header
+  margin 0
+  font-size 13px
+  padding 1em 0
+  position relative
+  .spinner
+    display inline-block
+    margin -15px 0
+
+.comment-children
+  list-style-type none
+  padding 0
+  margin 0
 
 @media (max-width 600px)
   .news-item

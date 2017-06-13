@@ -31,7 +31,7 @@ const fetchData = async function(url, params) {
 }
 
 export function fetchItems(id, offset, limit){
-  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,created_time', offset: offset, limit: limit })
+  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.summary(true){message,from{name,picture},comments{message,from{name,picture}},comment_count,like_count,created_time},created_time', offset: offset, limit: limit })
 }
 
 export function fetchUrl(url){
