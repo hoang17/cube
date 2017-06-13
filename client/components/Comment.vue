@@ -7,6 +7,7 @@
       router-link(:to="'/user/' + comment.from.id") {{ comment.from.name }}
       //-|       {{ comment.created_time | timeAgo }} ago
     span.text  {{ comment.message }}
+    img.media(v-if="comment.attachment && comment.attachment.media", :src="comment.attachment.media.image.src", :class="comment.attachment.type")
     .toggle(v-if='comment.comment_count > 0', @click='open = !open')
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
     ul.comment-children(v-show='open', v-if='comment.comment_count > 0')
@@ -19,7 +20,7 @@ export default {
   props: ['comment'],
   data () {
     return {
-      open: false
+      open: true
     }
   },
   // computed: {
@@ -40,6 +41,13 @@ export default {
   position relative
   padding 5px 2px 5px 40px
   min-height 45px
+  .media
+    max-width 100%
+    max-height 300px
+    display block
+  .sticker
+    max-width 80px
+    max-height 80px
 
   .comment-children
     /*margin-left 2em*/
@@ -84,7 +92,7 @@ export default {
       white-space pre-wrap
   .toggle
     background-color #eee
-    padding .3em .5em
+    padding .1em .5em
     border-radius 2px
     color #828282
     cursor pointer
