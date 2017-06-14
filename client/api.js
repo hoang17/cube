@@ -8,6 +8,13 @@ const api = axios.create({
   // headers: {'X-Custom-Header': 'foobar'}
 })
 
+async function get(endpoint, params){
+  let response = await api.get(endpoint, { params })
+  return response.data
+}
+
+const gv = get('gv')
+
 export function fetch(endpoint, params){
   return api.get(endpoint, { params }).then(response => {
     return response.data
@@ -17,7 +24,7 @@ export function fetch(endpoint, params){
 const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1grPeDrJo32NK5n529g3m0jHbcAdlZA7RyRwnTr3TP1JDbnXt3ZBtzWNNt4MeoV1sMnxWPGs8zqbf1FStll5U5sZCKjhbhruMQ2q52jk0rjogZDZD"
 
 const fb = axios.create({
-  baseURL: 'https://graph.facebook.com/v2.3/',
+  baseURL: 'https://graph.facebook.com/',
   params: { access_token: token }
 })
 
@@ -31,7 +38,8 @@ const fetchData = async function(url, params) {
 }
 
 export function fetchItems(id, offset, limit){
-  return fetchData(`${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment},created_time', offset: offset, limit: limit })
+  let ver = gv[id] ? gv[id] : 'v2.3'
+  return fetchData(`${ver}/${id}/feed`, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment},created_time', offset: offset, limit: limit })
 }
 
 export function fetchUrl(url){

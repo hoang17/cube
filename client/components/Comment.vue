@@ -50,7 +50,6 @@ export default {
     max-height 80px
 
   .comment-children
-    /*margin-left 2em*/
     padding-left 0
     font-size 13px
     list-style-type none

@@ -18,8 +18,13 @@
       br(v-if="item.link")
       span.meta(v-if="item.link")
         a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-    photo(v-if="item.full_picture", :id="item.id", :src="item.full_picture")
-    photo(v-else-if="item.attachments && item.attachments.data[0].media", :id="item.id", :src="item.attachments.data[0].media.image.src")
+    div(v-if="item.attachments")
+      .media(v-for="a in item.attachments.data", :key="a.id")
+        photo(v-if="a.media", :src="a.media.image.src")
+        div(v-else-if="a.subattachments")
+          photo(v-for="s in a.subattachments.data", :key="s.id", v-if="s.media", :src="s.media.image.src")
+        //-pre {{ a }}
+    photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
     .item-view-comments
       p.item-view-comments-header(@click='open = !open', v-if='item.comments.data.length > 0')
         | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}

@@ -6,7 +6,7 @@ dotenv.load({ path: '.env' });
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
-const fetchData = async function(url, model) {
+async function fetchData(url, model) {
   const res = await graph.getAsync(url, { limit: 500 })
   if (res.paging && res.paging.next) {
     await model.insert(res.data)
@@ -20,18 +20,58 @@ const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1g
 graph.setVersion("2.3");
 graph.setAccessToken(token);
 
-const groups = db.get('groups')
-const likes = db.get('likes')
-const friends = db.get('friends')
+async function run(){
+  const g = db.get('groups')
+  const likes = db.get('likes')
+  const friends = db.get('friends')
+  const gv = db.get('group_ver')
 
-groups.drop()
-likes.drop()
-friends.drop()
+  g.drop()
+  likes.drop()
+  friends.drop()
+  gv.drop()
 
-Promise.all([
-  fetchData("504368183/groups", groups),
-  fetchData("504368183/likes", likes),
+  fetchData("504368183/likes", likes)
   fetchData("504368183/invitable_friends", friends)
-]).then(() => {
+
+  await fetchData("504368183/groups", g)
+
+  let groups = await g.find()
+
+  console.log(groups.length)
+
+  graph.setVersion("2.4")
+
+  // count = 0
+  // for (let group of groups) {
+  //   try {
+  //     count++
+  //     const res = await graph.getAsync(group.id + '/feed?fields=id', { limit: 1 })
+  //     let ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
+  //     await gv.insert({ group_id: group.id, ver: ver })
+  //     console.log(count)
+  //   } catch (e) {
+  //     await gv.insert({ group_id: group.id, ver: 'v2.3' })
+  //     console.log(count)
+  //   }
+  // }
+
+  await Promise.all(groups.map(async (group) => {
+    try {
+      const res = await graph.getAsync(group.id + '/feed?fields=id', { limit: 1 })
+      let ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
+      let ob = { group_id: group.id, ver: ver }
+      await gv.insert(ob)
+      // console.log(ob)
+    } catch (e) {
+      let ob = { group_id: group.id, ver: 'v2.3' }
+      await gv.insert(ob)
+      // console.log(ob)
+    }
+  }))
+
   db.close()
-})
+  console.log('done')
+}
+
+run()
