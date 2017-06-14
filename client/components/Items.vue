@@ -4,13 +4,13 @@
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-          feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
+          feed-page(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
     infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
     content-placeholder(v-show="loading", :row="row", :page="offsetPage", :showNumber="offsetPage>originPage")
 </template>
 
 <script>
-import FeedItem from './FeedItem'
+import FeedPage from './FeedPage'
 import ListNav from './ListNav'
 import { throttle } from 'lodash'
 import bluebird from 'bluebird'
@@ -22,7 +22,7 @@ export default {
   name: 'items',
   title: 'Items',
   components: {
-    FeedItem,
+    FeedPage,
     ListNav,
     ContentPlaceholder
   },

@@ -10,7 +10,7 @@
     img.media(v-if="comment.attachment && comment.attachment.media", :src="comment.attachment.media.image.src", :class="comment.attachment.type")
     .toggle(v-if='comment.comment_count > 0', @click='open = !open')
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
-    ul.comment-children(v-show='open', v-if='comment.comment_count > 0')
+    ul.comment-children(v-show='open', v-if='comment.comment_count > 0 && comment.comments')
       comment(v-for='c in comment.comments.data', :key='c.id', :comment='c')
 </template>
 
