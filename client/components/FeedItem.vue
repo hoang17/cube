@@ -56,7 +56,7 @@ export default {
   padding 10px 10px 10px 70px
   position relative
   line-height 20px
-  margin-bottom 20px
+  margin-bottom 15px
   border-radius 2px
   box-shadow 0 1px 2px rgba(0,0,0,0.1)
   /*border-bottom 1px solid #eee*/

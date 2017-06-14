@@ -62,14 +62,15 @@ h4
 }*/
 
 .timeline-item {
-  background: #fff;
-  border: 1px solid;
-  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
-  border-radius: 3px;
+  /*border: 1px solid;*/
+  /*border-color: #e5e6e9 #dfe0e4 #d0d1d5;*/
   /*max-width: 472px;*/
+  background: #fff;
+  border-radius: 2px;
   padding: 12px;
   margin: 0 0 10px 0;
   min-height: 200px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .animated-background {

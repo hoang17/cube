@@ -20,7 +20,7 @@ export default {
   props: ['comment'],
   data () {
     return {
-      open: true
+      open: false
     }
   },
   // computed: {
