@@ -94,8 +94,8 @@ export default {
     pre
       white-space pre-wrap
   .toggle
-    background-color #eee
-    padding .1em .5em
+    /*background-color #eee*/
+    padding .1em 0
     border-radius 2px
     color #828282
     cursor pointer
@@ -107,9 +107,10 @@ export default {
 @media (max-width 600px)
   .comment
     .comment-children
-      border-left 2px solid #eee
-      padding-left 5px
-      margin-left -40px
+      /*border-left 2px solid #eee
+      border-bottom 1px solid #eee*/
+      /*padding-left 3px*/
+      /*margin-left -30px*/
     .toggle
-      margin-left -40px
+      /*margin-left -40px*/
 </style>

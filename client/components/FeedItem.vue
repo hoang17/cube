@@ -53,7 +53,7 @@ export default {
   background-color #f2f3f5
   h4
     text-align center
-    padding 15px 0
+    padding 0 0 15px 0
     margin 0
   ul
     list-style-type none
@@ -63,9 +63,12 @@ export default {
 .news-item
   background-color #fff
   padding 10px 10px 10px 70px
-  border-bottom 1px solid #eee
   position relative
   line-height 20px
+  margin-bottom 20px
+  border-radius 2px
+  box-shadow 0 1px 2px rgba(0,0,0,0.1)
+  /*border-bottom 1px solid #eee*/
 
   .avatar
     position absolute

@@ -85,7 +85,7 @@ export default {
       else {
         this.row = 5
         this.loadNextPage()
-        await scroll('.timeline-wrapper', 1, { offset: -5 })
+        await scroll('.timeline-wrapper', 1, { offset: -20 })
         // await this.loadNextPage()
         // await this.scrollTo(p)
       }
@@ -159,7 +159,7 @@ export default {
       if (page == this.originPage) {
         return scroll('body')
       }
-      return scroll(`#p${page}`, 1, { offset: -5 })
+      return scroll(`#p${page}`, 1, { offset: -20 })
     }
   }
 }
