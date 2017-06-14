@@ -1,6 +1,6 @@
 <template lang="pug">
   li.comment(v-if='comment')
-    .avatar
+    .avatar(v-if="comment.from.picture")
       a(:href="'http://facebook.com/' + comment.from.id", target='_blank', rel='noopener')
         img(:src="comment.from.picture.data.url")
     span.by
@@ -51,7 +51,6 @@ export default {
 
   .comment-children
     /*margin-left 2em*/
-    /*border-left 2px solid #eee*/
     padding-left 0
     font-size 13px
     list-style-type none
@@ -63,6 +62,8 @@ export default {
         margin-top 4px
         width 25px
         height 25px
+        /*border-radius 50%*/
+        /*overflow hidden*/
 
   .avatar
     left 0
@@ -70,6 +71,8 @@ export default {
     width 32px
     height 32px
     position absolute
+    /*border-radius 50%*/
+    /*overflow hidden*/
     img
       width 100%
 
@@ -100,4 +103,13 @@ export default {
       padding 0
       background-color transparent
       margin-bottom -0.5em*/
+
+@media (max-width 600px)
+  .comment
+    .comment-children
+      border-left 2px solid #eee
+      padding-left 5px
+      margin-left -40px
+    .toggle
+      margin-left -40px
 </style>
