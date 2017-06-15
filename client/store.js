@@ -35,57 +35,42 @@ export function createStore () {
       gv: null
     },
     actions: {
-      getGroups ({ state, commit }) {
-        if (state.groups.length >0 )
-          return Promise.resolve(state.groups)
-        return get('groups').then(groups => {
-          commit('setGroups', groups)
-        })
+      async getGroups({ state, commit }) {
+        if (state.groups.length > 0) return
+        let groups = await get('groups')
+        commit('setGroups', groups)
       },
-      getLikes ({ state, commit }) {
-        if (state.likes.length >0 )
-          return Promise.resolve(state.likes)
-        return get('likes').then(likes => {
-          commit('setLikes', likes)
-        })
+      async getLikes({ state, commit }) {
+        if (state.likes.length > 0) return
+        let likes = await get('likes')
+        commit('setLikes', likes)
       },
-      getFriends ({ state, commit }) {
-        if (state.friends.length >0 )
-          return Promise.resolve(state.friends)
-        return get('friends').then(friends => {
-          commit('setFriends', friends)
-        })
+      async getFriends({ state, commit }) {
+        if (state.friends.length > 0) return
+        let friends = await get('friends')
+        commit('setFriends', friends)
       },
-      // getFeeds ({ state, commit }) {
-      //   if (state.feeds.length >0 )
-      //     return Promise.resolve(state.feeds)
-      //   return fetch('feeds').then(feeds => {
-      //     commit('setFeeds', feeds)
-      //   })
-      // },
-      fetchFeeds ({ state, commit }, { offsetPage }) {
+      async fetchFeeds({ state, commit }, { offsetPage }) {
         const offset = (offsetPage-1) * state.itemsPerPage
         let params = {
           'skip': offset,
           'limit': state.itemsPerPage
         }
-        return get('feeds', params).then(data => {
-          commit('setFeedCount', data.count)
-          commit('setFeeds', [{ p: offsetPage, c: data.feeds}])
-        })
+        let data = await get('feeds', params)
+        commit('setFeedCount', data.count)
+        commit('setFeeds', [{ p: offsetPage, c: data.feeds}])
       },
-      fetchMoreFeeds ({ state, commit }, { offsetPage }) {
+      async fetchMoreFeeds({ state, commit }, { offsetPage }) {
         const offset = (offsetPage-1) * state.itemsPerPage
         let params = {
           'skip': offset,
           'limit': state.itemsPerPage
         }
-        return get('feeds', params).then(data => {
-          commit('setFeedCount', data.count)
-          commit('addMoreFeeds', { p: offsetPage, c: data.feeds})
-        })
+        let data = await get('feeds', params)
+        commit('setFeedCount', data.count)
+        commit('addMoreFeeds', { p: offsetPage, c: data.feeds})
       },
-      async fetchItems ({ state, commit }, {id, offsetPage}) {
+      async fetchItems({ state, commit }, {id, offsetPage}) {
         if (!state.gv)
           state.gv = await get('gv')
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
@@ -94,7 +79,7 @@ export function createStore () {
         let items = await fetchItems(id, offset, state.itemsPerPage, ver)
         commit('setItems', [{ p: offsetPage, c: items}])
       },
-      async fetchMoreItems ({ state, commit }, {id, offsetPage}) {
+      async fetchMoreItems({ state, commit }, {id, offsetPage}) {
         if (!state.gv)
           state.gv = await get('gv')
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
@@ -106,45 +91,45 @@ export function createStore () {
       },
     },
     mutations: {
-      setGroups (state, groups) {
+      setGroups(state, groups) {
         state.groups = groups
       },
-      setLikes (state, likes) {
+      setLikes(state, likes) {
         state.likes = likes
       },
-      setFriends (state, friends) {
+      setFriends(state, friends) {
         state.friends = friends
       },
-      setFeeds (state, feeds) {
+      setFeeds(state, feeds) {
         state.feeds = feeds
       },
-      setItems (state, items) {
+      setItems(state, items) {
         state.items = items
       },
-      addMoreItems (state, items) {
+      addMoreItems(state, items) {
         state.items = state.items.concat(items)
       },
-      addMoreFeeds (state, feeds) {
+      addMoreFeeds(state, feeds) {
         state.feeds = state.feeds.concat(feeds)
       },
-      setFeedCount (state, count) {
+      setFeedCount(state, count) {
         state.feedCount = count
       },
     },
     getters: {
-      activeGroups : (state) => (page) => {
+      activeGroups: (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.groups)
       },
-      activeLikes : (state) => (page) => {
+      activeLikes: (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.likes)
       },
-      activeFriends : (state) => (page) => {
+      activeFriends: (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
-      activeFeeds (state) {
+      activeFeeds(state) {
         return state.feeds
       },
-      activeItems (state) {
+      activeItems(state) {
         return state.items
       }
 
