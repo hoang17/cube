@@ -4,13 +4,13 @@
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item')
-          feed-item(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
+          feed-page(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
     infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
     content-placeholder(v-show="loading", :row="row", :page="offsetPage", :showNumber="offsetPage>originPage")
 </template>
 
 <script>
-import FeedItem from './FeedItem'
+import FeedPage from './FeedPage'
 import ListNav from './ListNav'
 import { throttle } from 'lodash'
 import bluebird from 'bluebird'
@@ -22,7 +22,7 @@ export default {
   name: 'feeds',
   title: 'Feeds',
   components: {
-    FeedItem,
+    FeedPage,
     ListNav,
     ContentPlaceholder
   },
@@ -33,6 +33,7 @@ export default {
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
     return {
+      row: 5,
       loading: true,
       transition: 'fade',
       originPage: p,
@@ -76,7 +77,7 @@ export default {
       else {
         this.row = 5
         this.loadNextPage()
-        await scroll('.timeline-wrapper', 1, { offset: -5 })
+        await scroll('.timeline-wrapper', 1, { offset: -20 })
         // await this.loadNextPage()
         // await this.scrollTo(p)
       }
@@ -151,7 +152,7 @@ export default {
       if (page == this.originPage) {
         return scroll('body')
       }
-      return scroll(`#p${page}`, 1, { offset: -5 })
+      return scroll(`#p${page}`, 1, { offset: -20 })
     }
   }
 }

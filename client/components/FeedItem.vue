@@ -26,10 +26,10 @@
         //-pre {{ a }}
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
     .item-view-comments
-      p.item-view-comments-header(@click='open = !open', v-if='item.comments.data.length > 0')
+      p.item-view-comments-header(@click='open = !open', v-if='item.comments && item.comments.data.length > 0')
         | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
         //-spinner(:show='loading')
-      ul.comment-children(v-show='open', v-if='item.comments.data.length > 0')
+      ul.comment-children(v-show='open', v-if='item.comments && item.comments.data.length > 0')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
 </template>
 
