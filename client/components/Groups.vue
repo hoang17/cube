@@ -7,6 +7,7 @@
             span.score {{ i + 1 }}
             span.title
               router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
+            span.host  - {{ item.privacy }} - {{ item.ver }}
         infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 

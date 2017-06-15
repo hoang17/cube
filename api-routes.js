@@ -72,7 +72,6 @@ router.route('/gv')
   .get(function(req, res) {
     gv.find().then(function(data){
       let op = _.fromPairs(_.map(data, i => [i.group_id, i.ver]))
-      console.log(op)
       res.json(op)
     })
   })

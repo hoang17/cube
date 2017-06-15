@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { fetch, fetchItems, fetchUrl } from './api'
+import { get, fetchItems, fetchUrl } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
@@ -31,27 +31,28 @@ export function createStore () {
       friends: [],
       feeds: [],
       items: [],
-      feedCount: 0
+      feedCount: 0,
+      gv: null
     },
     actions: {
       getGroups ({ state, commit }) {
         if (state.groups.length >0 )
           return Promise.resolve(state.groups)
-        return fetch('groups').then(groups => {
+        return get('groups').then(groups => {
           commit('setGroups', groups)
         })
       },
       getLikes ({ state, commit }) {
         if (state.likes.length >0 )
           return Promise.resolve(state.likes)
-        return fetch('likes').then(likes => {
+        return get('likes').then(likes => {
           commit('setLikes', likes)
         })
       },
       getFriends ({ state, commit }) {
         if (state.friends.length >0 )
           return Promise.resolve(state.friends)
-        return fetch('friends').then(friends => {
+        return get('friends').then(friends => {
           commit('setFriends', friends)
         })
       },
@@ -68,7 +69,7 @@ export function createStore () {
           'skip': offset,
           'limit': state.itemsPerPage
         }
-        return fetch('feeds', params).then(data => {
+        return get('feeds', params).then(data => {
           commit('setFeedCount', data.count)
           commit('setFeeds', [{ p: offsetPage, c: data.feeds}])
         })
@@ -79,23 +80,29 @@ export function createStore () {
           'skip': offset,
           'limit': state.itemsPerPage
         }
-        return fetch('feeds', params).then(data => {
+        return get('feeds', params).then(data => {
           commit('setFeedCount', data.count)
           commit('addMoreFeeds', { p: offsetPage, c: data.feeds})
         })
       },
-      fetchItems ({ state, commit }, {id, offsetPage}) {
+      async fetchItems ({ state, commit }, {id, offsetPage}) {
+        if (!state.gv)
+          state.gv = await get('gv')
+        let ver = state.gv[id] ? state.gv[id] : 'v2.3'
+
         const offset = (offsetPage-1) * state.itemsPerPage
-        return fetchItems(id, offset, state.itemsPerPage).then(items => {
-          commit('setItems', [{ p: offsetPage, c: items}])
-        })
+        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        commit('setItems', [{ p: offsetPage, c: items}])
       },
-      fetchMoreItems ({ state, commit }, {id, offsetPage}) {
+      async fetchMoreItems ({ state, commit }, {id, offsetPage}) {
+        if (!state.gv)
+          state.gv = await get('gv')
+        let ver = state.gv[id] ? state.gv[id] : 'v2.3'
+
         const offset = (offsetPage-1) * state.itemsPerPage
-        return fetchItems(id, offset, state.itemsPerPage).then(items => {
-          if (items.length == 0) return
+        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        if (items.length > 0)
           commit('addMoreItems', { p: offsetPage, c: items})
-        })
       },
     },
     mutations: {

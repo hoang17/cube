@@ -59,14 +59,15 @@ async function run(){
   await Promise.all(groups.map(async (group) => {
     try {
       const res = await graph.getAsync(group.id + '/feed?fields=id', { limit: 1 })
-      let ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
-      let ob = { group_id: group.id, ver: ver }
+      group.ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
+      let ob = { group_id: group.id, ver: group.ver }
+      g.update({_id:group._id}, group)
       await gv.insert(ob)
-      // console.log(ob)
     } catch (e) {
-      let ob = { group_id: group.id, ver: 'v2.3' }
+      group.ver = 'v2.3'
+      let ob = { group_id: group.id, ver: group.ver }
+      g.update({_id:group._id}, group)
       await gv.insert(ob)
-      // console.log(ob)
     }
   }))
 
