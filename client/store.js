@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetchItems, fetchUrl } from './api'
+import { get, fetchItems } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
