@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetchItems } from './api'
+import { get, fetchItems, fetchLive } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
@@ -78,6 +78,9 @@ export function createStore () {
         const offset = (offsetPage-1) * state.itemsPerPage
         let items = await fetchItems(id, offset, state.itemsPerPage, ver)
         commit('setItems', [{ p: offsetPage, c: items}])
+
+        // let e = await fetchLive(id, offset, state.itemsPerPage)
+        // console.log(e)
       },
       async fetchMoreItems({ state, commit }, {id, offsetPage}) {
         if (!state.gv)
@@ -107,7 +110,8 @@ export function createStore () {
         state.items = items
       },
       addMoreItems(state, items) {
-        state.items = state.items.concat(items)
+        if (state.items)
+          state.items = state.items.concat(items)
       },
       addMoreFeeds(state, feeds) {
         state.feeds = state.feeds.concat(feeds)
