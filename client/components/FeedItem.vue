@@ -18,12 +18,12 @@
       br(v-if="item.link")
       span.meta(v-if="item.link")
         a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-    div(v-if="item.attachments")
+    .album(v-if="item.attachments")
       .media(v-for="a in item.attachments.data", :key="a.id")
         photo(v-if="a.media", :src="a.media.image.src")
-        div(v-else-if="a.subattachments")
+        .sub(v-else-if="a.subattachments")
           photo(v-for="s in a.subattachments.data", :key="s.id", v-if="s.media", :src="s.media.image.src")
-        //-pre {{ a }}
+          //-pre {{ a }}
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
     .item-view-comments
       p.item-view-comments-header(@click='open = !open', v-if='item.comments && item.comments.data.length > 0')
@@ -65,6 +65,18 @@ export default {
   border-radius 2px
   box-shadow 0 1px 2px rgba(0,0,0,0.1)
   /*border-bottom 1px solid #eee*/
+
+  .album
+    .media
+      .sub
+        /*column-width 300px*/
+        column-count 2
+        column-gap 5px
+        .photo
+          padding 0 10px
+          /*max-width 48%
+          float left
+          margin-right 10px*/
 
   .avatar
     position absolute
