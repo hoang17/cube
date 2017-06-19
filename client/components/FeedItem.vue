@@ -21,7 +21,7 @@
     .album(v-if="item.attachments")
       .media(v-for="a in item.attachments.data", :key="a.id")
         photo(v-if="a.media", :src="a.media.image.src")
-        .sub(v-else-if="a.subattachments")
+        .sub(v-else-if="a.subattachments", :class="{s4: a.subattachments.data.length > 4, s6: a.subattachments.data.length > 6}")
           photo(v-for="s in a.subattachments.data", :key="s.id", v-if="s.media", :src="s.media.image.src")
           //-pre {{ a }}
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
@@ -73,10 +73,12 @@ export default {
         column-count 2
         column-gap 5px
         .photo
-          padding 0 10px
+          padding 0
           /*max-width 48%
           float left
           margin-right 10px*/
+      .s4
+        column-count 3
 
   .avatar
     position absolute
@@ -138,4 +140,19 @@ export default {
       margin-bottom 3px
       img
         width 40px
+
+    .album
+      .media
+        margin-left -10px
+        margin-right -10px
+        .sub
+          column-count 2
+          column-gap 5px
+          .photo
+            padding 0
+            margin 0
+        .s4
+          column-count 2
+        .s6
+          column-count 3
 </style>
