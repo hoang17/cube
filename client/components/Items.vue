@@ -3,10 +3,10 @@
     list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
-        transition-group(tag='ul', name='item')
-          feed-page(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
+        transition-group(tag='ul', name='item', v-if="Object.keys(displayedItems).length>0")
+          feed-page(v-for="(p, i) in displayedItems", :page="p", :first="Object.keys(displayedItems)[0]==i", :index="Number(i)", :key="i", :id="'p'+i", @center-appeared="pageChanged(i)")
     infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
-    content-placeholder(v-show="loading", :row="row", :page="offsetPage", :showNumber="offsetPage>originPage")
+    content-placeholder(v-show="loading", :row="row", :page ="offsetPage", :showNumber="offsetPage>originPage")
 </template>
 
 <script>
@@ -28,7 +28,7 @@ export default {
   },
   asyncData ({ store, route }) {
     let  p = Number(route.params.page || 1)
-    return store.dispatch('fetchItems', {id: route.params.id, offsetPage: p })
+    return store.dispatch('fetchItems', {id: route.params.id, page: p })
   },
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
@@ -38,7 +38,7 @@ export default {
       transition: 'fade',
       originPage: p,
       offsetPage: p,
-      displayedItems: this.$store.getters.activeItems,
+      // displayedItems: this.$store.getters.activeItems,
       throttlePrev: throttle(this.previousPage, 200, { leading: true }),
       throttleNext: throttle(this.nextPage, 200, { leading: true })
     }
@@ -55,6 +55,9 @@ export default {
     },
     maxPage () {
       return 999
+    },
+    displayedItems(){
+      return this.$store.getters.activeItems
     }
   },
   beforeMount () {
@@ -107,23 +110,24 @@ export default {
       }
       window.scroll(0,0)
       this.$bar.start()
-      this.displayedItems = []
+      // this.displayedItems = []
       this.offsetPage = page
       this.originPage = page
       this.$router.push({ params: { page }})
-      await this.$store.dispatch('fetchItems', {id: this.id, offsetPage: this.offsetPage })
-      this.displayedItems = this.$store.getters.activeItems
+      await this.$store.dispatch('fetchItems', {id: this.id, page: this.offsetPage })
+      // this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('in:loaded')
     },
     async loadNextPage() {
-      if (this.displayedItems.length == 0) return
+      // if (this.displayedItems.length == 0) return
       this.$bar.start()
       this.offsetPage++
       this.$router.push({ params: { page: this.offsetPage }})
-      await this.$store.dispatch('fetchMoreItems', {id: this.id, offsetPage: this.offsetPage })
-      if (this.$store.getters.activeItems.length > this.displayedItems.length) {
-        this.displayedItems = this.$store.getters.activeItems
+      let length = Object.keys(this.displayedItems).length
+      await this.$store.dispatch('fetchMoreItems', {id: this.id, page: this.offsetPage })
+      if (Object.keys(this.displayedItems).length > length) {
+        // this.displayedItems = this.$store.getters.activeItems
         this.$bar.finish()
         this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
@@ -135,7 +139,7 @@ export default {
     async loadPreviousPage() {
       this.originPage--
       this.$router.push({ params: { page: this.originPage }})
-      this.displayedItems = this.$store.getters.activeItems
+      // this.displayedItems = this.$store.getters.activeItems
     },
     pageChanged(page) {
       this.$router.push({ params: { page }})
@@ -186,4 +190,7 @@ export default {
 
 .item-enter, .item-leave-active
   opacity 0
+
+.item-move, .item-enter-active, .item-leave-active
+  transition all .5s cubic-bezier(.55,0,.1,1)
 </style>

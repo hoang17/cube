@@ -1,8 +1,8 @@
 <template lang="pug">
   li.page-item
-    h4(v-show="index>0") {{ page.p }}
+    h4(v-show="!first") {{ index }}
     ul
-      feed-item.news-item(v-for="item in page.c", :key="item.id", :item="item")
+      feed-item.news-item(v-for="item in page", :key="item.id", :item="item")
 </template>
 
 <script>
@@ -12,8 +12,9 @@ import Vuesible from '../addons/Vuesible'
 export default {
   mixins: [Vuesible()],
   props: {
-		page: Object,
+		page: Array,
     index: Number,
+    first: Boolean,
   },
   components: {
     FeedItem
