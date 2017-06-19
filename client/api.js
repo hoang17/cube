@@ -16,7 +16,9 @@ export async function get(endpoint, params){
 
 var PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'))
+PouchDB.plugin(require('pouchdb-upsert-bulk'))
 PouchDB.plugin(require('./lib/pouchdb-live-find'))
+
 var feedDb = new PouchDB('feeds')
 feedDb.createIndex({
   index: {
@@ -34,45 +36,32 @@ feedDb.createIndex({
   }
 })
 
-feedDb.changes({
-  since: 'now',
-  live: true,
-  include_docs: true
-}).on('change', function (change) {
-  console.log(change)
-}).on('error', function (err) {
-  console.error(err)
-})
+// if (isClient){
+//   window.PouchDB = PouchDB
+// }
 
-if (isClient){
-  window.PouchDB = PouchDB
-}
-
-async function setupDB(){
-  // await feedDb.destroy()
-  feedDb = new PouchDB('feeds')
-  await feedDb.createIndex({
-    index: {
-      fields: ['group_id','updated_time']
-    }
-  })
-  await feedDb.createIndex({
-    index: {
-      fields: ['group_id']
-    }
-  })
-  await feedDb.createIndex({
-    index: {
-      fields: ['updated_time']
-    }
-  })
-  return feedDb
-}
+// async function setupDB(){
+//   // await feedDb.destroy()
+//   feedDb = new PouchDB('feeds')
+//   await feedDb.createIndex({
+//     index: {
+//       fields: ['group_id','updated_time']
+//     }
+//   })
+//   await feedDb.createIndex({
+//     index: {
+//       fields: ['group_id']
+//     }
+//   })
+//   await feedDb.createIndex({
+//     index: {
+//       fields: ['updated_time']
+//     }
+//   })
+//   return feedDb
+// }
 
 export async function fetchLive(id, skip, limit){
-  if (!feedDb) {
-    feedDb = await setupDB()
-  }
   return new Promise(function(resolve, reject) {
     let liveFeed = feedDb.liveFind({
       selector: {
@@ -121,7 +110,7 @@ const fb = axios.create({
   params: { access_token: token }
 })
 
-const fetchDocs =  async function(id, ver, params){
+export async function fetchDocs(id, ver, params){
   let url = `${ver}/${id}/feed`
   let res = await fb.get(url, { params: params })
   if (isClient) {
@@ -130,20 +119,15 @@ const fetchDocs =  async function(id, ver, params){
       e.group_id = id
       return e
     })
-    feedDb.bulkDocs(docs)
+    feedDb.upsertBulk(docs)
   }
   return res.data.data
 }
 
-const fetchData = async function(id, ver, params) {
-  console.log('fetchData')
+export async function fetchData(id, ver, params) {
   try {
     var data
     if (isClient) {
-      if (!feedDb) {
-        feedDb = await setupDB()
-      }
-
       let result = await feedDb.find({
         selector: {
           $and: [
@@ -171,6 +155,37 @@ const fetchData = async function(id, ver, params) {
   }
 }
 
-export async function fetchItems(id, offset, limit, ver){
-  return fetchData(id, ver, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment},created_time,updated_time', offset: offset, limit: limit })
+export async function fetchLocal(id, skip, limit){
+  var data = []
+  if (isClient) {
+    let result = await feedDb.find({
+      selector: {
+        $and: [
+          { group_id: id },
+          { updated_time: {$gt: null} }
+        ]
+      },
+      sort: [{'updated_time': 'desc'}],
+      limit: limit,
+      skip: skip
+    })
+    data = result.docs
+  }
+  return data
+}
+
+export async function fetchItems(id, skip, limit, ver){
+  return fetchDocs(id, ver, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment},created_time,updated_time', offset: skip, limit: limit })
+}
+
+export function feedChange(handler){
+  feedDb.changes({
+    since: 'now',
+    live: true,
+    include_docs: true
+  })
+  .on('change', handler)
+  .on('error', function (err) {
+    console.error(err)
+  })
 }

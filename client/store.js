@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetchItems, fetchLive } from './api'
+import { get, fetchItems, fetchLocal } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
@@ -22,6 +22,8 @@ function chunk (a, size) {
   return chunks
 }
 
+const isClient = process.env.VUE_ENV === 'client'
+
 export function createStore () {
   return new Vuex.Store({
     state: {
@@ -29,8 +31,8 @@ export function createStore () {
       groups: [],
       likes: [],
       friends: [],
-      feeds: [],
-      items: [],
+      feeds: {},
+      items: {},
       feedCount: 0,
       gv: null
     },
@@ -50,47 +52,62 @@ export function createStore () {
         let friends = await get('friends')
         commit('setFriends', friends)
       },
-      async fetchFeeds({ state, commit }, { offsetPage }) {
-        const offset = (offsetPage-1) * state.itemsPerPage
+      async fetchFeeds({ state, commit }, { page }) {
+        const offset = (page-1) * state.itemsPerPage
         let params = {
           'skip': offset,
           'limit': state.itemsPerPage
         }
         let data = await get('feeds', params)
         commit('setFeedCount', data.count)
-        commit('setFeeds', [{ p: offsetPage, c: data.feeds}])
+        commit('setFeeds', { page, feeds: data.feeds})
       },
-      async fetchMoreFeeds({ state, commit }, { offsetPage }) {
-        const offset = (offsetPage-1) * state.itemsPerPage
+      async fetchMoreFeeds({ state, commit }, { page }) {
+        const offset = (page-1) * state.itemsPerPage
         let params = {
           'skip': offset,
           'limit': state.itemsPerPage
         }
         let data = await get('feeds', params)
         commit('setFeedCount', data.count)
-        commit('addMoreFeeds', { p: offsetPage, c: data.feeds})
+        commit('addMoreFeeds', { page, feeds: data.feeds})
       },
-      async fetchItems({ state, commit }, {id, offsetPage}) {
+      async fetchItems({ state, commit }, {id, page}) {
         if (!state.gv)
           state.gv = await get('gv')
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
-        const offset = (offsetPage-1) * state.itemsPerPage
-        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
-        commit('setItems', [{ p: offsetPage, c: items}])
+        const offset = (page-1) * state.itemsPerPage
 
-        // let e = await fetchLive(id, offset, state.itemsPerPage)
-        // console.log(e)
+        let items = []
+
+        if (isClient){
+          items = await fetchLocal(id, offset, state.itemsPerPage)
+          if (items.length > 0)
+            commit('setItems', { page, items })
+        }
+
+        items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        commit('setItems', { page, items })
       },
-      async fetchMoreItems({ state, commit }, {id, offsetPage}) {
+      async fetchMoreItems({ state, commit }, {id, page}) {
         if (!state.gv)
           state.gv = await get('gv')
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
-        const offset = (offsetPage-1) * state.itemsPerPage
-        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        const offset = (page-1) * state.itemsPerPage
+
+        let items = []
+
+        if (isClient){
+          items = await fetchLocal(id, offset, state.itemsPerPage)
+          if (items.length == state.itemsPerPage)
+            commit('addMoreItems', { page, items })
+        }
+
+        items = await fetchItems(id, offset, state.itemsPerPage, ver)
         if (items.length > 0)
-          commit('addMoreItems', { p: offsetPage, c: items})
+          commit('addMoreItems', { page, items })
       },
     },
     mutations: {
@@ -103,21 +120,22 @@ export function createStore () {
       setFriends(state, friends) {
         state.friends = friends
       },
-      setFeeds(state, feeds) {
-        state.feeds = feeds
+      setFeeds(state, {page, feeds}) {
+        state.feeds = {}
+        Vue.set(state.feeds, page, feeds)
       },
-      setItems(state, items) {
-        state.items = items
-      },
-      addMoreItems(state, items) {
-        if (state.items)
-          state.items = state.items.concat(items)
-      },
-      addMoreFeeds(state, feeds) {
-        state.feeds = state.feeds.concat(feeds)
+      addMoreFeeds(state, {page, feeds}) {
+        Vue.set(state.feeds, page, feeds)
       },
       setFeedCount(state, count) {
         state.feedCount = count
+      },
+      setItems(state, {page, items}) {
+        state.items = {}
+        Vue.set(state.items, page, items)
+      },
+      addMoreItems(state, {page, items}) {
+        Vue.set(state.items, page, items)
       },
     },
     getters: {
@@ -136,17 +154,6 @@ export function createStore () {
       activeItems(state) {
         return state.items
       }
-
-      // activeFeeds : (state) => (page, startPage = page) => {
-      //   const start = (startPage-1) * state.itemsPerPage
-      //   return getActiveItems(page, state.itemsPerPage, state.feeds, start)
-      // },
-
-      // activePageFeeds : (state) => (page, startPage = page) => {
-      //   const pageItems = chunk(state.feeds, state.itemsPerPage)
-      //   return pageItems.slice(startPage-1, page)
-      // },
-
 
       // items that should be currently displayed.
       // this Array may not be fully fetched.

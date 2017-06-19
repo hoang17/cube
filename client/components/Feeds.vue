@@ -3,8 +3,8 @@
     list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
-        transition-group(tag='ul', name='item')
-          feed-page(v-for="(p, i) in displayedItems", :page="p", :index="i", :key="p.p", :id="'p'+p.p", @center-appeared="pageChanged(p.p)")
+        transition-group(tag='ul', name='item', v-if="Object.keys(displayedItems).length>0")
+          feed-page(v-for="(p, i) in displayedItems", :page="p", :first="Object.keys(displayedItems)[0]==i", :index="Number(i)", :key="i", :id="'p'+i", @center-appeared="pageChanged(i)")
     infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
     content-placeholder(v-show="loading", :row="row", :page="offsetPage", :showNumber="offsetPage>originPage")
 </template>
@@ -28,7 +28,7 @@ export default {
   },
   asyncData ({ store, route }) {
     let  p = Number(route.params.page || 1)
-    return store.dispatch('fetchFeeds', { offsetPage: p })
+    return store.dispatch('fetchFeeds', { page: p })
   },
   data() {
     let  p = Number(this.$store.state.route.params.page || 1)
@@ -103,7 +103,7 @@ export default {
       this.offsetPage = page
       this.originPage = page
       this.$router.push({ params: { page }})
-      await this.$store.dispatch('fetchFeeds', { offsetPage: this.offsetPage })
+      await this.$store.dispatch('fetchFeeds', { page: this.offsetPage })
       this.displayedItems = this.$store.getters.activeFeeds
       this.$bar.finish()
       return this.$refs.infiniteLoading && this.$refs.infiniteLoading.$emit('in:loaded')
@@ -115,7 +115,7 @@ export default {
       if (this.offsetPage <= this.maxPage) {
         this.$bar.start()
         this.$router.push({ params: { page: this.offsetPage }})
-        await this.$store.dispatch('fetchMoreFeeds', { offsetPage: this.offsetPage })
+        await this.$store.dispatch('fetchMoreFeeds', { page: this.offsetPage })
         this.displayedItems = this.$store.getters.activeFeeds
         this.$bar.finish()
         return this.$refs.infiniteLoading && this.$refs.infiniteLoading.$emit('in:loaded')

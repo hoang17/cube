@@ -78,6 +78,7 @@
     "pouchdb-find": "^6.2.0",
     "pouchdb-live-find": "^0.4.0",
     "pouchdb-selector-core": "^6.2.0",
+    "pouchdb-upsert-bulk": "^1.0.2",
     "pug": "^2.0.0-beta6",
     "request": "^2.78.0",
     "sendgrid": "^5.1.0",
