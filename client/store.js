@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetchItems, fetchLocal } from './api'
+import { get, fetchItems } from './api'
 
 const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
@@ -21,8 +21,6 @@ function chunk (a, size) {
   }
   return chunks
 }
-
-const isClient = process.env.VUE_ENV === 'client'
 
 export function createStore () {
   return new Vuex.Store({
@@ -79,15 +77,7 @@ export function createStore () {
 
         const offset = (page-1) * state.itemsPerPage
 
-        let items = []
-
-        if (isClient){
-          items = await fetchLocal(id, offset, state.itemsPerPage)
-          if (items.length > 0)
-            commit('setItems', { page, items })
-        }
-
-        items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
         commit('setItems', { page, items })
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
@@ -97,15 +87,7 @@ export function createStore () {
 
         const offset = (page-1) * state.itemsPerPage
 
-        let items = []
-
-        if (isClient){
-          items = await fetchLocal(id, offset, state.itemsPerPage)
-          if (items.length == state.itemsPerPage)
-            commit('addMoreItems', { page, items })
-        }
-
-        items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
         if (items.length > 0)
           commit('addMoreItems', { page, items })
       },
