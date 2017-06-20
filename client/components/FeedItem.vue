@@ -135,7 +135,6 @@ export default {
     position absolute
     left 10px
     width 50px
-    height 50px
     text-align center
     margin-top 5px
 
