@@ -12,24 +12,41 @@
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
     ul.comment-children(v-show='open', v-if='comment.comment_count > 0 && comment.comments')
       comment(v-for='c in comment.comments.data', :key='c.id', :comment='c')
+      li.more-comment(v-if='comment.comments.paging.next', @click="loadComments", v-show="!loading") view {{ moreCount }} more comments...
+      li.loading(v-show="loading")
+        spinner(:show="loading")
 </template>
 
 <script>
+import Spinner from '../addons/Spinner'
+import axios from 'axios'
+
 export default {
   name: 'comment',
   props: ['comment'],
+  components: {
+    Spinner
+  },
   data () {
     return {
-      open: false
+      open: false,
+      loading: false
     }
   },
-  // computed: {
-  //   comment () {
-  //     return this.$store.state.items[this.id]
-  //   }
-  // },
+  computed: {
+    moreCount(){
+      return this.comment.comment_count - this.comment.comments.data.length
+    }
+  },
   methods: {
-    pluralize: n => n + (n === 1 ? ' reply' : ' replies')
+    pluralize: n => n + (n === 1 ? ' reply' : ' replies'),
+    async loadComments(){
+      this.loading = true
+      let res = await axios.get(this.comment.comments.paging.next)
+      this.comment.comments.data = this.comment.comments.data.concat(res.data.data)
+      this.comment.comments.paging.next = res.data.paging.next ? res.data.paging.next : null
+      this.loading = false
+    }
   }
 }
 </script>
@@ -63,6 +80,19 @@ export default {
         height 25px
         /*border-radius 50%*/
         /*overflow hidden*/
+    .more-comment
+      cursor pointer
+      margin-top 10px
+      font-size 13px
+      padding 5px .5em
+      background-color #eee
+      border-radius 2px
+
+    .loading
+      margin-top 10px
+      padding 0
+      background-color #eee
+      border-radius 2px
 
   .avatar
     left 0

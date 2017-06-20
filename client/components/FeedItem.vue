@@ -149,11 +149,13 @@ export default {
   font-size 13px
   padding 5px .5em
   background-color #eee
+  border-radius 2px
 
 .loading
   margin-top 10px
   padding 0
   background-color #eee
+  border-radius 2px
 
 @media (max-width 600px)
   .news-item
