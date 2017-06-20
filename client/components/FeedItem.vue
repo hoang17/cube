@@ -31,26 +31,44 @@
         //-spinner(:show='loading')
       ul.comment-children(v-show='open', v-if='item.comments && item.comments.data.length > 0')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
+        li.more-comment(v-if='item.comments.paging.next', @click="loadComments", v-show="!loading") view {{ moreCount }} more comments...
+        li.loading(v-show="loading")
+          spinner(:show="loading")
 </template>
 
 <script>
 import Comment from '../components/Comment'
 import Photo from '../addons/Photo'
+import Spinner from '../addons/Spinner'
+import axios from 'axios'
 
 export default {
   props: {
 		item: Object,
   },
   components: {
-    Comment, Photo
+    Comment, Photo, Spinner
+  },
+  computed: {
+    moreCount(){
+      return this.item.comments.summary.total_count - this.item.comments.data.length
+    }
   },
   data () {
     return {
-      open: false
+      open: false,
+      loading: false
     }
   },
   methods: {
-    pluralize: n => n + (n === 1 ? ' comment' : ' comments')
+    pluralize: n => n + (n === 1 ? ' comment' : ' comments'),
+    async loadComments(){
+      this.loading = true
+      let res = await axios.get(this.item.comments.paging.next)
+      this.item.comments.data = this.item.comments.data.concat(res.data.data)
+      this.item.comments.paging.next = res.data.paging.next ? res.data.paging.next : null
+      this.loading = false
+    }
   }
 }
 </script>
@@ -124,6 +142,18 @@ export default {
   list-style-type none
   padding 0
   margin 0
+
+.more-comment
+  cursor pointer
+  margin-top 10px
+  font-size 13px
+  padding 5px .5em
+  background-color #eee
+
+.loading
+  margin-top 10px
+  padding 0
+  background-color #eee
 
 @media (max-width 600px)
   .news-item

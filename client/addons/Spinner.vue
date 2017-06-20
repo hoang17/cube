@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <svg class="spinner" :class="{ show: show }" v-show="show" width="44px" height="44px" viewBox="0 0 44 44">
+    <svg class="spinner" :class="{ show: show }" v-show="show" width="30px" height="30px" viewBox="0 0 44 44">
       <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle>
     </svg>
   </transition>
@@ -19,10 +19,10 @@ $offset = 126
 $duration = 1.4s
 
 .spinner
-  position fixed
-  z-index 999
-  top 10px
-  right 10px
+  /*position fixed*/
+  /*z-index 999*/
+  /*top 10px*/
+  /*right 10px*/
 
   transition opacity .15s ease
   animation rotator $duration linear infinite
@@ -41,8 +41,8 @@ $duration = 1.4s
     transform scale(0.5) rotate(270deg)
 
 .spinner .path
-  // stroke #ff6600
-  stroke #fff
+  stroke #ff6600
+  /*stroke #fff*/
   stroke-dasharray $offset
   stroke-dashoffset 0
   transform-origin center
