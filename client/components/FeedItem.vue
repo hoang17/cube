@@ -30,8 +30,8 @@
         | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
       p.item-view-comments-header(v-else, @click='loadComments')
         | {{ open ? '▼' : '▶︎' }} comments
-      div(v-show="loading")
-        spinner(:show='loading')
+      div(v-show="loader")
+        spinner(:show='loader')
       ul.comment-children(v-show='open', v-if='item.comments && item.comments.data.length > 0')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
         li.more-comment(v-if='item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
@@ -61,6 +61,7 @@ export default {
   data () {
     return {
       open: false,
+      loader: false,
       loading: false
     }
   },
@@ -69,9 +70,9 @@ export default {
     async loadComments(){
       this.open = !this.open
       if (!this.item.comments || this.item.comments.data.length == 0) {
-        this.loading = true
+        this.loader = true
         this.item.comments = await fetchComment(this.item.id)
-        this.loading = false
+        this.loader = false
       }
     },
     async moreComments(){
