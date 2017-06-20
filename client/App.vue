@@ -4,9 +4,9 @@
       nav.inner
         //- router-link(to='/' exact) Home
         //- router-link(to='/contact') Contact
+        //- router-link(to='/friends') Friends
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
-        router-link(to='/friends') Friends
         router-link(to='/feeds') Feeds
     transition(name='fade', mode='out-in')
       keep-alive(exclude="items,feeds")
@@ -113,5 +113,5 @@ a
     .inner
       padding 15px
     a
-      margin-right 1em      
+      margin-right 1em
 </style>

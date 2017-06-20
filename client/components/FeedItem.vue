@@ -18,7 +18,8 @@
       br(v-if="item.link")
       span.meta(v-if="item.link")
         a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-    .album(v-if="item.attachments")
+    video(v-if="item.source", :src="item.source", controls="controls", :poster="item.full_picture", preload="metadata")
+    .album(v-else-if="item.attachments")
       .media(v-for="a in item.attachments.data", :key="a.id")
         photo(v-if="a.media", :src="a.media.image.src")
         .sub(v-else-if="a.subattachments", :class="{s4: a.subattachments.data.length > 4, s6: a.subattachments.data.length > 6}")
@@ -96,7 +97,10 @@ export default {
   border-radius 2px
   box-shadow 0 1px 2px rgba(0,0,0,0.1)
   /*border-bottom 1px solid #eee*/
-
+  video
+    max-height 500px
+    max-width 100%
+    
   .album
     .media
       .sub
@@ -115,6 +119,7 @@ export default {
     position absolute
     left 10px
     width 50px
+    height 50px
     text-align center
     margin-top 5px
 
