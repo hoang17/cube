@@ -104,7 +104,7 @@ export default {
     margin-top 10px
     video
       max-height 500px
-      width 100%
+      max-width 100%
 
   .frame
     margin-top 10px
@@ -208,6 +208,9 @@ export default {
       img
         width 40px
 
+    .video
+      video
+        width 100%
     .video
     .frame
       margin-left -10px
