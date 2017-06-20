@@ -12,7 +12,7 @@
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
     ul.comment-children(v-show='open', v-if='comment.comment_count > 0 && comment.comments')
       comment(v-for='c in comment.comments.data', :key='c.id', :comment='c')
-      li.more-comment(v-if='comment.comments.paging.next', @click="loadComments", v-show="!loading") view {{ moreCount }} more comments...
+      li.more-comment(v-if='comment.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
       li.loading(v-show="loading")
         spinner(:show="loading")
 </template>
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     pluralize: n => n + (n === 1 ? ' reply' : ' replies'),
-    async loadComments(){
+    async moreComments(){
       this.loading = true
       let res = await axios.get(this.comment.comments.paging.next)
       this.comment.comments.data = this.comment.comments.data.concat(res.data.data)

@@ -26,12 +26,15 @@
           //-pre {{ a }}
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
     .item-view-comments
-      p.item-view-comments-header(@click='open = !open', v-if='item.comments && item.comments.data.length > 0')
+      p.item-view-comments-header(v-if='item.comments && item.comments.summary.total_count > 0', @click='loadComments')
         | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
-        //-spinner(:show='loading')
+      p.item-view-comments-header(v-else, @click='loadComments')
+        | {{ open ? '▼' : '▶︎' }} comments
+      div(v-show="loading")
+        spinner(:show='loading')
       ul.comment-children(v-show='open', v-if='item.comments && item.comments.data.length > 0')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
-        li.more-comment(v-if='item.comments.paging.next', @click="loadComments", v-show="!loading") view {{ moreCount }} more comments...
+        li.more-comment(v-if='item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
         li.loading(v-show="loading")
           spinner(:show="loading")
 </template>
@@ -41,6 +44,7 @@ import Comment from '../components/Comment'
 import Photo from '../addons/Photo'
 import Spinner from '../addons/Spinner'
 import axios from 'axios'
+import { fetchComment } from '../api'
 
 export default {
   props: {
@@ -63,6 +67,14 @@ export default {
   methods: {
     pluralize: n => n + (n === 1 ? ' comment' : ' comments'),
     async loadComments(){
+      this.open = !this.open
+      if (!this.item.comments || this.item.comments.data.length == 0) {
+        this.loading = true
+        this.item.comments = await fetchComment(this.item.id)
+        this.loading = false
+      }
+    },
+    async moreComments(){
       this.loading = true
       let res = await axios.get(this.item.comments.paging.next)
       this.item.comments.data = this.item.comments.data.concat(res.data.data)
@@ -132,7 +144,7 @@ export default {
   cursor pointer
   margin 0
   font-size 13px
-  padding 1em 0
+  padding .7em 0
   position relative
   .spinner
     display inline-block

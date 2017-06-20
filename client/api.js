@@ -32,5 +32,15 @@ export async function fetchData(id, ver, params) {
 }
 
 export async function fetchItems(id, skip, limit, ver){
-  return fetchData(id, ver, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment},created_time,updated_time', offset: skip, limit: limit })
+  return fetchData(id, ver, { fields: 'id,message,picture,full_picture,place,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit })
+}
+
+export async function fetchComment(id) {
+  try {
+    let url = `v2.3/${id}`
+    let res = await fb.get(url, { params: {fields: 'comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment}'} })
+    return res.data.comments
+  } catch (e) {
+    console.error(e)
+  }
 }
