@@ -18,7 +18,9 @@
       br(v-if="item.link")
       span.meta(v-if="item.link")
         a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
-    video(v-if="item.source", :src="item.source", controls="controls", :poster="item.full_picture", preload="metadata")
+    .video(v-if="item.source && item.source.includes('youtube.com/embed')")
+      iframe(:src="item.source.replace('autoplay=1', 'autoplay=0')", frameborder="0", allowfullscreen="")
+    video(v-else-if="item.source", :src="item.source", controls="controls", :poster="item.full_picture", preload="metadata")
     .album(v-else-if="item.attachments")
       .media(v-for="a in item.attachments.data", :key="a.id")
         photo(v-if="a.media", :src="a.media.image.src")
@@ -100,7 +102,21 @@ export default {
   video
     max-height 500px
     max-width 100%
-    
+    margin-top 10px
+
+  .video
+    margin-top 10px
+    position relative
+    padding-bottom 56.25%
+    padding-top 25px
+    height 0
+    iframe
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
+
   .album
     .media
       .sub
