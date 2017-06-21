@@ -85,11 +85,12 @@ export default {
 <style lang="stylus" scoped>
 .news-view
   padding-top 10px
+  /*transition all 0.4s ease-out*/
   ul
     list-style-type none
     padding 0
 
-.news-list-nav, .news-list
+.news-list-nav
   background-color #fff
   border-radius 2px
 
@@ -105,10 +106,11 @@ export default {
     color #ccc
 
 .news-list
+  border-radius 2px
   position absolute
   margin 0 0 80px 0
   width 100%
-  transition all .5s cubic-bezier(.55,0,.1,1)
+  /*transition all 0.4s ease-out*/
   ul
     list-style-type none
     padding 0
@@ -127,28 +129,21 @@ export default {
 
 .item-enter
   opacity 0
-  transform translate(30px, 0)
+  transform translate(30px, 0)*/
 
-.item-leave-active
+/*.item-leave-active
   position absolute
   opacity 0
   transform translate(30px, 0)*/
 
-/*.item-enter-active, .item-leave-active
-  transition all .2s ease*/
-
-.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)
-
-.item-enter, .item-leave-active
-  opacity 0
-
 .news-item
+  transition all 0.4s ease-out
   background-color #fff
   padding 10px 10px 10px 60px
   border-bottom 1px solid #eee
   position relative
   line-height 20px
+  overflow hidden
   .score
     color #ff6600
     position absolute
@@ -166,5 +161,17 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+
+.item-enter
+  transform translate(30px, 0)
+  /*transform translateY(30px)*/
+  opacity 0
+
+.item-leave-active
+  transform translate(30px, 0)
+  /*transform translateY(30px)*/
+  position absolute
+  opacity 0
 
 </style>

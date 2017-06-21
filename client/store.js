@@ -144,6 +144,7 @@ export function createStore () {
         return _.filter(state.likes, 'star')
       },
       activeGroups(state) {
+        // return _.orderBy(state.groups, 'star', 'desc')
         return _.filter(state.groups, { star: false })
       },
       // activeGroups: (state) => (page) => {

@@ -46,7 +46,7 @@ router.route('/groups')
     group.save(function(err) {
       if (err)
         res.send(err);
-      res.json({ message: 'Group created!' });
+      res.json({ message: 'Group created' });
     })
   })
 
@@ -60,7 +60,11 @@ router.route('/groups/:id')
     })
   })
   .patch(function (req, res) {
-    Group.update({id: req.params.id}, req.body).exec()
+    Group.update({id: req.params.id}, req.body).exec(function(err, group) {
+      if (err)
+        res.send(err)
+      res.json({ message: 'Group updated' });
+    })
   })
 
 router.route('/likes')
