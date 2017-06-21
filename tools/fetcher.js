@@ -8,6 +8,7 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 async function fetchData(url, model) {
   const res = await graph.getAsync(url, { limit: 500 })
+  res.data.map(v => v.star = false)
   if (res.paging && res.paging.next) {
     await model.insert(res.data)
     return fetchData(res.paging.next, model)
@@ -21,22 +22,25 @@ graph.setVersion("2.3");
 graph.setAccessToken(token);
 
 async function run(){
-  const g = db.get('groups')
-  const likes = db.get('likes')
-  const friends = db.get('friends')
+  // const friends = db.get('friends')
+  // friends.drop()
+  // fetchData("504368183/invitable_friends", friends)
+
+  const groupsDb = db.get('groups')
+  const likesDb = db.get('likes')
   const gv = db.get('group_ver')
 
-  g.drop()
-  likes.drop()
-  friends.drop()
+  groupsDb.drop()
+  likesDb.drop()
   gv.drop()
 
-  fetchData("504368183/likes", likes)
-  fetchData("504368183/invitable_friends", friends)
+  fetchData("504368183/likes", likesDb)
 
-  await fetchData("504368183/groups", g)
+  await fetchData("504368183/groups", groupsDb)
 
-  let groups = await g.find()
+  let groups = await groupsDb.find()
+
+  groups.map(v => v.ver = v.privacy == 'OPEN' ? 'v2.4' : 'v2.3')
 
   console.log(groups.length)
 
@@ -61,12 +65,12 @@ async function run(){
       const res = await graph.getAsync(group.id + '/feed?fields=id', { limit: 1 })
       group.ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
       let ob = { group_id: group.id, ver: group.ver }
-      g.update({_id:group._id}, group)
+      groupsDb.update({_id:group._id}, group)
       await gv.insert(ob)
     } catch (e) {
       group.ver = 'v2.3'
       let ob = { group_id: group.id, ver: group.ver }
-      g.update({_id:group._id}, group)
+      groupsDb.update({_id:group._id}, group)
       await gv.insert(ob)
     }
   }))

@@ -3,8 +3,9 @@
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
-          li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score {{ i + 1 }}
+          li.news-item(v-for="item in displayedItems", :key="item.id")
+            span.score(@click="item.star=!item.star")
+              i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
             span.title
               router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
             span.host  - {{ item.privacy }} - {{ item.ver }}
@@ -128,6 +129,7 @@ export default {
     width 60px
     text-align center
     margin-top -10px
+    cursor pointer
   .meta, .host
     font-size .85em
     color #828282
