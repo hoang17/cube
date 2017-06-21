@@ -190,7 +190,4 @@ export default {
 
 .item-enter, .item-leave-active
   opacity 0
-
-.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)
 </style>

@@ -5,13 +5,19 @@ const host = isClient ? window.location.origin : `http://localhost:${port}`
 
 const api = axios.create({
   baseURL: `${host}/api/`,
+  // withCredentials: true,
   // timeout: 1000,
   // headers: {'X-Custom-Header': 'foobar'}
 })
 
 export async function get(endpoint, params){
-  let response = await api.get(endpoint, { params })
-  return response.data
+  let res = await api.get(endpoint, { params })
+  return res.data
+}
+
+export async function patch(endpoint, params){
+  let res = await api.patch(endpoint, params)
+  return res.data
 }
 
 const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1grPeDrJo32NK5n529g3m0jHbcAdlZA7RyRwnTr3TP1JDbnXt3ZBtzWNNt4MeoV1sMnxWPGs8zqbf1FStll5U5sZCKjhbhruMQ2q52jk0rjogZDZD"

@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetchItems } from './api'
+import { get, fetchItems, patch } from './api'
 
 const _ = require('lodash')
 
@@ -106,6 +106,9 @@ export function createStore () {
       },
     },
     mutations: {
+      setStar(state, item) {
+        patch(`groups/${item.id}`, { star: item.star })
+      },
       setGroups(state, groups) {
         state.groups = groups
       },

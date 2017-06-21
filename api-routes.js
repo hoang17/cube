@@ -33,7 +33,8 @@ async function getFeeds(req, res) {
 
 router.route('/groups')
   .get(function(req, res) {
-    Group.find().sort({ bookmark_order : 'asc'}).lean().exec(function(err, groups) {
+    // Group.find().sort({ bookmark_order : 'asc'}).lean().exec(function(err, groups) {
+    Group.find().exec(function(err, groups) {
       if (err)
         res.send(err)
       res.json(groups)
@@ -48,6 +49,22 @@ router.route('/groups')
       res.json({ message: 'Group created!' });
     })
   })
+
+router.route('/groups/:id')
+  .get(function(req, res) {
+    var id = req.params.id
+    Group.findOne({id: id}, function(err, group) {
+      if (err)
+        res.send(err)
+      res.json(group)
+    })
+  })
+  .patch(function (req, res) {
+    var updateObj = req.body
+    var id = req.params.id
+    Group.update({id: id}, updateObj).exec()
+  })
+
 router.route('/likes')
   .get(function(req, res) {
     Like.find().lean().exec(function(err, likes) {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 module.exports = mongoose.model('Group', new Schema({
-  id: String,
+  id: Number,
   name: String,
   privacy: String,
   administrator: Boolean,

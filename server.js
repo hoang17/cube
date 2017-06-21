@@ -104,7 +104,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
+  // if (req.path === '/api/upload') {
+  if (req.path.startsWith('/api')) {
     next()
   } else {
     lusca.csrf()(req, res, next)

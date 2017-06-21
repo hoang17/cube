@@ -1,22 +1,22 @@
 <template lang="pug">
   .news-view.view
-    ul
+    transition-group(tag='ul', name='item')
       li.news-item(v-for="item in starItems", :key="item.id")
         span.score(@click="item.star=!item.star")
           i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
         span.title
           router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
         span.host  - {{ item.privacy }}
-    transition(:name='transition')
-      .news-list(:key='displayedPage', v-if='displayedPage > 0')
-        transition-group(tag='ul', name='item')
-          li.news-item(v-for="item in displayedItems", :key="item.id")
-            span.score(@click="item.star=!item.star")
-              i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
-            span.title
-              router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
-            span.host  - {{ item.privacy }}
-        //-infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+    //-transition(:name='transition')
+    .news-list
+      transition-group(tag='ul', name='item')
+        li.news-item(v-for="item in displayedItems", :key="item.id")
+          span.score(@click="setStar(item)")
+            i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
+          span.title
+            router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
+          span.host  - {{ item.privacy }}
+      //-infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
@@ -29,8 +29,7 @@ export default {
   data() {
     return {
       type: this.$options.name,
-      transition: 'slide-left',
-      displayedPage: 1,
+      // transition: 'slide-left',
       // displayedItems: this.$store.getters.activeGroups(1),
       page: 1
     }
@@ -56,6 +55,10 @@ export default {
     }
   },
   methods: {
+    setStar(item){
+      item.star=!item.star
+      this.$store.commit('setStar', item)
+    },
     async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getGroups')
@@ -111,15 +114,15 @@ export default {
     padding 0
     margin 0
 
-.slide-left-enter, .slide-right-leave-to
+/*.slide-left-enter, .slide-right-leave-to
   opacity 0
   transform translate(30px, 0)
 
 .slide-left-leave-to, .slide-right-enter
   opacity 0
-  transform translate(-30px, 0)
+  transform translate(-30px, 0)*/
 
-.item-move, .item-enter-active, .item-leave-active
+/*.item-move, .item-enter-active, .item-leave-active
   transition all .5s cubic-bezier(.55,0,.1,1)
 
 .item-enter
@@ -129,7 +132,16 @@ export default {
 .item-leave-active
   position absolute
   opacity 0
-  transform translate(30px, 0)
+  transform translate(30px, 0)*/
+
+/*.item-move, .item-enter-active, .item-leave-active
+  transition all .5s cubic-bezier(.55,0,.1,1)*/
+
+/*.item-enter-active, .item-leave-active
+  transition all .2s ease*/
+
+/*.item-enter, .item-leave-active
+  opacity 0*/
 
 .news-item
   background-color #fff
