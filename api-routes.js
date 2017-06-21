@@ -60,10 +60,10 @@ router.route('/groups/:id')
     })
   })
   .patch(function (req, res) {
-    Group.update({id: req.params.id}, req.body).exec(function(err, group) {
+    Group.update({id: req.params.id}, req.body).exec(function(err) {
       if (err)
         res.send(err)
-      res.json({ message: 'Group updated' });
+      res.json({ message: 'Group updated' })
     })
   })
 
@@ -75,6 +75,23 @@ router.route('/likes')
       res.json(likes)
     })
   })
+
+  router.route('/likes/:id')
+    .get(function(req, res) {
+      var id = req.params.id
+      Like.findOne({id: id}, function(err, like) {
+        if (err)
+          res.send(err)
+        res.json(like)
+      })
+    })
+    .patch(function (req, res) {
+      Like.update({id: req.params.id}, req.body).exec(function(err) {
+        if (err)
+          res.send(err)
+        res.json({ message: 'Like updated' })
+      })
+    })
 
 router.route('/feeds').get(getFeeds)
 

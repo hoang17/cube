@@ -1,6 +1,6 @@
 <template lang="pug">
   .news-view.view
-    transition-group(tag='ul', name='item')
+    //-transition-group(tag='ul', name='item')
       li.news-item(v-for="item in starItems", :key="item.id")
         span.score(@click="setStar(item)")
           i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
@@ -31,17 +31,10 @@ export default {
       type: this.$options.name,
       // transition: 'slide-left',
       // displayedItems: this.$store.getters.activeGroups(1),
-      page: 1
+      // page: 1
     }
   },
   computed: {
-    groups () {
-      return this.$store.state.groups
-    },
-    maxPage () {
-      const { itemsPerPage, groups } = this.$store.state
-      return Math.ceil(groups.length / itemsPerPage)
-    },
     displayedItems() {
       return this.$store.getters.activeGroups
     },
@@ -56,8 +49,8 @@ export default {
   },
   methods: {
     setStar(item){
-      item.star=!item.star
-      this.$store.commit('setStar', item)
+      item.star = !item.star
+      this.$store.commit('setStar', {item, type: this.type})
     },
     async loadItems () {
       this.$bar.start()
@@ -125,9 +118,9 @@ export default {
   transform translate(-30px, 0)*/
 
 /*.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)
+  transition all .5s cubic-bezier(.55,0,.1,1)*/
 
-.item-enter
+/*.item-enter
   opacity 0
   transform translate(30px, 0)*/
 
@@ -163,7 +156,7 @@ export default {
         color #ff6600
 
 
-.item-enter
+.item-enter-active
   transform translate(30px, 0)
   /*transform translateY(30px)*/
   opacity 0

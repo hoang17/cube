@@ -7,44 +7,32 @@
     //-   span {{ page }}/{{ maxPage }}
     //-   router-link(v-if='hasMore', :to="'/' + type + '/' + (page + 1)") more >
     //-   a.disabled(v-else='') more >
-    transition(:name='transition')
-      .news-list(:key='displayedPage')
-        transition-group(tag='ul', name='item')
-          li.news-item(v-for="(item, i) in displayedItems", :key="item.id")
-            span.score(@click="item.star=!item.star")
-              i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
-            span.title
-              router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
-            span.host  - {{ item.category }}
-        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+    //-transition(:name='transition')
+    .news-list
+      transition-group(tag='ul', name='item')
+        li.news-item(v-for="item in displayedItems", :key="item.id")
+          span.score(@click="setStar(item)")
+            i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
+          span.title
+            router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
+          span.host  - {{ item.category }}
 </template>
 
 <script>
 export default {
   name: 'likes',
   title: 'Likes',
-  // components: {
-  //   'vue-select': VueSelect
-  // },
   asyncData ({ store, route }) {
     return store.dispatch('getLikes')
   },
   data() {
     return {
       type: this.$options.name,
-      transition: 'slide-right',
-      displayedPage: 1,
-      displayedItems: this.$store.getters.activeLikes(1),
-      page: 1
     }
   },
   computed: {
-    likes () {
-      return this.$store.state.likes
-    },
-    maxPage () {
-      const { itemsPerPage, likes } = this.$store.state
-      return Math.ceil(likes.length / itemsPerPage)
+    displayedItems() {
+      return this.$store.getters.activeLikes
     },
   },
   beforeMount () {
@@ -53,25 +41,15 @@ export default {
     }
   },
   methods: {
+    setStar(item){
+      item.star = !item.star
+      this.$store.commit('setStar', {item, type: this.type})
+    },
     async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getLikes')
-      this.displayedItems = this.$store.getters.activeLikes(this.page)
       this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('in:loaded')
     },
-    onInfinite() {
-      if (this.displayedItems.length == 0) {
-        return
-      }
-      this.page++
-      if (this.page <= this.maxPage) {
-        this.displayedItems = this.$store.getters.activeLikes(this.page)
-        this.$refs.infiniteLoading.$emit('in:loaded')
-      } else {
-        this.$refs.infiniteLoading.$emit('in:complete')
-      }
-    }
   }
 }
 </script>
@@ -80,7 +58,7 @@ export default {
 .news-view
   padding-top 10px
 
-.news-list-nav, .news-list
+.news-list-nav
   background-color #fff
   border-radius 2px
 
@@ -105,27 +83,8 @@ export default {
     padding 0
     margin 0
 
-.slide-left-enter, .slide-right-leave-to
-  opacity 0
-  transform translate(30px, 0)
-
-.slide-left-leave-to, .slide-right-enter
-  opacity 0
-  transform translate(-30px, 0)
-
-.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)
-
-.item-enter
-  opacity 0
-  transform translate(30px, 0)
-
-.item-leave-active
-  position absolute
-  opacity 0
-  transform translate(30px, 0)
-
 .news-item
+  transition all 0.4s ease-out
   background-color #fff
   padding 10px 10px 10px 60px
   border-bottom 1px solid #eee
@@ -139,6 +98,7 @@ export default {
     width 60px
     text-align center
     margin-top -10px
+    cursor pointer
   .meta, .host
     font-size .85em
     color #828282
@@ -147,5 +107,15 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+
+.item-enter-active
+  transform translate(30px, 0)
+  opacity 0
+
+.item-leave-active
+  transform translate(30px, 0)
+  position absolute
+  opacity 0
 
 </style>

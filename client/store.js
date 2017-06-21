@@ -106,8 +106,8 @@ export function createStore () {
       },
     },
     mutations: {
-      setStar(state, item) {
-        patch(`groups/${item.id}`, { star: item.star })
+      setStar(state, {item, type}) {
+        patch(`${type}/${item.id}`, { star: item.star })
       },
       setGroups(state, groups) {
         state.groups = groups
@@ -144,16 +144,18 @@ export function createStore () {
         return _.filter(state.likes, 'star')
       },
       activeGroups(state) {
-        // return _.orderBy(state.groups, 'star', 'desc')
-        return _.filter(state.groups, { star: false })
+        return _.orderBy(state.groups, 'star', 'desc')
+        // return _.filter(state.groups, { star: false })
       },
       // activeGroups: (state) => (page) => {
       //   return getActiveItems(page, state.itemsPerPage, state.groups)
       // },
-      activeLikes: (state) => (page) => {
-        return state.likes
-        // return getActiveItems(page, state.itemsPerPage, state.likes)
+      activeLikes(state) {
+        return _.orderBy(state.likes, 'star', 'desc')
       },
+      // activeLikes: (state) => (page) => {
+      //   return getActiveItems(page, state.itemsPerPage, state.likes)
+      // },
       activeFriends: (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
