@@ -146,6 +146,7 @@ export default {
     text-align center
     margin-top -10px
     cursor pointer
+    font-size 1.1em
   .meta, .host
     font-size .85em
     color #828282
