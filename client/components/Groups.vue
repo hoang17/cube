@@ -2,7 +2,7 @@
   .news-view.view
     transition-group(tag='ul', name='item')
       li.news-item(v-for="item in starItems", :key="item.id")
-        span.score(@click="item.star=!item.star")
+        span.score(@click="setStar(item)")
           i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
         span.title
           router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
@@ -134,14 +134,14 @@ export default {
   opacity 0
   transform translate(30px, 0)*/
 
-/*.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)*/
-
 /*.item-enter-active, .item-leave-active
   transition all .2s ease*/
 
-/*.item-enter, .item-leave-active
-  opacity 0*/
+.item-move, .item-enter-active, .item-leave-active
+  transition all .5s cubic-bezier(.55,0,.1,1)
+
+.item-enter, .item-leave-active
+  opacity 0
 
 .news-item
   background-color #fff

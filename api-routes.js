@@ -60,9 +60,7 @@ router.route('/groups/:id')
     })
   })
   .patch(function (req, res) {
-    var updateObj = req.body
-    var id = req.params.id
-    Group.update({id: id}, updateObj).exec()
+    Group.update({id: req.params.id}, req.body).exec()
   })
 
 router.route('/likes')
