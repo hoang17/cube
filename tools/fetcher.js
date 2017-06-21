@@ -40,8 +40,8 @@ async function run(){
   likes.drop()
 
   await Promise.all([
-    fetchData("504368183/likes", likesDb),
-    fetchData("504368183/groups", groupsDb)
+    fetchData("504368183/likes", likes),
+    fetchData("504368183/groups", groups)
   ])
 
   // let groups = await groupsDb.find()
