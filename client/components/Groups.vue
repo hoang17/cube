@@ -1,5 +1,12 @@
 <template lang="pug">
   .news-view.view
+    ul
+      li.news-item(v-for="item in starItems", :key="item.id")
+        span.score(@click="item.star=!item.star")
+          i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
+        span.title
+          router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
+        span.host  - {{ item.privacy }}
     transition(:name='transition')
       .news-list(:key='displayedPage', v-if='displayedPage > 0')
         transition-group(tag='ul', name='item')
@@ -7,9 +14,9 @@
             span.score(@click="item.star=!item.star")
               i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
             span.title
-              router-link(:to="`/${type}/id/${item.id}`") {{ item.name }}
-            span.host  - {{ item.privacy }} - {{ item.ver }}
-        infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+              router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
+            span.host  - {{ item.privacy }}
+        //-infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
 </template>
 
 <script>
@@ -24,7 +31,7 @@ export default {
       type: this.$options.name,
       transition: 'slide-left',
       displayedPage: 1,
-      displayedItems: this.$store.getters.activeGroups(1),
+      // displayedItems: this.$store.getters.activeGroups(1),
       page: 1
     }
   },
@@ -36,6 +43,12 @@ export default {
       const { itemsPerPage, groups } = this.$store.state
       return Math.ceil(groups.length / itemsPerPage)
     },
+    displayedItems() {
+      return this.$store.getters.activeGroups
+    },
+    starItems() {
+      return this.$store.getters.starGroups
+    }
   },
   beforeMount () {
     if (this.$root._isMounted) {
@@ -46,22 +59,22 @@ export default {
     async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getGroups')
-      this.displayedItems = this.$store.getters.activeGroups(this.page)
+      // this.displayedItems = this.$store.getters.activeGroups(this.page)
       this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('in:loaded')
+      // this.$refs.infiniteLoading.$emit('in:loaded')
     },
-    onInfinite() {
-      if (this.displayedItems.length == 0) {
-        return
-      }
-      this.page++
-      if (this.page <= this.maxPage) {
-        this.displayedItems = this.$store.getters.activeGroups(this.page)
-        this.$refs.infiniteLoading.$emit('in:loaded')
-      } else {
-        this.$refs.infiniteLoading.$emit('in:complete')
-      }
-    }
+    // onInfinite() {
+    //   if (this.displayedItems.length == 0) {
+    //     return
+    //   }
+    //   this.page++
+    //   if (this.page <= this.maxPage) {
+    //     this.displayedItems = this.$store.getters.activeGroups(this.page)
+    //     this.$refs.infiniteLoading.$emit('in:loaded')
+    //   } else {
+    //     this.$refs.infiniteLoading.$emit('in:complete')
+    //   }
+    // }
   }
 }
 </script>
@@ -69,6 +82,9 @@ export default {
 <style lang="stylus" scoped>
 .news-view
   padding-top 10px
+  ul
+    list-style-type none
+    padding 0
 
 .news-list-nav, .news-list
   background-color #fff

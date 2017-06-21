@@ -134,11 +134,21 @@ export function createStore () {
       },
     },
     getters: {
-      activeGroups: (state) => (page) => {
-        return getActiveItems(page, state.itemsPerPage, state.groups)
+      starGroups(state) {
+        return _.filter(state.groups, 'star')
       },
+      starLikes(state) {
+        return _.filter(state.likes, 'star')
+      },
+      activeGroups(state) {
+        return _.filter(state.groups, { star: false })
+      },
+      // activeGroups: (state) => (page) => {
+      //   return getActiveItems(page, state.itemsPerPage, state.groups)
+      // },
       activeLikes: (state) => (page) => {
-        return getActiveItems(page, state.itemsPerPage, state.likes)
+        return state.likes
+        // return getActiveItems(page, state.itemsPerPage, state.likes)
       },
       activeFriends: (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.friends)

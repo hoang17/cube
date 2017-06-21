@@ -33,7 +33,7 @@ async function getFeeds(req, res) {
 
 router.route('/groups')
   .get(function(req, res) {
-    Group.find().lean().exec(function(err, groups) {
+    Group.find().sort({ bookmark_order : 'asc'}).lean().exec(function(err, groups) {
       if (err)
         res.send(err)
       res.json(groups)
