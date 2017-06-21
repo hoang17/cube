@@ -6,6 +6,8 @@ Vue.use(Vuex)
 
 import { get, fetchItems } from './api'
 
+const _ = require('lodash')
+
 const getActiveItems =  function(page, itemsPerPage, items, start = 0){
   page = Number(page) || 1
   const end = page * itemsPerPage
@@ -20,6 +22,10 @@ function chunk (a, size) {
     chunks.push({ p, c })
   }
   return chunks
+}
+
+function groupVersions(groups){
+  return _.fromPairs(_.map(groups, i => [i.id, i.ver]))
 }
 
 export function createStore () {
@@ -39,6 +45,7 @@ export function createStore () {
         if (state.groups.length > 0) return
         let groups = await get('groups')
         commit('setGroups', groups)
+        state.gv = groupVersions(groups)
       },
       async getLikes({ state, commit }) {
         if (state.likes.length > 0) return
@@ -71,8 +78,11 @@ export function createStore () {
         commit('addMoreFeeds', { page, feeds: data.feeds})
       },
       async fetchItems({ state, commit }, {id, page}) {
-        if (!state.gv)
-          state.gv = await get('gv')
+        if (!state.gv){
+          let groups = await get('groups')
+          commit('setGroups', groups)
+          state.gv = groupVersions(groups)
+        }
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
         const offset = (page-1) * state.itemsPerPage
@@ -81,8 +91,11 @@ export function createStore () {
         commit('setItems', { page, items })
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
-        if (!state.gv)
-          state.gv = await get('gv')
+        if (!state.gv){
+          let groups = await get('groups')
+          commit('setGroups', groups)
+          state.gv = groupVersions(groups)
+        }
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
         const offset = (page-1) * state.itemsPerPage
@@ -135,7 +148,7 @@ export function createStore () {
       },
       activeItems(state) {
         return state.items
-      }
+      },
 
       // items that should be currently displayed.
       // this Array may not be fully fetched.

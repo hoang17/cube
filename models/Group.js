@@ -5,7 +5,9 @@ module.exports = mongoose.model('Group', new Schema({
   id: String,
   name: String,
   privacy: String,
-  administrator: String,
-  bookmark_order: String,
-  unread: String
+  administrator: Boolean,
+  bookmark_order: Number,
+  unread: Number,
+  ver: String,
+  star: Boolean,
 }))

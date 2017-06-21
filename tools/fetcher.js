@@ -8,7 +8,11 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 async function fetchData(url, model) {
   const res = await graph.getAsync(url, { limit: 500 })
-  res.data.map(v => v.star = false)
+  res.data.map(v => {
+    v.star = false
+    if (v.privacy)
+      v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
+  })
   if (res.paging && res.paging.next) {
     await model.insert(res.data)
     return fetchData(res.paging.next, model)
@@ -26,25 +30,25 @@ async function run(){
   // friends.drop()
   // fetchData("504368183/invitable_friends", friends)
 
-  const groupsDb = db.get('groups')
-  const likesDb = db.get('likes')
-  const gv = db.get('group_ver')
+  const groups = db.get('groups')
+  const likes = db.get('likes')
 
-  groupsDb.drop()
-  likesDb.drop()
+  const gv = db.get('group_ver')
   gv.drop()
 
-  fetchData("504368183/likes", likesDb)
+  groups.drop()
+  likes.drop()
 
-  await fetchData("504368183/groups", groupsDb)
+  await Promise.all([
+    fetchData("504368183/likes", likesDb),
+    fetchData("504368183/groups", groupsDb)
+  ])
 
-  let groups = await groupsDb.find()
+  // let groups = await groupsDb.find()
 
-  groups.map(v => v.ver = v.privacy == 'OPEN' ? 'v2.4' : 'v2.3')
+  // console.log(groups.length)
 
-  console.log(groups.length)
-
-  graph.setVersion("2.4")
+  // graph.setVersion("2.4")
 
   // count = 0
   // for (let group of groups) {
@@ -60,20 +64,20 @@ async function run(){
   //   }
   // }
 
-  await Promise.all(groups.map(async (group) => {
-    try {
-      const res = await graph.getAsync(group.id + '/feed?fields=id', { limit: 1 })
-      group.ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
-      let ob = { group_id: group.id, ver: group.ver }
-      groupsDb.update({_id:group._id}, group)
-      await gv.insert(ob)
-    } catch (e) {
-      group.ver = 'v2.3'
-      let ob = { group_id: group.id, ver: group.ver }
-      groupsDb.update({_id:group._id}, group)
-      await gv.insert(ob)
-    }
-  }))
+  // await Promise.all(groups.map(async (group) => {
+  //   try {
+  //     const res = await graph.getAsync(group.id + '/feed?fields=id', { limit: 1 })
+  //     group.ver = res.data.length == 0 ? 'v2.3' : 'v2.4'
+  //     let ob = { group_id: group.id, ver: group.ver }
+  //     groupsDb.update({_id:group._id}, group)
+  //     await gv.insert(ob)
+  //   } catch (e) {
+  //     group.ver = 'v2.3'
+  //     let ob = { group_id: group.id, ver: group.ver }
+  //     groupsDb.update({_id:group._id}, group)
+  //     await gv.insert(ob)
+  //   }
+  // }))
 
   db.close()
   console.log('done')

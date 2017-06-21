@@ -1,4 +1,4 @@
-const _ = require('lodash')
+// const _ = require('lodash')
 const router = require('express').Router()
 
 const Group = require('./models/Group')
@@ -9,7 +9,7 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 const Feed = db.get('feeds_498287336961883')
 
-const gv = db.get('group_ver')
+// const gv = db.get('group_ver')
 
 
 async function findFeeds(query, options){
@@ -68,12 +68,12 @@ router.route('/friends')
     })
   })
 
-router.route('/gv')
-  .get(function(req, res) {
-    gv.find().then(function(data){
-      let op = _.fromPairs(_.map(data, i => [i.group_id, i.ver]))
-      res.json(op)
-    })
-  })
+// router.route('/gv')
+//   .get(function(req, res) {
+//     gv.find().then(function(data){
+//       let op = _.fromPairs(_.map(data, i => [i.group_id, i.ver]))
+//       res.json(op)
+//     })
+//   })
 
 module.exports = router
