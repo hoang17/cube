@@ -6,6 +6,7 @@
           img(:src="item.from.picture.data.url")
       .from
         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.from.name }}
+      .time {{ item.created_time | timeAgo }}
       .text(v-if="item.message") {{ cropMsg }}
         span.more(v-if="isCropMsg", @click="full=!full")  See more
       .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime.text }}
@@ -190,12 +191,14 @@ export default {
     .from
       font-weight bold
       padding-top 3px
+      margin-bottom 2px
+    .time
       margin-bottom 5px
     .text
       margin-bottom 10px
 
-  .meta, .host
-    font-size .85em
+  .meta, .host, .time
+    font-size .9em
     color #828282
     a
       color #828282

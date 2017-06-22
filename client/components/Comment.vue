@@ -5,7 +5,7 @@
         img(:src="comment.from.picture.data.url")
     span.by
       router-link(:to="'/user/' + comment.from.id") {{ comment.from.name }}
-      //-|       {{ comment.created_time | timeAgo }} ago
+      //-|       {{ comment.created_time | timeAgo }}
     span.text  {{ comment.message }}
     img.media(v-if="comment.attachment && comment.attachment.media", :src="comment.attachment.media.image.src", :class="comment.attachment.type")
     .toggle(v-if='comment.comment_count > 0', @click='open = !open')
