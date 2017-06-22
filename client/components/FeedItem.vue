@@ -8,11 +8,11 @@
         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.from.name }}
       .time {{ item.created_time | timeAgo }}
       .text(v-if="item.message") {{ cropMsg }}
-        span.more(v-if="isCropMsg", @click="full=!full")  See more
-      .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime.text }}
+        span.more(v-if="isCropMsg", @click="full=!full")  see more
+      .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime }} min read
       .meta(v-if="item.name") {{ item.name }}
       .text.meta(v-if="description") {{ cropDesc }}
-        span.more(v-if="isCropDesc", @click="desc=!desc")  See more
+        span.more(v-if="isCropDesc", @click="desc=!desc")  see more
       .meta(v-if="item.story") {{ item.story }}
       .meta(v-if="item.link")
         a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
@@ -47,7 +47,6 @@ import Photo from '../addons/Photo'
 import Spinner from '../addons/Spinner'
 import axios from 'axios'
 import { fetchComment } from '../api'
-import readingTime from 'reading-time'
 import _ from 'lodash'
 
 
@@ -61,7 +60,7 @@ export default {
   },
   computed: {
     readingTime(){
-      return readingTime(this.item.message)
+      return Math.round(this.count/200) || 1
     },
     count(){
       return this.item.message.trim().split(/\s+/).length
