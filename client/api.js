@@ -44,7 +44,7 @@ export async function fetchItems(id, skip, limit, ver){
 export async function fetchComment(id) {
   try {
     let url = `v2.3/${id}`
-    let res = await fb.get(url, { params: {fields: 'comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment},comment_count,like_count,created_time,attachment}'} })
+    let res = await fb.get(url, { params: {fields: 'comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment,created_time},comment_count,like_count,created_time,attachment}'} })
     return res.data.comments
   } catch (e) {
     console.error(e)

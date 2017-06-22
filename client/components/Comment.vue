@@ -5,9 +5,9 @@
         img(:src="comment.from.picture.data.url")
     span.by
       router-link(:to="'/user/' + comment.from.id") {{ comment.from.name }}
-      //-|       {{ comment.created_time | timeAgo }}
     span.text  {{ comment.message }}
     img.media(v-if="comment.attachment && comment.attachment.media", :src="comment.attachment.media.image.src", :class="comment.attachment.type")
+    //- .time  {{ comment.created_time | timeAgo }}
     .toggle(v-if='comment.comment_count > 0', @click='open = !open')
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
     ul.comment-children(v-show='open', v-if='comment.comment_count > 0 && comment.comments')
@@ -108,8 +108,10 @@ export default {
   .by, .text, .toggle
     font-size .9em
     margin 0.3em 0
-  .by
+  .time
     color #828282
+    font-size .8em
+  .by
     a
       font-size 13px
       font-weight bold
