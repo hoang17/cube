@@ -2,21 +2,18 @@
   li.news-item
     .title
       .avatar
-        a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener')
+        a(:href="'http://facebook.com/' + item.from.id", target='_blank', rel='noopener')
           img(:src="item.from.picture.data.url")
-      span {{ item.from.name }}
-      br(v-if="item.message")
-      span(v-if="item.message") {{ item.message }}
-      br(v-if="item.name")
-      span.meta(v-if="item.name") {{ item.name }}
-      br(v-if="item.description")
-      span.meta(v-if="item.description") {{ item.description }}
-      br(v-if="item.attachments && !item.full_picture")
-      span.meta(v-if="item.attachments && !item.full_picture") {{ item.attachments.data[0].description }}
-      br(v-if="item.story")
-      span.meta(v-if="item.story") {{ item.story }}
-      br(v-if="item.link")
-      span.meta(v-if="item.link")
+      .from
+        a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.from.name }}
+      .text(v-if="item.message") {{ cropMsg }}
+        span.more(v-if="isCropMsg", @click="full=!full")  See more
+      .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime.text }}
+      .meta(v-if="item.name") {{ item.name }}
+      .text.meta(v-if="description") {{ cropDesc }}
+        span.more(v-if="isCropDesc", @click="desc=!desc")  See more
+      .meta(v-if="item.story") {{ item.story }}
+      .meta(v-if="item.link")
         a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
     .frame(v-if="item.source && item.source.includes('youtube.com/embed')")
       iframe(:src="item.source.replace('autoplay=1', 'autoplay=0')", frameborder="0", allowfullscreen="")
@@ -24,9 +21,9 @@
       video(:src="item.source", controls="controls", :poster="item.full_picture", preload="metadata")
     .album(v-else-if="item.attachments")
       .media(v-for="a in item.attachments.data", :key="a.id")
-        photo(v-if="a.media", :src="a.media.image.src")
+        photo(v-if="a.media", :src="a.media.image.src", :id="item.id")
         .sub(v-else-if="a.subattachments", :class="{s4: a.subattachments.data.length > 4, s6: a.subattachments.data.length > 6}")
-          photo(v-for="s in a.subattachments.data", :key="s.id", v-if="s.media", :src="s.media.image.src")
+          photo(v-for="s in a.subattachments.data", :key="s.id", v-if="s.media", :src="s.media.image.src", :id="item.id")
           //-pre {{ a }}
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
     .item-view-comments
@@ -49,6 +46,10 @@ import Photo from '../addons/Photo'
 import Spinner from '../addons/Spinner'
 import axios from 'axios'
 import { fetchComment } from '../api'
+import readingTime from 'reading-time'
+import _ from 'lodash'
+
+
 
 export default {
   props: {
@@ -58,6 +59,43 @@ export default {
     Comment, Photo, Spinner
   },
   computed: {
+    readingTime(){
+      return readingTime(this.item.message)
+    },
+    count(){
+      return this.item.message.trim().split(/\s+/).length
+    },
+    // percent(){
+    //   return this.full || this.length*1.5 >= this.item.message.length ? 100 : Math.floor((this.length/this.item.message.length)*100)
+    // },
+    length(){
+      return typeof window != 'undefined' && window.innerWidth <= 800 && window.innerHeight <= 600 ? 500 : 2000
+    },
+    isCropMsg(){
+      return !this.full && this.item.message.length > this.length * 1.5
+    },
+    cropMsg(){
+      return this.isCropMsg
+        ? _.truncate(this.item.message, {
+            'length': this.length,
+            'separator': /,? +/
+          })
+        : this.item.message
+    },
+    isCropDesc(){
+      return !this.desc && this.description.length > this.length * 1.5
+    },
+    cropDesc(){
+      return this.isCropDesc
+        ? _.truncate(this.description, {
+            'length': this.length,
+            'separator': /,? +/
+          })
+        : this.description
+    },
+    description(){
+      return this.item.description ? this.item.description : this.item.attachments && !this.item.full_picture ? this.item.attachments.data[0].description : null
+    },
     moreCount(){
       return this.item.comments.summary.total_count - this.item.comments.data.length
     }
@@ -66,7 +104,9 @@ export default {
     return {
       open: false,
       loader: false,
-      loading: false
+      loading: false,
+      full: false,
+      desc: false,
     }
   },
   methods: {
@@ -144,10 +184,15 @@ export default {
     font-size .9em
     white-space pre-wrap
     word-wrap break-word
-
     &::first-line
       font-weight bold
       line-height 28px
+    .from
+      font-weight bold
+      padding-top 3px
+      margin-bottom 5px
+    .text
+      margin-bottom 10px
 
   .meta, .host
     font-size .85em
@@ -157,6 +202,19 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+  .more
+    color #ff6600
+    cursor pointer
+
+  .readtime
+    cursor pointer
+    margin-top 10px
+    font-size 13px
+    padding 5px .5em
+    background-color #eee
+    border-radius 2px
+
 
 .item-view-comments
   background-color #fff
@@ -191,6 +249,9 @@ export default {
   padding 0
   background-color #eee
   border-radius 2px
+
+pre
+  margin-top 10px
 
 @media (max-width 600px)
   .news-item
@@ -228,5 +289,5 @@ export default {
         .s4
           column-count 2
         .s6
-          column-count 3
+          column-count 2
 </style>

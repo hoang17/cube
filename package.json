@@ -72,6 +72,7 @@
     "passport-twitter": "^1.0.4",
     "paypal-rest-sdk": "^1.7.0",
     "pug": "^2.0.0-beta6",
+    "reading-time": "^1.1.0",
     "request": "^2.78.0",
     "sendgrid": "^5.1.0",
     "stripe": "^4.12.0",
