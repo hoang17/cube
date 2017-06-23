@@ -27,3 +27,10 @@ function pluralize (time, label) {
   }
   return time + label + 's'
 }
+
+export function cropUrl(str){
+  if (str.length > 40) {
+    return str.substr(0, 25) + '...' + str.substr(str.length-10, str.length)
+  }
+  return str
+}

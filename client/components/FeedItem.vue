@@ -14,8 +14,8 @@
       .text.meta(v-if="description") {{ cropDesc }}
         span.more(v-if="isCropDesc", @click="desc=!desc")  see more
       .meta(v-if="item.story") {{ item.story }}
-      .meta(v-if="item.link")
-        a(:href="item.link", target='_blank', rel='noopener') {{ item.link }}
+      .meta(v-if="item.type=='link'")
+        a(:href="item.link", target='_blank', rel='noopener') {{ item.link | cropUrl }}
     .frame(v-if="item.source && item.source.includes('youtube.com/embed')")
       iframe(:src="item.source.replace('autoplay=1', 'autoplay=0')", frameborder="0", allowfullscreen="")
     .video(v-else-if="item.source")
@@ -69,7 +69,7 @@ export default {
     //   return this.full || this.length*1.5 >= this.item.message.length ? 100 : Math.floor((this.length/this.item.message.length)*100)
     // },
     length(){
-      return typeof window != 'undefined' && window.innerWidth <= 800 && window.innerHeight <= 600 ? 500 : 2000
+      return typeof window != 'undefined' && window.innerWidth <= 800 && window.innerHeight <= 600 ? 500 : 1000
     },
     isCropMsg(){
       return !this.full && this.item.message.length > this.length * 1.5
