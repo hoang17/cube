@@ -10,7 +10,7 @@
       .text(v-if="item.message") {{ cropMsg }}
         span.more(v-if="isCropMsg", @click="full=!full")  see more
       .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime }} min read
-      .meta(v-if="item.name") {{ item.name }}
+      .meta(v-if="item.name && item.type!='photo'") {{ item.name }}
       .text.meta(v-if="description") {{ cropDesc }}
         span.more(v-if="isCropDesc", @click="desc=!desc")  see more
       .meta(v-if="item.story") {{ item.story }}
@@ -211,7 +211,7 @@ export default {
 
   .readtime
     cursor pointer
-    margin-top 10px
+    margin 10px 0
     font-size 13px
     padding 5px .5em
     background-color #eee
