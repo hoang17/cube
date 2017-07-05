@@ -34,6 +34,7 @@ export function createStore () {
       itemsPerPage: 20,
       groups: [],
       likes: [],
+      pages: [],
       friends: [],
       feeds: {},
       items: {},
@@ -51,6 +52,11 @@ export function createStore () {
         if (state.likes.length > 0) return
         let likes = await get('likes')
         commit('setLikes', likes)
+      },
+      async getPages({ state, commit }) {
+        if (state.pages.length > 0) return
+        let pages = await get('pages')
+        commit('setPages', pages)
       },
       async getFriends({ state, commit }) {
         if (state.friends.length > 0) return
@@ -115,6 +121,9 @@ export function createStore () {
       setLikes(state, likes) {
         state.likes = likes
       },
+      setPages(state, pages) {
+        state.pages = pages
+      },
       setFriends(state, friends) {
         state.friends = friends
       },
@@ -143,19 +152,18 @@ export function createStore () {
       starLikes(state) {
         return _.filter(state.likes, 'star')
       },
+      starPages(state) {
+        return _.filter(state.pages, 'star')
+      },
       activeGroups(state) {
         return _.orderBy(state.groups, 'star', 'desc')
-        // return _.filter(state.groups, { star: false })
       },
-      // activeGroups: (state) => (page) => {
-      //   return getActiveItems(page, state.itemsPerPage, state.groups)
-      // },
       activeLikes(state) {
         return _.orderBy(state.likes, 'star', 'desc')
       },
-      // activeLikes: (state) => (page) => {
-      //   return getActiveItems(page, state.itemsPerPage, state.likes)
-      // },
+      activePages(state) {
+        return _.orderBy(state.pages, 'star', 'desc')
+      },
       activeFriends: (state) => (page) => {
         return getActiveItems(page, state.itemsPerPage, state.friends)
       },
@@ -165,12 +173,6 @@ export function createStore () {
       activeItems(state) {
         return state.items
       },
-
-      // items that should be currently displayed.
-      // this Array may not be fully fetched.
-      // activeItems (state, getters) {
-      //   return getters.activeIds.map(id => state.items[id]).filter(_ => _)
-      // }
     }
   })
 }

@@ -3,6 +3,7 @@ const router = require('express').Router()
 
 const Group = require('./models/Group')
 const Like = require('./models/Like')
+const Page = require('./models/Page')
 const Friend = require('./models/Friend')
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
@@ -90,6 +91,32 @@ router.route('/likes')
         if (err)
           res.send(err)
         res.json({ message: 'Like updated' })
+      })
+    })
+
+router.route('/pages')
+  .get(function(req, res) {
+    Page.find().lean().exec(function(err, pages) {
+      if (err)
+        res.send(err)
+      res.json(pages)
+    })
+  })
+
+  router.route('/pages/:id')
+    .get(function(req, res) {
+      var id = req.params.id
+      Page.findOne({id: id}, function(err, like) {
+        if (err)
+          res.send(err)
+        res.json(like)
+      })
+    })
+    .patch(function (req, res) {
+      Page.update({id: req.params.id}, req.body).exec(function(err) {
+        if (err)
+          res.send(err)
+        res.json({ message: 'Page updated' })
       })
     })
 

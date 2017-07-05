@@ -121,6 +121,12 @@ module.exports = function(app) {
     })
   })
 
+  app.get('/pages/:page?', (req, res) => {
+    res.render('template', {title: 'Pages'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
   app.get('/friends/:page?', (req, res) => {
     res.render('template', {title: 'Friends'}, (err, template) => {
       createRenderer(req, res, template)
@@ -141,6 +147,12 @@ module.exports = function(app) {
 
   app.get('/likes/id/:id/:page?', (req, res) => {
     res.render('template', {title: 'Likes'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
+  app.get('/pages/id/:id/:page?', (req, res) => {
+    res.render('template', {title: 'Pages'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })

@@ -49,8 +49,6 @@ import axios from 'axios'
 import { fetchComment } from '../api'
 import _ from 'lodash'
 
-
-
 export default {
   props: {
 		item: Object,

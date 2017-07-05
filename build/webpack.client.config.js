@@ -121,7 +121,7 @@ module.exports = {
               handler: 'networkFirst'
             },
             {
-              urlPattern: /\/(groups|likes|friends|feeds)/,
+              urlPattern: /\/(groups|likes|pages|friends|feeds)/,
               handler: 'networkFirst'
             },
             {

@@ -7,6 +7,7 @@
         //- router-link(to='/friends') Friends
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
+        router-link(to='/pages') Pages
         router-link(to='/feeds/1') Feeds
     transition(name='fade', mode='out-in')
       keep-alive(exclude="items,feeds")
