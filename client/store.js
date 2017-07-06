@@ -108,7 +108,7 @@ export function createStore () {
       },
       async fetchItems({ state, commit }, {id, page}) {
         if (!state.gv){
-          let groups = await get('groups')
+          let groups = await fetch(state.token, 'v2.3/me/groups')
           commit('setGroups', groups)
           state.gv = groupVersions(groups.data)
         }
@@ -121,7 +121,7 @@ export function createStore () {
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
         if (!state.gv){
-          let groups = await get('groups')
+          let groups = await fetch(state.token, 'v2.3/me/groups')
           commit('setGroups', groups)
           state.gv = groupVersions(groups.data)
         }
