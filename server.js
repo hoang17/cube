@@ -146,7 +146,7 @@ app.use(express.static(publicDir, { maxAge: 31557600000 }));
  * Primary app routes.
  */
 app.get('/', homeController.index);
-app.get('/hello', homeController.index);
+app.get('/privacy', homeController.privacy);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
