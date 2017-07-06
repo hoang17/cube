@@ -122,15 +122,6 @@ router.route('/pages')
 
 router.route('/feeds').get(getFeeds)
 
-router.route('/friends')
-  .get(function(req, res) {
-    Friend.find().lean().exec(function(err, friends) {
-      if (err)
-        res.send(err)
-      res.json(friends)
-    })
-  })
-
 // router.route('/gv')
 //   .get(function(req, res) {
 //     gv.find().then(function(data){

@@ -50,3 +50,13 @@ export async function fetchComment(id) {
     console.error(e)
   }
 }
+
+export async function fetch(url) {
+  const res = await fb.get(url, { params: { limit: 500 }})
+  res.data.data.map(v => {
+    v.star = false
+    if (v.privacy)
+      v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
+  })
+  return res.data.data
+}

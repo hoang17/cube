@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetchItems, patch } from './api'
+import { get, fetch, fetchItems, patch } from './api'
 
 const _ = require('lodash')
 
@@ -35,7 +35,6 @@ export function createStore () {
       groups: [],
       likes: [],
       pages: [],
-      friends: [],
       feeds: {},
       items: {},
       feedCount: 0,
@@ -44,24 +43,19 @@ export function createStore () {
     actions: {
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return
-        let groups = await get('groups')
+        let groups = await fetch('v2.3/me/groups')
         commit('setGroups', groups)
         state.gv = groupVersions(groups)
       },
       async getLikes({ state, commit }) {
         if (state.likes.length > 0) return
-        let likes = await get('likes')
+        let likes = await fetch('v2.6/me/likes?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
         commit('setLikes', likes)
       },
       async getPages({ state, commit }) {
         if (state.pages.length > 0) return
-        let pages = await get('pages')
+        let pages = await fetch('v2.6/me/accounts?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
         commit('setPages', pages)
-      },
-      async getFriends({ state, commit }) {
-        if (state.friends.length > 0) return
-        let friends = await get('friends')
-        commit('setFriends', friends)
       },
       async fetchFeeds({ state, commit }, { page }) {
         const offset = (page-1) * state.itemsPerPage
@@ -124,9 +118,6 @@ export function createStore () {
       setPages(state, pages) {
         state.pages = pages
       },
-      setFriends(state, friends) {
-        state.friends = friends
-      },
       setFeeds(state, {page, feeds}) {
         state.feeds = {}
         Vue.set(state.feeds, page, feeds)
@@ -163,9 +154,6 @@ export function createStore () {
       },
       activePages(state) {
         return _.orderBy(state.pages, 'star', 'desc')
-      },
-      activeFriends: (state) => (page) => {
-        return getActiveItems(page, state.itemsPerPage, state.friends)
       },
       activeFeeds(state) {
         return state.feeds

@@ -2,9 +2,6 @@
   #app
     header.header
       nav.inner
-        //- router-link(to='/' exact) Home
-        //- router-link(to='/contact') Contact
-        //- router-link(to='/friends') Friends
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
         router-link(to='/pages') Pages

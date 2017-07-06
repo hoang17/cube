@@ -10,7 +10,6 @@ const Groups = () => import('./components/Groups')
 const Likes = () => import('./components/Likes')
 const Pages = () => import('./components/Pages')
 const Feeds = () => import('./components/Feeds')
-const Friends = () => import('./components/Friends')
 
 export function createRouter () {
   let router = new Router({
@@ -23,7 +22,6 @@ export function createRouter () {
       { path: '/groups/:page(\\d+)?', name: 'groups', component: Groups },
       { path: '/likes/:page(\\d+)?', name: 'likes', component: Likes },
       { path: '/pages/:page(\\d+)?', name: 'pages', component: Pages },
-      { path: '/friends/:page(\\d+)?', name: 'friends', component: Friends },
       { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
       { path: '/:type/id/:id/:page(\\d+)?', name: 'items', component: Items }
     ],
