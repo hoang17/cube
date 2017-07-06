@@ -1,10 +1,10 @@
 <template>
   <div class="infinite-loading-container">
-    <!-- <div v-show="isLoading">
+    <div v-if="showSpinner" v-show="isLoading">
       <slot name="spinner">
         <i :class="spinnerType"></i>
       </slot>
-    </div> -->
+    </div>
     <!-- <div class="infinite-status-prompt" v-show="!isLoading && isComplete && isFirstLoad">
       <slot name="no-results">No results :(</slot>
     </div> -->
@@ -16,13 +16,13 @@
 <script>
 import throttle from 'lodash/throttle'
 
-// const spinnerMapping = {
-//   bubbles: 'loading-bubbles',
-//   circles: 'loading-circles',
-//   default: 'loading-default',
-//   spiral: 'loading-spiral',
-//   waveDots: 'loading-wave-dots',
-// };
+const spinnerMapping = {
+  bubbles: 'loading-bubbles',
+  circles: 'loading-circles',
+  default: 'loading-default',
+  spiral: 'loading-spiral',
+  waveDots: 'loading-wave-dots',
+};
 
 /**
  * get the first scroll parent of an element
@@ -76,12 +76,13 @@ export default {
       isFirstLoad: true, // save the current loading whether it is the first loading
     };
   },
-  // computed: {
-  //   spinnerType() {
-  //     return spinnerMapping[this.spinner] || spinnerMapping.default;
-  //   },
-  // },
+  computed: {
+    spinnerType() {
+      return spinnerMapping[this.spinner] || spinnerMapping.default;
+    },
+  },
   props: {
+    showSpinner: false,
     distance: {
       type: Number,
       default: 100,
@@ -155,7 +156,7 @@ export default {
 };
 </script>
 
-<!-- style lang="less" scoped>
+<style lang="less" scoped>
   @import './styles/spinner';
 
   .infinite-loading-container{
@@ -179,4 +180,4 @@ export default {
     text-align: center;
     padding: 10px 0;
   }
-</style> -->
+</style>

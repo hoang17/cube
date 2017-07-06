@@ -16,6 +16,7 @@ pages<template lang="pug">
           span.title
             router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
           span.host  - {{ item.category }}
+      infinite-loading(showSpinner="true", :on-infinite='loadNextPage', ref='infiniteLoading')
 </template>
 
 <script>
@@ -49,7 +50,22 @@ export default {
       this.$bar.start()
       await this.$store.dispatch('getPages')
       this.$bar.finish()
+      this.$refs.infiniteLoading.$emit('in:loaded')
     },
+    async loadNextPage() {
+      if (this.displayedItems.length == 0) {
+        return
+      }
+      let length = this.displayedItems.length
+      await this.$store.dispatch('getMorePages')
+      if (this.displayedItems.length > length) {
+        this.$bar.finish()
+        this.$refs.infiniteLoading.$emit('in:loaded')
+      } else {
+        this.$bar.finish()
+        this.$refs.infiniteLoading.$emit('in:complete')
+      }
+    }
   }
 }
 </script>

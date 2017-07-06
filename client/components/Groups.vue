@@ -1,12 +1,5 @@
 <template lang="pug">
   .news-view.view
-    //-transition-group(tag='ul', name='item')
-      li.news-item(v-for="item in starItems", :key="item.id")
-        span.score(@click="setStar(item)")
-          i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
-        span.title
-          router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
-        span.host  - {{ item.privacy }}
     //-transition(:name='transition')
     .news-list
       transition-group(tag='ul', name='item')
@@ -16,7 +9,7 @@
           span.title
             router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
           span.host  - {{ item.privacy }}
-      //-infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
+      infinite-loading(showSpinner="true", :on-infinite='loadNextPage', ref='infiniteLoading')
 </template>
 
 <script>
@@ -30,16 +23,11 @@ export default {
     return {
       type: this.$options.name,
       // transition: 'slide-left',
-      // displayedItems: this.$store.getters.activeGroups(1),
-      // page: 1
     }
   },
   computed: {
     displayedItems() {
       return this.$store.getters.activeGroups
-    },
-    starItems() {
-      return this.$store.getters.starGroups
     }
   },
   beforeMount () {
@@ -55,22 +43,23 @@ export default {
     async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getGroups')
-      // this.displayedItems = this.$store.getters.activeGroups(this.page)
       this.$bar.finish()
-      // this.$refs.infiniteLoading.$emit('in:loaded')
+      this.$refs.infiniteLoading.$emit('in:loaded')
     },
-    // onInfinite() {
-    //   if (this.displayedItems.length == 0) {
-    //     return
-    //   }
-    //   this.page++
-    //   if (this.page <= this.maxPage) {
-    //     this.displayedItems = this.$store.getters.activeGroups(this.page)
-    //     this.$refs.infiniteLoading.$emit('in:loaded')
-    //   } else {
-    //     this.$refs.infiniteLoading.$emit('in:complete')
-    //   }
-    // }
+    async loadNextPage() {
+      if (this.displayedItems.length == 0) {
+        return
+      }
+      let length = this.displayedItems.length
+      await this.$store.dispatch('getMoreGroups')
+      if (this.displayedItems.length > length) {
+        this.$bar.finish()
+        this.$refs.infiniteLoading.$emit('in:loaded')
+      } else {
+        this.$bar.finish()
+        this.$refs.infiniteLoading.$emit('in:complete')
+      }
+    }
   }
 }
 </script>

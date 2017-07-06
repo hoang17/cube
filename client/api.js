@@ -58,5 +58,5 @@ export async function fetch(url) {
     if (v.privacy)
       v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
   })
-  return res.data.data
+  return res.data
 }

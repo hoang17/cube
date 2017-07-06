@@ -45,7 +45,7 @@ export function createStore () {
         if (state.groups.length > 0) return
         let groups = await fetch('v2.3/me/groups')
         commit('setGroups', groups)
-        state.gv = groupVersions(groups)
+        state.gv = groupVersions(groups.data)
       },
       async getLikes({ state, commit }) {
         if (state.likes.length > 0) return
@@ -56,6 +56,33 @@ export function createStore () {
         if (state.pages.length > 0) return
         let pages = await fetch('v2.6/me/accounts?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
         commit('setPages', pages)
+      },
+      async getMoreGroups({ state, commit }) {
+        if (state.groups.paging.next) {
+          let groups = await fetch(state.groups.paging.next)
+          if (groups.data.length > 0){
+            state.groups.data = state.groups.data.concat(groups.data)
+            state.groups.paging = groups.paging
+          }
+        }
+      },
+      async getMoreLikes({ state, commit }) {
+        if (state.likes.paging.next) {
+          let likes = await fetch(state.likes.paging.next)
+          if (likes.data.length > 0){
+            state.likes.data = state.likes.data.concat(likes.data)
+            state.likes.paging = likes.paging
+          }
+        }
+      },
+      async getMorePages({ state, commit }) {
+        if (state.pages.paging.next) {
+          let pages = await fetch(state.pages.paging.next)
+          if (pages.data.length > 0){
+            state.pages.data = state.pages.data.concat(pages.data)
+            state.pages.paging = pages.paging
+          }
+        }
       },
       async fetchFeeds({ state, commit }, { page }) {
         const offset = (page-1) * state.itemsPerPage
@@ -81,7 +108,7 @@ export function createStore () {
         if (!state.gv){
           let groups = await get('groups')
           commit('setGroups', groups)
-          state.gv = groupVersions(groups)
+          state.gv = groupVersions(groups.data)
         }
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
@@ -94,7 +121,7 @@ export function createStore () {
         if (!state.gv){
           let groups = await get('groups')
           commit('setGroups', groups)
-          state.gv = groupVersions(groups)
+          state.gv = groupVersions(groups.data)
         }
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
@@ -137,23 +164,14 @@ export function createStore () {
       },
     },
     getters: {
-      starGroups(state) {
-        return _.filter(state.groups, 'star')
-      },
-      starLikes(state) {
-        return _.filter(state.likes, 'star')
-      },
-      starPages(state) {
-        return _.filter(state.pages, 'star')
-      },
       activeGroups(state) {
-        return _.orderBy(state.groups, 'star', 'desc')
+        return _.orderBy(state.groups.data, 'star', 'desc')
       },
       activeLikes(state) {
-        return _.orderBy(state.likes, 'star', 'desc')
+        return _.orderBy(state.likes.data, 'star', 'desc')
       },
       activePages(state) {
-        return _.orderBy(state.pages, 'star', 'desc')
+        return _.orderBy(state.pages.data, 'star', 'desc')
       },
       activeFeeds(state) {
         return state.feeds
