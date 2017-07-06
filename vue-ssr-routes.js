@@ -92,7 +92,8 @@ module.exports = function(app) {
 
     const context = {
       title: 'Vue 2.0', // default title
-      url: req.url
+      url: req.url,
+      user: req.user
     }
 
     renderer.renderToString(context, (err, html) => {

@@ -113,7 +113,7 @@ export default {
       this.open = !this.open
       if (!this.item.comments || this.item.comments.data.length == 0) {
         this.loader = true
-        this.item.comments = await fetchComment(this.item.id)
+        this.item.comments = await fetchComment(this.$store.state.token,this.item.id)
         this.loader = false
       }
     },

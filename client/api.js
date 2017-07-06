@@ -20,15 +20,20 @@ export async function patch(endpoint, params){
   return res.data
 }
 
-const token = "EAACTwZBgD6mUBAHgChYLWy78DcnWEOYy9gl55E0sEi87pJIRz7R4fcY0nocZBO1grPeDrJo32NK5n529g3m0jHbcAdlZA7RyRwnTr3TP1JDbnXt3ZBtzWNNt4MeoV1sMnxWPGs8zqbf1FStll5U5sZCKjhbhruMQ2q52jk0rjogZDZD"
+let fb = null
 
-const fb = axios.create({
-  baseURL: 'https://graph.facebook.com/',
-  params: { access_token: token }
-})
+async function getApi(token){
+  if (fb) return fb
+  fb = axios.create({
+    baseURL: 'https://graph.facebook.com/',
+    params: { access_token: token }
+  })
+  return fb
+}
 
-export async function fetchData(id, ver, params) {
+export async function fetchData(token, id, ver, params) {
   try {
+    fb = await getApi(token)
     let url = `${ver}/${id}/feed`
     let res = await fb.get(url, { params: params })
     return res.data.data
@@ -37,12 +42,13 @@ export async function fetchData(id, ver, params) {
   }
 }
 
-export async function fetchItems(id, skip, limit, ver){
-  return fetchData(id, ver, { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit })
+export async function fetchItems(token, id, skip, limit, ver){
+  return fetchData(token, id, ver, { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit })
 }
 
-export async function fetchComment(id) {
+export async function fetchComment(token, id) {
   try {
+    fb = await getApi(token)
     let url = `v2.3/${id}`
     let res = await fb.get(url, { params: {fields: 'comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment,created_time},comment_count,like_count,created_time,attachment}'} })
     return res.data.comments
@@ -51,7 +57,8 @@ export async function fetchComment(id) {
   }
 }
 
-export async function fetch(url) {
+export async function fetch(token, url) {
+  fb = await getApi(token)
   const res = await fb.get(url, { params: { limit: 500 }})
   res.data.data.map(v => {
     v.star = false

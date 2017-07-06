@@ -14,6 +14,12 @@ export default context => {
     // set server-side router's location
     router.push(context.url)
 
+    store.state.user = context.user
+    let token = context.user.tokens.filter(function(token){
+      return token.kind == 'facebook'
+    })
+    store.state.token = token[0].accessToken
+
     // wait until router has resolved possible async components and hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()

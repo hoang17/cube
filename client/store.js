@@ -31,6 +31,8 @@ function groupVersions(groups){
 export function createStore () {
   return new Vuex.Store({
     state: {
+      user: null,
+      token: null,
       itemsPerPage: 20,
       groups: [],
       likes: [],
@@ -43,23 +45,23 @@ export function createStore () {
     actions: {
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return
-        let groups = await fetch('v2.3/me/groups')
+        let groups = await fetch(state.token, 'v2.3/me/groups')
         commit('setGroups', groups)
         state.gv = groupVersions(groups.data)
       },
       async getLikes({ state, commit }) {
         if (state.likes.length > 0) return
-        let likes = await fetch('v2.6/me/likes?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
+        let likes = await fetch(state.token, 'v2.6/me/likes?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
         commit('setLikes', likes)
       },
       async getPages({ state, commit }) {
         if (state.pages.length > 0) return
-        let pages = await fetch('v2.6/me/accounts?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
+        let pages = await fetch(state.token, 'v2.6/me/accounts?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
         commit('setPages', pages)
       },
       async getMoreGroups({ state, commit }) {
         if (state.groups.paging.next) {
-          let groups = await fetch(state.groups.paging.next)
+          let groups = await fetch(state.token, state.groups.paging.next)
           if (groups.data.length > 0){
             state.groups.data = state.groups.data.concat(groups.data)
             state.groups.paging = groups.paging
@@ -68,7 +70,7 @@ export function createStore () {
       },
       async getMoreLikes({ state, commit }) {
         if (state.likes.paging.next) {
-          let likes = await fetch(state.likes.paging.next)
+          let likes = await fetch(state.token, state.likes.paging.next)
           if (likes.data.length > 0){
             state.likes.data = state.likes.data.concat(likes.data)
             state.likes.paging = likes.paging
@@ -77,7 +79,7 @@ export function createStore () {
       },
       async getMorePages({ state, commit }) {
         if (state.pages.paging.next) {
-          let pages = await fetch(state.pages.paging.next)
+          let pages = await fetch(state.token, state.pages.paging.next)
           if (pages.data.length > 0){
             state.pages.data = state.pages.data.concat(pages.data)
             state.pages.paging = pages.paging
@@ -114,7 +116,7 @@ export function createStore () {
 
         const offset = (page-1) * state.itemsPerPage
 
-        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        let items = await fetchItems(state.token, id, offset, state.itemsPerPage, ver)
         commit('setItems', { page, items })
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
@@ -127,7 +129,7 @@ export function createStore () {
 
         const offset = (page-1) * state.itemsPerPage
 
-        let items = await fetchItems(id, offset, state.itemsPerPage, ver)
+        let items = await fetchItems(state.token, id, offset, state.itemsPerPage, ver)
         if (items.length > 0)
           commit('addMoreItems', { page, items })
       },
