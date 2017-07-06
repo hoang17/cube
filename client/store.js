@@ -28,6 +28,10 @@ function groupVersions(groups){
   return _.fromPairs(_.map(groups, i => [i.id, i.ver]))
 }
 
+async function fetchGroups(token){
+  return fetch(token, 'v2.3/me/groups')
+}
+
 export function createStore () {
   return new Vuex.Store({
     state: {
@@ -45,7 +49,7 @@ export function createStore () {
     actions: {
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return
-        let groups = await fetch(state.token, 'v2.3/me/groups')
+        let groups = await fetchGroups(state.token)
         commit('setGroups', groups)
         state.gv = groupVersions(groups.data)
       },
@@ -108,7 +112,7 @@ export function createStore () {
       },
       async fetchItems({ state, commit }, {id, page}) {
         if (!state.gv){
-          let groups = await fetch(state.token, 'v2.3/me/groups')
+          let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
           state.gv = groupVersions(groups.data)
         }
@@ -121,7 +125,7 @@ export function createStore () {
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
         if (!state.gv){
-          let groups = await fetch(state.token, 'v2.3/me/groups')
+          let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
           state.gv = groupVersions(groups.data)
         }
