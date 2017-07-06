@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const LRU = require('lru-cache')
 const chalk = require('chalk')
+const passportConfig = require('./config/passport')
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -110,43 +111,43 @@ module.exports = function(app) {
     })
   }
 
-  app.get('/groups/:page?', (req, res) => {
+  app.get('/groups/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Groups'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/likes/:page?', (req, res) => {
+  app.get('/likes/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Likes'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/pages/:page?', (req, res) => {
+  app.get('/pages/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Pages'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/feeds/:page?', (req, res) => {
+  app.get('/feeds/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Feeds'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/groups/id/:id/:page?', (req, res) => {
+  app.get('/groups/id/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Groups'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/likes/id/:id/:page?', (req, res) => {
+  app.get('/likes/id/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Likes'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/pages/id/:id/:page?', (req, res) => {
+  app.get('/pages/id/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Pages'}, (err, template) => {
       createRenderer(req, res, template)
     })

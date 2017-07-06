@@ -19,11 +19,11 @@
           a(href='/contact') Contact
         li
           a(href='/status') Status
-        li
+        li(class=(title == 'Groups') ? 'active' : undefined)
           a(href='/groups') Groups
-        li
+        li(class=(title == 'Likes') ? 'active' : undefined)
           a(href='/likes') Likes
-        li
+        li(class=(title == 'Pages') ? 'active' : undefined)
           a(href='/pages') Pages
       ul.nav.navbar-nav.navbar-right
         if !user
