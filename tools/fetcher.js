@@ -42,7 +42,7 @@ async function run() {
   await fetchData("504368183/likes?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count", likes)
   await fetchData("504368183/accounts?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count", pages)
   graph.setVersion("2.3")
-  await fetchData("504368183/groups", groups)
+  await fetchData("504368183/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)", groups)
 
   // let groups = await groupsDb.find()
   // console.log(groups.length)

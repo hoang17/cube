@@ -29,7 +29,7 @@ function groupVersions(groups){
 }
 
 async function fetchGroups(token){
-  return fetch(token, 'v2.3/me/groups')
+  return fetch(token, 'v2.3/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
 }
 
 export function createStore () {

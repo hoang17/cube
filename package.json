@@ -60,6 +60,7 @@
     "node-sass-middleware": "^0.11.0",
     "nodemailer": "^4.0.1",
     "nodemailer-direct-transport": "^3.3.2",
+    "numeral": "^2.0.6",
     "passport": "0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.1.0",

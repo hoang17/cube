@@ -1,3 +1,6 @@
+import _ from 'lodash'
+import numeral from 'numeral'
+
 export function host (url) {
   const host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
   const parts = host.split('.').slice(-3)
@@ -33,4 +36,15 @@ export function cropUrl(str){
     return str.substr(0, 25) + '...' + str.substr(str.length-10, str.length)
   }
   return str
+}
+
+export function formatNumber(num){
+  return numeral(num).format('0a')
+}
+
+export function cropTxt(txt, length = 300){
+  return _.truncate(txt, {
+      'length': length,
+      'separator': /,? +/
+    })
 }

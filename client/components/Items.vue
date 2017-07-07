@@ -1,5 +1,6 @@
 <template lang="pug">
   .news-view.view
+    info-box(:id="id", :type="type")
     list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
@@ -12,6 +13,7 @@
 <script>
 import FeedPage from './FeedPage'
 import ListNav from './ListNav'
+import InfoBox from '../addons/InfoBox'
 import { throttle } from 'lodash'
 import bluebird from 'bluebird'
 import scrollTo from '../addons/Scroll'
@@ -24,6 +26,7 @@ export default {
   components: {
     FeedPage,
     ListNav,
+    InfoBox,
     ContentPlaceholder
   },
   asyncData ({ store, route }) {
@@ -38,7 +41,6 @@ export default {
       transition: 'fade',
       originPage: p,
       offsetPage: p,
-      // displayedItems: this.$store.getters.activeItems,
       throttlePrev: throttle(this.previousPage, 200, { leading: true }),
       throttleNext: throttle(this.nextPage, 200, { leading: true })
     }
@@ -61,7 +63,7 @@ export default {
     }
   },
   beforeMount () {
-    console.log('beforeMount', this.page)
+    // console.log('beforeMount', this.page)
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }

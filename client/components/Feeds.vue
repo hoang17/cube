@@ -53,7 +53,7 @@ export default {
     }
   },
   beforeMount () {
-    console.log('beforeMount', this.page)
+    // console.log('beforeMount', this.page)
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }
