@@ -32,6 +32,10 @@ async function fetchGroups(token){
   return fetch(token, 'v2.3/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
 }
 
+async function fetchLikes(token, type){
+  return fetch(token, `v2.6/me/${type}?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count,picture{url}`)
+}
+
 export function createStore () {
   return new Vuex.Store({
     state: {
@@ -55,12 +59,12 @@ export function createStore () {
       },
       async getLikes({ state, commit }) {
         if (state.likes.length > 0) return
-        let likes = await fetch(state.token, 'v2.6/me/likes?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
+        let likes = await fetchLikes(state.token, 'likes')
         commit('setLikes', likes)
       },
       async getPages({ state, commit }) {
         if (state.pages.length > 0) return
-        let pages = await fetch(state.token, 'v2.6/me/accounts?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count')
+        let pages = await fetchLikes(state.token, 'accounts')
         commit('setPages', pages)
       },
       async getMoreGroups({ state, commit }) {
@@ -114,6 +118,11 @@ export function createStore () {
         if (!state.gv){
           let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
+          let likes = await fetchLikes(state.token, 'likes')
+          commit('setLikes', likes)
+          let pages = await fetchLikes(state.token, 'accounts')
+          commit('setPages', pages)
+
           state.gv = groupVersions(groups.data)
         }
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
@@ -124,15 +133,8 @@ export function createStore () {
         commit('setItems', { page, items })
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
-        if (!state.gv){
-          let groups = await fetchGroups(state.token)
-          commit('setGroups', groups)
-          state.gv = groupVersions(groups.data)
-        }
         let ver = state.gv[id] ? state.gv[id] : 'v2.3'
-
         const offset = (page-1) * state.itemsPerPage
-
         let items = await fetchItems(state.token, id, offset, state.itemsPerPage, ver)
         if (items.length > 0)
           commit('addMoreItems', { page, items })

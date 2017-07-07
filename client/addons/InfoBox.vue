@@ -1,10 +1,11 @@
 <template lang="pug">
   .info-box(@click="expand=!expand")
     b
-      img.icon(:src="obj.icon", width="16", height="16")
+      img.icon(:src="obj.icon", width="16", height="16", v-if="obj.icon")
       |  {{ obj.name }}
-    .meta {{ count | formatNumber }} - {{ obj.privacy }}
+    .meta {{ count | formatNumber }} - {{ meta }}
     .description(v-show="expand") {{ obj.description }}
+      .about(v-if="!obj.description && obj.about") {{ obj.about }}
     //-pre {{ obj }}
 </template>
 
@@ -22,12 +23,29 @@ export default {
   computed: {
     obj () {
       let id = this.id
-      return this.$store.state.groups.data.filter(function(e){
+      let list
+      if (this.type == 'groups'){
+        list = this.$store.state.groups.data
+      } else if (this.type == 'likes'){
+        list = this.$store.state.likes.data
+      } else {
+        list = this.$store.state.pages.data
+      }
+      return list.filter(function(e){
         return e.id == id
       })[0]
     },
+    meta(){
+      if (this.type == 'groups'){
+        return this.obj.privacy
+      }
+      return this.obj.category
+    },
     count(){
-      return this.obj.members.summary.total_count
+      if (this.type == 'groups'){
+        return this.obj.members.summary.total_count
+      }
+      return this.obj.fan_count
     }
   }
 }
@@ -37,11 +55,13 @@ export default {
 .info-box
   background-color #fff
   border-radius 2px
-  padding 10px
+  padding 10px 15px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
   margin-bottom 15px
   .icon
     display inline-block
+    margin-right 2px
+    margin-top -2px
   .meta
     font-size .8em
     color #828282
@@ -51,4 +71,9 @@ export default {
     font-size .8em
     white-space pre-wrap
     word-wrap break-word
+
+@media (max-width 600px)
+  .info-box
+    padding 10px
+
 </style>
