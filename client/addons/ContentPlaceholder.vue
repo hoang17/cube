@@ -30,6 +30,7 @@ export default {
 
 <style lang="stylus" scoped>
 h4
+  font-family "HelveticaNeue-CondensedBold", "Helvetica Neue", Arial, sans-serif
   text-align center
   padding 0 0 15px 0
   margin 0
