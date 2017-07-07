@@ -26,6 +26,7 @@ export default {
 .page-item
   background-color #f2f3f5
   h4
+    font-family "HelveticaNeue-CondensedBold", "Helvetica Neue", Arial, sans-serif
     text-align center
     padding 0 0 15px 0
     margin 0

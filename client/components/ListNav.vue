@@ -3,7 +3,8 @@
   .news-list-nav(@click.stop="", v-sticky="{ stickyClass: 'sticky-header' }", v-if="maxPage")
     a(v-if='page > 1', @click.prevent="previous", href="") ←
     a.disabled(v-else='') ←
-    span.mdl-selectfield
+    span.mdl-selectfield {{page}}
+    //-span.mdl-selectfield
       select.mdc-select(v-model="selectedPage", @change="pageSelected")
         option(v-for="n in range", :value="n", :disabled="n=='...'") {{ n }}
     a(v-if='hasMore', @click.prevent="next", href="") →
@@ -22,16 +23,16 @@ export default {
     page: Number,
     maxPage: Number,
   },
-  data() {
-    return {
-      selectedPage: this.page
-    }
-  },
-  watch: {
-    page(){
-      this.selectedPage = this.page
-    }
-  },
+  // data() {
+  //   return {
+  //     selectedPage: this.page
+  //   }
+  // },
+  // watch: {
+  //   page(){
+  //     this.selectedPage = this.page
+  //   }
+  // },
   computed: {
     range() {
       let delta = 100
@@ -62,9 +63,9 @@ export default {
     previous() {
       this.$emit('previousPage')
     },
-    pageSelected() {
-      this.$emit('pageSelected', this.selectedPage)
-    },
+    // pageSelected() {
+    //   this.$emit('pageSelected', this.selectedPage)
+    // },
   }
 }
 </script>
@@ -100,7 +101,7 @@ export default {
     &:focus
       outline none
 
-  .mdl-selectfield
+  /*.mdl-selectfield
     position relative
     select
       -webkit-appearance none
@@ -117,5 +118,5 @@ export default {
       border-left .25em solid transparent
       border-right .25em solid transparent
       border-top 0.375em solid #ccc
-      pointer-events none
+      pointer-events none*/
 </style>
