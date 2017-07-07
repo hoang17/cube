@@ -12,7 +12,8 @@ pages<template lang="pug">
       transition-group(tag='ul', name='item')
         li.news-item(v-for="item in displayedItems", :key="item.id")
           span.score(@click="setStar(item)")
-            i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
+            //-i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
+            img.icon(:src="item.picture.data.url", width="24", height="24")
           span.title
             router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
           span.host  - {{ item.category }} - {{ item.fan_count | formatNumber }}
