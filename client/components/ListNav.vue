@@ -23,35 +23,35 @@ export default {
     page: Number,
     maxPage: Number,
   },
-  // data() {
-  //   return {
-  //     selectedPage: this.page
-  //   }
-  // },
-  // watch: {
-  //   page(){
-  //     this.selectedPage = this.page
-  //   }
-  // },
+  data() {
+    return {
+      selectedPage: this.page
+    }
+  },
+  watch: {
+    page(){
+      this.selectedPage = this.page
+    }
+  },
   computed: {
-    range() {
-      let delta = 100
-      if (this.maxPage <= delta + 20)
-        return range(1, this.maxPage+1)
-      let begin = this.page-delta > 0 ? this.page-delta : 1
-      let end = this.page+delta > this.maxPage ? this.maxPage : this.page+delta
-      let middle = range(begin, end+1)
-      let first = range(1, 6)
-      let last = range(this.maxPage-5, this.maxPage+1)
-
-      if (begin <= 6)
-        return [...union(first, middle), '...', ...last]
-
-      if (end >= this.maxPage-6)
-        return [...first, '...', ...union(middle, last)]
-
-      return [...first, '...', ...middle, '...', ...last]
-    },
+    // range() {
+    //   let delta = 100
+    //   if (this.maxPage <= delta + 20)
+    //     return range(1, this.maxPage+1)
+    //   let begin = this.page-delta > 0 ? this.page-delta : 1
+    //   let end = this.page+delta > this.maxPage ? this.maxPage : this.page+delta
+    //   let middle = range(begin, end+1)
+    //   let first = range(1, 6)
+    //   let last = range(this.maxPage-5, this.maxPage+1)
+    //
+    //   if (begin <= 6)
+    //     return [...union(first, middle), '...', ...last]
+    //
+    //   if (end >= this.maxPage-6)
+    //     return [...first, '...', ...union(middle, last)]
+    //
+    //   return [...first, '...', ...middle, '...', ...last]
+    // },
     hasMore() {
       return this.page < this.maxPage
     }
@@ -63,9 +63,9 @@ export default {
     previous() {
       this.$emit('previousPage')
     },
-    // pageSelected() {
-    //   this.$emit('pageSelected', this.selectedPage)
-    // },
+    pageSelected() {
+      this.$emit('pageSelected', this.selectedPage)
+    },
   }
 }
 </script>
