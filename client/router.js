@@ -3,8 +3,8 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const Home = () => import('./components/Home')
-const Hello = () => import('./components/Hello')
+// const Home = () => import('./components/Home')
+// const Hello = () => import('./components/Hello')
 const Items = () => import('./components/Items')
 const Groups = () => import('./components/Groups')
 const Likes = () => import('./components/Likes')
@@ -15,10 +15,10 @@ export function createRouter () {
   let router = new Router({
     mode: 'history',
     routes: [
-      { path: '/', name: 'home', component: Home },
-      { path: '/hello', component: Hello },
-      { path: '/api', component: Hello },
-      { path: '/contact', component: Hello },
+      { path: '/', redirect: 'groups' },
+      // { path: '/hello', component: Hello },
+      // { path: '/api', component: Hello },
+      // { path: '/contact', component: Hello },
       { path: '/groups/:page(\\d+)?', name: 'groups', component: Groups },
       { path: '/likes/:page(\\d+)?', name: 'likes', component: Likes },
       { path: '/pages/:page(\\d+)?', name: 'pages', component: Pages },

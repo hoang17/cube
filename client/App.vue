@@ -5,7 +5,7 @@
         router-link(to='/groups') Groups
         router-link(to='/likes') Likes
         router-link(to='/pages') Pages
-        router-link(to='/feeds/1') Feeds
+        //-router-link(to='/feeds/1') Feeds
     transition(name='fade', mode='out-in')
       keep-alive(exclude="items,feeds")
         router-view.view
@@ -55,7 +55,8 @@ a
 .header
   margin 0px auto
   max-width 800px
-  background-color #ff6600
+  background-color #fff
+  // background-color #ff6600
   // background-color #777
   // position fixed
   z-index 999
@@ -70,7 +71,8 @@ a
     margin 0px auto
     padding 15px 30px
   a
-    color rgba(255, 255, 255, .8)
+    // color rgba(255, 255, 255, .8)
+    color #252525
     line-height 24px
     transition color .15s ease
     display inline-block
@@ -79,9 +81,11 @@ a
     letter-spacing .075em
     margin-right 1.8em
     &:hover
-      color #fff
+      color #ccc
+      // color #fff
     &.router-link-active
-      color #fff
+      color #252525
+      // color #fff
       font-weight 400
     &:nth-child(6)
       margin-right 0
