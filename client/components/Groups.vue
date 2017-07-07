@@ -158,4 +158,10 @@ export default {
   position absolute
   opacity 0
 
+@media (max-width 600px)
+  .news-item
+    padding-left 50px
+    .score
+      width 50px
+
 </style>
