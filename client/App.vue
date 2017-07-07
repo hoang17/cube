@@ -106,10 +106,10 @@ a
     padding-top 0
 
   .navbar
-    display none
+    margin-bottom 10px
 
   .container
-    padding 7px
+    padding 0 7px 0 7px
 
   .header
     .inner
