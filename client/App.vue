@@ -107,6 +107,8 @@ a
 
   .navbar
     margin-bottom 10px
+    .container
+      padding 0 15px 0 15px
 
   .container
     padding 0 7px 0 7px
