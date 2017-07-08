@@ -9,8 +9,8 @@
       .time
         router-link(:to="'/i/' + item.id") {{ item.created_time | timeAgo }}
       .text(v-if="item.message") {{ cropMsg }}
-        span.more(v-if="isCropMsg", @click="full=!full")  see more
-      .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime }} min read
+        span.more(v-if="isCropMsg", @click="fullmsg=!fullmsg")  see more
+      .readtime(v-if="item.message && isCropMsg", @click="fullmsg=!fullmsg") {{ readingTime }} min read
       .meta(v-if="item.name && item.type!='photo'") {{ item.name }}
       .text.meta(v-if="description") {{ cropDesc }}
         span.more(v-if="isCropDesc", @click="desc=!desc")  see more
@@ -72,13 +72,13 @@ export default {
       return this.item.message.trim().split(/\s+/).length
     },
     // percent(){
-    //   return this.full || this.length*1.5 >= this.item.message.length ? 100 : Math.floor((this.length/this.item.message.length)*100)
+    //   return this.fullmsg || this.length*1.5 >= this.item.message.length ? 100 : Math.floor((this.length/this.item.message.length)*100)
     // },
     length(){
       return typeof window != 'undefined' && window.innerWidth <= 800 && window.innerHeight <= 600 ? 500 : 1000
     },
     isCropMsg(){
-      return !this.full && this.item.message.length > this.length * 1.5
+      return !this.fullmsg && this.item.message.length > this.length * 1.5
     },
     cropMsg(){
       return this.isCropMsg
@@ -110,7 +110,7 @@ export default {
     return {
       loader: false,
       loading: false,
-      full: false,
+      fullmsg: false,
       desc: false,
     }
   },

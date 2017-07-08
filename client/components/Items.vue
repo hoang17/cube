@@ -34,7 +34,7 @@ export default {
     return store.dispatch('fetchItems', {id: route.params.id, page: p })
   },
   data() {
-    let  p = Number(this.$store.state.route.params.page || 1)
+    let  p = Number(this.$route.params.page || 1)
     return {
       row: 5,
       loading: true,
@@ -47,13 +47,13 @@ export default {
   },
   computed: {
     id () {
-      return this.$store.state.route.params.id
+      return this.$route.params.id
     },
     type () {
-      return this.$store.state.route.params.type
+      return this.$route.params.type
     },
     page () {
-      return Number(this.$store.state.route.params.page) || 1
+      return Number(this.$route.params.page) || 1
     },
     maxPage () {
       return 999
@@ -64,16 +64,20 @@ export default {
   },
   beforeMount () {
     // console.log('beforeMount', this.page)
-    if (this.$root._isMounted) {
-      this.loadItems(this.page)
+    if (this.$store.state.id != this.$route.params.id){
+      this.$store.commit('setItems', { items:[] })
+      if (this.$root._isMounted) {
+        this.loadItems(this.page)
+      }
+      this.$store.state.id = this.$route.params.id
     }
   },
-  beforeDestroy () {
-    this.$store.commit('setItems', { items:[] })
-  },
+  // beforeDestroy () {
+  //   this.$store.commit('setItems', { items:[] })
+  // },
   watch: {
     page (to, from) {
-      if (!this.$store.state.route.params.page)
+      if (!this.$route.params.page)
         this.loadItems(to)
     }
   },

@@ -1,5 +1,5 @@
 <template lang="pug">
-  li.comment(v-if='comment', @click='open = !open')
+  li.comment(v-if='comment', @click='showEditor')
     .avatar(v-if="comment.from.picture")
       a(:href="'http://facebook.com/' + comment.from.id", target='_blank', rel='noopener')
         img(:src="comment.from.picture.data.url")
@@ -11,7 +11,7 @@
     .toggle(v-if='comment.comment_count > 0')
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
     ul.comment-children(v-show='open', @click.stop='')
-      comment(v-for='c in replies', :key='c.id', :comment='c')
+      comment(v-for='c in replies', :key='c.id', :comment='c', :child="true")
       li.more-comment(v-if='comment.comments && comment.comments.paging && comment.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
       li.loading(v-show="loading")
         spinner(:show="loading")
@@ -26,7 +26,7 @@ import axios from 'axios'
 
 export default {
   name: 'comment',
-  props: ['comment'],
+  props: ['comment', 'child'],
   components: {
     Spinner, CommentEditor
   },
@@ -67,6 +67,11 @@ export default {
     async commentPosted(comment){
       this.comment.comments = await fetchReplies(this.$store.state.token,this.comment.id)
       this.comment.comment_count = this.comment.comments.data.length
+    },
+    showEditor(){
+      if (this.child)
+        return
+      this.open = !this.open
     }
   }
 }

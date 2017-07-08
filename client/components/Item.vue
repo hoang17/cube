@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     id () {
-      return this.$store.state.route.params.id
+      return this.$route.params.id
     },
     item(){
       return this.$store.state.item

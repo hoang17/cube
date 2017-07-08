@@ -39,6 +39,7 @@ async function fetchLikes(token, type){
 export function createStore () {
   return new Vuex.Store({
     state: {
+      id: null,
       item: null,
       user: null,
       token: null,

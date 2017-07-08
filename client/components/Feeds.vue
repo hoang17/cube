@@ -31,7 +31,7 @@ export default {
     return store.dispatch('fetchFeeds', { page: p })
   },
   data() {
-    let  p = Number(this.$store.state.route.params.page || 1)
+    let  p = Number(this.$route.params.page || 1)
     return {
       row: 5,
       loading: true,
@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     page () {
-      return Number(this.$store.state.route.params.page) || 1
+      return Number(this.$route.params.page) || 1
     },
     maxPage () {
       const { itemsPerPage, feedCount } = this.$store.state
@@ -60,7 +60,7 @@ export default {
   },
   watch: {
     page (to, from) {
-      if (!this.$store.state.route.params.page)
+      if (!this.$route.params.page)
         this.loadItems(to)
     }
   },
