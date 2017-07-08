@@ -203,6 +203,8 @@ export default {
       margin-bottom 2px
     .time
       margin-bottom 5px
+      a
+        text-decoration none
     .text
       margin-bottom 10px
 

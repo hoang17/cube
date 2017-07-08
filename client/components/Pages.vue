@@ -15,7 +15,7 @@ pages<template lang="pug">
             //-i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
             img.icon(:src="item.picture.data.url", width="24", height="24")
           span.title
-            router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
+            router-link(:to="`/${type}/${item.id}/1`") {{ item.name }}
           span.host  - {{ item.category }} - {{ item.fan_count | formatNumber }}
       infinite-loading(showSpinner="true", :on-infinite='loadNextPage', ref='infiniteLoading')
 </template>

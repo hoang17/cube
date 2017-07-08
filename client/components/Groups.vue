@@ -8,7 +8,7 @@
             //-i.fa(:class="item.star ? 'fa-star' : 'fa-star-o'")
             img.icon(:src="item.icon", width="16", height="16")
           span.title
-            router-link(:to="`/${type}/id/${item.id}/1`") {{ item.name }}
+            router-link(:to="`/${type}/${item.id}/1`") {{ item.name }}
           span.host  - {{ item.privacy }} - {{ item.members.summary.total_count | formatNumber }}
       infinite-loading(showSpinner="true", :on-infinite='loadNextPage', ref='infiniteLoading')
 </template>

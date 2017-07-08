@@ -20,12 +20,12 @@ export function createRouter () {
       // { path: '/hello', component: Hello },
       // { path: '/api', component: Hello },
       // { path: '/contact', component: Hello },
-      { path: '/groups/:page(\\d+)?', name: 'groups', component: Groups },
-      { path: '/likes/:page(\\d+)?', name: 'likes', component: Likes },
-      { path: '/pages/:page(\\d+)?', name: 'pages', component: Pages },
+      { path: '/groups', name: 'groups', component: Groups },
+      { path: '/likes', name: 'likes', component: Likes },
+      { path: '/pages', name: 'pages', component: Pages },
       { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
       { path: '/i/:id', name: 'item', component: Item },
-      { path: '/:type/id/:id/:page(\\d+)?', name: 'items', component: Items }
+      { path: '/:type/:id/:page(\\d+)?', name: 'items', component: Items }
     ],
     // scrollBehavior (to, from, savedPosition) {
     //   if (savedPosition)
