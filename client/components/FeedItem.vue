@@ -32,7 +32,7 @@
         | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
       p.item-view-comments-header(v-else, @click='loadComments')
         | {{ open ? '▼' : '▶︎' }} comments
-      div(v-show="loader")
+      .loader(v-show="loader")
         spinner(:show='loader')
       ul.comment-children(v-show='open')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
@@ -228,9 +228,14 @@ export default {
 
 
 .item-view-comments
+  position relative
   background-color #fff
   margin-top 10px
   padding 0
+  .loader
+    position absolute
+    top 5px
+    right 10px
 
 .item-view-comments-header
   cursor pointer

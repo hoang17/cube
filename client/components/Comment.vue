@@ -126,7 +126,7 @@ export default {
       width 100%
 
   .by, .text, .toggle
-    font-size .9em
+    font-size .85em
     margin 0.3em 0
   .time
     color #828282
