@@ -1,6 +1,6 @@
 <template lang="pug">
   .news-view
-    info-box(:id="id", :type="type")
+    info-box(:obj="obj", :type="type")
     list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
@@ -22,7 +22,9 @@ import ContentPlaceholder from '../addons/ContentPlaceholder'
 
 export default {
   name: 'items',
-  title: 'Items',
+  title(){
+    return this.obj.name
+  },
   components: {
     FeedPage,
     ListNav,
@@ -48,6 +50,20 @@ export default {
   computed: {
     id () {
       return this.$route.params.id
+    },
+    obj () {
+      let id = this.id
+      let list
+      if (this.type == 'groups'){
+        list = this.$store.state.groups.data
+      } else if (this.type == 'likes'){
+        list = this.$store.state.likes.data
+      } else {
+        list = this.$store.state.pages.data
+      }
+      return list.filter(function(e){
+        return e.id == id
+      })[0]
     },
     type () {
       return this.$route.params.type

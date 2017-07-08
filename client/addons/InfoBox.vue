@@ -10,7 +10,7 @@
 <script>
 export default {
   props: {
-    id: String,
+    obj: Object,
 		type: String,
   },
   data() {
@@ -19,20 +19,6 @@ export default {
     }
   },
   computed: {
-    obj () {
-      let id = this.id
-      let list
-      if (this.type == 'groups'){
-        list = this.$store.state.groups.data
-      } else if (this.type == 'likes'){
-        list = this.$store.state.likes.data
-      } else {
-        list = this.$store.state.pages.data
-      }
-      return list.filter(function(e){
-        return e.id == id
-      })[0]
-    },
     about(){
       return !this.obj.description && this.obj.about ? this.obj.about : this.obj.description
     },
