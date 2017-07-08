@@ -4,8 +4,7 @@
       img.icon(:src="obj.icon", width="16", height="16", v-if="obj.icon")
       |  {{ obj.name }}
     .meta {{ count | formatNumber }} - {{ meta }}
-    .description(v-show="expand") {{ obj.description }}
-      .about(v-if="!obj.description && obj.about") {{ obj.about }}
+    .about(v-show="expand") {{ about }}
     //-pre {{ obj }}
 </template>
 
@@ -34,6 +33,9 @@ export default {
       return list.filter(function(e){
         return e.id == id
       })[0]
+    },
+    about(){
+      return !this.obj.description && this.obj.about ? this.obj.about : this.obj.description
     },
     meta(){
       if (this.type == 'groups'){
@@ -66,7 +68,7 @@ export default {
     font-size .8em
     color #828282
     margin-top 5px
-  .description
+  .about
     margin-top 10px
     font-size .8em
     white-space pre-wrap
