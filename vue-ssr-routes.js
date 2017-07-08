@@ -141,19 +141,19 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/groups/id/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
+  app.get('/groups/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Groups'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/likes/id/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
+  app.get('/likes/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Likes'}, (err, template) => {
       createRenderer(req, res, template)
     })
   })
 
-  app.get('/pages/id/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
+  app.get('/pages/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Pages'}, (err, template) => {
       createRenderer(req, res, template)
     })

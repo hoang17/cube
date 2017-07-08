@@ -1,6 +1,6 @@
 <template lang="pug">
   .photo
-    a(:href="'http://facebook.com/' + id", target='_blank', rel='noopener')
+    router-link(:to="'/i/' + id")
       img(:src="src")
 </template>
 

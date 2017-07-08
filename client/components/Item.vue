@@ -1,7 +1,7 @@
 <template lang="pug">
   .news-view
     ul(v-if="item")
-      feed-item.news-item(:item="item", :open="true")
+      feed-item.news-item(:item="item", :open="true", :full="true")
 </template>
 
 <script>

@@ -24,7 +24,7 @@
     .album(v-else-if="item.attachments")
       .media(v-for="a in item.attachments.data", :key="a.id")
         photo(v-if="a.media", :src="a.media.image.src", :id="item.id")
-        .sub(v-else-if="a.subattachments", :class="{s4: a.subattachments.data.length > 4, s6: a.subattachments.data.length > 6}")
+        .sub(v-else-if="a.subattachments", :class="{s4: a.subattachments.data.length > 4 && !full, s6: a.subattachments.data.length > 6 && !full, s1: full}")
           photo(v-for="s in a.subattachments.data", :key="s.id", v-if="s.media", :src="s.media.image.src", :id="item.id")
           //-pre {{ a }}
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
@@ -56,6 +56,7 @@ export default {
   props: {
 		item: Object,
     open: Boolean,
+    full: Boolean
   },
   components: {
     Comment, Photo, Spinner, CommentEditor
@@ -182,6 +183,8 @@ export default {
           margin-right 10px*/
       .s4
         column-count 3
+      .s1
+        column-count 1
 
   .avatar
     position absolute
