@@ -31,7 +31,7 @@
       p.item-view-comments-header(v-if='item.comments && item.comments.summary.total_count > 0', @click='loadComments')
         | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
       p.item-view-comments-header(v-else, @click='loadComments')
-        | {{ open ? '▼' : '▶︎' }} comments
+        | {{ open ? '▼' : '▶︎' }} comment
       .loader(v-show="loader")
         spinner(:show='loader')
       ul.comment-children(v-show='open')

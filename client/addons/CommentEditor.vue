@@ -99,6 +99,7 @@ export default {
         border 1px solid #dddfe2
         border-radius 2px
         -webkit-appearance none
+        box-shadow inset 0 1px 2px rgba(0,0,0,.1)
     button.post
       top 10px
       right 0
