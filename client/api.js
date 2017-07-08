@@ -36,7 +36,7 @@ export async function fetchItem(token, id){
     let ver = 'v2.4'
     fb = await getApi(token)
     let url = `${ver}/${id}`
-    let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time' }
+    let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,created_time,updated_time,comments.limit(50).summary(true){message,from{name,picture},comments{message,from{name,picture},attachment,created_time},comment_count,like_count,created_time,attachment}' }
     let res = await fb.get(url, { params: params })
     return res.data
   } catch (e) {

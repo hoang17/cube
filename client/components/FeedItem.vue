@@ -55,6 +55,7 @@ import _ from 'lodash'
 export default {
   props: {
 		item: Object,
+    open: Boolean,
   },
   components: {
     Comment, Photo, Spinner, CommentEditor
@@ -106,7 +107,6 @@ export default {
   },
   data () {
     return {
-      open: false,
       loader: false,
       loading: false,
       full: false,
