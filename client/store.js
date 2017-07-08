@@ -116,7 +116,14 @@ export function createStore () {
         commit('addMoreFeeds', { page, feeds: data.feeds})
       },
       async fetchItem({ state, commit }, { id }) {
-        let item = await fetchItem(state.token, id)
+        let gid = id.split('_')[0]
+        if (!state.gv){
+          let groups = await fetchGroups(state.token)
+          commit('setGroups', groups)
+          state.gv = groupVersions(groups.data)
+        }
+        let ver = state.gv[gid] ? state.gv[gid] : 'v2.3'
+        let item = await fetchItem(state.token, id, ver)
         commit('setItem', item)
       },
       async fetchItems({ state, commit }, {id, page}) {
