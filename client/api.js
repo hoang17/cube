@@ -51,6 +51,21 @@ export async function fetchComment(token, id) {
     fb = await getApi(token)
     let url = `v2.3/${id}`
     let res = await fb.get(url, { params: {fields: 'comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment,created_time},comment_count,like_count,created_time,attachment}'} })
+    res.data.comments.data.map(function(c){
+      if (!c.comments)
+        c.comments = {}
+    })
+    return res.data.comments
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function fetchReplies(token, id) {
+  try {
+    fb = await getApi(token)
+    let url = `v2.3/${id}`
+    let res = await fb.get(url, { params: {fields: 'comments{message,from{name,picture},attachment,created_time}'} })
     return res.data.comments
   } catch (e) {
     console.error(e)

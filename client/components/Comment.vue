@@ -1,5 +1,5 @@
 <template lang="pug">
-  li.comment(v-if='comment')
+  li.comment(v-if='comment', @click='open = !open')
     .avatar(v-if="comment.from.picture")
       a(:href="'http://facebook.com/' + comment.from.id", target='_blank', rel='noopener')
         img(:src="comment.from.picture.data.url")
@@ -8,24 +8,27 @@
     span.text  {{ comment.message }}
     img.media(v-if="comment.attachment && comment.attachment.media", :src="media", :class="comment.attachment.type")
     //- .time  {{ comment.created_time | timeAgo }}
-    .toggle(v-if='comment.comment_count > 0', @click='open = !open')
+    .toggle(v-if='comment.comment_count > 0')
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
-    ul.comment-children(v-show='open', v-if='comment.comment_count > 0 && comment.comments')
-      comment(v-for='c in comment.comments.data', :key='c.id', :comment='c')
-      li.more-comment(v-if='comment.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
+    ul.comment-children(v-show='open', @click.stop='')
+      comment(v-for='c in replies', :key='c.id', :comment='c')
+      li.more-comment(v-if='comment.comments && comment.comments.paging && comment.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
       li.loading(v-show="loading")
         spinner(:show="loading")
+      comment-editor(:id="comment.id", :user="user", @commentPosted="commentPosted")
 </template>
 
 <script>
 import Spinner from '../addons/Spinner'
+import CommentEditor from '../addons/CommentEditor'
+import { fetchReplies } from '../api'
 import axios from 'axios'
 
 export default {
   name: 'comment',
   props: ['comment'],
   components: {
-    Spinner
+    Spinner, CommentEditor
   },
   data () {
     return {
@@ -34,6 +37,12 @@ export default {
     }
   },
   computed: {
+    user(){
+      return this.$store.state.user
+    },
+    replies(){
+      return this.comment.comments ? this.comment.comments.data : []
+    },
     media(){
       if (this.comment.attachment.type == 'animated_image_autoplay') {
         let url = new URL(this.comment.attachment.url)
@@ -54,6 +63,10 @@ export default {
       this.comment.comments.data = this.comment.comments.data.concat(res.data.data)
       this.comment.comments.paging.next = res.data.paging.next ? res.data.paging.next : null
       this.loading = false
+    },
+    async commentPosted(comment){
+      this.comment.comments = await fetchReplies(this.$store.state.token,this.comment.id)
+      this.comment.comment_count = this.comment.comments.data.length
     }
   }
 }
