@@ -6,7 +6,8 @@
           img(:src="item.from.picture.data.url")
       .from
         a(:href="'http://facebook.com/' + item.id", target='_blank', rel='noopener') {{ item.from.name }}
-      .time {{ item.created_time | timeAgo }}
+      .time
+        router-link(:to="'/i/' + item.id") {{ item.created_time | timeAgo }}
       .text(v-if="item.message") {{ cropMsg }}
         span.more(v-if="isCropMsg", @click="full=!full")  see more
       .readtime(v-if="item.message && isCropMsg", @click="full=!full") {{ readingTime }} min read

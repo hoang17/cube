@@ -7,7 +7,7 @@
         router-link(to='/pages') Pages
         //-router-link(to='/feeds/1') Feeds
     transition(name='fade', mode='out-in')
-      keep-alive(exclude="items,feeds")
+      keep-alive(exclude="item,items,feeds")
         router-view.view
 </template>
 

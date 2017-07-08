@@ -31,19 +31,28 @@ async function getApi(token){
   return fb
 }
 
-export async function fetchData(token, id, ver, params) {
+export async function fetchItem(token, id, ver){
   try {
     fb = await getApi(token)
-    let url = `${ver}/${id}/feed`
+    let url = `${ver}/${id}`
+    let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time' }
     let res = await fb.get(url, { params: params })
-    return res.data.data
+    return res.data
   } catch (e) {
     console.error(e)
   }
 }
 
 export async function fetchItems(token, id, skip, limit, ver){
-  return fetchData(token, id, ver, { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit })
+  try {
+    fb = await getApi(token)
+    let url = `${ver}/${id}/feed`
+    let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit }
+    let res = await fb.get(url, { params: params })
+    return res.data.data
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export async function fetchComment(token, id) {

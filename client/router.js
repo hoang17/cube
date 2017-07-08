@@ -5,6 +5,7 @@ Vue.use(Router)
 
 // const Home = () => import('./components/Home')
 // const Hello = () => import('./components/Hello')
+const Item = () => import('./components/Item')
 const Items = () => import('./components/Items')
 const Groups = () => import('./components/Groups')
 const Likes = () => import('./components/Likes')
@@ -23,6 +24,7 @@ export function createRouter () {
       { path: '/likes/:page(\\d+)?', name: 'likes', component: Likes },
       { path: '/pages/:page(\\d+)?', name: 'pages', component: Pages },
       { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
+      { path: '/i/:id', name: 'item', component: Item },
       { path: '/:type/id/:id/:page(\\d+)?', name: 'items', component: Items }
     ],
     // scrollBehavior (to, from, savedPosition) {

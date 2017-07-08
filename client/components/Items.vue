@@ -1,5 +1,5 @@
 <template lang="pug">
-  .news-view.view
+  .news-view
     info-box(:id="id", :type="type")
     list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')

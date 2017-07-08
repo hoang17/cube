@@ -5,7 +5,6 @@
       |  {{ obj.name }}
     .meta {{ count | formatNumber }} - {{ meta }}
     .about(v-show="expand") {{ about }}
-    //-pre {{ obj }}
 </template>
 
 <script>
