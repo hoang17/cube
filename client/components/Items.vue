@@ -79,18 +79,20 @@ export default {
     }
   },
   beforeMount () {
-    // console.log('beforeMount', this.page)
-    if (this.$store.state.id != this.$route.params.id){
-      this.$store.commit('setItems', { items:[] })
-      if (this.$root._isMounted) {
-        this.loadItems(this.page)
-      }
-      this.$store.state.id = this.$route.params.id
+    // if (this.$store.state.id != this.$route.params.id){
+    //   this.$store.commit('setItems', { items:[] })
+    //   if (this.$root._isMounted) {
+    //     this.loadItems(this.page)
+    //   }
+    //   this.$store.state.id = this.$route.params.id
+    // }
+    if (this.$root._isMounted) {
+      this.loadItems(this.page)
     }
   },
-  // beforeDestroy () {
-  //   this.$store.commit('setItems', { items:[] })
-  // },
+  beforeDestroy () {
+    this.$store.commit('setItems', { items:[] })
+  },
   watch: {
     page (to, from) {
       if (!this.$route.params.page)
