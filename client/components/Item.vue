@@ -9,7 +9,9 @@ import FeedItem from './FeedItem'
 
 export default {
   name: 'item',
-  title: 'Item',
+  title(){
+    return this.item.from.name
+  },
   components: {
     FeedItem
   },
