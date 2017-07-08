@@ -312,4 +312,6 @@ pre
           column-count 2
         .s6
           column-count 2
+        .s1
+          column-count 1
 </style>
