@@ -39,12 +39,14 @@
         li.more-comment(v-if='item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
         li.loading(v-show="loading")
           spinner(:show="loading")
+        comment-editor(:id="item.id", :user="user", @commentPosted="commentPosted")
 </template>
 
 <script>
 import Comment from '../components/Comment'
 import Photo from '../addons/Photo'
 import Spinner from '../addons/Spinner'
+import CommentEditor from '../addons/CommentEditor'
 import axios from 'axios'
 import { fetchComment } from '../api'
 import _ from 'lodash'
@@ -54,9 +56,12 @@ export default {
 		item: Object,
   },
   components: {
-    Comment, Photo, Spinner
+    Comment, Photo, Spinner, CommentEditor
   },
   computed: {
+    user(){
+      return this.$store.state.user
+    },
     readingTime(){
       return Math.round(this.count/200) || 1
     },
@@ -123,6 +128,12 @@ export default {
       this.item.comments.data = this.item.comments.data.concat(res.data.data)
       this.item.comments.paging.next = res.data.paging.next ? res.data.paging.next : null
       this.loading = false
+    },
+    async commentPosted(comment){
+      this.open = true
+      this.loader = true
+      this.item.comments = await fetchComment(this.$store.state.token,this.item.id)
+      this.loader = false
     }
   }
 }

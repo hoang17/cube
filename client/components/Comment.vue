@@ -6,7 +6,7 @@
     span.by
       router-link(:to="'/user/' + comment.from.id") {{ comment.from.name }}
     span.text  {{ comment.message }}
-    img.media(v-if="comment.attachment && comment.attachment.media", :src="comment.attachment.media.image.src", :class="comment.attachment.type")
+    img.media(v-if="comment.attachment && comment.attachment.media", :src="media", :class="comment.attachment.type")
     //- .time  {{ comment.created_time | timeAgo }}
     .toggle(v-if='comment.comment_count > 0', @click='open = !open')
       | {{ open ? '▼' : '▶︎' }} {{ pluralize(comment.comment_count) }}
@@ -34,6 +34,14 @@ export default {
     }
   },
   computed: {
+    media(){
+      if (this.comment.attachment.type == 'animated_image_autoplay') {
+        let url = new URL(this.comment.attachment.url)
+        let u = url.searchParams.get("u");
+        return decodeURIComponent(u)
+      }
+      return this.comment.attachment.media.image.src
+    },
     moreCount(){
       return this.comment.comment_count - this.comment.comments.data.length
     }
@@ -53,7 +61,6 @@ export default {
 
 <style lang="stylus" scoped>
 .comment
-  /*border-top 1px solid #eee*/
   font-size 13px
   position relative
   padding 5px 2px 5px 40px

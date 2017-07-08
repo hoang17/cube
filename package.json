@@ -82,6 +82,7 @@
     "twit": "^2.2.5",
     "validator": "^7.0.0",
     "vue": "^2.3.4",
+    "vue-autosize": "^1.0.0",
     "vue-lazyload": "^1.0.4",
     "vue-router": "^2.5.3",
     "vue-select": "sagalbot/vue-select",

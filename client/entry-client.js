@@ -12,6 +12,9 @@ document.body.appendChild(bar.$el)
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload)
 
+import VueAutosize from 'vue-autosize'
+Vue.use(VueAutosize)
+
 // a global mixin that calls `asyncData` when a route component's params change
 // Vue.mixin({
 //   beforeRouteUpdate (to, from, next) {
