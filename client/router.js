@@ -15,6 +15,7 @@ const Feeds = () => import('./components/Feeds')
 export function createRouter () {
   let router = new Router({
     mode: 'history',
+    saveScrollPosition: true,
     routes: [
       { path: '/', redirect: 'groups' },
       // { path: '/hello', component: Hello },

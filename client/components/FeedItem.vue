@@ -78,7 +78,7 @@ export default {
       return typeof window != 'undefined' && window.innerWidth <= 800 && window.innerHeight <= 600 ? 500 : 1000
     },
     isCropMsg(){
-      return !this.fullmsg && this.item.message.length > this.length * 1.5
+      return !this.full && !this.fullmsg && this.item.message.length > this.length * 1.5
     },
     cropMsg(){
       return this.isCropMsg
@@ -314,4 +314,5 @@ pre
           column-count 2
         .s1
           column-count 1
+
 </style>

@@ -20,6 +20,11 @@ export default {
     max-width 100%
     max-height 500px
 
+.s1
+  .photo
+    img
+      max-height none
+
 @keyframes fadeIn
   from {
     opacity 0
