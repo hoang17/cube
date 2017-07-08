@@ -34,9 +34,9 @@
         | {{ open ? '▼' : '▶︎' }} comments
       div(v-show="loader")
         spinner(:show='loader')
-      ul.comment-children(v-show='open', v-if='item.comments && item.comments.data.length > 0')
+      ul.comment-children(v-show='open')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c')
-        li.more-comment(v-if='item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
+        li.more-comment(v-if='item.comments.paging && item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
         li.loading(v-show="loading")
           spinner(:show="loading")
         comment-editor(:id="item.id", :user="user", @commentPosted="commentPosted")

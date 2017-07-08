@@ -69,8 +69,12 @@ export async function fetch(token, url) {
 }
 
 export async function postComment(token, id, message){
-  fb = await getApi(token)
-  let url = `v2.6/${id}/comments`
-  let res = await fb.post(url, {message: message})
-  return res.data
+  try {
+    fb = await getApi(token)
+    let url = `v2.3/${id}/comments`
+    let res = await fb.post(url, {message: message})
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
 }

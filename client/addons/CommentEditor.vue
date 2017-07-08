@@ -8,7 +8,7 @@
     .text
       .area
         textarea(v-autosize="", placeholder="Write a comment...", v-model="message")
-      button.post(type='submit', value='Post', name='submit', @click='post') Post
+      button.post(type='submit', value='Post', name='submit', @click='post', :disabled="this.message.trim().length==0") Post
 </template>
 
 <script>
@@ -24,15 +24,12 @@ export default {
       message: '',
     }
   },
-  computed: {
-    count(){
-    }
-  },
   methods: {
     async post(){
-      let comment = await postComment(this.$store.state.token,this.id,this.message)
-      comment.message = this.message
+      let m = this.message
       this.message = ''
+      let comment = await postComment(this.$store.state.token,this.id,m)
+      comment.message = m
       this.$emit('commentPosted', comment)
     }
   }
@@ -127,4 +124,9 @@ export default {
       vertical-align top
       white-space nowrap
       font-weight bold
+    button[disabled]
+      background-image linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, 0))
+      background-color #f6f7f9
+      color #bec2c9
+      text-shadow none
 </style>
