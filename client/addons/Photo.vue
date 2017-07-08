@@ -1,6 +1,7 @@
 <template lang="pug">
   .photo
-    router-link(:to="'/i/' + id")
+    //-router-link(:to="'/i/' + id")
+    a(:href="'/i/' + id", target='_blank', rel='noopener')
       img(:src="src")
 </template>
 
