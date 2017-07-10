@@ -94,7 +94,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
-  cookie:{maxAge:31557600000},
+  cookie: { maxAge: 31557600000 }, // one year
   store: new MongoStore({
     url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
     autoReconnect: true,
@@ -141,7 +141,7 @@ const apiRoutes = require('./api-routes.js')
 app.use('/api', apiRoutes)
 
 // Cache static assets in ./public
-app.use(express.static(publicDir, { maxAge: 31557600000 }));
+app.use(express.static(publicDir, { maxAge: 31557600000 })) // one year
 
 /**
  * Primary app routes.
