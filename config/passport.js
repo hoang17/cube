@@ -67,7 +67,7 @@ passport.use(new FacebookStrategy({
   profileFields: ['name', 'email', 'link', 'locale', 'timezone', 'gender'],
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  log(accessToken)
+  // log(accessToken)
   if (req.user) {
     User.findOne({ facebook: profile.id }, (err, existingUser) => {
       if (err) { return done(err); }
@@ -95,6 +95,7 @@ passport.use(new FacebookStrategy({
       if (existingUser) {
         return done(null, existingUser);
       }
+      log(profile.id)
       User.findOne({ email: profile._json.email }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (existingEmailUser) {
