@@ -8,6 +8,5 @@ module.exports = mongoose.model('Group', new Schema({
   administrator: Boolean,
   bookmark_order: Number,
   unread: Number,
-  ver: String,
   star: Boolean,
 }))

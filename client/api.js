@@ -31,10 +31,10 @@ async function getApi(token){
   return fb
 }
 
-export async function fetchItem(token, id, ver){
+export async function fetchItem(token, id){
   try {
     fb = await getApi(token)
-    let url = `${ver}/${id}`
+    let url = `v2.6/${id}`
     let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,created_time,updated_time,comments.limit(50).summary(true){message,from{name,picture},comments{message,from{name,picture},attachment,created_time},comment_count,like_count,created_time,attachment}' }
     let res = await fb.get(url, { params: params })
     return res.data
@@ -43,10 +43,10 @@ export async function fetchItem(token, id, ver){
   }
 }
 
-export async function fetchItems(token, id, skip, limit, ver){
+export async function fetchItems(token, id, skip, limit){
   try {
     fb = await getApi(token)
-    let url = `${ver}/${id}/feed`
+    let url = `v2.6/${id}/feed`
     let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit }
     let res = await fb.get(url, { params: params })
     return res.data.data
@@ -58,7 +58,7 @@ export async function fetchItems(token, id, skip, limit, ver){
 export async function fetchComment(token, id) {
   try {
     fb = await getApi(token)
-    let url = `v2.3/${id}`
+    let url = `v2.6/${id}`
     let res = await fb.get(url, { params: {fields: 'comments.summary(true){message,from{name,picture},comments{message,from{name,picture},attachment,created_time},comment_count,like_count,created_time,attachment}'} })
     res.data.comments.data.map(function(c){
       if (!c.comments)
@@ -73,7 +73,7 @@ export async function fetchComment(token, id) {
 export async function fetchReplies(token, id) {
   try {
     fb = await getApi(token)
-    let url = `v2.3/${id}`
+    let url = `v2.6/${id}`
     let res = await fb.get(url, { params: {fields: 'comments{message,from{name,picture},attachment,created_time}'} })
     return res.data.comments
   } catch (e) {
@@ -86,8 +86,8 @@ export async function fetch(token, url) {
   const res = await fb.get(url, { params: { limit: 500 }})
   res.data.data.map(v => {
     v.star = false
-    if (v.privacy)
-      v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
+    // if (v.privacy)
+    //   v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
   })
   return res.data
 }
@@ -95,7 +95,7 @@ export async function fetch(token, url) {
 export async function postComment(token, id, message){
   try {
     fb = await getApi(token)
-    let url = `v2.3/${id}/comments`
+    let url = `v2.6/${id}/comments`
     let res = await fb.post(url, {message: message})
     return res.data
   } catch (e) {

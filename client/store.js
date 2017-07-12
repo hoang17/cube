@@ -50,14 +50,14 @@ export function createStore () {
       feeds: {},
       items: {},
       feedCount: 0,
-      gv: null
+      // gv: null
     },
     actions: {
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return
         let groups = await fetchGroups(state.token)
         commit('setGroups', groups)
-        state.gv = groupVersions(groups.data)
+        // state.gv = groupVersions(groups.data)
       },
       async getLikes({ state, commit }) {
         if (state.likes.length > 0) return
@@ -118,37 +118,36 @@ export function createStore () {
       },
       async fetchItem({ state, commit }, { id }) {
         let gid = id.split('_')[0]
-        if (!state.gv){
+        if (!state.groups){
           let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
-          state.gv = groupVersions(groups.data)
+          // state.gv = groupVersions(groups.data)
         }
-        let ver = state.gv[gid] ? state.gv[gid] : 'v2.3'
-        let item = await fetchItem(state.token, id, ver)
+        // let ver = state.gv[gid] ? state.gv[gid] : 'v2.3'
+        let item = await fetchItem(state.token, id)
         commit('setItem', item)
       },
       async fetchItems({ state, commit }, {id, page}) {
-        if (!state.gv){
+        if (!state.groups){
           let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
           let likes = await fetchLikes(state.token, 'likes')
           commit('setLikes', likes)
           let pages = await fetchLikes(state.token, 'accounts')
           commit('setPages', pages)
-
-          state.gv = groupVersions(groups.data)
+          // state.gv = groupVersions(groups.data)
         }
-        let ver = state.gv[id] ? state.gv[id] : 'v2.3'
+        // let ver = state.gv[id] ? state.gv[id] : 'v2.3'
 
         const offset = (page-1) * state.itemsPerPage
 
-        let items = await fetchItems(state.token, id, offset, state.itemsPerPage, ver)
+        let items = await fetchItems(state.token, id, offset, state.itemsPerPage)
         commit('setItems', { page, items })
       },
       async fetchMoreItems({ state, commit }, {id, page}) {
-        let ver = state.gv[id] ? state.gv[id] : 'v2.3'
+        // let ver = state.gv[id] ? state.gv[id] : 'v2.3'
         const offset = (page-1) * state.itemsPerPage
-        let items = await fetchItems(state.token, id, offset, state.itemsPerPage, ver)
+        let items = await fetchItems(state.token, id, offset, state.itemsPerPage)
         if (items.length > 0)
           commit('addMoreItems', { page, items })
       },
