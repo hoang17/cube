@@ -17,7 +17,7 @@ export function createRouter () {
     mode: 'history',
     saveScrollPosition: true,
     routes: [
-      { path: '/', redirect: 'groups' },
+      // { path: '/', redirect: 'groups' },
       // { path: '/hello', component: Hello },
       // { path: '/api', component: Hello },
       // { path: '/contact', component: Hello },
