@@ -128,7 +128,7 @@ export function createStore () {
         commit('setItem', item)
       },
       async fetchItems({ state, commit }, {id, page}) {
-        if (!state.groups){
+        if (!state.groups || state.groups.length == 0){
           let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
           let likes = await fetchLikes(state.token, 'likes')
