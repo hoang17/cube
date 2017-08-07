@@ -26,7 +26,7 @@ import axios from 'axios'
 
 export default {
   name: 'comment',
-  props: ['comment', 'child'],
+  props: ['comment', 'child', 'account'],
   components: {
     Spinner, CommentEditor
   },

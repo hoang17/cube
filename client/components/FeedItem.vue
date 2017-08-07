@@ -40,7 +40,7 @@
         li.more-comment(v-if='item.comments.paging && item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
         li.loading(v-show="loading")
           spinner(:show="loading")
-        comment-editor(:id="item.id", :user="user", @commentPosted="commentPosted")
+        comment-editor(:id="item.id", :user="user", @commentPosted="commentPosted", :account="account", :type="type")
 </template>
 
 <script>
@@ -56,7 +56,9 @@ export default {
   props: {
 		item: Object,
     open: Boolean,
-    full: Boolean
+    full: Boolean,
+    account: Object,
+    type: String
   },
   components: {
     Comment, Photo, Spinner, CommentEditor

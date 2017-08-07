@@ -2,7 +2,7 @@
   li.page-item
     h4(v-show="!first") {{ index }}
     ul
-      feed-item.news-item(v-for="item in page", :key="item.id", :item="item")
+      feed-item.news-item(v-for="item in page", :account="account", :type="type", :key="item.id", :item="item")
 </template>
 
 <script>
@@ -15,6 +15,8 @@ export default {
 		page: Array,
     index: Number,
     first: Boolean,
+    account: Object,
+    type: String,
   },
   components: {
     FeedItem

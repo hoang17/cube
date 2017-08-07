@@ -1,11 +1,13 @@
 <template lang="pug">
   .news-view
-    info-box(:obj="obj", :type="type")
+    info-box(:account="account", :type="type")
+    .new-post
+      router-link(:to="'/'+ type + '/' + account.id + '/new'") New Post
     list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item', v-if="Object.keys(displayedItems).length>0")
-          feed-page(v-for="(p, i) in displayedItems", :page="p", :first="Object.keys(displayedItems)[0]==i", :index="Number(i)", :key="i", :id="'p'+i", @center-appeared="pageChanged(i)")
+          feed-page(v-for="(p, i) in displayedItems", :account="account", :type="type", :page="p", :first="Object.keys(displayedItems)[0]==i", :index="Number(i)", :key="i", :id="'p'+i", @center-appeared="pageChanged(i)")
     infinite-loading(:on-infinite='onInfinite', ref='infiniteLoading')
     content-placeholder(v-show="loading", :row="row", :page ="offsetPage", :showNumber="offsetPage>originPage")
 </template>
@@ -23,7 +25,7 @@ import ContentPlaceholder from '../addons/ContentPlaceholder'
 export default {
   name: 'items',
   title(){
-    return this.obj.name
+    return this.account.name
   },
   components: {
     FeedPage,
@@ -32,11 +34,11 @@ export default {
     ContentPlaceholder
   },
   asyncData ({ store, route }) {
-    let  p = Number(route.params.page || 1)
-    return store.dispatch('fetchItems', {id: route.params.id, page: p })
+    let p = Number(route.params.page || 1)
+    return store.dispatch('fetchItems', {id: route.params.id, type: this.type, page: p })
   },
   data() {
-    let  p = Number(this.$route.params.page || 1)
+    let p = Number(this.$route.params.page || 1)
     return {
       row: 5,
       loading: true,
@@ -51,7 +53,7 @@ export default {
     id () {
       return this.$route.params.id
     },
-    obj () {
+    account () {
       let id = this.id
       let list
       if (this.type == 'groups'){
@@ -138,7 +140,7 @@ export default {
       this.offsetPage = page
       this.originPage = page
       this.$router.push({ params: { page }})
-      await this.$store.dispatch('fetchItems', {id: this.id, page: this.offsetPage })
+      await this.$store.dispatch('fetchItems', {id: this.id, type: this.type, page: this.offsetPage })
       // this.displayedItems = this.$store.getters.activeItems
       this.$bar.finish()
       this.$refs.infiniteLoading.$emit('in:loaded')
@@ -149,7 +151,7 @@ export default {
       this.offsetPage++
       this.$router.push({ params: { page: this.offsetPage }})
       let length = Object.keys(this.displayedItems).length
-      await this.$store.dispatch('fetchMoreItems', {id: this.id, page: this.offsetPage })
+      await this.$store.dispatch('fetchMoreItems', {id: this.id, type: this.type, page: this.offsetPage })
       if (Object.keys(this.displayedItems).length > length) {
         // this.displayedItems = this.$store.getters.activeItems
         this.$bar.finish()
@@ -196,6 +198,13 @@ export default {
 <style lang="stylus" scoped>
 .news-view
   padding-top 10px
+
+.new-post
+  background-color #fff
+  border-radius 2px
+  padding 10px 15px
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
+  margin-bottom 10px
 
 .news-list
   border-radius 2px

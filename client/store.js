@@ -29,11 +29,11 @@ function groupVersions(groups){
 }
 
 async function fetchGroups(token){
-  return fetch(token, 'v2.3/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
+  return fetch(token, 'v2.10/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
 }
 
 async function fetchLikes(token, type){
-  return fetch(token, `v2.6/me/${type}?fields=id,name,category,about,description,phone,single_line_address,created_time,fan_count,rating_count,talking_about_count,picture{url}`)
+  return fetch(token, `v2.10/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
 }
 
 export function createStore () {
@@ -127,7 +127,7 @@ export function createStore () {
         let item = await fetchItem(state.token, id)
         commit('setItem', item)
       },
-      async fetchItems({ state, commit }, {id, page}) {
+      async fetchItems({ state, commit }, {id, type, page}) {
         if (!state.groups || state.groups.length == 0){
           let groups = await fetchGroups(state.token)
           commit('setGroups', groups)
@@ -141,15 +141,25 @@ export function createStore () {
 
         const offset = (page-1) * state.itemsPerPage
 
-        let items = await fetchItems(state.token, id, offset, state.itemsPerPage)
+        let items = await fetchItems(state.token, id, type, offset, state.itemsPerPage)
         commit('setItems', { page, items })
       },
-      async fetchMoreItems({ state, commit }, {id, page}) {
+      async fetchMoreItems({ state, commit }, {id, type, page}) {
         // let ver = state.gv[id] ? state.gv[id] : 'v2.3'
         const offset = (page-1) * state.itemsPerPage
-        let items = await fetchItems(state.token, id, offset, state.itemsPerPage)
+        let items = await fetchItems(state.token, id, type, offset, state.itemsPerPage)
         if (items.length > 0)
           commit('addMoreItems', { page, items })
+      },
+      async fetchObj({ state, commit }, { id }) {
+        if (!state.groups || state.groups.length == 0){
+          let groups = await fetchGroups(state.token)
+          commit('setGroups', groups)
+          let likes = await fetchLikes(state.token, 'likes')
+          commit('setLikes', likes)
+          let pages = await fetchLikes(state.token, 'accounts')
+          commit('setPages', pages)
+        }
       },
     },
     mutations: {

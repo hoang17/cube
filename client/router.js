@@ -11,6 +11,7 @@ const Groups = () => import('./components/Groups')
 const Likes = () => import('./components/Likes')
 const Pages = () => import('./components/Pages')
 const Feeds = () => import('./components/Feeds')
+const NewPost = () => import('./components/NewPost')
 
 export function createRouter () {
   let router = new Router({
@@ -26,7 +27,8 @@ export function createRouter () {
       { path: '/pages', name: 'pages', component: Pages },
       { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
       { path: '/i/:id', name: 'item', component: Item },
-      { path: '/:type/:id/:page(\\d+)?', name: 'items', component: Items }
+      { path: '/:type/:id/:page(\\d+)?', name: 'items', component: Items },
+      { path: '/:type/:id/new', name: 'new', component: NewPost },
     ],
     // scrollBehavior (to, from, savedPosition) {
     //   if (savedPosition)

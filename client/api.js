@@ -43,10 +43,11 @@ export async function fetchItem(token, id){
   }
 }
 
-export async function fetchItems(token, id, skip, limit){
+export async function fetchItems(token, id, type, skip, limit){
   try {
     fb = await getApi(token)
-    let url = `v2.6/${id}/feed`
+    let feed = type == 'groups' ? 'feed' : 'posts'
+    let url = `v2.6/${id}/${feed}`
     let params = { fields: 'id,message,picture,full_picture,place,source,type,from{name, picture},story,link,name,description,attachments,comments.limit(0).summary(true),created_time,updated_time', offset: skip, limit: limit }
     let res = await fb.get(url, { params: params })
     return res.data.data
@@ -94,8 +95,25 @@ export async function fetch(token, url) {
 
 export async function postComment(token, id, message){
   try {
-    fb = await getApi(token)
+    let fb = axios.create({
+      baseURL: 'https://graph.facebook.com/',
+      params: { access_token: token }
+    })
     let url = `v2.6/${id}/comments`
+    let res = await fb.post(url, {message: message})
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function postStatus(token, id, message){
+  try {
+    let fb = axios.create({
+      baseURL: 'https://graph.facebook.com/',
+      params: { access_token: token }
+    })
+    let url = `v2.6/${id}/feed`
     let res = await fb.post(url, {message: message})
     return res.data
   } catch (e) {

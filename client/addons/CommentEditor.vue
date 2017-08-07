@@ -1,8 +1,7 @@
 <template lang="pug">
   li.comment
     .avatar
-      a(:href="'http://facebook.com/' + user.id", target='_blank', rel='noopener')
-        img(:src="user.profile.picture")
+      img(:src="profilePicture")
     //-span.by
       router-link(:to="'/user/' + user.id") {{ user.profile.name }}
     .text
@@ -18,17 +17,27 @@ export default {
   props: {
     id: String,
     user: Object,
+    account: Object,
+    type: String
   },
   data() {
     return {
       message: '',
     }
   },
+  computed: {
+    profilePicture(){
+      return this.type == 'pages' ? this.account.picture.data.url : this.user.profile.picture
+    },
+    token(){
+      return this.type == 'pages' ? this.account.access_token : this.$store.state.token
+    },
+  },
   methods: {
     async post(){
       let m = this.message
       this.message = ''
-      let comment = await postComment(this.$store.state.token,this.id,m)
+      let comment = await postComment(this.token, this.id, m)
       comment.message = m
       this.$emit('commentPosted', comment)
     }

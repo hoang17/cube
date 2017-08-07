@@ -1,8 +1,8 @@
 <template lang="pug">
   .info-box(@click="expand=!expand")
     b
-      img.icon(:src="obj.icon", width="16", height="16", v-if="obj.icon")
-      |  {{ obj.name }}
+      img.icon(:src="account.icon", width="16", height="16", v-if="account.icon")
+      |  {{ account.name }}
     .meta {{ count | formatNumber }} - {{ meta }}
     .about(v-show="expand") {{ about }}
 </template>
@@ -10,7 +10,7 @@
 <script>
 export default {
   props: {
-    obj: Object,
+    account: Object,
 		type: String,
   },
   data() {
@@ -20,19 +20,19 @@ export default {
   },
   computed: {
     about(){
-      return !this.obj.description && this.obj.about ? this.obj.about : this.obj.description
+      return !this.account.description && this.account.about ? this.account.about : this.account.description
     },
     meta(){
       if (this.type == 'groups'){
-        return this.obj.privacy
+        return this.account.privacy
       }
-      return this.obj.category
+      return this.account.category
     },
     count(){
       if (this.type == 'groups'){
-        return this.obj.members.summary.total_count
+        return this.account.members.summary.total_count
       }
-      return this.obj.fan_count
+      return this.account.fan_count
     }
   }
 }
@@ -44,7 +44,7 @@ export default {
   border-radius 2px
   padding 10px 15px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
-  margin-bottom 15px
+  margin-bottom 10px
   .icon
     display inline-block
     margin-right 2px
@@ -58,9 +58,5 @@ export default {
     font-size .8em
     white-space pre-wrap
     word-wrap break-word
-
-@media (max-width 600px)
-  .info-box
-    padding 10px
 
 </style>

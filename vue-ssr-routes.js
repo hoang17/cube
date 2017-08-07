@@ -165,6 +165,24 @@ module.exports = function(app) {
     })
   })
 
+  app.get('/pages/:id/new', passportConfig.isAuthenticated, (req, res) => {
+    res.render('template', {title: 'New'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
+  app.get('/groups/:id/new', passportConfig.isAuthenticated, (req, res) => {
+    res.render('template', {title: 'New'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
+  app.get('/likes/:id/new', passportConfig.isAuthenticated, (req, res) => {
+    res.render('template', {title: 'New'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
+
   // Serve static assets
   const serve = (path, cache) => express.static(resolve(path), {
     maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
