@@ -20,7 +20,7 @@ export default {
     'sticky': Sticky,
   },
   props: {
-    id: Number,
+    id: String,
     type: String,
     page: Number,
     maxPage: Number,

@@ -15,7 +15,7 @@
       li.more-comment(v-if='comment.comments && comment.comments.paging && comment.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
       li.loading(v-show="loading")
         spinner(:show="loading")
-      comment-editor(:id="comment.id", :user="user", @commentPosted="commentPosted")
+      comment-editor(:id="comment.id", :user="user", @commentPosted="commentPosted", :account="account", :type="type")
 </template>
 
 <script>
@@ -26,7 +26,7 @@ import axios from 'axios'
 
 export default {
   name: 'comment',
-  props: ['comment', 'child', 'account'],
+  props: ['comment', 'child', 'account', 'type'],
   components: {
     Spinner, CommentEditor
   },
