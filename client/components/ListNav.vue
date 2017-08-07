@@ -1,13 +1,13 @@
 <template lang="pug">
 .nav-wrapper
   .news-list-nav(@click.stop="", v-sticky="{ stickyClass: 'sticky-header' }", v-if="maxPage")
-    a(v-if='page > 1', @click.prevent="previous", href="") ←
+    a(v-if='page > 1', @click.prevent="previous", :href="`/${type}/${id}/${page-1}`") ←
     a.disabled(v-else='') ←
     span.mdl-selectfield {{page}}
     //-span.mdl-selectfield
       select.mdc-select(v-model="selectedPage", @change="pageSelected")
         option(v-for="n in range", :value="n", :disabled="n=='...'") {{ n }}
-    a(v-if='hasMore', @click.prevent="next", href="") →
+    a(v-if='hasMore', @click.prevent="next", :href="`/${type}/${id}/${page+1}`") →
     a.disabled(v-else='') →
 </template>
 
@@ -20,6 +20,8 @@ export default {
     'sticky': Sticky,
   },
   props: {
+    id: Number,
+    type: String,
     page: Number,
     maxPage: Number,
   },

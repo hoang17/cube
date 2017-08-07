@@ -3,7 +3,7 @@
     info-box(:account="account", :type="type")
     .new-post
       router-link(:to="'/'+ type + '/' + account.id + '/new'") New Post
-    list-nav(:page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
+    list-nav(:id="id", :type="type", :page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item', v-if="Object.keys(displayedItems).length>0")
