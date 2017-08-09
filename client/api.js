@@ -83,14 +83,19 @@ export async function fetchReplies(token, id) {
 }
 
 export async function fetch(token, url) {
-  fb = await getApi(token)
-  const res = await fb.get(url, { params: { limit: 500 }})
-  res.data.data.map(v => {
-    v.star = false
-    // if (v.privacy)
-    //   v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
-  })
-  return res.data
+  try {
+    fb = await getApi(token)
+    const res = await fb.get(url, { params: { limit: 500 }})
+    res.data.data.map(v => {
+      v.star = false
+      // if (v.privacy)
+      //   v.ver = v.privacy == 'OPEN' || v.administrator ? 'v2.4' : 'v2.3'
+    })
+    return res.data
+  }
+  catch (e) {
+    console.error(e)
+  }
 }
 
 export async function postComment(token, id, message){
