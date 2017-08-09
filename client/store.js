@@ -29,11 +29,11 @@ function groupVersions(groups){
 }
 
 async function fetchGroups(token){
-  return fetch(token, 'v2.10/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
+  return fetch(token, 'v2.6/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
 }
 
 async function fetchLikes(token, type){
-  return fetch(token, `v2.10/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
+  return fetch(token, `v2.6/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
 }
 
 export function createStore () {
