@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetch, fetchItems, fetchItem, patch } from './api'
+import { get, fetch, fetchData, fetchItems, fetchItem, patch } from './api'
 
 const _ = require('lodash')
 
@@ -29,11 +29,15 @@ function groupVersions(groups){
 }
 
 async function fetchGroups(token){
-  return fetch(token, 'v2.6/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
+  return fetchData(token, 'v2.6/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
 }
 
 async function fetchLikes(token, type){
-  return fetch(token, `v2.6/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
+  return fetchData(token, `v2.6/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
+}
+
+async function fetchGroup(token, id){
+  return fetch(token, `v2.6/${id}?fields=id,name,privacy,description,owner,icon,members.summary(true).limit(0)`)
 }
 
 export function createStore () {
@@ -50,6 +54,7 @@ export function createStore () {
       feeds: {},
       items: {},
       feedCount: 0,
+      account: null,
       // gv: null
     },
     actions: {
@@ -135,9 +140,24 @@ export function createStore () {
           commit('setLikes', likes)
           let pages = await fetchLikes(state.token, 'accounts')
           commit('setPages', pages)
-          // state.gv = groupVersions(groups.data)
         }
-        // let ver = state.gv[id] ? state.gv[id] : 'v2.3'
+
+        let list
+        if (type == 'groups'){
+          list = state.groups.data
+        } else if (type == 'likes'){
+          list = state.likes.data
+        } else {
+          list = state.pages.data
+        }
+        let account = list.filter(function(e){
+          return e.id == id
+        })[0]
+
+        if (!account)
+          account = await fetchGroup(state.token, id)
+
+        state.account = account
 
         const offset = (page-1) * state.itemsPerPage
 

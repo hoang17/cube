@@ -35,7 +35,7 @@ export default {
   },
   asyncData ({ store, route }) {
     let p = Number(route.params.page || 1)
-    return store.dispatch('fetchItems', {id: route.params.id, type: this.type, page: p })
+    return store.dispatch('fetchItems', {id: route.params.id, type: route.params.type, page: p })
   },
   data() {
     let p = Number(this.$route.params.page || 1)
@@ -54,18 +54,7 @@ export default {
       return this.$route.params.id
     },
     account () {
-      let id = this.id
-      let list
-      if (this.type == 'groups'){
-        list = this.$store.state.groups.data
-      } else if (this.type == 'likes'){
-        list = this.$store.state.likes.data
-      } else {
-        list = this.$store.state.pages.data
-      }
-      return list.filter(function(e){
-        return e.id == id
-      })[0]
+      return this.$store.state.account
     },
     type () {
       return this.$route.params.type

@@ -82,7 +82,7 @@ export async function fetchReplies(token, id) {
   }
 }
 
-export async function fetch(token, url) {
+export async function fetchData(token, url) {
   try {
     fb = await getApi(token)
     const res = await fb.get(url, { params: { limit: 500 }})
@@ -98,6 +98,16 @@ export async function fetch(token, url) {
   }
 }
 
+export async function fetch(token, url) {
+  try {
+    fb = await getApi(token)
+    const res = await fb.get(url)
+    return res.data
+  }
+  catch (e) {
+    console.error(e)
+  }
+}
 export async function postComment(token, id, message){
   try {
     let fb = axios.create({
