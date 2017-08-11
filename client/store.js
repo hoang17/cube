@@ -80,7 +80,7 @@ export function createStore () {
       },
       async getMoreGroups({ state, commit }) {
         if (state.groups.paging.next) {
-          let groups = await fetch(state.token, state.groups.paging.next)
+          let groups = await fetchData(state.token, state.groups.paging.next)
           if (groups.data.length > 0){
             state.groups.data = state.groups.data.concat(groups.data)
             state.groups.paging = groups.paging
@@ -89,7 +89,7 @@ export function createStore () {
       },
       async getMoreLikes({ state, commit }) {
         if (state.likes.paging.next) {
-          let likes = await fetch(state.token, state.likes.paging.next)
+          let likes = await fetchData(state.token, state.likes.paging.next)
           if (likes.data.length > 0){
             state.likes.data = state.likes.data.concat(likes.data)
             state.likes.paging = likes.paging
@@ -98,7 +98,7 @@ export function createStore () {
       },
       async getMorePages({ state, commit }) {
         if (state.pages.paging.next) {
-          let pages = await fetch(state.token, state.pages.paging.next)
+          let pages = await fetchData(state.token, state.pages.paging.next)
           if (pages.data.length > 0){
             state.pages.data = state.pages.data.concat(pages.data)
             state.pages.paging = pages.paging
@@ -164,7 +164,7 @@ export function createStore () {
           else
             account = await fetchPage(state.token, id)
 
-        state.account = account
+        commit('setAccount', account)
 
         const offset = (page-1) * state.itemsPerPage
 
@@ -221,6 +221,9 @@ export function createStore () {
       },
       addMoreItems(state, {page, items}) {
         Vue.set(state.items, page, items)
+      },
+      setAccount(state, account) {
+        state.account = account
       },
     },
     getters: {
