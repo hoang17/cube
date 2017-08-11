@@ -40,6 +40,10 @@ async function fetchGroup(token, id){
   return fetch(token, `v2.6/${id}?fields=id,name,privacy,description,owner,icon,members.summary(true).limit(0)`)
 }
 
+async function fetchPage(token, id){
+  return fetch(token, `v2.6/${id}?fields=id,name,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
+}
+
 export function createStore () {
   return new Vuex.Store({
     state: {
@@ -155,7 +159,10 @@ export function createStore () {
         })[0]
 
         if (!account)
-          account = await fetchGroup(state.token, id)
+          if (type == 'groups')
+            account = await fetchGroup(state.token, id)
+          else
+            account = await fetchPage(state.token, id)
 
         state.account = account
 
