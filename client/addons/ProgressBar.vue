@@ -25,7 +25,7 @@ export default {
       canSuccess: true,
       duration: 3000,
       height: '2px',
-      color: '#29d',
+      color: '#29f',
       failedColor: '#ff0000',
     }
   },
@@ -103,10 +103,10 @@ export default {
   width: 0%;
   transition: width 0.2s, opacity 0.4s;
   opacity: 1;
-  background-color: #29d;
+  background-color: #29f;
   z-index: 999999;
 
-  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  /*box-shadow: 0 0 10px #29f, 0 0 5px #29f;*/
   /*box-shadow: 0 0 10px #efc14e, 0 0 5px #efc14e;*/
 
   /*-webkit-transform: rotate(3deg) translate(0px, -4px);
