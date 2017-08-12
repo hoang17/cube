@@ -123,7 +123,6 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
     "mocha": "^3.1.2",
-    "nightmare": "^2.10.0",
     "rimraf": "^2.6.1",
     "sinon": "^2.3.1",
     "sinon-mongoose": "^2.0.2",
