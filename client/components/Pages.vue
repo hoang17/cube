@@ -42,6 +42,10 @@ export default {
       this.loadItems()
     }
   },
+  beforeDestroy () {
+    this.$bar.finish()
+    this.$refs.infiniteLoading.$emit('in:loaded')
+  },
   methods: {
     setStar(item){
       item.star = !item.star
@@ -50,8 +54,10 @@ export default {
     async loadItems () {
       this.$bar.start()
       await this.$store.dispatch('getPages')
-      this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('in:loaded')
+      if (this.$refs.infiniteLoading){
+        this.$bar.finish()
+        this.$refs.infiniteLoading.$emit('in:loaded')
+      }
     },
     async loadNextPage() {
       if (this.displayedItems.length == 0) {
