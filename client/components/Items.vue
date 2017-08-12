@@ -81,12 +81,12 @@ export default {
     this.$bar.finish()
     this.$refs.infiniteLoading.$emit('in:loaded')
   },
-  watch: {
-    page (to, from) {
-      if (!this.$route.params.page)
-        this.loadItems(to)
-    }
-  },
+  // watch: {
+  //   page (to, from) {
+  //     if (!this.$route.params.page)
+  //       this.loadItems(to)
+  //   }
+  // },
   methods: {
     pageChanged(page) {
       this.$router.push({ params: { page }})
@@ -127,7 +127,7 @@ export default {
       this.$bar.start()
       this.offsetPage = page
       this.originPage = page
-      this.$router.push({ params: { page }})
+      // this.$router.push({ params: { page }})
       await this.$store.dispatch('fetchItems', {id: this.id, type: this.type, page: this.offsetPage })
       if (this.$refs.infiniteLoading){
         this.$bar.finish()
