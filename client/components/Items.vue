@@ -14,13 +14,15 @@
 
 <script>
 import FeedPage from './FeedPage'
-// import ListNav from './ListNav'
 import InfoBox from '../addons/InfoBox'
-import { throttle } from 'lodash'
 import bluebird from 'bluebird'
-import scrollTo from '../addons/Scroll'
-const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 import ContentPlaceholder from '../addons/ContentPlaceholder'
+
+// import ListNav from './ListNav'
+// import { throttle } from 'lodash'
+// import scrollTo from '../addons/Scroll'
+
+// const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 
 export default {
   name: 'items',
@@ -29,9 +31,9 @@ export default {
   },
   components: {
     FeedPage,
-    // ListNav,
     InfoBox,
-    ContentPlaceholder
+    ContentPlaceholder,
+    // ListNav,
   },
   asyncData ({ store, route }) {
     let p = Number(route.params.page || 1)
@@ -45,8 +47,8 @@ export default {
       transition: 'fade',
       originPage: p,
       offsetPage: p,
-      throttlePrev: throttle(this.previousPage, 200, { leading: true }),
-      throttleNext: throttle(this.nextPage, 200, { leading: true })
+      // throttlePrev: throttle(this.previousPage, 200, { leading: true }),
+      // throttleNext: throttle(this.nextPage, 200, { leading: true })
     }
   },
   computed: {
@@ -63,26 +65,21 @@ export default {
       return Number(this.$route.params.page) || 1
     },
     maxPage () {
-      return 999
+      return 9999
     },
     displayedItems(){
       return this.$store.getters.activeItems
     }
   },
   beforeMount () {
-    // if (this.$store.state.id != this.$route.params.id){
-    //   this.$store.commit('setItems', { items:[] })
-    //   if (this.$root._isMounted) {
-    //     this.loadItems(this.page)
-    //   }
-    //   this.$store.state.id = this.$route.params.id
-    // }
     if (this.$root._isMounted) {
       this.loadItems(this.page)
     }
   },
   beforeDestroy () {
     this.$store.commit('setItems', { items:[] })
+    this.$bar.finish()
+    this.$refs.infiniteLoading.$emit('in:loaded')
   },
   watch: {
     page (to, from) {
@@ -91,58 +88,59 @@ export default {
     }
   },
   methods: {
+    pageChanged(page) {
+      this.$router.push({ params: { page }})
+    },
     onInfinite(){
       if (this.$bar.show) return
       this.row = 2
       this.loadNextPage()
     },
-    async nextPage() {
-      let p = this.page+1
-      if (document.getElementById(`p${p}`))
-        await this.scrollTo(p)
-      else {
-        this.row = 5
-        this.loadNextPage()
-        await scroll('.timeline-wrapper', 1, { offset: -20 })
-        // await this.loadNextPage()
-        // await this.scrollTo(p)
-      }
-    },
-    async previousPage() {
-      let p = this.page-1
-      if (document.getElementById(`p${p}`))
-        await this.scrollTo(p)
-      else {
-        this.loadItems(p)
-        // await this.loadPreviousPage()
-        // await this.scrollTo(p)
-      }
-    },
+    // async nextPage() {
+    //   let p = this.page+1
+    //   if (document.getElementById(`p${p}`))
+    //     await this.scrollTo(p)
+    //   else {
+    //     this.row = 5
+    //     this.loadNextPage()
+    //     await scroll('.timeline-wrapper', 1, { offset: -20 })
+    //     // await this.loadNextPage()
+    //     // await this.scrollTo(p)
+    //   }
+    // },
+    // async previousPage() {
+    //   let p = this.page-1
+    //   if (document.getElementById(`p${p}`))
+    //     await this.scrollTo(p)
+    //   else {
+    //     this.loadItems(p)
+    //     // await this.loadPreviousPage()
+    //     // await this.scrollTo(p)
+    //   }
+    // },
     async loadItems(page) {
       if (page < 0 || page > this.maxPage) {
         this.$router.replace(`/${this.type}`)
         return
       }
-      window.scroll(0,0)
+      // window.scroll(0,0)
       this.$bar.start()
-      // this.displayedItems = []
       this.offsetPage = page
       this.originPage = page
       this.$router.push({ params: { page }})
       await this.$store.dispatch('fetchItems', {id: this.id, type: this.type, page: this.offsetPage })
-      // this.displayedItems = this.$store.getters.activeItems
-      this.$bar.finish()
-      this.$refs.infiniteLoading.$emit('in:loaded')
+      if (this.$refs.infiniteLoading){
+        this.$bar.finish()
+        this.$refs.infiniteLoading.$emit('in:loaded')
+      }
     },
     async loadNextPage() {
-      // if (this.displayedItems.length == 0) return
       this.$bar.start()
       this.offsetPage++
       this.$router.push({ params: { page: this.offsetPage }})
       let length = Object.keys(this.displayedItems).length
       await this.$store.dispatch('fetchMoreItems', {id: this.id, type: this.type, page: this.offsetPage })
       if (Object.keys(this.displayedItems).length > length) {
-        // this.displayedItems = this.$store.getters.activeItems
         this.$bar.finish()
         this.$refs.infiniteLoading.$emit('in:loaded')
       } else {
@@ -151,35 +149,29 @@ export default {
         this.loading = false
       }
     },
-    async loadPreviousPage() {
-      this.originPage--
-      this.$router.push({ params: { page: this.originPage }})
-      // this.displayedItems = this.$store.getters.activeItems
-    },
-    pageChanged(page) {
-      this.$router.push({ params: { page }})
-    },
-    async pageSelected(page){
-      if (document.getElementById(`p${page}`))
-        await this.scrollTo(page)
-      else if (this.page+1 == page){
-        await this.loadNextPage()
-        await this.scrollTo(page)
-      }
-      else if (this.page-1 == page){
-        await this.loadItems(page)
-        // await this.loadPreviousPage()
-        // await this.scrollTo(page)
-      }
-      else
-        await this.loadItems(page)
-    },
-    scrollTo (page) {
-      if (page == this.originPage) {
-        return scroll('body')
-      }
-      return scroll(`#p${page}`, 1, { offset: -20 })
-    }
+    // async loadPreviousPage() {
+    //   this.originPage--
+    //   this.$router.push({ params: { page: this.originPage }})
+    // },
+    // async pageSelected(page){
+    //   if (document.getElementById(`p${page}`))
+    //     await this.scrollTo(page)
+    //   else if (this.page+1 == page){
+    //     await this.loadNextPage()
+    //     await this.scrollTo(page)
+    //   }
+    //   else if (this.page-1 == page){
+    //     await this.loadItems(page)
+    //   }
+    //   else
+    //     await this.loadItems(page)
+    // },
+    // scrollTo(page) {
+    //   if (page == this.originPage) {
+    //     return scroll('body')
+    //   }
+    //   return scroll(`#p${page}`, 1, { offset: -20 })
+    // }
   }
 }
 </script>
