@@ -3,15 +3,13 @@
     .info-box(@click="expand=!expand")
       b
         img.icon(:src="account.icon", width="16", height="16", v-if="account && account.icon")
-        |  {{ account.name }}
-      .meta {{ count | formatNumber }} - {{ meta }}
-      .about(v-show="expand") {{ about }}
+        |  {{ name }}
     .comment
       .avatar
         img(:src="profilePicture")
       .text
         .area
-          textarea(v-autosize="", placeholder="Write a post...", v-model="message")
+          textarea(v-autosize="", placeholder="Write a new post...", v-model="message")
       button.post(type='submit', value='Post', name='submit', @click='post', :disabled="this.message.trim().length==0") Post
 </template>
 
@@ -38,20 +36,23 @@ export default {
     user(){
       return this.$store.state.user
     },
+    name(){
+      return this.account ? this.account.name : this.user.profile.name
+    },
     id () {
-      return this.$route.params.id
+      return this.$route.params.id ? this.$route.params.id : 'me'
     },
     pages(){
       return this.$store.state.pages.data
     },
     account () {
       let id = this.id
-      let list
-      if (this.type == 'groups'){
+      let list = []
+      if (this.type == 'groups') {
         list = this.$store.state.groups.data
       } else if (this.type == 'likes'){
         list = this.$store.state.likes.data
-      } else {
+      } else if (this.type == 'pages') {
         list = this.$store.state.pages.data
       }
       return list.filter(function(e){
@@ -61,21 +62,6 @@ export default {
     type () {
       return this.$route.params.type
     },
-    about(){
-      return !this.account.description && this.account.about ? this.account.about : this.account.description
-    },
-    meta(){
-      if (this.type == 'groups'){
-        return this.account.privacy
-      }
-      return this.account.category
-    },
-    count(){
-      if (this.type == 'groups'){
-        return this.account.members.summary.total_count
-      }
-      return this.account.fan_count
-    }
   },
   beforeMount () {
     if (this.$root._isMounted) {
@@ -86,10 +72,8 @@ export default {
     async post(){
       let m = this.message
       this.message = ''
-      console.log(this.token);
       let status = await postStatus(this.token, this.id, m)
       status.message = m
-      // this.$emit('statusPosted', status)
     }
   }
 }

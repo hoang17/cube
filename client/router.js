@@ -29,6 +29,7 @@ export function createRouter () {
       { path: '/i/:id', name: 'item', component: Item },
       { path: '/:type/:id/:page(\\d+)?', name: 'items', component: Items },
       { path: '/:type/:id/new', name: 'new', component: NewPost },
+      { path: '/new', name: 'new-post', component: NewPost },
     ],
     // scrollBehavior (to, from, savedPosition) {
     //   if (savedPosition)
