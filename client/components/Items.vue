@@ -15,13 +15,12 @@
 <script>
 import FeedPage from './FeedPage'
 import InfoBox from '../addons/InfoBox'
-import bluebird from 'bluebird'
 import ContentPlaceholder from '../addons/ContentPlaceholder'
 
 // import ListNav from './ListNav'
 // import { throttle } from 'lodash'
 // import scrollTo from '../addons/Scroll'
-
+// import bluebird from 'bluebird'
 // const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 
 export default {
