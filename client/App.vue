@@ -2,6 +2,7 @@
   #app
     header.header
       nav.inner
+        router-link(to='/') Search
         router-link(to='/groups') Groups
         router-link(to='/pages') Pages
         //-router-link(to='/likes') Likes

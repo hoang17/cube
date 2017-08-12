@@ -42,9 +42,6 @@ export default {
     id () {
       return this.$route.params.id ? this.$route.params.id : 'me'
     },
-    pages(){
-      return this.$store.state.pages.data
-    },
     account () {
       let id = this.id
       let list = []

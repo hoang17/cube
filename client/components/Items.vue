@@ -1,9 +1,9 @@
 <template lang="pug">
   .news-view
-    info-box(:account="account", :type="type")
-    .new-post
+    info-box(:account="account", :type="type", v-if="account")
+    .new-post(v-if="account")
       router-link(:to="'/'+ type + '/' + account.id + '/new'") New Post
-    list-nav(:id="id", :type="type", :page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
+    //-list-nav(:id="id", :type="type", :page="page", :maxPage="maxPage", @pageSelected="pageSelected", @nextPage="throttleNext", @previousPage="throttlePrev")
     transition(:name='transition')
       .news-list(:key='originPage')
         transition-group(tag='ul', name='item', v-if="Object.keys(displayedItems).length>0")
@@ -14,7 +14,7 @@
 
 <script>
 import FeedPage from './FeedPage'
-import ListNav from './ListNav'
+// import ListNav from './ListNav'
 import InfoBox from '../addons/InfoBox'
 import { throttle } from 'lodash'
 import bluebird from 'bluebird'
@@ -25,11 +25,11 @@ import ContentPlaceholder from '../addons/ContentPlaceholder'
 export default {
   name: 'items',
   title(){
-    return this.account.name
+    return this.account ? this.account.name : ''
   },
   components: {
     FeedPage,
-    ListNav,
+    // ListNav,
     InfoBox,
     ContentPlaceholder
   },
