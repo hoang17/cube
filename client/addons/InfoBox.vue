@@ -29,6 +29,7 @@ export default {
       return this.account.category
     },
     count(){
+      if (!this.account) return 0
       if (this.type == 'groups'){
         return this.account.members.summary.total_count
       }

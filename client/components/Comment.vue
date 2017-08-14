@@ -132,7 +132,7 @@ export default {
 
   .by, .text, .toggle
     font-size .85em
-    margin 0.3em 0
+    margin 0 0
   .time
     color #828282
     font-size .8em

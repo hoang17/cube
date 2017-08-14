@@ -30,12 +30,12 @@
     photo(v-else-if="item.full_picture", :id="item.id", :src="item.full_picture")
     .item-view-comments
       p.item-view-comments-header(v-if='item.comments && item.comments.summary.total_count > 0', @click='loadComments')
-        | {{ open ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
+        | {{ expand ? '▼' : '▶︎' }} {{ pluralize(item.comments.summary.total_count) }}
       p.item-view-comments-header(v-else, @click='loadComments')
-        | {{ open ? '▼' : '▶︎' }} comment
+        | {{ expand ? '▼' : '▶︎' }} comment
       .loader(v-show="loader")
         spinner(:show='loader')
-      ul.comment-children(v-show='open')
+      ul.comment-children(v-show='expand')
         comment(v-for='c in item.comments.data', :key='c.id', :comment='c', :account="account", :type="type")
         li.more-comment(v-if='item.comments.paging && item.comments.paging.next', @click="moreComments", v-show="!loading") view {{ moreCount }} more comments...
         li.loading(v-show="loading")
@@ -53,6 +53,9 @@ import { fetchComment } from '../api'
 import _ from 'lodash'
 
 export default {
+  components: {
+    Comment, Photo, Spinner, CommentEditor
+  },
   props: {
 		item: Object,
     open: Boolean,
@@ -60,8 +63,14 @@ export default {
     account: Object,
     type: String
   },
-  components: {
-    Comment, Photo, Spinner, CommentEditor
+  data () {
+    return {
+      loader: false,
+      loading: false,
+      fullmsg: false,
+      desc: false,
+      expand: this.open,
+    }
   },
   computed: {
     user(){
@@ -108,18 +117,10 @@ export default {
       return this.item.comments.summary.total_count - this.item.comments.data.length
     }
   },
-  data () {
-    return {
-      loader: false,
-      loading: false,
-      fullmsg: false,
-      desc: false,
-    }
-  },
   methods: {
     pluralize: n => n + (n === 1 ? ' comment' : ' comments'),
     async loadComments(){
-      this.open = !this.open
+      this.expand = !this.expand
       if (!this.item.comments || this.item.comments.data.length == 0) {
         this.loader = true
         this.item.comments = await fetchComment(this.$store.state.token,this.item.id)
@@ -134,7 +135,7 @@ export default {
       this.loading = false
     },
     async commentPosted(comment){
-      this.open = true
+      this.expand = true
       this.loader = true
       this.item.comments = await fetchComment(this.$store.state.token,this.item.id)
       this.loader = false
