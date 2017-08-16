@@ -39,10 +39,6 @@ function formatArgs(args){
   return [util.format.apply(util.format, Array.prototype.slice.call(args))]
 }
 
-// br = require('bristol')
-// br.addTarget('console')
-//     .withFormatter('human')
-
 tr = require('tracer').colorConsole({
 		format: [
       "{{message}} ({{file}}:{{line}})", //default format
@@ -57,18 +53,18 @@ tr = require('tracer').colorConsole({
 log = tr.info
 dbg = tr.debug
 
-// console.log = function(){
-//   logger.info.apply(logger, formatArgs(arguments));
-// }
-// console.info = function(){
-//   logger.info.apply(logger, formatArgs(arguments));
-// }
-// console.warn = function(){
-//   logger.warn.apply(logger, formatArgs(arguments));
-// }
-// console.error = function(){
-//   logger.error.apply(logger, formatArgs(arguments));
-// }
-// console.debug = function(){
-//   logger.debug.apply(logger, formatArgs(arguments));
-// };
+console.log = function(){
+  logger.info.apply(logger, formatArgs(arguments));
+}
+console.info = function(){
+  logger.info.apply(logger, formatArgs(arguments));
+}
+console.warn = function(){
+  logger.warn.apply(logger, formatArgs(arguments));
+}
+console.error = function(){
+  logger.error.apply(logger, formatArgs(arguments));
+}
+console.debug = function(){
+  logger.debug.apply(logger, formatArgs(arguments));
+};
