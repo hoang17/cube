@@ -16,35 +16,21 @@
 
 <script>
 export default {
-  name: 'app',
-  components: {
-    // 'vue-select': VueSelect
-  },
-  data() {
-    return {
-      // message: { value: 'one', label: 'One' },
-    }
-  },
-  methods: {
-    // updateDate: function(date) {
-    //   this.date = date
-    // }
-  }
+  name: 'app'
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 body
-  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  /*font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
   background-color lighten(#eceef1, 30%)
   margin 0
-  // padding-top 55px
   color #34495e
-  overflow-y scroll
+  overflow-y scroll*/
 
-h1,h2,h3,h4,h5,h6
-  margin auto
+/*h1,h2,h3,h4,h5,h6
+  margin auto*/
 
 a
   &:hover
@@ -59,22 +45,16 @@ a
   margin 0px auto
   max-width 800px
   background-color #fff
-  // background-color #ff6600
-  // background-color #777
-  // position fixed
   z-index 999
   height 51px
-  //top 0
   left 0
   box-shadow 0 1px 2px rgba(0,0,0,.1)
-  //right 0
   .inner
     max-width 800px
     box-sizing border-box
     margin 0px auto
     padding 15px 30px
   a
-    // color rgba(255, 255, 255, .8)
     color #252525
     line-height 24px
     transition color .15s ease
@@ -85,10 +65,8 @@ a
     margin-right 1.8em
     &:hover
       color #ccc
-      // color #fff
     &.router-link-active
       color #252525
-      // color #fff
       font-weight 400
     &:nth-child(6)
       margin-right 0
