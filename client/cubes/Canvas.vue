@@ -1,5 +1,57 @@
 <template lang="pug">
   v-app.canvas
+
+    v-layout(row, wrap)
+      v-flex(xs12, md6, offset-md3)
+        v-card
+          v-toolbar.blue(dark)
+            v-btn(icon, light)
+              v-icon arrow_back
+            v-toolbar-title Application
+            v-spacer
+            v-btn(icon, light)
+              v-icon more_vert
+          v-card-text
+            h1.title Search for new keywords using a phrase, website or category
+            h2.subheading.mb-5 Enter one or more of the following
+            v-text-field(label='Your product or service', value='Grocery delivery', hint='For example, flowers or used cars', persistent-hint)
+            v-text-field(label='Your landing page', hint='www.example.com/page', persistent-hint)
+            v-select(label='Your product category', hint='Enter or select a product category', persistent-hint, :items='options', v-model='select')
+
+    v-layout(row)
+      v-flex(xs12, sm6, offset-sm3)
+        v-card
+          v-card-text
+            h1.title Personal Info
+            v-text-field.mt-5(label='First name', v-model='first', required)
+            v-text-field(label='Middle name', hint='example of helper text only on focus', v-model='middle')
+            v-text-field(label='Last name', hint='example of persistent helper text', persistent-hint, v-model='last', required)
+            small * required field
+
+    v-layout(row, wrap)
+      v-flex(xs12, md6, offset-md3)
+        v-card.grey.lighten-4.elevation-1
+          v-card-text
+            v-subheader Prefix for dollar currency
+            v-text-field(label='Amount', value='10.00', prefix='$')
+            v-subheader Suffix for weight
+            v-text-field(label='Weight', value='28.00', suffix='lbs')
+            v-subheader Suffix for email domain
+            v-text-field(label='Email address', value='example', suffix='@gmail.com')
+            v-subheader Suffix for time zone
+            v-text-field(label='Label Text', value='12:30:00', type='time', suffix='PST')
+
+    v-layout(row)
+      v-flex(xs12, sm6, offset-sm3)
+        v-text-field(name='input-2', label='Enter Focus')
+
+        v-card.grey.lighten-4.elevation-1
+          v-card-text
+            v-text-field#testing(name='input-1', label='Label Text')
+            v-text-field(name='input-2', label='Enter Focus')
+            v-text-field(name='input-3', label='Label Text', value='Input text')
+            v-text-field(name='input-3', label='Label Text', value='Input text', disabled)
+
     v-layout(row)
       v-flex(xs12, sm6, offset-sm3)
         v-card
@@ -20,8 +72,6 @@
                   v-list-tile-title(v-html='item.title')
                   v-list-tile-sub-title(v-html='item.subtitle')
 
-    br
-
     v-layout(row)
       v-flex(xs12, sm6, offset-sm3)
         v-card
@@ -41,8 +91,6 @@
                 v-list-tile-content
                   v-list-tile-title(v-html='item.title')
                   v-list-tile-sub-title(v-html='item.subtitle')
-
-    br
 
     v-layout(row)
       v-flex(xs12, sm6, offset-sm3)
@@ -65,17 +113,6 @@
                 v-list-tile-action-text {{ item.action }}
                 v-icon.grey--text.text--lighten-1 star_border
               v-divider(v-if='index + 1 < items.length')
-
-    br
-
-    v-text-field(name='input-2', label='Enter Focus')
-
-    v-card.grey.lighten-4.elevation-1
-      v-card-text
-        v-text-field#testing(name='input-1', label='Label Text')
-        v-text-field(name='input-2', label='Enter Focus')
-        v-text-field(name='input-3', label='Label Text', value='Input text')
-        v-text-field(name='input-3', label='Label Text', value='Input text', disabled)
 </template>
 
 <script>
@@ -85,6 +122,15 @@ export default {
   },
   data() {
     return {
+      first: '',
+      middle: '',
+      last: '',
+      select: [],
+      options: [
+        { value: 1, text: 'Option 1' },
+        { value: 2, text: 'Option 2' },
+        { value: 3, text: 'Option 3' }
+      ],
       messages: [
         { header: 'Today' },
         { avatar: '/static/doc-images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: "<span class='grey--text text--darken-2'>Ali Connors</span> — I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
@@ -126,4 +172,10 @@ export default {
   box-shadow 0 1px 2px rgba(0,0,0,.1)
   margin 5px
   /*height 100vh*/
+
+  .layout.row
+    margin-bottom 20px
+
+  .subheader
+    padding 0
 </style>

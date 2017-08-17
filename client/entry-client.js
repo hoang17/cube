@@ -63,7 +63,7 @@ if (window.__INITIAL_STATE__) {
 // and async components...
 router.onReady(() => {
 
-  console.log("@@@@ onReady")
+  // console.log("@@@@ onReady")
 
   // Add router hook for handling asyncData.
   // Doing it after initial route is resolved so that we don't double-fetch
