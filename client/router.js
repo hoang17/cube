@@ -3,7 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const Home = () => import('./components/Home')
 const Item = () => import('./components/Item')
 const Items = () => import('./components/Items')
 const Groups = () => import('./components/Groups')
@@ -11,6 +10,9 @@ const Likes = () => import('./components/Likes')
 const Pages = () => import('./components/Pages')
 const Feeds = () => import('./components/Feeds')
 const NewPost = () => import('./components/NewPost')
+const SearchGroup = () => import('./components/SearchGroup')
+
+const Canvas = () => import('./cubes/Canvas')
 
 export function createRouter () {
   let router = new Router({
@@ -18,9 +20,7 @@ export function createRouter () {
     saveScrollPosition: true,
     routes: [
       // { path: '/', redirect: 'groups' },
-      // { path: '/api', component: Hello },
-      // { path: '/contact', component: Hello },
-      { path: '/', name: 'home', component: Home },
+      { path: '/', name: 'canvas', component: Canvas },
       { path: '/groups', name: 'groups', component: Groups },
       { path: '/likes', name: 'likes', component: Likes },
       { path: '/pages', name: 'pages', component: Pages },

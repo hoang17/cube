@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    header.header
+    //-header.header
       nav.inner
         router-link(to='/') Search
         router-link(to='/groups') Groups
@@ -22,23 +22,28 @@ export default {
 
 <style lang="stylus">
 
-/*body
+body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
   background-color lighten(#eceef1, 30%)
   margin 0
   color #34495e
-  overflow-y scroll*/
+  overflow-y scroll
+  height 100vh
 
 /*h1,h2,h3,h4,h5,h6
   margin auto*/
 
 a
+  color #34495e
+  text-decoration none
+
   &:hover
   &:active
   &:focus
     text-decoration none
     color #34495e
+    
 .disabled
     cursor:default
 
@@ -73,7 +78,7 @@ a
       margin-right 0
 
 .view
-  max-width 800px
+  /*max-width 800px*/
   margin 0 auto
   position relative
 
