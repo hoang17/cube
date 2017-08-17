@@ -28,7 +28,7 @@ body
   background-color lighten(#eceef1, 30%)
   margin 0
   color #34495e
-  overflow-y scroll
+  /*overflow-y scroll*/
   height 100vh
 
 /*h1,h2,h3,h4,h5,h6
@@ -43,7 +43,7 @@ a
   &:focus
     text-decoration none
     color #34495e
-    
+
 .disabled
     cursor:default
 
