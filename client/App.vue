@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 /*body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -84,8 +84,8 @@ a
   opacity 0
 
 @media (max-width 600px)
-  body
-    padding-top 0
+  /*body
+    padding-top 0*/
 
   .navbar
     margin-bottom 10px
