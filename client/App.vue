@@ -6,7 +6,6 @@
         router-link(to='/groups') Groups
         router-link(to='/pages') Pages
         //-router-link(to='/likes') Likes
-        //-router-link(to='/feeds/1') Feeds
         router-link(to='/new') New Post
     transition(name='fade', mode='out-in')
       router-view.view

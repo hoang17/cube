@@ -8,7 +8,6 @@ const Items = () => import('./components/Items')
 const Groups = () => import('./components/Groups')
 const Likes = () => import('./components/Likes')
 const Pages = () => import('./components/Pages')
-const Feeds = () => import('./components/Feeds')
 const NewPost = () => import('./components/NewPost')
 const SearchGroup = () => import('./components/SearchGroup')
 
@@ -24,7 +23,6 @@ export function createRouter () {
       { path: '/groups', name: 'groups', component: Groups },
       { path: '/likes', name: 'likes', component: Likes },
       { path: '/pages', name: 'pages', component: Pages },
-      { path: '/feeds/:page(\\d+)?', name: 'feeds', component: Feeds },
       { path: '/i/:id', name: 'item', component: Item },
       { path: '/:type/:id/:page(\\d+)?', name: 'items', component: Items },
       { path: '/:type/:id/new', name: 'new', component: NewPost },

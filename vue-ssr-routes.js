@@ -135,12 +135,6 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/feeds/:page?', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Feeds'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
   app.get('/groups/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Groups'}, (err, template) => {
       createRenderer(req, res, template)
