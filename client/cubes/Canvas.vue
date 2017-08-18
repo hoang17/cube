@@ -3,6 +3,10 @@
 
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
+        txt Hello 🙌🏻
+
+    v-layout(row, wrap)
+      v-flex(xs12, md6, offset-md3)
         v-card
           v-toolbar.blue(dark)
             v-btn(icon, light)
@@ -116,9 +120,11 @@
 </template>
 
 <script>
+import Txt from './Text'
 
 export default {
   components: {
+    Txt
   },
   data() {
     return {

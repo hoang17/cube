@@ -7,8 +7,11 @@ import titleMixin from './util/title'
 import * as filters from './util/filters'
 import InfiniteLoading from './addons/InfiniteLoading'
 import Vuetify from 'vuetify'
+import ClickOutside from './directives/ClickOutside'
 
 Vue.use(Vuetify)
+
+Vue.directive('click-outside', ClickOutside)
 
 Vue.component('infinite-loading', InfiniteLoading)
 
