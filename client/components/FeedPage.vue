@@ -7,7 +7,7 @@
 
 <script>
 import FeedItem from './FeedItem'
-import Vuesible from '../addons/Vuesible'
+import Vuesible from '../mixins/Vuesible'
 
 export default {
   mixins: [Vuesible()],

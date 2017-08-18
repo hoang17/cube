@@ -19,7 +19,7 @@ import ContentPlaceholder from '../addons/ContentPlaceholder'
 
 // import ListNav from './ListNav'
 // import { throttle } from 'lodash'
-// import scrollTo from '../addons/Scroll'
+// import scrollTo from '../modules/ScrollTo'
 // import bluebird from 'bluebird'
 // const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Sticky from '../addons/Sticky'
+import Sticky from '../directives/Sticky'
 import { range, union, throttle } from 'lodash'
 
 export default {

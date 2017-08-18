@@ -14,7 +14,7 @@ import FeedPage from './FeedPage'
 import ListNav from './ListNav'
 import { throttle } from 'lodash'
 import bluebird from 'bluebird'
-import scrollTo from '../addons/Scroll'
+import scrollTo from '../modules/ScrollTo'
 const scroll = bluebird.promisify(scrollTo, { multiArgs: true })
 import ContentPlaceholder from '../addons/ContentPlaceholder'
 
