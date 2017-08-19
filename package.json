@@ -4,7 +4,7 @@
   "description": "A boilerplate for Node.js web applications",
   "engines": {
     "node": "^8.4.0",
-    "npm": "^5.0.0"
+    "npm": "^5.3.0"
   },
   "author": "Hoang Le <lehuyhoang117@gmail.com>",
   "license": "MIT",
