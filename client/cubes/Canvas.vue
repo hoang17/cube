@@ -3,7 +3,7 @@
 
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
-        txt Hello 🙌🏻
+        component(v-for='c in components', :is='c.type' :key='c.id') {{ c.content }}
 
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
@@ -120,14 +120,16 @@
 </template>
 
 <script>
-import Txt from './Text'
-
 export default {
   components: {
-    Txt
+    'txt': () => import('./Text')
   },
   data() {
     return {
+      components: [
+        { id: 'txt1', type:'txt', content: 'Hello 🙌🏻'},
+        { id: 'txt2', type:'txt', content: 'Hello 🙏🏻'},
+      ],
       first: '',
       middle: '',
       last: '',

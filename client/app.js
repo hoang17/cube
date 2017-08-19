@@ -15,6 +15,8 @@ Vue.directive('click-outside', ClickOutside)
 
 Vue.component('infinite-loading', InfiniteLoading)
 
+// Vue.component('Txt', () => import('./cubes/Text'))
+
 Vue.config.productionTip = false
 
 // mixin for handling title

@@ -23,6 +23,7 @@ export default {
 <style lang="stylus" scoped>
 .cube-wrap
   position relative
+  margin 10px auto
 
 .cube
   position relative
