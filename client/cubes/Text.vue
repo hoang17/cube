@@ -1,8 +1,7 @@
 <template lang="pug">
-  .cube-wrap
-    .cube(:class="{active: active}", @click="active=!active", v-click-outside="hide")
-      .text
-        slot
+  .cube(:class="['text', {active: active}]", @click="active=!active", v-click-outside="hide")
+    .cube-slot
+      slot
 </template>
 
 <script>
@@ -21,32 +20,32 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.cube-wrap
-  position relative
-  margin 10px auto
-
 .cube
   position relative
-  cursor pointer
+  margin 20px auto
   text-align center
-  padding 10px
-  user-select none
 
-  &:after
-    pointer-events none
-    content ''
-    display block
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
+  .cube-slot
+    position relative
+    cursor pointer
+    padding 10px
+    user-select none
 
-  &:hover
     &:after
-      border 1px dotted #03a9f4 !important
+      pointer-events none
+      content ''
+      display block
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
 
-  &.active
+    &:hover
+      &:after
+        border 1px dotted #03a9f4 !important
+
+  &.active > .cube-slot
     &:after
       border 2px solid #81d4fa !important
 

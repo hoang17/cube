@@ -1,12 +1,12 @@
 <template lang="pug">
   v-app.canvas
-
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
-        component(v-for='c in components', :is='c.type' :key='c.id') {{ c.content }}
 
-    v-layout(row, wrap)
-      v-flex(xs12, md6, offset-md3)
+        component(v-for='c in components', :is='c.type' :key='c.id', :style='c.style', :class='c.class') {{ c.content }}
+
+        .clearfix
+
         v-card
           v-toolbar.blue(dark)
             v-btn(icon, light)
@@ -22,8 +22,6 @@
             v-text-field(label='Your landing page', hint='www.example.com/page', persistent-hint)
             v-select(label='Your product category', hint='Enter or select a product category', persistent-hint, :items='options', v-model='select')
 
-    v-layout(row)
-      v-flex(xs12, sm6, offset-sm3)
         v-card
           v-card-text
             h1.title Personal Info
@@ -32,21 +30,17 @@
             v-text-field(label='Last name', hint='example of persistent helper text', persistent-hint, v-model='last', required)
             small * required field
 
-    v-layout(row, wrap)
-      v-flex(xs12, md6, offset-md3)
         v-card.grey.lighten-4.elevation-1
           v-card-text
-            v-subheader Prefix for dollar currency
+            label Prefix for dollar currency
             v-text-field(label='Amount', value='10.00', prefix='$')
-            v-subheader Suffix for weight
+            label Suffix for weight
             v-text-field(label='Weight', value='28.00', suffix='lbs')
-            v-subheader Suffix for email domain
+            label Suffix for email domain
             v-text-field(label='Email address', value='example', suffix='@gmail.com')
-            v-subheader Suffix for time zone
+            label Suffix for time zone
             v-text-field(label='Label Text', value='12:30:00', type='time', suffix='PST')
 
-    v-layout(row)
-      v-flex(xs12, sm6, offset-sm3)
         v-text-field(name='input-2', label='Enter Focus')
 
         v-card.grey.lighten-4.elevation-1
@@ -56,8 +50,6 @@
             v-text-field(name='input-3', label='Label Text', value='Input text')
             v-text-field(name='input-3', label='Label Text', value='Input text', disabled)
 
-    v-layout(row)
-      v-flex(xs12, sm6, offset-sm3)
         v-card
           v-toolbar.light-blue(dark)
             v-toolbar-side-icon
@@ -76,8 +68,6 @@
                   v-list-tile-title(v-html='item.title')
                   v-list-tile-sub-title(v-html='item.subtitle')
 
-    v-layout(row)
-      v-flex(xs12, sm6, offset-sm3)
         v-card
           v-toolbar(dark)
             v-toolbar-side-icon
@@ -96,8 +86,6 @@
                   v-list-tile-title(v-html='item.title')
                   v-list-tile-sub-title(v-html='item.subtitle')
 
-    v-layout(row)
-      v-flex(xs12, sm6, offset-sm3)
         v-card
           v-toolbar.white--text.light-blue(dark)
             v-toolbar-side-icon
@@ -127,8 +115,8 @@ export default {
   data() {
     return {
       components: [
-        { id: 'txt1', type:'txt', content: 'Hello 🙌🏻'},
-        { id: 'txt2', type:'txt', content: 'Hello 🙏🏻'},
+        { id: 'txt1', type:'txt', content: 'Hello 🙌🏻', 'class': 'light', style: { color: 'blue', display: 'inline-block', width: '300px' }},
+        { id: 'txt2', type:'txt', content: 'Hello 🙏🏻', 'class': 'dark', style: { color: 'red', display: 'inline-block' }},
       ],
       first: '',
       middle: '',
@@ -181,9 +169,6 @@ export default {
   margin 5px
   /*height 100vh*/
 
-  .layout.row
-    margin-bottom 20px
-
-  .subheader
-    padding 0
+  .card
+    margin 20px auto
 </style>
