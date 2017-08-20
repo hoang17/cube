@@ -17,15 +17,15 @@ router.route('/cubes')
     let data = await cubes.find()
     res.json(data)
   })
-  .post(function(req, res) {
+  .post(async function(req, res) {
     let cube = req.body
     cube.active = false
     if (cube._id){
       cubes.update({'_id': cube._id }, cube)
-      res.json({ message: 'Cube updated' });
+      res.json({ message: 'Cube updated', _id: cube._id })
     } else {
-      cubes.insert(cube)
-      res.json({ message: 'Cube created' });
+      cube = await cubes.insert(cube)
+      res.json({ message: 'Cube created', _id: cube._id })
     }
   })
 

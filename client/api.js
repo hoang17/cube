@@ -140,7 +140,6 @@ export async function postStatus(token, id, message){
 export async function saveCube(cube){
   try {
     let res = await api.post('cubes', cube)
-    console.log(res.data)
     return res.data
   } catch (e) {
     console.error(e)
@@ -150,6 +149,7 @@ export async function saveCube(cube){
 export async function fetchCubes(){
   try {
     let res = await api.get('cubes')
+    console.log(res.data)
     return res.data
   } catch (e) {
     console.error(e)

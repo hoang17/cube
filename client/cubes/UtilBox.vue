@@ -29,8 +29,10 @@ export default {
     }
   },
   methods: {
-    save(){
-      saveCube(this.cube)
+    async save(){
+      let d = await saveCube(this.cube)
+      if (!this.cube._id)
+        this.cube._id = d._id
     }
     // hide () {
     //   this.active = false

@@ -1,5 +1,6 @@
 <template lang="pug">
   v-app.canvas
+    cb
     ub(v-if="activeCube", :cube='activeCube')
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
@@ -113,7 +114,8 @@ export default {
   },
   components: {
     'tx': () => import('./Text'),
-    'ub': () => import('./UtilBox')
+    'ub': () => import('./UtilBox'),
+    'cb': () => import('./CubesBox')
   },
   data() {
     return {
