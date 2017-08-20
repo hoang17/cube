@@ -2,22 +2,15 @@
   .cube.util-box.elevation-1(:class="{active: active}", @click="active=!active", v-click-outside="hide")
     v-card.elevation-0
       v-card-text
-        h1.title Cube Properties
-        v-text-field.mt-5(label='First name', v-model='first', required)
+        h1.title Properties
+        v-text-field(label='First name', hint='please enter your first name', persistent-hint, v-model='first', required)
         v-text-field(label='Middle name', hint='example of helper text only on focus', v-model='middle')
-        v-text-field(label='Last name', hint='example of persistent helper text', persistent-hint, v-model='last', required)
-        small * required field
-
-      v-card-text
-        label Prefix for dollar currency
+        v-text-field(label='Last name', hint='please enter your last name', persistent-hint, v-model='last', required)
         v-text-field(label='Amount', value='10.00', prefix='$')
-        label Suffix for weight
         v-text-field(label='Weight', value='28.00', suffix='lbs')
-        label Suffix for email domain
         v-text-field(label='Email address', value='example', suffix='@gmail.com')
-        label Suffix for time zone
         v-text-field(label='Label Text', value='12:30:00', type='time', suffix='PST')
-        v-text-field(name='input-2', label='Enter Focus')
+        small * required field
 </template>
 
 <script>
@@ -28,12 +21,6 @@ export default {
       first: '',
       middle: '',
       last: '',
-      select: [],
-      options: [
-        { value: 1, text: 'Option 1' },
-        { value: 2, text: 'Option 2' },
-        { value: 3, text: 'Option 3' }
-      ],
     }
   },
   methods: {
@@ -46,12 +33,12 @@ export default {
 
 <style lang="stylus" scoped>
 .cube
-  position fixed
+  position absolute
   z-index 3
   margin 0
   top 0
-  left 0
-  height 100%
+  right 0
+  bottom 0
   width 28em
   overflow-y auto
   transition .3s cubic-bezier(.25,.8,.25,1)

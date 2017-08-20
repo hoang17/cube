@@ -162,10 +162,11 @@ export default {
 
 <style lang="stylus" scoped>
 .canvas
+  padding-right 28em
   background-color #fff
-  border-radius 2px
-  padding 10px 15px
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
+  /*border-radius 2px*/
+  /*padding 10px 15px*/
+  /*box-shadow 0 1px 2px rgba(0,0,0,.1)*/
   /*margin 5px*/
   /*height 100vh*/
 
