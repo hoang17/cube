@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { get, fetch, fetchData, fetchItems, fetchItem, patch } from './api'
+import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchCubes } from './api'
 
 const _ = require('lodash')
 
@@ -47,6 +47,7 @@ async function fetchPage(token, id){
 export function createStore () {
   return new Vuex.Store({
     state: {
+      cubes: [],
       id: null,
       item: null,
       user: null,
@@ -62,6 +63,10 @@ export function createStore () {
       // gv: null
     },
     actions: {
+      async fetchCubes({ state, commit }) {
+        let cubes = await fetchCubes()
+        commit('setCubes', cubes)
+      },
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return
         let groups = await fetchGroups(state.token)
@@ -190,8 +195,8 @@ export function createStore () {
       },
     },
     mutations: {
-      setStar(state, {item, type}) {
-        patch(`${type}/${item.id}`, { star: item.star })
+      setCubes(state, cubes) {
+        state.cubes = cubes
       },
       setGroups(state, groups) {
         state.groups = groups
@@ -225,8 +230,14 @@ export function createStore () {
       setAccount(state, account) {
         state.account = account
       },
+      setStar(state, {item, type}) {
+        patch(`${type}/${item.id}`, { star: item.star })
+      },
     },
     getters: {
+      cubes(state) {
+        return state.cubes
+      },
       activeGroups(state) {
         return _.orderBy(state.groups.data, 'star', 'desc')
       },

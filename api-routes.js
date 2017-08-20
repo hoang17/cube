@@ -10,27 +10,24 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 const Feed = db.get('feeds_498287336961883')
 
-// const gv = db.get('group_ver')
+const cubes = db.get('cubes')
 
-
-async function findFeeds(query, options){
-  let feeds = await Feed.find(query, options)
-  let count = await Feed.count(query)
-  db.close()
-  return { feeds, count }
-}
-
-async function getFeeds(req, res) {
-  let query = req.query
-  let options = {
-    'limit': Number(query.limit),
-    'skip': Number(query.skip)
-    // 'sort': query.sort
-  }
-  log(options)
-  let data = await findFeeds({}, options)
-  res.json(data)
-}
+router.route('/cubes')
+  .get(async function(req, res) {
+    let data = await cubes.find()
+    res.json(data)
+  })
+  .post(function(req, res) {
+    let cube = req.body
+    cube.active = false
+    if (cube._id){
+      cubes.update({'_id': cube._id }, cube)
+      res.json({ message: 'Cube updated' });
+    } else {
+      cubes.insert(cube)
+      res.json({ message: 'Cube created' });
+    }
+  })
 
 router.route('/groups')
   .get(function(req, res) {
@@ -122,12 +119,24 @@ router.route('/pages')
 
 router.route('/feeds').get(getFeeds)
 
-// router.route('/gv')
-//   .get(function(req, res) {
-//     gv.find().then(function(data){
-//       let op = _.fromPairs(_.map(data, i => [i.group_id, i.ver]))
-//       res.json(op)
-//     })
-//   })
+async function findFeeds(query, options){
+  let feeds = await Feed.find(query, options)
+  let count = await Feed.count(query)
+  db.close()
+  return { feeds, count }
+}
+
+async function getFeeds(req, res) {
+  let query = req.query
+  let options = {
+    'limit': Number(query.limit),
+    'skip': Number(query.skip)
+    // 'sort': query.sort
+  }
+  log(options)
+  let data = await findFeeds({}, options)
+  res.json(data)
+}
+
 
 module.exports = router

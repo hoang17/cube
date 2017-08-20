@@ -1,10 +1,10 @@
 <template lang="pug">
   v-app.canvas
-    ub
+    ub(v-if="activeCube", :cube='activeCube')
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
 
-        component(v-for='c in components', :is='c.type' :key='c.id', :style='c.style', :class='c.class') {{ c.content }}
+        component(v-for="cube in cubes", :cube="cube", :is="cube.type", :key="cube.id", :class="cube.class", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
 
         v-card
           v-toolbar.blue(dark)
@@ -108,16 +108,16 @@
 
 <script>
 export default {
+  asyncData ({ store, route }) {
+    return store.dispatch('fetchCubes')
+  },
   components: {
     'tx': () => import('./Text'),
     'ub': () => import('./UtilBox')
   },
   data() {
     return {
-      components: [
-        { id: 'tx1', type:'tx', content: 'Hello 🙌🏻', 'class': 'light', style: { color: 'blue', display: 'inline-block', width: '300px' }},
-        { id: 'tx2', type:'tx', content: 'Hello 🙏🏻', 'class': 'dark', style: { color: 'red', display: 'inline-block' }},
-      ],
+      activeCube: null,
       first: '',
       middle: '',
       last: '',
@@ -152,9 +152,19 @@ export default {
     user(){
       return this.$store.state.user
     },
+    cubes(){
+      return this.$store.getters.cubes
+    }
   },
   methods: {
-    async post(){
+    selectCube(cube){
+      if (this.activeCube)
+        this.activeCube.active = false
+      this.activeCube = cube
+      this.activeCube.active = true
+    },
+    deselectCube(cube){
+      this.activeCube = null
     }
   }
 }

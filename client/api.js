@@ -135,3 +135,23 @@ export async function postStatus(token, id, message){
     console.error(e)
   }
 }
+
+
+export async function saveCube(cube){
+  try {
+    let res = await api.post('cubes', cube)
+    console.log(res.data)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function fetchCubes(){
+  try {
+    let res = await api.get('cubes')
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}

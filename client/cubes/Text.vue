@@ -1,19 +1,29 @@
 <template lang="pug">
-  .cube.text(:class="{active: active}", @click="active=!active", v-click-outside="hide")
-    .cube-slot
+  .cube.text(:class="{active: cube.active}", :style="cube.style")
+    .cube-slot(contenteditable, @input="input", @focus="focus", @blur="blur")
       slot
 </template>
 
 <script>
 export default {
+  props: ['cube','select','deselect'],
   data() {
     return {
-      active: false
+      content: this.cube.content
     }
   },
   methods: {
-    hide () {
-      this.active = false
+    focus(){
+      this.select(this.cube)
+      let style = window.getComputedStyle(this.$el)
+      // console.log(this.$el);
+      // console.log(style);
+    },
+    input:function(event){
+      this.content = event.target.innerText
+    },
+    blur(){
+      this.cube.content = this.content
     }
   },
 }
