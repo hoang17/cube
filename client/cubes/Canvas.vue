@@ -1,11 +1,10 @@
 <template lang="pug">
   v-app.canvas
+    ub
     v-layout(row, wrap)
       v-flex(xs12, md6, offset-md3)
 
         component(v-for='c in components', :is='c.type' :key='c.id', :style='c.style', :class='c.class') {{ c.content }}
-
-        .clearfix
 
         v-card
           v-toolbar.blue(dark)
@@ -110,13 +109,14 @@
 <script>
 export default {
   components: {
-    'txt': () => import('./Text')
+    'tx': () => import('./Text'),
+    'ub': () => import('./UtilBox')
   },
   data() {
     return {
       components: [
-        { id: 'txt1', type:'txt', content: 'Hello 🙌🏻', 'class': 'light', style: { color: 'blue', display: 'inline-block', width: '300px' }},
-        { id: 'txt2', type:'txt', content: 'Hello 🙏🏻', 'class': 'dark', style: { color: 'red', display: 'inline-block' }},
+        { id: 'tx1', type:'tx', content: 'Hello 🙌🏻', 'class': 'light', style: { color: 'blue', display: 'inline-block', width: '300px' }},
+        { id: 'tx2', type:'tx', content: 'Hello 🙏🏻', 'class': 'dark', style: { color: 'red', display: 'inline-block' }},
       ],
       first: '',
       middle: '',
@@ -166,7 +166,7 @@ export default {
   border-radius 2px
   padding 10px 15px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
-  margin 5px
+  /*margin 5px*/
   /*height 100vh*/
 
   .card

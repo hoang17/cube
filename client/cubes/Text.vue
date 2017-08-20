@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube(:class="['text', {active: active}]", @click="active=!active", v-click-outside="hide")
+  .cube.text(:class="{active: active}", @click="active=!active", v-click-outside="hide")
     .cube-slot
       slot
 </template>
@@ -22,14 +22,14 @@ export default {
 <style lang="stylus" scoped>
 .cube
   position relative
-  margin 20px auto
+  margin 10px auto
   text-align center
+  cursor pointer
+  user-select none
 
   .cube-slot
     position relative
-    cursor pointer
     padding 10px
-    user-select none
 
     &:after
       pointer-events none
