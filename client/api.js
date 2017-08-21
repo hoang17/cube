@@ -158,7 +158,6 @@ export async function removeCube(id){
 export async function fetchCubes(){
   try {
     let res = await api.get('cubes')
-    console.log(res.data)
     return res.data
   } catch (e) {
     console.error(e)

@@ -15,7 +15,33 @@ Vue.directive('click-outside', ClickOutside)
 
 Vue.component('infinite-loading', InfiniteLoading)
 
-// Vue.component('Txt', () => import('./cubes/Text'))
+// Vue.component('tx', () => import('./cubes/Text'))
+
+var com = [
+  { name: 'Text', tag: 'tx' },
+  { name: 'Button', tag: 'btn' },
+  { name: 'LinkText', tag: 'link-text' },
+  { name: 'Photo', tag: 'photo' },
+  { name: 'Icon', tag: 'icon' },
+  { name: 'DataTable', tag: 'data-table' },
+  { name: 'DataForm', tag: 'data-form' },
+  { name: 'Timer', tag: 'timer' },
+  { name: 'Container', tag: 'container' },
+  { name: 'VideoBox', tag: 'video-box' },
+  { name: 'AudioBox', tag: 'audio-box' },
+  { name: 'Card', tag: 'card' },
+  { name: 'List', tag: 'list' },
+  { name: 'Grid', tag: 'grid' },
+  { name: 'Popup', tag: 'popup' },
+  { name: 'Toolbar', tag: 'toolbar' },
+  { name: 'Gallery', tag: 'gallery' },
+  { name: 'ContactForm', tag: 'contact-form' },
+  { name: 'SocialShare', tag: 'social-share' },
+]
+
+for (let i in com) {
+  Vue.component(com[i].tag, () => import(`./cubes/${com[i].name}`))
+}
 
 Vue.config.productionTip = false
 

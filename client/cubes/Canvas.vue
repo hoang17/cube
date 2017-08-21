@@ -115,7 +115,7 @@ export default {
     return store.dispatch('fetchCubes')
   },
   components: {
-    'tx': () => import('./Text'),
+    // 'btn': () => import('./Button'),
     'ub': () => import('./UtilBox'),
     'cb': () => import('./CubesBox')
   },

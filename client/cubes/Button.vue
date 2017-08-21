@@ -1,7 +1,7 @@
 <template lang="pug">
-  .cube.text(:class="{active: cube.active}", :style="cube.style")
+  .cube.button(:class="{active: cube.active}")
     .slot(contenteditable, @input="input", @focus="focus", @blur="blur")
-      slot
+      v-btn(:style="cube.style") {{ cube.content }}
 </template>
 
 <script>
@@ -24,7 +24,6 @@ export default {
       console.log(this.content);
     },
     blur(){
-      console.log(this.content);
       this.cube.content = this.content
     }
   },
@@ -60,5 +59,4 @@ export default {
   &.active > .slot
     &:after
       border 2px solid #81d4fa !important
-
 </style>

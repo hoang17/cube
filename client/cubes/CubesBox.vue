@@ -25,7 +25,8 @@ export default {
       { icon: 'touch_app', text: 'Reminders' },
       { divider: true },
       { heading: 'Cubes' },
-      { icon: 'add', text: 'Create new text' },
+      { icon: 'add', text: 'Create new text', action:'text' },
+      { icon: 'add', text: 'Create new button', action: 'button' },
       { divider: true },
       { icon: 'archive', text: 'Archive' },
       { icon: 'delete', text: 'Trash' },
@@ -39,8 +40,10 @@ export default {
   }),
   methods: {
     onClick(item){
-      if (item.icon == 'add') {
-        this.$store.state.cubes.push({"_id":null,"type":"tx","content":"New text 🙌🏻","active":false,"class":"light","style":{"color":"blue","display":"block","width":"","fontFamily":"Roboto","fontSize":"1em","fontWeight":"400","lineHeight":"1","letterSpacing":"0rem","textTransform":"none","textAlign":"center"}})
+      if (item.action == 'text') {
+        this.$store.state.cubes.push({"_id":null,"type":"tx","content":"New text 🙌🏻","active":false,"class":"light","style":{"color":"","display":"block","width":"","fontFamily":"Roboto","fontSize":"1em","fontWeight":"400","lineHeight":"1","letterSpacing":"0rem","textTransform":"none","textAlign":"center"}})
+      } else if (item.action == 'button') {
+        this.$store.state.cubes.push({"_id":null,"type":"btn","content":"New Button 🙌🏻","active":false,"class":"light","style":{"color":"","display":"block","width":"","fontFamily":"Roboto","fontSize":"1em","fontWeight":"400","lineHeight":"1","letterSpacing":"0rem","textTransform":"none","textAlign":"center","margin":"auto"}})
       }
     }
   }
