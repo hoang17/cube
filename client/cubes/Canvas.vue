@@ -1,110 +1,112 @@
 <template lang="pug">
-  v-app.canvas
-    cb
-    ub(v-if="activeCube", :cube='activeCube')
-    v-layout(row, wrap)
-      v-flex(xs12, md6, offset-md3)
+  v-app
+    .control
+      cb
+      ub(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
+    .canvas
+      v-layout(row, wrap)
+        v-flex(xs12, md8, offset-md2)
 
-        component(v-for="cube in cubes", :cube="cube", :is="cube.type", :key="cube.id", :class="cube.class", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
+          component(v-for="cube in cubes", :cube="cube", :is="cube.type", :key="cube.id", :class="cube.class", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
 
-        v-card
-          v-toolbar.blue(dark)
-            v-btn(icon, light)
-              v-icon arrow_back
-            v-toolbar-title Application
-            v-spacer
-            v-btn(icon, light)
-              v-icon more_vert
-          v-card-text
-            h1.title Search for new keywords using a phrase, website or category
-            h2.subheading.mb-5 Enter one or more of the following
-            v-text-field(label='Your product or service', value='Grocery delivery', hint='For example, flowers or used cars', persistent-hint)
-            v-text-field(label='Your landing page', hint='www.example.com/page', persistent-hint)
-            v-select(label='Your product category', hint='Enter or select a product category', persistent-hint, :items='options', v-model='select')
+          v-card
+            v-toolbar.blue(dark)
+              v-btn(icon, light)
+                v-icon arrow_back
+              v-toolbar-title Application
+              v-spacer
+              v-btn(icon, light)
+                v-icon more_vert
+            v-card-text
+              h1.title Search for new keywords using a phrase, website or category
+              h2.subheading.mb-5 Enter one or more of the following
+              v-text-field(label='Your product or service', value='Grocery delivery', hint='For example, flowers or used cars', persistent-hint)
+              v-text-field(label='Your landing page', hint='www.example.com/page', persistent-hint)
+              v-select(label='Your product category', hint='Enter or select a product category', persistent-hint, :items='options', v-model='select')
 
-        v-card
-          v-card-text
-            h1.title Personal Info
-            v-text-field.mt-5(label='First name', v-model='first', required)
-            v-text-field(label='Middle name', hint='example of helper text only on focus', v-model='middle')
-            v-text-field(label='Last name', hint='example of persistent helper text', persistent-hint, v-model='last', required)
-            small * required field
+          v-card
+            v-card-text
+              h1.title Personal Info
+              v-text-field.mt-5(label='First name', v-model='first', required)
+              v-text-field(label='Middle name', hint='example of helper text only on focus', v-model='middle')
+              v-text-field(label='Last name', hint='example of persistent helper text', persistent-hint, v-model='last', required)
+              small * required field
 
-        v-card.grey.lighten-4.elevation-1
-          v-card-text
-            label Prefix for dollar currency
-            v-text-field(label='Amount', value='10.00', prefix='$')
-            label Suffix for weight
-            v-text-field(label='Weight', value='28.00', suffix='lbs')
-            label Suffix for email domain
-            v-text-field(label='Email address', value='example', suffix='@gmail.com')
-            label Suffix for time zone
-            v-text-field(label='Label Text', value='12:30:00', type='time', suffix='PST')
+          v-card.grey.lighten-4.elevation-1
+            v-card-text
+              label Prefix for dollar currency
+              v-text-field(label='Amount', value='10.00', prefix='$')
+              label Suffix for weight
+              v-text-field(label='Weight', value='28.00', suffix='lbs')
+              label Suffix for email domain
+              v-text-field(label='Email address', value='example', suffix='@gmail.com')
+              label Suffix for time zone
+              v-text-field(label='Label Text', value='12:30:00', type='time', suffix='PST')
 
-        v-text-field(name='input-2', label='Enter Focus')
+          v-text-field(name='input-2', label='Enter Focus')
 
-        v-card.grey.lighten-4.elevation-1
-          v-card-text
-            v-text-field#testing(name='input-1', label='Label Text')
-            v-text-field(name='input-2', label='Enter Focus')
-            v-text-field(name='input-3', label='Label Text', value='Input text')
-            v-text-field(name='input-3', label='Label Text', value='Input text', disabled)
+          v-card.grey.lighten-4.elevation-1
+            v-card-text
+              v-text-field#testing(name='input-1', label='Label Text')
+              v-text-field(name='input-2', label='Enter Focus')
+              v-text-field(name='input-3', label='Label Text', value='Input text')
+              v-text-field(name='input-3', label='Label Text', value='Input text', disabled)
 
-        v-card
-          v-toolbar.light-blue(dark)
-            v-toolbar-side-icon
-            v-toolbar-title Inbox
-            v-spacer
-            v-btn(icon)
-              v-icon search
-          v-list(three-line)
-            template(v-for='item in messages')
-              v-subheader(v-if='item.header', v-text='item.header')
-              v-divider(v-else-if='item.divider', v-bind:inset='item.inset')
-              v-list-tile(avatar, v-else, v-bind:key='item.title')
-                v-list-tile-avatar
-                  img(v-bind:src="'https://vuetifyjs.com' + item.avatar")
+          v-card
+            v-toolbar.light-blue(dark)
+              v-toolbar-side-icon
+              v-toolbar-title Inbox
+              v-spacer
+              v-btn(icon)
+                v-icon search
+            v-list(three-line)
+              template(v-for='item in messages')
+                v-subheader(v-if='item.header', v-text='item.header')
+                v-divider(v-else-if='item.divider', v-bind:inset='item.inset')
+                v-list-tile(avatar, v-else, v-bind:key='item.title')
+                  v-list-tile-avatar
+                    img(v-bind:src="'https://vuetifyjs.com' + item.avatar")
+                  v-list-tile-content
+                    v-list-tile-title(v-html='item.title')
+                    v-list-tile-sub-title(v-html='item.subtitle')
+
+          v-card
+            v-toolbar(dark)
+              v-toolbar-side-icon
+              v-toolbar-title Inbox
+              v-spacer
+              v-btn(icon)
+                v-icon search
+            v-list(two-line, dark)
+              template(v-for='item in items')
+                v-subheader(v-if='item.header', v-text='item.header')
+                v-divider(v-else-if='item.divider', v-bind:inset='item.inset')
+                v-list-tile(avatar, v-else, v-bind:key='item.title')
+                  v-list-tile-avatar
+                    img(v-bind:src="'https://vuetifyjs.com' + item.avatar")
+                  v-list-tile-content
+                    v-list-tile-title(v-html='item.title')
+                    v-list-tile-sub-title(v-html='item.subtitle')
+
+          v-card
+            v-toolbar.white--text.light-blue(dark)
+              v-toolbar-side-icon
+              v-toolbar-title Inbox
+              v-spacer
+              v-btn(icon)
+                v-icon search
+              v-btn(icon)
+                v-icon check_circle
+            v-list(two-line)
+              v-list-tile(avatar, ripple, v-for='(item, index) in items', v-bind:key='item.title')
                 v-list-tile-content
-                  v-list-tile-title(v-html='item.title')
-                  v-list-tile-sub-title(v-html='item.subtitle')
-
-        v-card
-          v-toolbar(dark)
-            v-toolbar-side-icon
-            v-toolbar-title Inbox
-            v-spacer
-            v-btn(icon)
-              v-icon search
-          v-list(two-line, dark)
-            template(v-for='item in items')
-              v-subheader(v-if='item.header', v-text='item.header')
-              v-divider(v-else-if='item.divider', v-bind:inset='item.inset')
-              v-list-tile(avatar, v-else, v-bind:key='item.title')
-                v-list-tile-avatar
-                  img(v-bind:src="'https://vuetifyjs.com' + item.avatar")
-                v-list-tile-content
-                  v-list-tile-title(v-html='item.title')
-                  v-list-tile-sub-title(v-html='item.subtitle')
-
-        v-card
-          v-toolbar.white--text.light-blue(dark)
-            v-toolbar-side-icon
-            v-toolbar-title Inbox
-            v-spacer
-            v-btn(icon)
-              v-icon search
-            v-btn(icon)
-              v-icon check_circle
-          v-list(two-line)
-            v-list-tile(avatar, ripple, v-for='(item, index) in items', v-bind:key='item.title')
-              v-list-tile-content
-                v-list-tile-title {{ item.title }}
-                v-list-tile-sub-title.grey--text.text--darken-4 {{ item.headline }}
-                v-list-tile-sub-title {{ item.subtitle }}
-              v-list-tile-action
-                v-list-tile-action-text {{ item.action }}
-                v-icon.grey--text.text--lighten-1 star_border
-              v-divider(v-if='index + 1 < items.length')
+                  v-list-tile-title {{ item.title }}
+                  v-list-tile-sub-title.grey--text.text--darken-4 {{ item.headline }}
+                  v-list-tile-sub-title {{ item.subtitle }}
+                v-list-tile-action
+                  v-list-tile-action-text {{ item.action }}
+                  v-icon.grey--text.text--lighten-1 star_border
+                v-divider(v-if='index + 1 < items.length')
 </template>
 
 <script>
@@ -165,23 +167,34 @@ export default {
       this.activeCube = cube
       this.activeCube.active = true
     },
-    deselectCube(cube){
+    deselectCube(){
       this.activeCube = null
-    }
+    },
+    removeCube(){
+      let index = this.$store.state.cubes.indexOf(this.activeCube)
+      this.$store.state.cubes.splice(index, 1)
+      this.activeCube = null
+    },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
 .canvas
-  padding-right 28em
   background-color #fff
-  /*border-radius 2px*/
-  /*padding 10px 15px*/
-  /*box-shadow 0 1px 2px rgba(0,0,0,.1)*/
-  /*margin 5px*/
-  /*height 100vh*/
+  margin-left 300px
+  margin-right 28em
 
   .card
     margin 20px auto
+
+.control
+  position fixed
+  pointer-events none
+  left 0
+  top 0
+  width 100%
+  height 100%
+  z-index 10000
+  outline 0
 </style>

@@ -146,6 +146,15 @@ export async function saveCube(cube){
   }
 }
 
+export async function removeCube(id){
+  try {
+    let res = await api.delete(`cubes/${id}`)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export async function fetchCubes(){
   try {
     let res = await api.get('cubes')

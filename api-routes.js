@@ -29,6 +29,12 @@ router.route('/cubes')
     }
   })
 
+router.route('/cubes/:id')
+  .delete(async function(req, res) {
+    let data = await cubes.remove({ _id: req.params.id })
+    res.json({ message: 'Cube deleted', _id: req.params.id })
+  })
+
 router.route('/groups')
   .get(function(req, res) {
     // Group.find().sort({ bookmark_order : 'asc'}).lean().exec(function(err, groups) {
@@ -117,7 +123,16 @@ router.route('/pages')
       })
     })
 
-router.route('/feeds').get(getFeeds)
+router.route('/feeds').get(async function(req, res) {
+  let query = req.query
+  let options = {
+    'limit': Number(query.limit),
+    'skip': Number(query.skip)
+    // 'sort': query.sort
+  }
+  let data = await findFeeds({}, options)
+  res.json(data)
+})
 
 async function findFeeds(query, options){
   let feeds = await Feed.find(query, options)
@@ -125,18 +140,5 @@ async function findFeeds(query, options){
   db.close()
   return { feeds, count }
 }
-
-async function getFeeds(req, res) {
-  let query = req.query
-  let options = {
-    'limit': Number(query.limit),
-    'skip': Number(query.skip)
-    // 'sort': query.sort
-  }
-  log(options)
-  let data = await findFeeds({}, options)
-  res.json(data)
-}
-
 
 module.exports = router
