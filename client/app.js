@@ -18,6 +18,7 @@ Vue.component('infinite-loading', InfiniteLoading)
 
 for (let i in cubes) {
   Vue.component(cubes[i].tag, () => import(`./cubes/${cubes[i].name}`))
+  Vue.component(cubes[i].tag+'-editor', () => import(`./editors/${cubes[i].name+'Editor'}`))
 }
 
 Vue.config.productionTip = false

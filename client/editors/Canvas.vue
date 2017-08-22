@@ -2,12 +2,12 @@
   v-app
     .control
       cb
-      ub(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
+      eb(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
     .canvas
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
 
-          component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :class="cube.class", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
+          component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
 
           v-card
             v-toolbar.blue(dark)
@@ -115,9 +115,8 @@ export default {
     return store.dispatch('fetchCubes')
   },
   components: {
-    // 'btn': () => import('./Button'),
-    'ub': () => import('./UtilBox'),
-    'cb': () => import('./CubesBox')
+    'cb': () => import('./CubesBox'),
+    'eb': () => import('./EditorBox'),
   },
   data() {
     return {
@@ -164,8 +163,8 @@ export default {
     selectCube(cube){
       if (this.activeCube)
         this.activeCube.active = false
+      cube.active = true
       this.activeCube = cube
-      this.activeCube.active = true
     },
     deselectCube(){
       this.activeCube = null

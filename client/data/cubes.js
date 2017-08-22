@@ -4,6 +4,7 @@ exports.tx = {
   defaultValue: {
     _id: null,
     type: 'tx',
+    name: 'Text',
     content: 'New text 🙌🏻',
     active: false,
     style: {
@@ -27,6 +28,7 @@ exports.btn = {
   defaultValue: {
     _id: null,
     type: 'btn',
+    name: 'Button',
     content: 'New Button 🙌🏻',
     active: false,
     style: {
@@ -51,6 +53,7 @@ exports.link = {
   defaultValue: {
     _id: null,
     type: 'c-link',
+    name: 'Link',
     content: 'New Link 🙌🏻',
     active: false,
     style: {

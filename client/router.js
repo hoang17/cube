@@ -11,7 +11,7 @@ const Pages = () => import('./components/Pages')
 const NewPost = () => import('./components/NewPost')
 const SearchGroup = () => import('./components/SearchGroup')
 
-const Canvas = () => import('./cubes/Canvas')
+const Canvas = () => import('./editors/Canvas')
 
 export function createRouter () {
   let router = new Router({
