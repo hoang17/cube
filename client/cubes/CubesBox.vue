@@ -42,7 +42,7 @@ export default {
   }),
   methods: {
     onClick(cube){
-      this.$store.state.cubes.push(_.clone(cube.defaultValue))
+      this.$store.state.cubes.push(_.cloneDeep(cube.defaultValue))
     }
   }
 }
