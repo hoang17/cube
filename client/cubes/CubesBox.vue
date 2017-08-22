@@ -1,5 +1,4 @@
 <template lang="pug">
-  //-v-card.grey.lighten-4(height='620px', style='z-index: 0')
   v-navigation-drawer.grey.lighten-4.pb-0(permanent, absolute, height='100%', light)
     v-list(dense)
       v-subheader Cubes
@@ -21,6 +20,7 @@
 
 <script>
 import cubes from '../data/cubes'
+import _ from 'lodash'
 
 export default {
   data: () => ({
@@ -42,7 +42,7 @@ export default {
   }),
   methods: {
     onClick(cube){
-      this.$store.state.cubes.push(cube.defaultValue)
+      this.$store.state.cubes.push(_.clone(cube.defaultValue))
     }
   }
 }

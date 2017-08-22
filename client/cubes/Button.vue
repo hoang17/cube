@@ -15,13 +15,12 @@ export default {
   methods: {
     focus(){
       this.select(this.cube)
-      let style = window.getComputedStyle(this.$el)
+      // let style = window.getComputedStyle(this.$el)
       // console.log(this.$el);
       // console.log(style);
     },
     input:function(event){
       this.content = event.target.innerText
-      console.log(this.content);
     },
     blur(){
       this.cube.content = this.content

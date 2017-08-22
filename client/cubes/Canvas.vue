@@ -7,7 +7,7 @@
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
 
-          component(v-for="cube in cubes", :cube="cube", :is="cube.type", :key="cube.id", :class="cube.class", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
+          component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :class="cube.class", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
 
           v-card
             v-toolbar.blue(dark)
