@@ -59,6 +59,7 @@ export default {
 
   &.active > .slot
     &:after
-      border 2px solid #81d4fa !important
+      border 1px dashed rgba(0,0,0,.5) !important
+      /*border 2px solid #81d4fa !important*/
 
 </style>

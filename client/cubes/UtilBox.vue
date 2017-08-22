@@ -9,8 +9,6 @@
           h1.title Properties
           //-v-text-field(label='Id', v-model='cube._id')
           v-text-field(label='Content', v-model='cube.content')
-          v-text-field(label='Display', v-model='cube.style.display')
-          v-text-field(label='Width', v-model='cube.style.width')
           v-text-field(label='Font', v-model='cube.style.fontFamily')
           v-text-field(label='Color', v-model='cube.style.color')
           v-text-field(label='Size', v-model='cube.style.fontSize')
@@ -78,29 +76,4 @@ export default {
   height 100%
   padding-bottom 20px
 
-  /*.cube-slot
-    position relative
-    cursor pointer
-    padding 10px
-
-    &:after
-      pointer-events none
-      content ''
-      display block
-      position absolute
-      top 0
-      left 0
-      width 100%
-      height 100%*/
-
-    /*&:hover
-      &:after
-        border 1px dotted #03a9f4 !important*/
-
-  /*&.active > .cube-slot
-    &:after
-      border 2px solid #81d4fa !important*/
-
-  /*.card
-    margin 20px auto*/
 </style>
