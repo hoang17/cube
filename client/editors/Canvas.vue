@@ -1,15 +1,14 @@
 <template lang="pug">
   v-app
     .control
+      tb(:cube='activeCube')
       cb
       eb(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
     .canvas
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
-
           component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
-
-          v-card
+          //-v-card
             v-toolbar.blue(dark)
               v-btn(icon, light)
                 v-icon arrow_back
@@ -24,7 +23,7 @@
               v-text-field(label='Your landing page', hint='www.example.com/page', persistent-hint)
               v-select(label='Your product category', hint='Enter or select a product category', persistent-hint, :items='options', v-model='select')
 
-          v-card
+          //-v-card
             v-card-text
               h1.title Personal Info
               v-text-field.mt-5(label='First name', v-model='first', required)
@@ -32,7 +31,7 @@
               v-text-field(label='Last name', hint='example of persistent helper text', persistent-hint, v-model='last', required)
               small * required field
 
-          v-card.grey.lighten-4.elevation-1
+          //-v-card.grey.lighten-4.elevation-1
             v-card-text
               label Prefix for dollar currency
               v-text-field(label='Amount', value='10.00', prefix='$')
@@ -43,16 +42,16 @@
               label Suffix for time zone
               v-text-field(label='Label Text', value='12:30:00', type='time', suffix='PST')
 
-          v-text-field(name='input-2', label='Enter Focus')
+          //-v-text-field(name='input-2', label='Enter Focus')
 
-          v-card.grey.lighten-4.elevation-1
+          //-v-card.grey.lighten-4.elevation-1
             v-card-text
               v-text-field#testing(name='input-1', label='Label Text')
               v-text-field(name='input-2', label='Enter Focus')
               v-text-field(name='input-3', label='Label Text', value='Input text')
               v-text-field(name='input-3', label='Label Text', value='Input text', disabled)
 
-          v-card
+          //-v-card
             v-toolbar.light-blue(dark)
               v-toolbar-side-icon
               v-toolbar-title Inbox
@@ -70,7 +69,7 @@
                     v-list-tile-title(v-html='item.title')
                     v-list-tile-sub-title(v-html='item.subtitle')
 
-          v-card
+          //-v-card
             v-toolbar(dark)
               v-toolbar-side-icon
               v-toolbar-title Inbox
@@ -88,7 +87,7 @@
                     v-list-tile-title(v-html='item.title')
                     v-list-tile-sub-title(v-html='item.subtitle')
 
-          v-card
+          //-v-card
             v-toolbar.white--text.light-blue(dark)
               v-toolbar-side-icon
               v-toolbar-title Inbox
@@ -117,6 +116,7 @@ export default {
   components: {
     'cb': () => import('./CubesBox'),
     'eb': () => import('./EditorBox'),
+    'tb': () => import('./ToolBar'),
   },
   data() {
     return {
@@ -183,6 +183,8 @@ export default {
   background-color #fff
   margin-left 300px
   margin-right 28em
+  margin-top 48px
+  height 100vh
 
   .card
     margin 20px auto

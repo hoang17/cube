@@ -9,7 +9,7 @@ export default {
   props: ['cube','select','deselect'],
   data() {
     return {
-      content: this.cube.content
+      // content: this.cube.content
     }
   },
   methods: {
@@ -20,10 +20,10 @@ export default {
       // console.log(style);
     },
     input:function(event){
-      this.content = event.target.innerText
+      // this.content = event.target.innerText
     },
     blur(){
-      this.cube.content = this.content
+      // this.cube.content = this.content
     }
   },
 }

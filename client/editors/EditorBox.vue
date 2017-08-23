@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.util-box.elevation-1
+  .cube.util-box.elevation-0
     .action
       v-btn(primary, dark, @click="done") Done
       v-btn(light, @click="remove") Remove
@@ -46,7 +46,8 @@ export default {
   pointer-events auto
   will-change transform
   user-select none
-  transition: .3s cubic-bezier(.25,.8,.25,1);
+  transition .3s cubic-bezier(.25,.8,.25,1);
+  border-left 1px solid rgba(0,0,0,0.12)
 
 .action
   position fixed
