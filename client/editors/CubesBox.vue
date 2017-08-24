@@ -8,7 +8,7 @@
         v-list-tile-content
           v-list-tile-title
             | Create new {{ cube.name }}
-      template(v-for='(item, i) in items')
+      //-template(v-for='(item, i) in items')
         v-divider.my-4(dark, v-if='item.divider', :key='i')
         v-list-tile(:key='i', v-else)
           v-list-tile-action
@@ -42,7 +42,7 @@ export default {
   }),
   methods: {
     onClick(cube){
-      this.$store.state.cubes.push(_.cloneDeep(cube.defaultValue))
+      this.$store.state.page.cubes.push(_.cloneDeep(cube.defaultValue))
     }
   }
 }

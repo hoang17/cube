@@ -1,52 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import _  from 'lodash'
 
 Vue.use(Vuex)
 
-import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchCubes } from './api'
-
-const _ = require('lodash')
-
-const getActiveItems =  function(page, itemsPerPage, items, start = 0){
-  page = Number(page) || 1
-  const end = page * itemsPerPage
-  return items.slice(start, end)
-}
-
-function chunk (a, size) {
-  let chunks = [], i = 0, p =0, l = a.length
-  while (i < l) {
-    p++
-    let c = a.slice(i, i += size)
-    chunks.push({ p, c })
-  }
-  return chunks
-}
-
-function groupVersions(groups){
-  return _.fromPairs(_.map(groups, i => [i.id, i.ver]))
-}
-
-async function fetchGroups(token){
-  return fetchData(token, 'v2.6/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
-}
-
-async function fetchLikes(token, type){
-  return fetchData(token, `v2.6/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
-}
-
-async function fetchGroup(token, id){
-  return fetch(token, `v2.6/${id}?fields=id,name,privacy,description,owner,icon,members.summary(true).limit(0)`)
-}
-
-async function fetchPage(token, id){
-  return fetch(token, `v2.6/${id}?fields=id,name,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
-}
+import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPage, savePage } from './api'
 
 export function createStore () {
   return new Vuex.Store({
     state: {
-      cubes: [],
+      website: null,
+      page: {
+        name: 'Home',
+        url: '/',
+        userId: null,
+        cubes: [],
+      },
+      // cubes: [],
       item: null,
       user: null,
       token: null,
@@ -60,9 +30,15 @@ export function createStore () {
       account: null,
     },
     actions: {
-      async fetchCubes({ state, commit }) {
-        let cubes = await fetchCubes()
-        commit('setCubes', cubes)
+      async savePage({ state, commit }) {
+        let data = await savePage(state.page)
+        state.page._id = data._id
+      },
+      async fetchPage({ state, commit }, { id }) {
+        if (id) {
+          let page = await fetchPage(id)
+          commit('setPage', page)
+        }
       },
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return
@@ -189,7 +165,10 @@ export function createStore () {
     },
     mutations: {
       setCubes(state, cubes) {
-        state.cubes = cubes
+        state.page.cubes = cubes
+      },
+      setPage(state, page) {
+        state.page = page
       },
       setGroups(state, groups) {
         state.groups = groups
@@ -229,7 +208,7 @@ export function createStore () {
     },
     getters: {
       cubes(state) {
-        return state.cubes
+        return state.page.cubes
       },
       activeGroups(state) {
         return _.orderBy(state.groups.data, 'star', 'desc')
@@ -249,3 +228,39 @@ export function createStore () {
     }
   })
 }
+
+// const getActiveItems =  function(page, itemsPerPage, items, start = 0){
+//   page = Number(page) || 1
+//   const end = page * itemsPerPage
+//   return items.slice(start, end)
+// }
+//
+// function chunk(a, size) {
+//   let chunks = [], i = 0, p =0, l = a.length
+//   while (i < l) {
+//     p++
+//     let c = a.slice(i, i += size)
+//     chunks.push({ p, c })
+//   }
+//   return chunks
+// }
+//
+// function groupVersions(groups){
+//   return _.fromPairs(_.map(groups, i => [i.id, i.ver]))
+// }
+
+async function fetchGroups(token){
+  return fetchData(token, 'v2.6/me/groups?fields=id,name,privacy,administrator,bookmark_order,unread,description,owner,icon,members.summary(true).limit(0)')
+}
+
+async function fetchLikes(token, type){
+  return fetchData(token, `v2.6/me/${type}?fields=id,name,access_token,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
+}
+
+async function fetchGroup(token, id){
+  return fetch(token, `v2.6/${id}?fields=id,name,privacy,description,owner,icon,members.summary(true).limit(0)`)
+}
+
+// async function fetchPage(token, id){
+//   return fetch(token, `v2.6/${id}?fields=id,name,category,about,description,phone,single_line_address,fan_count,rating_count,talking_about_count,picture{url}`)
+// }

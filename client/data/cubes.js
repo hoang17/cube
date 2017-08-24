@@ -2,7 +2,6 @@ exports.tx = {
   name: 'Text',
   tag: 'tx',
   defaultValue: {
-    _id: null,
     type: 'tx',
     name: 'Text',
     content: 'New text 🙌🏻',
@@ -26,7 +25,6 @@ exports.btn = {
   name: 'Button',
   tag: 'btn',
   defaultValue: {
-    _id: null,
     type: 'btn',
     name: 'Button',
     content: 'New Button 🙌🏻',
@@ -51,7 +49,6 @@ exports.link = {
   name: 'Link',
   tag: 'c-link',
   defaultValue: {
-    _id: null,
     type: 'c-link',
     name: 'Link',
     content: 'New Link 🙌🏻',
@@ -76,7 +73,6 @@ exports.photo = {
   name: 'Photo',
   tag: 'c-photo',
   defaultValue: {
-    _id: null,
     type: 'c-photo',
     content: 'New Photo 🙌🏻',
     active: false,

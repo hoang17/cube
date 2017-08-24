@@ -20,6 +20,7 @@ export function createRouter () {
     routes: [
       // { path: '/', redirect: 'groups' },
       { path: '/', name: 'canvas', component: Canvas },
+      { path: '/build/:id', name: 'build', component: Canvas },
       { path: '/groups', name: 'groups', component: Groups },
       { path: '/likes', name: 'likes', component: Likes },
       { path: '/pages', name: 'pages', component: Pages },

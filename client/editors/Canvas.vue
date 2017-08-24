@@ -114,7 +114,7 @@ import draggable from 'vuedraggable'
 
 export default {
   asyncData ({ store, route }) {
-    return store.dispatch('fetchCubes')
+    return store.dispatch('fetchPage', { id: route.params.id })
   },
   components: {
     draggable,
@@ -179,8 +179,8 @@ export default {
       this.activeCube = null
     },
     removeCube(){
-      let index = this.$store.state.cubes.indexOf(this.activeCube)
-      this.$store.state.cubes.splice(index, 1)
+      let index = this.cubes.indexOf(this.activeCube)
+      this.cubes.splice(index, 1)
       this.activeCube = null
     },
   }

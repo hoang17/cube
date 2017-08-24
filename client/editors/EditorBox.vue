@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { saveCube, removeCube } from '../api'
+// import { saveCube, removeCube } from '../api'
 
 export default {
   props: ['cube'],
@@ -19,15 +19,15 @@ export default {
   },
   methods: {
     async done(){
-      let d = await saveCube(this.cube)
-      if (!this.cube._id)
-        this.cube._id = d._id
+      // let d = await saveCube(this.cube)
+      // if (!this.cube._id)
+      //   this.cube._id = d._id
       this.cube.active = false
       this.$emit('done')
     },
     async remove(){
-      if (this.cube._id)
-        removeCube(this.cube._id)
+      // if (this.cube._id)
+      //   removeCube(this.cube._id)
       this.cube.active = false
       this.$emit('remove')
     }

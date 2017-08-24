@@ -1,6 +1,6 @@
 <template lang="pug">
   v-toolbar(dense)
-    v-btn(icon)
+    v-btn(icon, @click='save')
       v-icon save
     v-btn(icon)
       v-icon undo
@@ -23,6 +23,11 @@
 
 export default {
   props: ['cube'],
+  // computed: {
+  //   user(){
+  //     return this.$store.state.user
+  //   },
+  // },
   data() {
     return {
       toggle_exclusive: 2,
@@ -45,6 +50,11 @@ export default {
     }
   },
   methods: {
+    async save(){
+      this.$store.state.page.userId = this.$store.state.user._id
+      await this.$store.dispatch('savePage')
+      this.$router.push({ name: 'build', params: { id: this.$store.state.page._id }})
+    }
   },
 }
 </script>

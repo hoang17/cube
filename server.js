@@ -136,7 +136,7 @@ app.use((req, res, next) => {
 })
 
 // Setup SSR
-require('./vue-ssr-routes')(app)
+require('./ssr-routes')(app)
 
 // Setup API routes
 const apiRoutes = require('./api-routes.js')
