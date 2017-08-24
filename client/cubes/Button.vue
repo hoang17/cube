@@ -1,12 +1,12 @@
 <template lang="pug">
   .cube.button(:class="{active: cube.active}")
-    .slot(contenteditable, @input="input", @focus="focus", @blur="blur")
+    .slot(:class="{edit: edit}", @click="edit && focus()")
       v-btn(:style="cube.style") {{ cube.content }}
 </template>
 
 <script>
 export default {
-  props: ['cube','select','deselect'],
+  props: ['cube','select','deselect','edit'],
   data() {
     return {
       // content: this.cube.content
@@ -15,16 +15,7 @@ export default {
   methods: {
     focus(){
       this.select(this.cube)
-      // let style = window.getComputedStyle(this.$el)
-      // console.log(this.$el);
-      // console.log(style);
     },
-    input:function(event){
-      // this.content = event.target.innerText
-    },
-    blur(){
-      // this.cube.content = this.content
-    }
   },
 }
 </script>
@@ -34,13 +25,14 @@ export default {
   position relative
   margin 10px auto
   text-align center
-  cursor pointer
   user-select none
 
   .slot
     position relative
     padding 10px
 
+  .edit
+    cursor pointer
     &:after
       pointer-events none
       content ''
@@ -55,7 +47,7 @@ export default {
       &:after
         border 1px dotted #03a9f4 !important
 
-  &.active > .slot
+  &.active > .edit
     &:after
       border 1px dashed rgba(0,0,0,.5) !important
 </style>

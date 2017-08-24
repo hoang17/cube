@@ -1,6 +1,6 @@
 <template lang="pug">
   v-app
-    .canvas
+    .canvas(:style="page.style")
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
           component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false") {{ cube.content }}
@@ -18,6 +18,9 @@ export default {
   computed: {
     user(){
       return this.$store.state.user
+    },
+    page() {
+      return this.$store.state.page
     },
     cubes() {
       return this.$store.getters.cubes

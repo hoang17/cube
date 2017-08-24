@@ -1,8 +1,6 @@
 <template lang="pug">
   .cube.text(:class="{active: cube.active}", :style="cube.style")
-    .slot.edit(contenteditable, @input="input", @focus="focus", @blur="blur", v-if="edit")
-      slot
-    .slot(v-else)
+    .slot(:class="{edit: edit}", :contenteditable="edit", @focus="edit && focus()")
       slot
 </template>
 

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.util-box.elevation-0
+  .cube.editbox.elevation-0
     .action
       v-btn(primary, dark, @click="done") Done
       v-btn(light, @click="remove") Remove
@@ -35,8 +35,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.util-box
+<style lang="stylus">
+.editbox
   position absolute
   z-index 3
   top 0
@@ -48,6 +48,20 @@ export default {
   user-select none
   transition .3s cubic-bezier(.25,.8,.25,1);
   border-left 1px solid rgba(0,0,0,0.12)
+
+  .input-group__details
+    min-height auto
+
+  .input-group
+    padding 16px 0 4px 0
+    label
+      font-size 14px !important
+  .input-group--text-field
+    input
+      font-size 14px !important
+  .input-group--text-field
+    textarea
+      font-size 14px !important
 
 .action
   position fixed
