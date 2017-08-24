@@ -1,7 +1,6 @@
 <template lang="pug">
-  .cube.button(:class="{active: cube.active}")
-    .slot(:class="{edit: edit}", @click="edit && focus()")
-      v-btn(:style="cube.style") {{ cube.content }}
+  .cube.button(:edit="edit", :active="cube.active", @click="edit && focus()")
+    v-btn(:style="cube.style") {{ cube.content }}
 </template>
 
 <script>
@@ -22,32 +21,7 @@ export default {
 
 <style lang="stylus" scoped>
 .cube
-  position relative
   margin 10px auto
-  text-align center
-  user-select none
-
-  .slot
-    position relative
-    padding 10px
-
-  .edit
-    cursor pointer
-    &:after
-      pointer-events none
-      content ''
-      display block
-      position absolute
-      top 0
-      left 0
-      width 100%
-      height 100%
-
-    &:hover
-      &:after
-        border 1px dotted #03a9f4 !important
-
-  &.active > .edit
-    &:after
-      border 1px dashed rgba(0,0,0,.5) !important
+  padding 10px
+  display inline-block
 </style>
