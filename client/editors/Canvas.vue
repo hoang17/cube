@@ -7,7 +7,8 @@
     .canvas
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
-          component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
+          draggable(v-model='cubes', @start='drag=true', @end='drag=false')
+            component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
           //-v-card
             v-toolbar.blue(dark)
               v-btn(icon, light)
@@ -109,11 +110,14 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+
 export default {
   asyncData ({ store, route }) {
     return store.dispatch('fetchCubes')
   },
   components: {
+    draggable,
     'cb': () => import('./CubesBox'),
     'eb': () => import('./EditorBox'),
     'tb': () => import('./ToolBar'),
@@ -155,9 +159,14 @@ export default {
     user(){
       return this.$store.state.user
     },
-    cubes(){
-      return this.$store.getters.cubes
-    }
+    cubes: {
+      get() {
+        return this.$store.getters.cubes
+      },
+      set(cubes) {
+        this.$store.commit('setCubes', cubes)
+      }
+    },
   },
   methods: {
     selectCube(cube){
@@ -183,7 +192,7 @@ export default {
   background-color #fff
   margin-left 300px
   margin-right 28em
-  margin-top 48px
+  padding-top 48px
   height 100vh
 
   .card
