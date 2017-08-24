@@ -16,6 +16,8 @@ Vue.directive('click-outside', ClickOutside)
 
 Vue.component('infinite-loading', InfiniteLoading)
 
+Vue.component('pg-editor', () => import('./editors/PageEditor'))
+
 for (let i in cubes) {
   Vue.component(cubes[i].tag, () => import(`./cubes/${cubes[i].name}`))
   Vue.component(cubes[i].tag+'-editor', () => import(`./editors/${cubes[i].name+'Editor'}`))

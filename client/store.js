@@ -9,11 +9,25 @@ import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPage, savePag
 export function createStore () {
   return new Vuex.Store({
     state: {
-      website: null,
+      sites: null,
       page: {
-        name: 'Home',
+        name: 'Page',
         url: '/',
         userId: null,
+        content: 'New Page 🙌🏻',
+        active: false,
+        style: {
+          color: '',
+          display: 'block',
+          width: '',
+          fontFamily: 'Roboto',
+          fontSize: '1em',
+          fontWeight: '400',
+          lineHeight: '1',
+          letterSpacing: '0rem',
+          textTransform: 'none',
+          textAlign: 'center'
+        },
         cubes: [],
       },
       // cubes: [],

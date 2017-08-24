@@ -1,3 +1,26 @@
+exports.na = {
+  name: 'Navigation',
+  tag: 'na',
+  defaultValue: {
+    type: 'na',
+    name: 'Navigation',
+    content: 'New navigation 🙌🏻',
+    active: false,
+    style: {
+      color: '',
+      display: 'block',
+      width: '',
+      fontFamily: 'Roboto',
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: 'none',
+      textAlign: 'center'
+    }
+  }
+}
+
 exports.tx = {
   name: 'Text',
   tag: 'tx',

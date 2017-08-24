@@ -1,8 +1,6 @@
 <template lang="pug">
-  .cube.text(:class="{active: cube.active}", :style="cube.style")
-    .slot.edit(contenteditable, @input="input", @focus="focus", @blur="blur", v-if="edit")
-      slot
-    .slot(v-else)
+  .cube.nav(:class="{active: cube.active}", :style="cube.style")
+    .slot(:class="{edit: edit}", @click="focus")
       slot
 </template>
 
@@ -17,16 +15,7 @@ export default {
   methods: {
     focus(){
       this.select(this.cube)
-      // let style = window.getComputedStyle(this.$el)
-      // console.log(this.$el);
-      // console.log(style);
     },
-    input:function(event){
-      // this.content = event.target.innerText
-    },
-    blur(){
-      // this.cube.content = this.content
-    }
   },
 }
 </script>

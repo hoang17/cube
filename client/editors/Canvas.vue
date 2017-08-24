@@ -4,11 +4,11 @@
       tb(:cube='activeCube')
       cb
       eb(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
-    .canvas
+    #canvas.canvas(@click="selectPage", :style="page.style")
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
           draggable(v-model='cubes', @start='drag=true', @end='drag=false')
-            component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
+            component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
           //-v-card
             v-toolbar.blue(dark)
               v-btn(icon, light)
@@ -159,6 +159,9 @@ export default {
     user(){
       return this.$store.state.user
     },
+    page() {
+      return this.$store.state.page
+    },
     cubes: {
       get() {
         return this.$store.getters.cubes
@@ -169,6 +172,14 @@ export default {
     },
   },
   methods: {
+    selectPage(e){
+      if (e.target.id == 'canvas'){
+        if (this.activeCube)
+          this.activeCube.active = false
+        this.$store.state.page.active = true
+        this.activeCube = this.$store.state.page
+      }
+    },
     selectCube(cube){
       if (this.activeCube)
         this.activeCube.active = false

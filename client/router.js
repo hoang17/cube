@@ -12,6 +12,7 @@ const NewPost = () => import('./components/NewPost')
 const SearchGroup = () => import('./components/SearchGroup')
 
 const Canvas = () => import('./editors/Canvas')
+const Page = () => import('./cubes/Page')
 
 export function createRouter () {
   let router = new Router({
@@ -21,6 +22,7 @@ export function createRouter () {
       // { path: '/', redirect: 'groups' },
       { path: '/', name: 'canvas', component: Canvas },
       { path: '/build/:id', name: 'build', component: Canvas },
+      { path: '/view/:id', name: 'view', component: Page },
       { path: '/groups', name: 'groups', component: Groups },
       { path: '/likes', name: 'likes', component: Likes },
       { path: '/pages', name: 'pages', component: Pages },

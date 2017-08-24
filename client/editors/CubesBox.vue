@@ -7,7 +7,7 @@
           v-icon add
         v-list-tile-content
           v-list-tile-title
-            | Create new {{ cube.name }}
+            | {{ cube.name }}
       //-template(v-for='(item, i) in items')
         v-divider.my-4(dark, v-if='item.divider', :key='i')
         v-list-tile(:key='i', v-else)

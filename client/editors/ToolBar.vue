@@ -17,17 +17,20 @@
       v-icon schedule
     //-v-btn(icon)
       v-icon search
+    a(:href="'/view/'+page._id", target='_blank', rel='noopener')
+      v-btn(icon)
+        v-icon visibility
 </template>
 
 <script>
 
 export default {
   props: ['cube'],
-  // computed: {
-  //   user(){
-  //     return this.$store.state.user
-  //   },
-  // },
+  computed: {
+    page(){
+      return this.$store.state.page
+    },
+  },
   data() {
     return {
       toggle_exclusive: 2,
