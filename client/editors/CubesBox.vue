@@ -60,6 +60,10 @@ export default {
   }),
   methods: {
     selectPage(page){
+      if (this.$store.state.activeCube){
+        this.$store.state.activeCube.active = false
+        this.$store.state.activeCube = null
+      }
       this.$router.push({ name: 'build', params: { id: page._id }})
     },
     addCube(cube){

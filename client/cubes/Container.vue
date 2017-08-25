@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.cube
+.container
   margin 10px auto
   padding 10px
 

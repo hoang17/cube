@@ -1,5 +1,7 @@
 <template lang="pug">
-  v-btn.cube.button(:edit="edit", :active="cube.active", :style="cube.style", @click="onClick") {{ cube.content }}
+  .cube.link(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()")
+    a(v-if="edit") {{ cube.content }}
+    router-link(v-else, :to="cube.url?cube.url:''") {{ cube.content }}
 </template>
 
 <script>
@@ -11,26 +13,19 @@ export default {
     }
   },
   methods: {
-    onClick(){
-      if (this.edit)
-        this.select(this.cube)
-      else if (this.cube.url) {
-        if (this.cube.url == 'back')
-          this.$router.go(-1)
-        else
-          this.$router.push({name: 'view', params: {id: this.cube.url} })
-      }
+    focus(){
+      this.select(this.cube)
     },
   },
 }
 </script>
 
 <style lang="stylus" scoped>
-.button
-  position relative
+.link
   margin 10px auto
   padding 10px
   display inline-block
+  position relative
 
   &[edit]
     cursor pointer
@@ -51,4 +46,5 @@ export default {
 
   &[active]:after
     border 1px dashed rgba(0,0,0,.5) !important
+
 </style>
