@@ -7,8 +7,8 @@
     #canvas.canvas(@click="selectPage", :style="page.style")
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
-          draggable(v-model='cubes', @start='drag=true', @end='drag=false')
-            component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube", :deselect="deselectCube") {{ cube.content }}
+          draggable(v-model='cubes', :options="{group:'cubes'}")
+            component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
           //-v-card
             v-toolbar.blue(dark)
               v-btn(icon, light)
@@ -215,11 +215,13 @@ export default {
     text-align center
     user-select none
     padding 10px
+    transition .3s cubic-bezier(.25,.8,.25,1)
 
     &[edit]
       cursor pointer
 
     &[edit]:after
+      transition .3s cubic-bezier(.25,.8,.25,1)
       pointer-events none
       content ''
       display block

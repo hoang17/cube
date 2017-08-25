@@ -1,6 +1,5 @@
 <template lang="pug">
-  .cube.navbar(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()")
-    slot
+  .cube.navbar(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()") {{ cube.content }}
 </template>
 
 <script>

@@ -1,6 +1,5 @@
 <template lang="pug">
-  .cube.text(:contenteditable="edit", :edit="edit", :active="cube.active", :style="cube.style", @focus="edit && focus()")
-    slot
+  .cube.text(:contenteditable="edit", :edit="edit", :active="cube.active", :style="cube.style", @focus="edit && focus()") {{ cube.content }}
 </template>
 
 <script>

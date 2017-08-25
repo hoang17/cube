@@ -1,10 +1,10 @@
-exports.na = {
+exports.navigation = {
   name: 'Navigation',
   tag: 'na',
   defaultValue: {
     type: 'na',
     name: 'Navigation',
-    content: 'New navigation 🙌🏻',
+    content: 'Navigation 🙌🏻',
     active: false,
     style: {
       color: '',
@@ -21,7 +21,31 @@ exports.na = {
   }
 }
 
-exports.tx = {
+exports.container = {
+  name: 'Container',
+  tag: 'container',
+  defaultValue: {
+    type: 'container',
+    name: 'Container',
+    content: 'Container 🙌🏻',
+    active: false,
+    cubes: [],
+    style: {
+      color: '',
+      display: 'block',
+      width: '',
+      fontFamily: 'Roboto',
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: 'none',
+      textAlign: 'center'
+    }
+  }
+}
+
+exports.text = {
   name: 'Text',
   tag: 'tx',
   defaultValue: {
@@ -44,13 +68,13 @@ exports.tx = {
   }
 }
 
-exports.btn = {
+exports.button = {
   name: 'Button',
   tag: 'btn',
   defaultValue: {
     type: 'btn',
     name: 'Button',
-    content: 'New Button 🙌🏻',
+    content: 'Button 🙌🏻',
     active: false,
     style: {
       color: '',
@@ -70,11 +94,11 @@ exports.btn = {
 
 exports.link = {
   name: 'Link',
-  tag: 'c-link',
+  tag: 'lnk',
   defaultValue: {
-    type: 'c-link',
+    type: 'lnk',
     name: 'Link',
-    content: 'New Link 🙌🏻',
+    content: 'Link 🙌🏻',
     active: false,
     style: {
       color: '',
@@ -94,10 +118,10 @@ exports.link = {
 
 exports.photo = {
   name: 'Photo',
-  tag: 'c-photo',
+  tag: 'ph',
   defaultValue: {
-    type: 'c-photo',
-    content: 'New Photo 🙌🏻',
+    type: 'ph',
+    content: 'Photo 🙌🏻',
     active: false,
     style: {
       color: '',

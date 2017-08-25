@@ -1,6 +1,5 @@
 <template lang="pug">
-  .cube.button(:edit="edit", :active="cube.active", @click="edit && focus()")
-    v-btn(:style="cube.style") {{ cube.content }}
+  v-btn.cube.button(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()") {{ cube.content }}
 </template>
 
 <script>
