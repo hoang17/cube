@@ -9,6 +9,7 @@ import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPages, fetchP
 export function createStore () {
   return new Vuex.Store({
     state: {
+      activeCube: null,
       sites: null,
       page: {
         name: 'Page',
@@ -50,6 +51,8 @@ export function createStore () {
       },
       async fetchPage({ state, commit }, { id }) {
         if (id) {
+          if (state.pages.length == 0)
+            state.pages = await fetchPages()
           let page = await fetchPage(id)
           commit('setPage', page)
         }

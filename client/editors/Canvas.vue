@@ -124,7 +124,6 @@ export default {
   },
   data() {
     return {
-      activeCube: null,
       first: '',
       middle: '',
       last: '',
@@ -155,7 +154,23 @@ export default {
       ],
     }
   },
+  watch: {
+    id(){
+      this.$store.dispatch('fetchPage', { id: this.id })
+    }
+  },
   computed: {
+    id(){
+      return this.$route.params.id
+    },
+    activeCube: {
+      get() {
+        return this.$store.state.activeCube
+      },
+      set(cube) {
+        this.$store.state.activeCube = cube
+      }
+    },
     user(){
       return this.$store.state.user
     },

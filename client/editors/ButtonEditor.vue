@@ -13,7 +13,9 @@
       v-text-field(label='Text Transform', v-model='cube.style.textTransform')
       v-text-field(label='Margin', v-model='cube.style.margin')
       v-text-field(label='Width', v-model='cube.style.width')
+      v-text-field(label='Height', v-model='cube.style.height')
       v-text-field(label='Display', v-model='cube.style.display')
+      v-text-field(label='URL', v-model='cube.url')
 </template>
 
 <script>

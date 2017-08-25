@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-btn.cube.button(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()") {{ cube.content }}
+  v-btn.cube.button(:edit="edit", :active="cube.active", :style="cube.style", @click="onClick") {{ cube.content }}
 </template>
 
 <script>
@@ -11,8 +11,15 @@ export default {
     }
   },
   methods: {
-    focus(){
-      this.select(this.cube)
+    onClick(){
+      if (this.edit)
+        this.select(this.cube)
+      else if (this.cube.url) {
+        if (this.cube.url == 'back')
+          window.history.back()
+        else
+          this.$router.push({name: 'view', params: {id: this.cube.url} })
+      }
     },
   },
 }

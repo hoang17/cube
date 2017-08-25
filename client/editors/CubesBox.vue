@@ -1,8 +1,18 @@
 <template lang="pug">
   v-navigation-drawer.grey.lighten-4.pb-0(permanent, absolute, height='100%', light)
     v-list(dense)
-      v-subheader Cubes
-      v-list-tile(:key='i', @click="onClick(cube)", v-for='(cube, i) in cubes')
+      //-v-subheader {{ page.content }}
+      v-divider.my-4(dark)
+
+      v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}")
+        v-list-tile-action
+          v-icon web_asset
+        v-list-tile-content
+          v-list-tile-title
+            | {{ p.content }}
+
+      v-divider.my-4(dark)
+      v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in cubes')
         v-list-tile-action
           v-icon add
         v-list-tile-content
@@ -23,6 +33,14 @@ import cubes from '../data/cubes'
 import _ from 'lodash'
 
 export default {
+  computed: {
+    page(){
+      return this.$store.state.page
+    },
+    pages(){
+      return this.$store.state.pages
+    },
+  },
   data: () => ({
     cubes: cubes,
     items: [
@@ -41,7 +59,10 @@ export default {
     ]
   }),
   methods: {
-    onClick(cube){
+    selectPage(page){
+      this.$router.push({ name: 'build', params: { id: page._id }})
+    },
+    addCube(cube){
       this.$store.state.page.cubes.push(_.cloneDeep(cube.defaultValue))
     }
   }
@@ -49,6 +70,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.active
+  .list__tile__title
+    font-weight bold
+
 v-card
   a
     text-decoration none

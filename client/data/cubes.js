@@ -76,10 +76,12 @@ exports.button = {
     name: 'Button',
     content: 'Button 🙌🏻',
     active: false,
+    url: null,
     style: {
       color: '',
       display: 'block',
       width: '',
+      height: '',
       fontFamily: '',
       fontSize: '1em',
       fontWeight: '400',

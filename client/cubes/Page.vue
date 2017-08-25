@@ -15,7 +15,15 @@ export default {
     return {
     }
   },
+  watch: {
+    id(){
+      this.$store.dispatch('fetchPage', { id: this.id })
+    }
+  },
   computed: {
+    id(){
+      return this.$route.params.id
+    },
     user(){
       return this.$store.state.user
     },
