@@ -4,7 +4,7 @@ import _  from 'lodash'
 
 Vue.use(Vuex)
 
-import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPage, savePage } from './api'
+import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPages, fetchPage, savePage } from './api'
 
 export function createStore () {
   return new Vuex.Store({
@@ -12,6 +12,7 @@ export function createStore () {
       sites: null,
       page: {
         name: 'Page',
+        type: 'pg',
         url: '/',
         userId: null,
         content: 'New Page 🙌🏻',
@@ -30,7 +31,6 @@ export function createStore () {
         },
         cubes: [],
       },
-      // cubes: [],
       item: null,
       user: null,
       token: null,
@@ -53,6 +53,9 @@ export function createStore () {
           let page = await fetchPage(id)
           commit('setPage', page)
         }
+      },
+      async fetchPages({ state, commit }) {
+        state.pages = await fetchPages()
       },
       async getGroups({ state, commit }) {
         if (state.groups.length > 0) return

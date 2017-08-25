@@ -154,6 +154,15 @@ export async function postStatus(token, id, message){
 //   }
 // }
 
+export async function fetchPages(){
+  try {
+    let res = await api.get('pages')
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export async function fetchPage(id){
   try {
     let res = await api.get(`pages/${id}`)
