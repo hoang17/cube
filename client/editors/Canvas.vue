@@ -191,8 +191,25 @@ export default {
     },
     removeCube(){
       let index = this.cubes.indexOf(this.activeCube)
-      this.cubes.splice(index, 1)
-      this.activeCube = null
+      if (index == -1){
+        for (let i in this.cubes){
+
+          if (!this.cubes[i].cubes)
+            continue
+
+          index = this.cubes[i].cubes.indexOf(this.activeCube)
+
+          if (index > -1) {
+            this.cubes[i].cubes.splice(index, 1)
+            this.activeCube = null
+            return
+          }
+
+        }
+      } else {
+        this.cubes.splice(index, 1)
+        this.activeCube = null
+      }
     },
   }
 }
