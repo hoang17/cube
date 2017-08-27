@@ -60,6 +60,9 @@ export function createStore () {
       },
       async savePage({ state, commit }) {
         let data = await savePage(state.page)
+        if (!state.page._id) {
+          newPage = _.cloneDeep(copy)
+        }
         state.page._id = data._id
       },
       async fetchPage({ state, commit }, { id }) {
@@ -68,6 +71,7 @@ export function createStore () {
 
         let page = id ? state.pages[id] : newPage
         commit('setPage', page)
+        state.activeCube = page
       },
       async fetchPages({ state, commit }) {
         state.pages = await fetchPages()

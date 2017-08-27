@@ -58,9 +58,9 @@ export default {
         this.$store.state.activeCube.active = false
         this.$store.state.activeCube = null
       }
-      this.$store.state.page.userId = this.$store.state.user._id
+      this.page.userId = this.$store.state.user._id
       await this.$store.dispatch('savePage')
-      this.$router.push({ name: 'build', params: { id: this.$store.state.page._id }})
+      this.$router.push({ name: 'build', params: { id: this.page._id }})
     }
   },
 }

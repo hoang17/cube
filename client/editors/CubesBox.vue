@@ -49,10 +49,6 @@ export default {
   }),
   methods: {
     selectPage(page){
-      if (this.$store.state.activeCube){
-        this.$store.state.activeCube.active = false
-        this.$store.state.activeCube = null
-      }
       if (!page)
         this.$router.push({ name: 'new-build' })
       else
