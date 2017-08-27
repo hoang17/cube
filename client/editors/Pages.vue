@@ -5,7 +5,7 @@
         v-layout(row wrap)
 
           v-flex(xs3, v-for="(page, i) in pages", :key="i")
-            v-card.secondary.ma-1(dark)
+            v-card.primary.ma-1(dark)
               v-card-text
                 .site
                   .headline

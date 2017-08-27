@@ -22,7 +22,8 @@ export function createRouter () {
     saveScrollPosition: true,
     routes: [
       // { path: '/', redirect: 'groups' },
-      { path: '/', name: 'pages', component: Pages },
+      { path: '/', name: 'home', component: Page },
+      { path: '/site', name: 'pages', component: Pages },
       { path: '/build/:id', name: 'build', component: Canvas },
       { path: '/view/:id', name: 'view', component: Page },
       { path: '/groups', name: 'groups', component: Groups },

@@ -7,11 +7,15 @@
 </template>
 
 <script>
+let home = '599e64ecb66d9f0c26a53523'
+
 export default {
   title(){
     return this.page.content
   },
   asyncData ({ store, route }) {
+    if (!route.meta.id)
+      route.params.id = home
     return store.dispatch('fetchPage', { id: route.params.id })
   },
   data() {
@@ -25,7 +29,7 @@ export default {
   },
   computed: {
     id(){
-      return this.$route.params.id
+      return this.$route.params.id ? this.$route.params.id : home
     },
     user(){
       return this.$store.state.user
