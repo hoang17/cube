@@ -73,7 +73,9 @@ exports.container = {
       lineHeight: '1',
       letterSpacing: '0rem',
       textTransform: 'none',
-      textAlign: 'center'
+      textAlign: 'center',
+      flex: '',
+      flexFlow: ''
     }
   }
 }
