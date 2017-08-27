@@ -2,30 +2,33 @@
   v-navigation-drawer.grey.lighten-4.pb-0(permanent, absolute, height='100%', light)
     v-list(dense)
       //-v-subheader {{ page.content }}
-      v-divider.my-4(dark)
+      //-v-divider.my-4(dark)
+
+      v-list-tile(@click="selectPage()", :class="{active: !page._id}")
+        v-list-tile-action
+          v-icon add
+        v-list-tile-content
+          v-list-tile-title Add New Page
 
       v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}")
         v-list-tile-action
           v-icon web_asset
         v-list-tile-content
-          v-list-tile-title
-            | {{ p.content }}
+          v-list-tile-title {{ p.content }}
 
       v-divider.my-4(dark)
       v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in cubes')
         v-list-tile-action
           v-icon add
         v-list-tile-content
-          v-list-tile-title
-            | {{ cube.name }}
+          v-list-tile-title {{ cube.name }}
       //-template(v-for='(item, i) in items')
         v-divider.my-4(dark, v-if='item.divider', :key='i')
         v-list-tile(:key='i', v-else)
           v-list-tile-action
             v-icon {{ item.icon }}
           v-list-tile-content
-            v-list-tile-title
-              | {{ item.text }}
+            v-list-tile-title {{ item.text }}
 </template>
 
 <script>
@@ -43,20 +46,6 @@ export default {
   },
   data: () => ({
     cubes: cubes,
-    items: [
-      { divider: true },
-      { icon: 'lightbulb_outline', text: 'Notes' },
-      { icon: 'touch_app', text: 'Reminders' },
-      { divider: true },
-      { icon: 'archive', text: 'Archive' },
-      { icon: 'delete', text: 'Trash' },
-      { divider: true },
-      { icon: 'settings', text: 'Settings' },
-      { icon: 'chat_bubble', text: 'Trash' },
-      { icon: 'help', text: 'Help' },
-      { icon: 'phonelink', text: 'App downloads' },
-      { icon: 'keyboard', text: 'Keyboard shortcuts' }
-    ]
   }),
   methods: {
     selectPage(page){
@@ -64,7 +53,10 @@ export default {
         this.$store.state.activeCube.active = false
         this.$store.state.activeCube = null
       }
-      this.$router.push({ name: 'build', params: { id: page._id }})
+      if (!page)
+        this.$router.push({ name: 'new-build' })
+      else
+        this.$router.push({ name: 'build', params: { id: page._id }})
     },
     addCube(cube){
       this.$store.state.page.cubes.push(_.cloneDeep(cube.defaultValue))

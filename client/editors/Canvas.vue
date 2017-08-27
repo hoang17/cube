@@ -178,6 +178,9 @@ export default {
     page() {
       return this.$store.state.page
     },
+    pages() {
+      return this.$store.state.pages
+    },
     cubes: {
       get() {
         return this.$store.getters.cubes
@@ -210,26 +213,35 @@ export default {
       this.activeCube = null
     },
     removeCube(){
+      // remove page
+      if (this.activeCube == this.page) {
+        this.$store.dispatch('deletePage', { id: this.page._id })
+        this.$delete(this.pages, this.page._id)
+        this.activeCube = null
+        this.$router.push({ name: 'new-build' })
+        return
+      }
+
+      // remove top level cube
       let index = this.cubes.indexOf(this.activeCube)
-      if (index == -1){
-        for (let i in this.cubes){
-
-          if (!this.cubes[i].cubes)
-            continue
-
-          index = this.cubes[i].cubes.indexOf(this.activeCube)
-
-          if (index > -1) {
-            this.cubes[i].cubes.splice(index, 1)
-            this.activeCube = null
-            return
-          }
-
-        }
-      } else {
+      if (index > -1){
         this.cubes.splice(index, 1)
         this.activeCube = null
+        return
       }
+
+      // find the child cube to remove
+      for (let i in this.cubes){
+        if (!this.cubes[i].cubes)
+          continue
+        index = this.cubes[i].cubes.indexOf(this.activeCube)
+        if (index > -1) {
+          this.cubes[i].cubes.splice(index, 1)
+          this.activeCube = null
+          return
+        }
+      }
+
     },
   }
 }

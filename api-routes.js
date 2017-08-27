@@ -36,6 +36,10 @@ router.route('/pages/:id')
     let page = await pages.findOne({_id: id})
     res.json(page)
   })
+  .delete(async function(req, res) {
+    let data = await pages.remove({ _id: req.params.id })
+    res.json({ message: 'Page deleted', _id: req.params.id })
+  })
 
 router.route('/cubes/:id')
   .delete(async function(req, res) {

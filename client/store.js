@@ -4,34 +4,36 @@ import _  from 'lodash'
 
 Vue.use(Vuex)
 
-import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPages, fetchPage, savePage } from './api'
+import { get, fetch, fetchData, fetchItems, fetchItem, patch, fetchPages, fetchPage, savePage, deletePage } from './api'
+
+let newPage = {
+  name: 'Page',
+  type: 'pg',
+  url: '/',
+  userId: null,
+  content: 'New Page 🙌🏻',
+  active: false,
+  style: {
+    color: '',
+    display: 'block',
+    width: '',
+    fontFamily: 'Roboto',
+    fontSize: '1em',
+    fontWeight: '400',
+    lineHeight: '1',
+    letterSpacing: '0rem',
+    textTransform: 'none',
+    textAlign: 'center'
+  },
+  cubes: [],
+}
 
 export function createStore () {
   return new Vuex.Store({
     state: {
       activeCube: null,
       sites: null,
-      page: {
-        name: 'Page',
-        type: 'pg',
-        url: '/',
-        userId: null,
-        content: 'New Page 🙌🏻',
-        active: false,
-        style: {
-          color: '',
-          display: 'block',
-          width: '',
-          fontFamily: 'Roboto',
-          fontSize: '1em',
-          fontWeight: '400',
-          lineHeight: '1',
-          letterSpacing: '0rem',
-          textTransform: 'none',
-          textAlign: 'center'
-        },
-        cubes: [],
-      },
+      page: newPage,
       item: null,
       user: null,
       token: null,
@@ -45,17 +47,19 @@ export function createStore () {
       account: null,
     },
     actions: {
+      async deletePage({ state, commit }, { id }) {
+        let date = await deletePage(id)
+      },
       async savePage({ state, commit }) {
         let data = await savePage(state.page)
         state.page._id = data._id
       },
       async fetchPage({ state, commit }, { id }) {
-        if (id) {
-          if (state.pages.length == 0)
-            state.pages = await fetchPages()
-          let page = await fetchPage(id)
-          commit('setPage', page)
-        }
+        if (state.pages.length == 0 || (id && !state.pages[id]))
+          state.pages = await fetchPages()
+
+        let page = id ? state.pages[id] : newPage
+        commit('setPage', page)
       },
       async fetchPages({ state, commit }) {
         state.pages = await fetchPages()

@@ -24,6 +24,7 @@ export function createRouter () {
       // { path: '/', redirect: 'groups' },
       { path: '/', name: 'home', component: Page },
       { path: '/site', name: 'pages', component: Pages },
+      { path: '/build', name: 'new-build', component: Canvas },
       { path: '/build/:id', name: 'build', component: Canvas },
       { path: '/view/:id', name: 'view', component: Page },
       { path: '/groups', name: 'groups', component: Groups },

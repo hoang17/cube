@@ -2,6 +2,7 @@ import axios from 'axios'
 const port = process.env.PORT || 3000
 const isClient = process.env.VUE_ENV === 'client'
 const host = isClient ? window.location.origin : `http://localhost:${port}`
+import _  from 'lodash'
 
 const api = axios.create({
   baseURL: `${host}/api/`,
@@ -157,7 +158,8 @@ export async function postStatus(token, id, message){
 export async function fetchPages(){
   try {
     let res = await api.get('pages')
-    return res.data
+    return _.fromPairs(_.map(res.data, i => [i._id, i]))
+    // return res.data
   } catch (e) {
     console.error(e)
   }
@@ -175,6 +177,15 @@ export async function fetchPage(id){
 export async function savePage(page){
   try {
     let res = await api.post('pages', page)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function deletePage(id){
+  try {
+    let res = await api.delete(`pages/${id}`)
     return res.data
   } catch (e) {
     console.error(e)
