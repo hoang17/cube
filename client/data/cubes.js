@@ -1,5 +1,29 @@
 import _ from 'lodash'
 
+exports.text = {
+  name: 'Text',
+  tag: 'tx',
+  defaultValue: {
+    type: 'tx',
+    name: 'Text',
+    content: 'New text 🙌🏻',
+    active: false,
+    style: {
+      color: null,
+      display: 'block',
+      width: null,
+      fontFamily: null,
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: null,
+      textAlign: 'center',
+      padding: null
+    }
+  }
+}
+
 exports.link = {
   name: 'Link',
   tag: 'lnk',
@@ -8,19 +32,82 @@ exports.link = {
     name: 'Link',
     content: 'Link 🙌🏻',
     active: false,
-    url: '',
+    url: null,
     style: {
-      color: '',
-      display: '',
-      width: '',
-      fontFamily: '',
+      color: null,
+      display: null,
+      width: null,
+      fontFamily: null,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: 'none',
+      textTransform: null,
       textAlign: 'center',
-      margin: 'auto'
+      margin: null,
+      border: null,
+      borderRadius: null,
+    }
+  }
+}
+
+exports.button = {
+  name: 'Button',
+  tag: 'btn',
+  defaultValue: {
+    type: 'btn',
+    name: 'Button',
+    content: 'Button 🙌🏻',
+    active: false,
+    url: null,
+    style: {
+      color: null,
+      display: null,
+      width: null,
+      height: null,
+      fontFamily: null,
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: null,
+      textAlign: 'center',
+      margin: null
+    }
+  }
+}
+
+exports.container = {
+  name: 'Container',
+  tag: 'container',
+  defaultValue: {
+    type: 'container',
+    name: 'Container',
+    content: 'Container 🙌🏻',
+    active: false,
+    cubes: [],
+    style: {
+      color: null,
+      display: 'block',
+      width: null,
+      height: null,
+      minWidth: null,
+      minHeight: null,
+      padding: null,
+      margin: null,
+      background: null,
+      border: null,
+      borderRadius: null,
+      order: null,
+      fontFamily: null,
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: null,
+      textAlign: 'center',
+      flex: null,
+      flexFlow: null
     }
   }
 }
@@ -40,92 +127,18 @@ exports.navigation = {
     active: false,
     cubes: [ link1, link2, link3 ],
     style: {
-      color: '',
+      color: null,
       display: 'block',
-      width: '',
-      fontFamily: '',
+      width: null,
+      fontFamily: null,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: 'none',
-      textAlign: 'center'
-    }
-  }
-}
-
-exports.container = {
-  name: 'Container',
-  tag: 'container',
-  defaultValue: {
-    type: 'container',
-    name: 'Container',
-    content: 'Container 🙌🏻',
-    active: false,
-    cubes: [],
-    style: {
-      color: '',
-      display: 'block',
-      width: '',
-      fontFamily: '',
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: 'none',
+      textTransform: null,
       textAlign: 'center',
-      flex: '',
-      flexFlow: ''
-    }
-  }
-}
-
-exports.text = {
-  name: 'Text',
-  tag: 'tx',
-  defaultValue: {
-    type: 'tx',
-    name: 'Text',
-    content: 'New text 🙌🏻',
-    active: false,
-    style: {
-      color: '',
-      display: 'block',
-      width: '',
-      fontFamily: '',
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: 'none',
-      textAlign: 'center',
-      padding: ''
-    }
-  }
-}
-
-exports.button = {
-  name: 'Button',
-  tag: 'btn',
-  defaultValue: {
-    type: 'btn',
-    name: 'Button',
-    content: 'Button 🙌🏻',
-    active: false,
-    url: '',
-    style: {
-      color: '',
-      display: '',
-      width: '',
-      height: '',
-      fontFamily: '',
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: 'none',
-      textAlign: 'center',
-      margin: 'auto'
+      border: null,
+      borderRadius: null,
     }
   }
 }
@@ -138,17 +151,17 @@ exports.photo = {
     content: 'Photo 🙌🏻',
     active: false,
     style: {
-      color: '',
+      color: null,
       display: 'block',
-      width: '',
-      fontFamily: '',
+      width: null,
+      fontFamily: null,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: 'none',
+      textTransform: null,
       textAlign: 'center',
-      margin: 'auto'
+      margin: null
     }
   }
 }
