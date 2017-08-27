@@ -216,7 +216,6 @@ export default {
       // remove page
       if (this.activeCube == this.page) {
         this.$store.dispatch('deletePage', { id: this.page._id })
-        this.$delete(this.pages, this.page._id)
         this.activeCube = null
         this.$router.push({ name: 'new-build' })
         return

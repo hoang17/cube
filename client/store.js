@@ -28,6 +28,8 @@ let newPage = {
   cubes: [],
 }
 
+let copy = _.cloneDeep(newPage)
+
 export function createStore () {
   return new Vuex.Store({
     state: {
@@ -48,7 +50,13 @@ export function createStore () {
     },
     actions: {
       async deletePage({ state, commit }, { id }) {
-        let date = await deletePage(id)
+        if (id) {
+          Vue.delete(state.pages, id)
+          let data = deletePage(id)
+        } else {
+          newPage = _.cloneDeep(copy)
+          commit('setPage', newPage)
+        }
       },
       async savePage({ state, commit }) {
         let data = await savePage(state.page)
