@@ -1,5 +1,5 @@
 <template lang="pug">
-  draggable.cube.container(:edit="edit", :active="cube.active", :style="cube.style", @click.native.stop="onClick", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}")
+  draggable.cube.container(:edit="edit", :active="cube.active", :style="cube.style", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
     //-component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit")
 </template>
@@ -17,9 +17,7 @@ export default {
     }
   },
   methods: {
-    onClick(e){
-      if (!this.edit)
-        return false
+    focus(){
       this.select(this.cube)
     },
   },

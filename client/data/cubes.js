@@ -93,6 +93,8 @@ exports.container = {
       height: null,
       minWidth: null,
       minHeight: null,
+      maxWidth: null,
+      maxHeight: null,
       padding: null,
       margin: null,
       background: null,

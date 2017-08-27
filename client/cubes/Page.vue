@@ -1,8 +1,8 @@
 <template lang="pug">
   .canvas(:style="page.style")
-    v-layout(row-sm, column, child-flex-sm)
+    component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
+    //-v-layout(row-sm, column, child-flex-sm)
       v-flex(xs12, md4, offset-md4)
-        component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
 </template>
 
 <script>
