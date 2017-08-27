@@ -33,6 +33,9 @@ body
 /*h1,h2,h3,h4,h5,h6
   margin auto*/
 
+p
+  margin 0
+
 a
   color #34495e
   text-decoration none

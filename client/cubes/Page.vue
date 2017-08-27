@@ -8,6 +8,9 @@
 
 <script>
 export default {
+  title(){
+    return this.page.content
+  },
   asyncData ({ store, route }) {
     return store.dispatch('fetchPage', { id: route.params.id })
   },

@@ -10,13 +10,12 @@
 import draggable from 'vuedraggable'
 
 export default {
-  props: ['cube','select','deselect','edit'],
+  props: ['cube','select','edit'],
   components: {
     draggable,
   },
   data() {
     return {
-      // content: this.cube.content
     }
   },
   methods: {

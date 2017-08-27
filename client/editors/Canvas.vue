@@ -110,14 +110,15 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import Draggable from 'vuedraggable'
 
 export default {
+  title: 'Build',
   asyncData ({ store, route }) {
     return store.dispatch('fetchPage', { id: route.params.id })
   },
   components: {
-    draggable,
+    Draggable,
     'cb': () => import('./CubesBox'),
     'eb': () => import('./EditorBox'),
     'tb': () => import('./ToolBar'),

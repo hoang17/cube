@@ -1,3 +1,35 @@
+import _ from 'lodash'
+
+exports.link = {
+  name: 'Link',
+  tag: 'lnk',
+  defaultValue: {
+    type: 'lnk',
+    name: 'Link',
+    content: 'Link 🙌🏻',
+    active: false,
+    url: '',
+    style: {
+      color: '',
+      display: '',
+      width: '',
+      fontFamily: '',
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: 'none',
+      textAlign: 'center',
+      margin: 'auto'
+    }
+  }
+}
+
+let link = exports.link.defaultValue
+let link1 = _.cloneDeep(link)
+let link2 = _.cloneDeep(link)
+let link3 = _.cloneDeep(link)
+
 exports.navigation = {
   name: 'Navigation',
   tag: 'na',
@@ -6,6 +38,7 @@ exports.navigation = {
     name: 'Navigation',
     content: 'Navigation 🙌🏻',
     active: false,
+    cubes: [ link1, link2, link3 ],
     style: {
       color: '',
       display: 'block',
@@ -16,7 +49,7 @@ exports.navigation = {
       lineHeight: '1',
       letterSpacing: '0rem',
       textTransform: 'none',
-      textAlign: 'center'
+      textAlign: 'right'
     }
   }
 }
@@ -63,7 +96,8 @@ exports.text = {
       lineHeight: '1',
       letterSpacing: '0rem',
       textTransform: 'none',
-      textAlign: 'center'
+      textAlign: 'center',
+      padding: ''
     }
   }
 }
@@ -82,31 +116,6 @@ exports.button = {
       display: '',
       width: '',
       height: '',
-      fontFamily: '',
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: 'none',
-      textAlign: 'center',
-      margin: 'auto'
-    }
-  }
-}
-
-exports.link = {
-  name: 'Link',
-  tag: 'lnk',
-  defaultValue: {
-    type: 'lnk',
-    name: 'Link',
-    content: 'Link 🙌🏻',
-    active: false,
-    url: '',
-    style: {
-      color: '',
-      display: '',
-      width: '',
       fontFamily: '',
       fontSize: '1em',
       fontWeight: '400',
