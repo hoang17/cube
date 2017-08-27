@@ -14,6 +14,7 @@
       v-text-field(label='Width', v-model='cube.style.width')
       v-text-field(label='Display', v-model='cube.style.display')
       v-text-field(label='Padding', v-model='cube.style.padding')
+      v-text-field(label='Margin', v-model='cube.style.margin')
 </template>
 
 <script>

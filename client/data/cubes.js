@@ -9,17 +9,18 @@ exports.text = {
     content: 'New text 🙌🏻',
     active: false,
     style: {
-      color: null,
+      color: undefined,
       display: 'block',
-      width: null,
-      fontFamily: null,
+      width: undefined,
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: null,
+      textTransform: undefined,
       textAlign: 'center',
-      padding: null
+      padding: undefined,
+      margin: undefined,
     }
   }
 }
@@ -32,21 +33,21 @@ exports.link = {
     name: 'Link',
     content: 'Link 🙌🏻',
     active: false,
-    url: null,
+    url: undefined,
     style: {
-      color: null,
-      display: null,
-      width: null,
-      fontFamily: null,
+      color: undefined,
+      display: undefined,
+      width: undefined,
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: null,
+      textTransform: undefined,
       textAlign: 'center',
-      margin: null,
-      border: null,
-      borderRadius: null,
+      margin: undefined,
+      border: undefined,
+      borderRadius: undefined,
     }
   }
 }
@@ -59,20 +60,20 @@ exports.button = {
     name: 'Button',
     content: 'Button 🙌🏻',
     active: false,
-    url: null,
+    url: undefined,
     style: {
-      color: null,
-      display: null,
-      width: null,
-      height: null,
-      fontFamily: null,
+      color: undefined,
+      display: undefined,
+      width: undefined,
+      height: undefined,
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: null,
+      textTransform: undefined,
       textAlign: 'center',
-      margin: null
+      margin: undefined
     }
   }
 }
@@ -87,29 +88,29 @@ exports.container = {
     active: false,
     cubes: [],
     style: {
-      color: null,
+      color: undefined,
       display: 'block',
-      width: null,
-      height: null,
-      minWidth: null,
-      minHeight: null,
-      maxWidth: null,
-      maxHeight: null,
-      padding: null,
-      margin: null,
-      background: null,
-      border: null,
-      borderRadius: null,
-      order: null,
-      fontFamily: null,
+      width: undefined,
+      height: undefined,
+      minWidth: undefined,
+      minHeight: undefined,
+      maxWidth: undefined,
+      maxHeight: undefined,
+      padding: undefined,
+      margin: undefined,
+      background: undefined,
+      border: undefined,
+      borderRadius: undefined,
+      order: undefined,
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: null,
+      textTransform: undefined,
       textAlign: 'center',
-      flex: null,
-      flexFlow: null
+      flex: undefined,
+      flexFlow: undefined
     }
   }
 }
@@ -129,18 +130,18 @@ exports.navigation = {
     active: false,
     cubes: [ link1, link2, link3 ],
     style: {
-      color: null,
+      color: undefined,
       display: 'block',
-      width: null,
-      fontFamily: null,
+      width: undefined,
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: null,
+      textTransform: undefined,
       textAlign: 'center',
-      border: null,
-      borderRadius: null,
+      border: undefined,
+      borderRadius: undefined,
     }
   }
 }
@@ -153,17 +154,17 @@ exports.photo = {
     content: 'Photo 🙌🏻',
     active: false,
     style: {
-      color: null,
+      color: undefined,
       display: 'block',
-      width: null,
-      fontFamily: null,
+      width: undefined,
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: null,
+      textTransform: undefined,
       textAlign: 'center',
-      margin: null
+      margin: undefined
     }
   }
 }
