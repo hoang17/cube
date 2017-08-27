@@ -1,10 +1,10 @@
 <template lang="pug">
-  v-app
+  .main
     .control
       tb(:cube='activeCube')
       cb
       eb(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
-    #canvas.canvas(@click="selectPage", :style="page.style")
+    #canvas.canvas(@click.stop="selectPage", :style="page.style")
       v-layout(row, wrap)
         v-flex(xs12, md8, offset-md2)
           draggable(v-model='cubes', :options="{group:'cubes'}")
@@ -189,12 +189,16 @@ export default {
   },
   methods: {
     selectPage(e){
-      if (e.target.id == 'canvas'){
-        if (this.activeCube)
-          this.activeCube.active = false
-        this.$store.state.page.active = true
-        this.activeCube = this.$store.state.page
-      }
+      if (this.activeCube)
+        this.activeCube.active = false
+      this.$store.state.page.active = true
+      this.activeCube = this.$store.state.page
+      // if (e.target.id == 'canvas'){
+      //   if (this.activeCube)
+      //     this.activeCube.active = false
+      //   this.$store.state.page.active = true
+      //   this.activeCube = this.$store.state.page
+      // }
     },
     selectCube(cube){
       if (this.activeCube)

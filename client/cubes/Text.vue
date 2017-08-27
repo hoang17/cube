@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()")
+  .cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.stop="edit && focus()")
     vue-markdown(:source='cube.content')
 </template>
 

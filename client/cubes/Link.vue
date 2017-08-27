@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.link(:edit="edit", :active="cube.active", :style="cube.style", @click="edit && focus()")
+  .cube.link(:edit="edit", :active="cube.active", :style="cube.style", @click.stop="edit && focus()")
     a(v-if="edit") {{ cube.content }}
     router-link(v-else, :to="cube.url?cube.url:''") {{ cube.content }}
 </template>

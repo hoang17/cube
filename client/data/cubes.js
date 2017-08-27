@@ -49,7 +49,7 @@ exports.navigation = {
       lineHeight: '1',
       letterSpacing: '0rem',
       textTransform: 'none',
-      textAlign: 'right'
+      textAlign: 'center'
     }
   }
 }

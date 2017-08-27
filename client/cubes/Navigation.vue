@@ -1,6 +1,6 @@
 <template lang="pug">
-  .cube.container(:edit="edit", :active="cube.active", :style="cube.style", @click="onClick")
-    draggable.inner(v-model='cube.cubes', :options="{group:'cubes'}", v-if="edit")
+  .cube.container(:edit="edit", :active="cube.active", :style="cube.style", @click.stop="onClick")
+    draggable.inner(v-model='cube.cubes', :options="{group:'cubes'}", v-if="edit", :content="cube.content")
       component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
     .inner(v-else)
       component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit")
@@ -22,8 +22,7 @@ export default {
     onClick(e){
       if (!this.edit)
         return false
-      if (e.target == this.$el || e.target.parentNode == this.$el)
-        this.select(this.cube)
+      this.select(this.cube)
     },
   },
 }
@@ -39,7 +38,7 @@ export default {
 
   &[edit]
     .inner:empty:before
-      content 'Navigation'
+      content attr(content)
       display block
       position absolute
       top calc(50% - 0.5rem)

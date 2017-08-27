@@ -1,9 +1,8 @@
 <template lang="pug">
-  v-app
-    .canvas(:style="page.style")
-      v-layout(row, wrap)
-        v-flex(xs12, md8, offset-md2)
-          component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
+  .canvas(:style="page.style")
+    v-layout(row-sm, column, child-flex-sm)
+      v-flex(xs12, md4, offset-md4)
+        component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
 </template>
 
 <script>
@@ -48,10 +47,7 @@ export default {
 
 <style lang="stylus" scoped>
 .canvas
-  background-color #fff
-  margin-left 20%
-  margin-right 20%
-  height 100vh
+  /*background-color #fff*/
 
   .cube
     position relative
