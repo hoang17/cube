@@ -13,7 +13,7 @@ export default {
     return this.page.content
   },
   asyncData ({ store, route }) {
-    if (!route.meta.id)
+    if (!route.params.id && !route.meta.id)
       route.params.id = home
     return store.dispatch('fetchPage', { id: route.params.id })
   },
@@ -55,5 +55,10 @@ export default {
     text-align center
     padding 10px
     transition .3s cubic-bezier(.25,.8,.25,1)
+
+@media (max-width: 1024px)
+  .container
+    display block !important
+    /*flex-direction column !important*/
 
 </style>
