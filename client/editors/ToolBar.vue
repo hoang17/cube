@@ -6,7 +6,10 @@
       v-icon undo
     v-btn(icon)
       v-icon redo
-    .text-format(v-if="cube")
+    a(:href="'/view/'+page._id", target='_blank', rel='noopener')
+      v-btn(icon)
+        v-icon visibility
+    //-.text-format(v-if="cube")
       v-btn-toggle(v-bind:items='toggle_options', v-model='toggle_exclusive')
       v-btn-toggle(v-bind:items='toggle_options_multiple', multiple, v-model='toggle_multiple')
     //-v-btn(icon)
@@ -17,9 +20,6 @@
       v-icon schedule
     //-v-btn(icon)
       v-icon search
-    a(:href="'/view/'+page._id", target='_blank', rel='noopener')
-      v-btn(icon)
-        v-icon visibility
 </template>
 
 <script>
