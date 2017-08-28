@@ -4,7 +4,7 @@
       v-btn(primary, dark, @click="done") Done
       v-btn(light, @click="remove") Remove
     .list
-      component(:cube="cube", :is="cube.type + '-editor'")
+      component(:cube="cube", :is="cube.type + '-pane'")
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template lang="pug">
   .main
     .control
-      tb(:cube='activeCube')
-      cb
-      eb(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
+      toolbar(:cube='activeCube')
+      navbar
+      propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style", v-model='cubes', :options="{group:'cubes'}")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
       //-v-layout(row, wrap)
@@ -118,9 +118,9 @@ export default {
   },
   components: {
     Draggable,
-    'cb': () => import('./CubesBox'),
-    'eb': () => import('./EditorBox'),
-    'tb': () => import('./ToolBar'),
+    'navbar': () => import('./NavBar'),
+    'propbar': () => import('./PropBar'),
+    'toolbar': () => import('./ToolBar'),
   },
   data() {
     return {

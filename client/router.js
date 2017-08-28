@@ -4,7 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 // const Sites = () => import('./components/Sites')
-const Pages = () => import('./components/Pages')
+const Pages = () => import('./views/Pages')
 const Canvas = () => import('./components/Canvas')
 const Page = () => import('./cubes/Page')
 

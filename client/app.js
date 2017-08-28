@@ -16,11 +16,11 @@ Vue.directive('click-outside', ClickOutside)
 
 Vue.component('infinite-loading', InfiniteLoading)
 
-Vue.component('pg-editor', () => import('./editors/PageEditor'))
+Vue.component('pg-pane', () => import('./panes/PagePane'))
 
 for (let i in cubes) {
   Vue.component(cubes[i].tag, () => import(`./cubes/${cubes[i].name}`))
-  Vue.component(cubes[i].tag+'-editor', () => import(`./editors/${cubes[i].name+'Editor'}`))
+  Vue.component(cubes[i].tag+'-pane', () => import(`./panes/${cubes[i].name+'Pane'}`))
 }
 
 Vue.config.productionTip = false
