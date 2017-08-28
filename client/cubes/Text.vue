@@ -1,18 +1,28 @@
 <template lang="pug">
-  vue-markdown.cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.native.stop="edit && focus()", :source='cube.content')
+  .cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.stop="edit && focus()", v-html="markdown")
+  //-vue-simple-markdown.cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.native.stop="edit && focus()", :source="cube.content")
+  //-vue-markdown.cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
 <script>
-import VueMarkdown from 'vue-markdown'
+// import VueMarkdown from 'vue-markdown'
+
+// import Vue from 'vue'
+// import VueSimpleMarkdown from 'vue-simple-markdown'
+// import 'vue-simple-markdown/dist/vue-simple-markdown.css'
+// Vue.use(VueSimpleMarkdown)
+
+import marked from 'marked'
+
 
 export default {
   props: ['cube','select','deselect','edit'],
   components: {
-    VueMarkdown
+    // VueMarkdown
   },
-  data() {
-    return {
-      // content: this.cube.content
+  computed: {
+    markdown: function () {
+      return marked(this.cube.content, { sanitize: true })
     }
   },
   methods: {
