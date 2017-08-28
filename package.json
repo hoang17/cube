@@ -88,7 +88,6 @@
     "vue-router": "^2.7.0",
     "vue-select": "sagalbot/vue-select",
     "vue-server-renderer": "^2.4.2",
-    "vue-simple-markdown": "^1.0.4",
     "vue-textarea-autosize": "^1.0.3",
     "vuedraggable": "^2.14.1",
     "vuetify": "^0.14.11",
