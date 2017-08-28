@@ -1,7 +1,7 @@
 <template lang="pug">
   v-card.elevation-0
     v-card-text
-      h1.title Properties
+      h1.title {{ cube.name }}
       textarea-autosize(placeholder='Enter text...', v-model='cube.content', :min-height='30', :max-height='350')
       v-text-field(label='Font', v-model='cube.style.fontFamily')
       v-text-field(label='Color', v-model='cube.style.color')

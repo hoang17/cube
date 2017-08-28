@@ -1,7 +1,7 @@
 <template lang="pug">
   v-card.elevation-0
     v-card-text
-      h1.title Properties
+      h1.title {{ cube.name }}
       v-text-field(label='Content', v-model='cube.content')
       v-text-field(label='URL', v-model='cube.url')
       v-text-field(label='Font', v-model='cube.style.fontFamily')
