@@ -3,14 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const Item = () => import('./components/Item')
-const Items = () => import('./components/Items')
-const Groups = () => import('./components/Groups')
-const Likes = () => import('./components/Likes')
-// const Pages = () => import('./components/Pages')
-const NewPost = () => import('./components/NewPost')
-const SearchGroup = () => import('./components/SearchGroup')
-
 // const Sites = () => import('./editors/Sites')
 const Pages = () => import('./editors/Pages')
 const Canvas = () => import('./editors/Canvas')
@@ -27,13 +19,6 @@ export function createRouter () {
       { path: '/build', name: 'new-build', component: Canvas },
       { path: '/build/:id', name: 'build', component: Canvas },
       { path: '/view/:id', name: 'view', component: Page },
-      { path: '/groups', name: 'groups', component: Groups },
-      { path: '/likes', name: 'likes', component: Likes },
-      // { path: '/pages', name: 'pages', component: Pages },
-      { path: '/i/:id', name: 'item', component: Item },
-      { path: '/:type/:id/:page(\\d+)?', name: 'items', component: Items },
-      { path: '/:type/:id/new', name: 'new', component: NewPost },
-      { path: '/new', name: 'new-post', component: NewPost },
     ],
     // scrollBehavior (to, from, savedPosition) {
     //   if (savedPosition)

@@ -135,65 +135,6 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/groups', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Groups'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/likes', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Likes'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/pages', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Pages'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/groups/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Groups'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/likes/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Likes'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/pages/:id/:page?', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Pages'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/i/:id', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Item'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/pages/:id/new', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'New'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/groups/:id/new', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'New'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/likes/:id/new', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'New'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
 
   // Serve static assets
   const serve = (path, cache) => express.static(resolve(path), {
