@@ -3,9 +3,9 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// const Sites = () => import('./editors/Sites')
-const Pages = () => import('./editors/Pages')
-const Canvas = () => import('./editors/Canvas')
+// const Sites = () => import('./components/Sites')
+const Pages = () => import('./components/Pages')
+const Canvas = () => import('./components/Canvas')
 const Page = () => import('./cubes/Page')
 
 export function createRouter () {

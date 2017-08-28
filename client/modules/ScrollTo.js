@@ -1,5 +1,5 @@
 import BezierEasing from "bezier-easing";
-import _ from "../util/helpers";
+import _ from "./helpers";
 
 const easings = {
   ease: [0.25, 0.1, 0.25, 1.0],
