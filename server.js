@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-const logging = require('./logging')
+const logging = require('./modules/logging')
 const express = require('express')
 const compression = require('compression')
 const session = require('express-session')
@@ -136,10 +136,10 @@ app.use((req, res, next) => {
 })
 
 // Setup SSR
-require('./ssr-routes')(app)
+require('./modules/ssr-routes')(app)
 
 // Setup API routes
-const apiRoutes = require('./api-routes.js')
+const apiRoutes = require('./modules/api-routes.js')
 app.use('/api', apiRoutes)
 
 // Cache static assets in ./public

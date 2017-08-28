@@ -1,12 +1,4 @@
 <template lang="pug">
-  //-#app
-    header.header
-      nav.inner
-        router-link(to='/') Search
-        router-link(to='/groups') Groups
-        router-link(to='/pages') Pages
-        //-router-link(to='/likes') Likes
-        router-link(to='/new') New Post
   v-app
     transition(name='fade', mode='out-in')
       router-view.view
