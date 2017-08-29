@@ -154,25 +154,16 @@ export default {
       ],
     }
   },
-  watch: {
-    id(){
-      if (this.id != this.page._id)
-        this.$store.dispatch('fetchPage', { id: this.id })
-    },
-    page(to, from){
-      this.$router.push({ name: 'build', params: { id: to._id }})
-    }
-  },
   computed: {
     id(){
       return this.$route.params.id
     },
     activeCube: {
       get() {
-        return this.$store.state.activeCube
+        return this.$store.getters.activeCube
       },
       set(cube) {
-        this.$store.state.activeCube = cube
+        this.$store.commit('setActiveCube', cube)
       }
     },
     user(){
@@ -189,6 +180,21 @@ export default {
         this.$store.commit('setCubes', cubes)
       }
     },
+  },
+  watch: {
+    id(){
+      if (this.id != this.page._id) {
+        this.$store.dispatch('fetchPage', { id: this.id })
+        this.activeCube = this.$store.state.page
+      }
+    },
+    page(to, from){
+      this.$router.push({ name: 'build', params: { id: to._id }})
+      this.activeCube = this.$store.state.page
+    }
+  },
+  mounted() {
+    this.activeCube = this.$store.state.page = this.$store.getters.page
   },
   methods: {
     selectPage(){
@@ -272,7 +278,6 @@ export default {
 
     &[active]:after
       border 1px dashed rgba(0,0,0,.5) !important
-
 
 .control
   position fixed

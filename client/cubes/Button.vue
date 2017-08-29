@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     active(){
-      return this.$store.state.activeCube == this.cube
+      return this.$store.getters.activeCube == this.cube
     }
   },
   methods: {

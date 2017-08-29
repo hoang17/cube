@@ -39,10 +39,10 @@ export default {
     },
     activeCube: {
       get() {
-        return this.$store.state.activeCube
+        return this.$store.getters.activeCube
       },
       set(cube) {
-        this.$store.state.activeCube = cube
+        this.$store.commit('setActiveCube', cube)
       }
     }
   },

@@ -42,40 +42,29 @@ export function createStore () {
 
         let page = id ? state.pages[id] : newPage
         commit('setPage', page)
-        state.activeCube = page
       },
       async fetchPages({ state, commit }) {
         state.pages = await fetchPages()
       },
-      // log: function({ state, commit }, { pageState }) {
-      //   state.historyIndex++
-      //   state.history.splice(state.historyIndex)
-      //   state.history.push(_.cloneDeep(pageState))
-      // },
-      // undo: function({ state, commit }) {
-      //   state.historyIndex--
-      //   commit('setPage', state.history[state.historyIndex])
-      // },
-      // redo: function({ state, commit }) {
-      //   state.historyIndex += 1
-      //   commit('setPage', state.history[state.historyIndex])
-      // },
     },
     mutations: {
       setPage(state, page) {
         state.page = page
-      },
-      setPages(state, pages) {
-        state.pages = pages
+        if (page._id)
+          state.pages[state.page._id] = page
       },
       setCubes(state, cubes) {
         state.page.cubes = cubes
       },
+      setActiveCube(state, cube) {
+        state.activeCube = cube
+      },
     },
     getters: {
-      page: state => state.page,
+      activeCube: state => state.activeCube,
       pages: state => state.pages,
       cubes: state => state.page.cubes,
+      page: state => state.page._id ? state.pages[state.page._id] : newPage,
       pageState: state => () => state.page,
     }
   })
