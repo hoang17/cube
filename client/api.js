@@ -21,6 +21,35 @@ export async function patch(endpoint, params){
   return res.data
 }
 
+const page = {
+  _id: undefined,
+  name: 'Page',
+  type: 'pg',
+  url: '/',
+  userId: undefined,
+  content: 'New Page 🙌🏻',
+  active: false,
+  style: {
+    color: '',
+    display: 'block',
+    width: '',
+    fontFamily: 'Roboto',
+    fontSize: '1em',
+    fontWeight: '400',
+    lineHeight: '1',
+    letterSpacing: '0rem',
+    textTransform: 'none',
+    textAlign: 'center',
+    flex: undefined,
+    flexFlow: undefined
+  },
+  cubes: [],
+}
+
+export function initNewPage(){
+  return _.cloneDeep(page)
+}
+
 // export async function saveCube(cube){
 //   try {
 //     let res = await api.post('cubes', cube)

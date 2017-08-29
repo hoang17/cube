@@ -49,10 +49,8 @@ export default {
   }),
   methods: {
     selectPage(page){
-      if (!page)
-        this.$router.push({ name: 'new-build' })
-      else
-        this.$router.push({ name: 'build', params: { id: page._id }})
+      let id = page ? page._id : undefined
+      this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){
       this.$store.state.page.cubes.push(_.cloneDeep(cube.defaultValue))

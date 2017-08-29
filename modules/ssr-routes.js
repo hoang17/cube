@@ -117,13 +117,7 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/build', passportConfig.isAuthenticated, (req, res) => {
-    res.render('template', {title: 'Build'}, (err, template) => {
-      createRenderer(req, res, template)
-    })
-  })
-
-  app.get('/build/:id', passportConfig.isAuthenticated, (req, res) => {
+  app.get('/build/:id?', passportConfig.isAuthenticated, (req, res) => {
     res.render('template', {title: 'Build'}, (err, template) => {
       createRenderer(req, res, template)
     })

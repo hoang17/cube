@@ -4,33 +4,9 @@ import _  from 'lodash'
 
 Vue.use(Vuex)
 
-import { fetchPages, fetchPage, savePage, deletePage } from './api'
+import { initNewPage, fetchPages, fetchPage, savePage, deletePage } from './api'
 
-let newPage = {
-  name: 'Page',
-  type: 'pg',
-  url: '/',
-  userId: undefined,
-  content: 'New Page 🙌🏻',
-  active: false,
-  style: {
-    color: '',
-    display: 'block',
-    width: '',
-    fontFamily: 'Roboto',
-    fontSize: '1em',
-    fontWeight: '400',
-    lineHeight: '1',
-    letterSpacing: '0rem',
-    textTransform: 'none',
-    textAlign: 'center',
-    flex: undefined,
-    flexFlow: undefined
-  },
-  cubes: [],
-}
-
-let copy = _.cloneDeep(newPage)
+let newPage = initNewPage()
 
 export function createStore () {
   return new Vuex.Store({
@@ -49,16 +25,15 @@ export function createStore () {
           Vue.delete(state.pages, id)
           let data = deletePage(id)
         } else {
-          newPage = _.cloneDeep(copy)
           commit('setPage', newPage)
         }
       },
       async savePage({ state, commit }) {
         let data = await savePage(state.page)
         if (!state.page._id) {
-          newPage = _.cloneDeep(copy)
+          newPage = initNewPage()
         }
-        state.page._id = data._id
+        return data._id
       },
       async fetchPage({ state, commit }, { id }) {
         if (state.pages.length == 0 || (id && !state.pages[id]))

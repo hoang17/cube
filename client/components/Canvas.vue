@@ -156,7 +156,11 @@ export default {
   },
   watch: {
     id(){
-      this.$store.dispatch('fetchPage', { id: this.id })
+      if (this.id != this.page._id)
+        this.$store.dispatch('fetchPage', { id: this.id })
+    },
+    page(to, from){
+      this.$router.push({ name: 'build', params: { id: to._id }})
     }
   },
   computed: {
@@ -204,7 +208,7 @@ export default {
       if (this.activeCube == this.page) {
         this.$store.dispatch('deletePage', { id: this.page._id })
         this.activeCube = null
-        this.$router.push({ name: 'new-build' })
+        this.$router.push({ name: 'build' })
         return
       }
 

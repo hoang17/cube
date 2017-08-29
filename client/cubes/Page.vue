@@ -23,7 +23,8 @@ export default {
   },
   watch: {
     id(){
-      this.$store.dispatch('fetchPage', { id: this.id })
+      if (this.id != this.page._id)
+        this.$store.dispatch('fetchPage', { id: this.id })
     }
   },
   computed: {

@@ -102,8 +102,8 @@ export default {
     async save(){
       this.activeCube = undefined
       this.page.userId = this.$store.state.user._id
-      await this.$store.dispatch('savePage')
-      this.$router.push({ name: 'build', params: { id: this.page._id }})
+      let id = await this.$store.dispatch('savePage')
+      this.$router.push({ name: 'build', params: { id: id }})
     }
   },
   mounted () {
