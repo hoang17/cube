@@ -60,11 +60,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.active
-  .list__tile__title
-    font-weight bold
+.navigation-drawer
+  user-select none
 
-v-card
-  a
-    text-decoration none
+  .active
+    .list__tile__title
+      font-weight bold
+
+  v-card
+    a
+      text-decoration none
 </style>
