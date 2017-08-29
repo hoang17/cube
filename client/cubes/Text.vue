@@ -1,6 +1,6 @@
 <template lang="pug">
-  .cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.stop="edit && focus()", v-html="markdown")
-  //-vue-markdown.cube.text(:edit="edit", :active="cube.active", :style="cube.style", @click.native.stop="edit && focus()", :source='cube.content')
+  .cube.text(:edit="edit", :active="active", :style="cube.style", @click.stop="edit && focus()", v-html="markdown")
+  //-vue-markdown.cube.text(:edit="edit", :active="active", :style="cube.style", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
 <script>
@@ -14,7 +14,10 @@ export default {
     // VueMarkdown
   },
   computed: {
-    markdown: function () {
+    active(){
+      return this.$store.state.activeCube == this.cube
+    },
+    markdown() {
       return marked(this.cube.content, { sanitize: true })
     }
   },

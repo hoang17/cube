@@ -10,7 +10,7 @@ let newPage = {
   name: 'Page',
   type: 'pg',
   url: '/',
-  userId: null,
+  userId: undefined,
   content: 'New Page 🙌🏻',
   active: false,
   style: {
@@ -24,8 +24,8 @@ let newPage = {
     letterSpacing: '0rem',
     textTransform: 'none',
     textAlign: 'center',
-    flex: '',
-    flexFlow: ''
+    flex: undefined,
+    flexFlow: undefined
   },
   cubes: [],
 }
@@ -35,12 +35,13 @@ let copy = _.cloneDeep(newPage)
 export function createStore () {
   return new Vuex.Store({
     state: {
-      activeCube: null,
-      sites: null,
       page: newPage,
-      user: null,
-      token: null,
       pages: [],
+      activeCube: undefined,
+      user: undefined,
+      token: undefined,
+      // history: [],
+      // historyIndex: -1,
     },
     actions: {
       async deletePage({ state, commit }, { id }) {
@@ -70,22 +71,36 @@ export function createStore () {
       async fetchPages({ state, commit }) {
         state.pages = await fetchPages()
       },
+      // log: function({ state, commit }, { pageState }) {
+      //   state.historyIndex++
+      //   state.history.splice(state.historyIndex)
+      //   state.history.push(_.cloneDeep(pageState))
+      // },
+      // undo: function({ state, commit }) {
+      //   state.historyIndex--
+      //   commit('setPage', state.history[state.historyIndex])
+      // },
+      // redo: function({ state, commit }) {
+      //   state.historyIndex += 1
+      //   commit('setPage', state.history[state.historyIndex])
+      // },
     },
     mutations: {
-      setCubes(state, cubes) {
-        state.page.cubes = cubes
-      },
       setPage(state, page) {
         state.page = page
       },
       setPages(state, pages) {
         state.pages = pages
       },
+      setCubes(state, cubes) {
+        state.page.cubes = cubes
+      },
     },
     getters: {
-      cubes(state) {
-        return state.page.cubes
-      },
+      page: state => state.page,
+      pages: state => state.pages,
+      cubes: state => state.page.cubes,
+      pageState: state => () => state.page,
     }
   })
 }

@@ -1,5 +1,5 @@
 <template lang="pug">
-  a.cube.link(v-if="edit", :edit="edit", :active="cube.active", :style="cube.style", @click.stop="edit && focus()") {{ cube.content }}
+  a.cube.link(v-if="edit", :edit="edit", :active="active", :style="cube.style", @click.stop="edit && focus()") {{ cube.content }}
   router-link.cube.link(v-else, :style="cube.style", :to="cube.url?cube.url:''") {{ cube.content }}
 </template>
 
@@ -9,6 +9,11 @@ export default {
   data() {
     return {
       // content: this.cube.content
+    }
+  },
+  computed: {
+    active(){
+      return this.$store.state.activeCube == this.cube
     }
   },
   methods: {

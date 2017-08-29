@@ -7,7 +7,6 @@ exports.text = {
     type: 'tx',
     name: 'Text',
     content: 'New text 🙌🏻',
-    active: false,
     style: {
       color: undefined,
       display: 'block',
@@ -32,7 +31,6 @@ exports.link = {
     type: 'lnk',
     name: 'Link',
     content: 'Link 🙌🏻',
-    active: false,
     url: undefined,
     style: {
       color: undefined,
@@ -59,7 +57,6 @@ exports.button = {
     type: 'btn',
     name: 'Button',
     content: 'Button 🙌🏻',
-    active: false,
     url: undefined,
     style: {
       color: undefined,
@@ -85,7 +82,6 @@ exports.container = {
     type: 'container',
     name: 'Container',
     content: 'Container 🙌🏻',
-    active: false,
     cubes: [],
     style: {
       color: undefined,
@@ -127,7 +123,6 @@ exports.navigation = {
     type: 'na',
     name: 'Navigation',
     content: 'Navigation 🙌🏻',
-    active: false,
     cubes: [ link1, link2, link3 ],
     style: {
       color: undefined,
@@ -152,7 +147,6 @@ exports.photo = {
   defaultValue: {
     type: 'ph',
     content: 'Photo 🙌🏻',
-    active: false,
     style: {
       color: undefined,
       display: 'block',

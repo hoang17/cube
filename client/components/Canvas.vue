@@ -191,15 +191,9 @@ export default {
   },
   methods: {
     selectPage(){
-      if (this.activeCube)
-        this.activeCube.active = false
-      this.page.active = true
       this.activeCube = this.page
     },
     selectCube(cube){
-      if (this.activeCube)
-        this.activeCube.active = false
-      cube.active = true
       this.activeCube = cube
     },
     deselectCube(){

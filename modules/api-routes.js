@@ -47,7 +47,6 @@ router.route('/cubes')
   })
   .post(async function(req, res) {
     let cube = req.body
-    cube.active = false
     if (cube._id){
       cubes.update({'_id': cube._id }, cube)
       res.json({ message: 'Cube updated', _id: cube._id })

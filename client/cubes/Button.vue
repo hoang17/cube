@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-btn.cube.button(:edit="edit", :active="cube.active", :style="cube.style", @click.stop="onClick") {{ cube.content }}
+  v-btn.cube.button(:edit="edit", :active="active", :style="cube.style", @click.stop="onClick") {{ cube.content }}
 </template>
 
 <script>
@@ -8,6 +8,11 @@ export default {
   data() {
     return {
       // content: this.cube.content
+    }
+  },
+  computed: {
+    active(){
+      return this.$store.state.activeCube == this.cube
     }
   },
   methods: {
