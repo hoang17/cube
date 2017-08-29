@@ -11,11 +11,11 @@ let newPage = initNewPage()
 export function createStore () {
   return new Vuex.Store({
     state: {
-      page: newPage,
-      pages: [],
-      activeCube: undefined,
-      user: undefined,
-      token: undefined,
+      page: null,
+      pages: null,
+      activeCube: null,
+      user: null,
+      token: null,
       // history: [],
       // historyIndex: -1,
     },
@@ -25,6 +25,7 @@ export function createStore () {
           Vue.delete(state.pages, id)
           let data = deletePage(id)
         } else {
+          newPage = initNewPage()
           commit('setPage', newPage)
         }
       },
@@ -36,7 +37,7 @@ export function createStore () {
         return data._id
       },
       async fetchPage({ state, commit }, { id }) {
-        if (state.pages.length == 0 || (id && !state.pages[id]))
+        if (!state.pages || (id && !state.pages[id]))
           state.pages = await fetchPages()
 
         let page = id ? state.pages[id] : newPage

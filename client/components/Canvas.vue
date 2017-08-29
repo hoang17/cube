@@ -181,9 +181,6 @@ export default {
     page() {
       return this.$store.state.page
     },
-    pages() {
-      return this.$store.state.pages
-    },
     cubes: {
       get() {
         return this.$store.getters.cubes
@@ -205,7 +202,7 @@ export default {
     },
     removeCube(){
       // remove page
-      if (this.activeCube == this.page) {
+      if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
         this.$store.dispatch('deletePage', { id: this.page._id })
         this.activeCube = null
         this.$router.push({ name: 'build' })
