@@ -28,35 +28,40 @@ import _  from 'lodash'
 export default {
   props: ['cube'],
   computed: {
+    histories(){
+      return this.$store.state.histories
+    },
+    history(){
+      let id = this.page._id
+      if (!this.histories[id])
+        this.histories[id] = { index:-1, stack:[] }
+      return this.histories[id]
+    },
     page(){
       return this.$store.state.page
     },
-    canUndo() {
-      return this.historyIndex > 0
+    canUndo(){
+      return this.history.index > 0
     },
-    canRedo() {
-      return this.history.length - 1 > this.historyIndex
+    canRedo(){
+      let h = this.history
+      return h.stack.length - 1 > h.index
     },
-    activeCube: {
-      get() {
+    activeCube:{
+      get(){
         return this.$store.getters.activeCube
       },
-      set(cube) {
+      set(cube){
         this.$store.commit('setActiveCube', cube)
       }
     }
   },
   data() {
     return {
-      history: [],
-      historyIndex: -1,
       stopWatch: undefined,
       // toggle_exclusive: 2,
       // toggle_multiple: [],
       // toggle_options: [
-      //   // { icon: 'save', value: 0 },
-      //   // { icon: 'undo', value: 11 },
-      //   // { icon: 'redo', value: 22 },
       //   { icon: 'format_align_left', value: 1 },
       //   { icon: 'format_align_center', value: 2 },
       //   { icon: 'format_align_right', value: 3 },
@@ -72,16 +77,18 @@ export default {
   },
   methods: {
     snapshot(page) {
-      this.historyIndex++
-      this.history.splice(this.historyIndex)
-      this.history.push(_.cloneDeep(page))
+      let h = this.history
+      h.index++
+      h.stack.splice(h.index)
+      h.stack.push(_.cloneDeep(page))
     },
     undo() {
       if (this.canUndo) {
         this.stopWatch()
         this.activeCube = undefined
-        this.historyIndex--
-        this.$store.commit('setPage', _.cloneDeep(this.history[this.historyIndex]))
+        let h = this.history
+        h.index--
+        this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
         this.startWatch()
       }
     },
@@ -89,14 +96,16 @@ export default {
       if (this.canRedo) {
         this.stopWatch()
         this.activeCube = undefined
-        this.historyIndex++
-        this.$store.commit('setPage', _.cloneDeep(this.history[this.historyIndex]))
+        let h = this.history
+        h.index++
+        this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
         this.startWatch()
       }
     },
     startWatch(){
-      this.stopWatch = this.$store.watch(this.$store.getters.pageState, page => {
-        this.snapshot(page)
+      this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
+        if (page._id == old._id || this.history.index == -1)
+          this.snapshot(page)
       }, {deep: true})
     },
     async save(){
@@ -127,5 +136,4 @@ export default {
 
   .btn-toggle--selected
     box-shadow none
-
 </style>

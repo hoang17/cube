@@ -14,12 +14,13 @@ router.route('/pages')
   })
   .post(async function(req, res) {
     let page = req.body
-    if (page._id){
-      pages.update({'_id': page._id }, page)
-      res.json({ message: 'Page updated', _id: page._id })
-    } else {
+    if (page.new){
+      delete page.new
       page = await pages.insert(page)
       res.json({ message: 'Page created', _id: page._id })
+    } else {
+      pages.update({'_id': page._id }, page)
+      res.json({ message: 'Page updated', _id: page._id })
     }
   })
 

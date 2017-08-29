@@ -28,7 +28,7 @@ const page = {
   url: '/',
   userId: undefined,
   content: 'New Page 🙌🏻',
-  active: false,
+  new: true,
   style: {
     color: '',
     display: 'block',
@@ -46,8 +46,12 @@ const page = {
   cubes: [],
 }
 
+const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
+
 export function initNewPage(){
-  return _.cloneDeep(page)
+  let p = _.cloneDeep(page)
+  p._id = ObjectId()
+  return p
 }
 
 // export async function saveCube(cube){

@@ -185,12 +185,12 @@ export default {
     id(){
       if (this.id != this.page._id) {
         this.$store.dispatch('fetchPage', { id: this.id })
-        this.activeCube = this.$store.state.page
+        this.activeCube = this.page
       }
     },
     page(to, from){
       this.$router.push({ name: 'build', params: { id: to._id }})
-      this.activeCube = this.$store.state.page
+      this.activeCube = this.page
     }
   },
   mounted() {
@@ -209,7 +209,7 @@ export default {
     removeCube(){
       // remove page
       if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
-        this.$store.dispatch('deletePage', { id: this.page._id })
+        this.$store.dispatch('deletePage', { page: this.page })
         this.activeCube = null
         this.$router.push({ name: 'build' })
         return
