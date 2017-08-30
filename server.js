@@ -135,13 +135,6 @@ app.use((req, res, next) => {
   next()
 })
 
-// Setup SSR
-require('./modules/ssr-routes')(app)
-
-// Setup API routes
-const apiRoutes = require('./modules/api-routes.js')
-app.use('/api', apiRoutes)
-
 // Cache static assets in ./public
 app.use(express.static(publicDir, { maxAge: 31557600000 })) // one year
 
@@ -247,6 +240,13 @@ app.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public
 app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
   res.redirect('/api/pinterest');
 });
+
+
+// Setup API routes
+app.use('/api', require('./modules/api-routes.js'))
+
+// Setup SSR
+require('./modules/ssr-routes')(app)
 
 /**
  * Error Handler.

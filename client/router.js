@@ -17,7 +17,8 @@ export function createRouter () {
       { path: '/', name: 'home', component: Page },
       { path: '/site', name: 'pages', component: Pages },
       { path: '/build/:id?', name: 'build', component: Canvas },
-      { path: '/view/:id', name: 'view', component: Page },
+      { path: '/view/:id?', name: 'view', component: Page },
+      { path: '*', name: 'catch-all',component: Page },
     ],
     // scrollBehavior (to, from, savedPosition) {
     //   if (savedPosition)

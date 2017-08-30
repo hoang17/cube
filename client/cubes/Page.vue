@@ -6,30 +6,34 @@
 </template>
 
 <script>
-let home = '599e64ecb66d9f0c26a53523'
-
 export default {
   title(){
     return this.page.content
   },
-  asyncData ({ store, route }) {
-    if (!route.params.id && !route.meta.id)
-      route.params.id = home
-    return store.dispatch('fetchPage', { id: route.params.id })
+  async asyncData ({ store, route }) {
+    let id = route.params.id ? route.params.id : await store.dispatch('fetchRoute', { host: store.state.host, path: route.path })
+    return store.dispatch('fetchPage', { id })
   },
   data() {
     return {
     }
   },
   watch: {
-    id(){
-      if (this.id != this.page._id)
-        this.$store.dispatch('fetchPage', { id: this.id })
+    async id(){
+      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { host: this.$store.state.host, path: this.$route.path })
+      this.$store.dispatch('fetchPage', { id })
+    },
+    async path(){
+      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { host: this.$store.state.host, path: this.$route.path })
+      this.$store.dispatch('fetchPage', { id })
     }
   },
   computed: {
+    path(){
+      return this.$route.path
+    },
     id(){
-      return this.$route.params.id ? this.$route.params.id : home
+      return this.$route.params.id
     },
     user(){
       return this.$store.state.user

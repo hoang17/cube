@@ -14,7 +14,9 @@ export default context => {
     // set server-side router's location
     router.push(context.url)
 
+    store.state.host = context.host
     store.state.user = context.user
+
     let token = context.user.tokens.filter(function(token){
       return token.kind == 'facebook'
     })

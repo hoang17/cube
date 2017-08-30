@@ -93,6 +93,7 @@ module.exports = function(app) {
 
     const context = {
       title: 'Vue 2.0', // default title
+      host: req.headers.host.split(':')[0],
       url: req.url,
       user: req.user
     }
@@ -129,7 +130,6 @@ module.exports = function(app) {
     })
   })
 
-
   // Serve static assets
   const serve = (path, cache) => express.static(resolve(path), {
     maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
@@ -138,4 +138,19 @@ module.exports = function(app) {
   app.use('/dist', serve('../dist', true))
   app.use('/manifest.json', serve('../manifest.json', true))
   app.use('/service-worker.js', serve('../dist/service-worker.js'))
+
+
+  app.get('*', (req, res, next) => {
+
+    if (req.url.includes('/dist/')
+      || req.url.includes('/css/')
+      || req.url.includes('/favicon.ico')
+    ) return next()
+
+    log('catch all', req.url)
+
+    res.render('template', {title: 'catch all'}, (err, template) => {
+      createRenderer(req, res, template)
+    })
+  })
 }

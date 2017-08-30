@@ -104,3 +104,24 @@ export async function deletePage(id){
     console.error(e)
   }
 }
+
+export async function fetchRoute(host, path){
+
+  switch (path) {
+    case '/':
+      return '599e64ecb66d9f0c26a53523'
+    case '/about':
+      return '599fd1eedc7aff3ec97827fe'
+    case '/blog':
+      return '59a332a1a7a59317775f6233'
+    default:
+      return '59a7109889c70c5c4c82cb0d'
+  }
+
+  try {
+    let res = await api.post('routes', {host, path})
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}

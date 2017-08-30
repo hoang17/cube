@@ -4,7 +4,7 @@ import _  from 'lodash'
 
 Vue.use(Vuex)
 
-import { newPage, fetchPages, fetchPage, savePage, deletePage } from './api'
+import { newPage, fetchPages, fetchPage, savePage, deletePage, fetchRoute } from './api'
 
 export function createStore () {
   return new Vuex.Store({
@@ -13,11 +13,17 @@ export function createStore () {
       pageId: null,
       pages: null,
       activeCube: null,
+      host: null,
       user: null,
       token: null,
       histories: {},
     },
     actions: {
+      async fetchRoute({ state, commit }, { host, path }){
+        console.log('fetch route', host + path)
+        return await fetchRoute(host, path)
+      },
+
       async deletePage({ state, commit }, { page }) {
         Vue.delete(state.pages, page._id)
 
