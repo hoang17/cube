@@ -29,11 +29,7 @@ export default {
   props: ['cube'],
   computed: {
     history(){
-      let i = this.page._id
-      let h = this.$store.state.histories
-      if (!h[i])
-        this.$set(h, i, { index:-1, stack:[] })
-      return h[i]
+      return this.$store.getters.history
     },
     page(){
       return this.$store.state.page
@@ -82,7 +78,7 @@ export default {
     undo() {
       if (this.canUndo) {
         this.stopWatch()
-        this.activeCube = undefined
+        this.activeCube = null
         let h = this.history
         h.index--
         this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
@@ -92,7 +88,7 @@ export default {
     redo() {
       if (this.canRedo) {
         this.stopWatch()
-        this.activeCube = undefined
+        this.activeCube = null
         let h = this.history
         h.index++
         this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
@@ -106,7 +102,7 @@ export default {
       }, {deep: true})
     },
     async save(){
-      this.activeCube = undefined
+      this.activeCube = null
       this.page.userId = this.$store.state.user._id
       let id = await this.$store.dispatch('savePage')
       this.$router.push({ name: 'build', params: { id: id }})

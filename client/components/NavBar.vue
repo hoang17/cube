@@ -4,13 +4,13 @@
       //-v-subheader {{ page.content }}
       //-v-divider.my-4(dark)
 
-      v-list-tile(@click="selectPage()", :class="{active: !page._id}")
+      v-list-tile(@click="selectPage()", :class="{active: page._id == newPage._id }")
         v-list-tile-action
           v-icon add
         v-list-tile-content
           v-list-tile-title Add New Page
 
-      v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}")
+      v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newPage._id")
         v-list-tile-action
           v-icon web_asset
         v-list-tile-content
@@ -37,6 +37,9 @@ import _ from 'lodash'
 
 export default {
   computed: {
+    newPage() {
+      return this.$store.state.newPage
+    },
     page(){
       return this.$store.state.page
     },

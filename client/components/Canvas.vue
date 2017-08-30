@@ -172,6 +172,9 @@ export default {
     page() {
       return this.$store.state.page
     },
+    newPage() {
+      return this.$store.state.newPage
+    },
     cubes: {
       get() {
         return this.$store.getters.cubes
@@ -188,10 +191,13 @@ export default {
         this.activeCube = this.page
       }
     },
-    page(to, from){
-      this.$router.push({ name: 'build', params: { id: to._id }})
-      this.activeCube = this.page
-    }
+    // page(to, from){
+    //   if (to._id == this.newPage._id)
+    //     this.$router.push({ name: 'build' })
+    //   else
+    //     this.$router.push({ name: 'build', params: { id: to._id }})
+    //   this.activeCube = this.page
+    // }
   },
   mounted() {
     // *** BRAIN FUCK :-? ***
