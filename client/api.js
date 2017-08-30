@@ -21,37 +21,33 @@ export async function patch(endpoint, params){
   return res.data
 }
 
-const page = {
-  _id: undefined,
-  name: 'Page',
-  type: 'pg',
-  url: '/',
-  userId: undefined,
-  content: 'New Page 🙌🏻',
-  new: true,
-  style: {
-    color: '',
-    display: 'block',
-    width: '',
-    fontFamily: 'Roboto',
-    fontSize: '1em',
-    fontWeight: '400',
-    lineHeight: '1',
-    letterSpacing: '0rem',
-    textTransform: 'none',
-    textAlign: 'center',
-    flex: undefined,
-    flexFlow: undefined
-  },
-  cubes: [],
-}
-
 const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
-export function initNewPage(){
-  let p = _.cloneDeep(page)
-  p._id = ObjectId()
-  return p
+export function newPage(){
+  return {
+    _id: ObjectId(),
+    name: 'Page',
+    type: 'pg',
+    url: '/',
+    userId: undefined,
+    content: 'New Page 🙌🏻',
+    new: true,
+    style: {
+      color: '',
+      display: 'block',
+      width: '',
+      fontFamily: 'Roboto',
+      fontSize: '1em',
+      fontWeight: '400',
+      lineHeight: '1',
+      letterSpacing: '0rem',
+      textTransform: 'none',
+      textAlign: 'center',
+      flex: undefined,
+      flexFlow: undefined
+    },
+    cubes: [],
+  }
 }
 
 // export async function saveCube(cube){

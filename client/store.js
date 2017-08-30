@@ -4,12 +4,12 @@ import _  from 'lodash'
 
 Vue.use(Vuex)
 
-import { initNewPage, fetchPages, fetchPage, savePage, deletePage } from './api'
+import { newPage, fetchPages, fetchPage, savePage, deletePage } from './api'
 
 export function createStore () {
   return new Vuex.Store({
     state: {
-      newPage: initNewPage(),
+      newPage: newPage(),
       page: null,
       pages: null,
       activeCube: null,
@@ -22,7 +22,7 @@ export function createStore () {
         Vue.delete(state.pages, page._id)
 
         if (page.new)
-          state.newPage = initNewPage()
+          state.newPage = newPage()
         else
           deletePage(page._id)
 
@@ -32,7 +32,7 @@ export function createStore () {
       async savePage({ state, commit }) {
         let data = await savePage(state.page)
         if (state.page.new)
-          state.newPage = initNewPage()
+          state.newPage = newPage()
         return data._id
       },
 
@@ -48,10 +48,6 @@ export function createStore () {
       },
     },
     mutations: {
-      newPage(state) {
-        state.page = state.newPage
-        state.pages[state.page._id] = state.page
-      },
       setPage(state, page) {
         state.page = page
         state.pages[state.page._id] = page
