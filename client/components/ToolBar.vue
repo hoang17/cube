@@ -28,14 +28,8 @@ import _  from 'lodash'
 export default {
   props: ['cube'],
   computed: {
-    histories(){
-      return this.$store.state.histories
-    },
     history(){
-      let id = this.page._id
-      if (!this.histories[id])
-        this.histories[id] = { index:-1, stack:[] }
-      return this.histories[id]
+      return this.$store.state.histories[this.page._id]
     },
     page(){
       return this.$store.state.page
@@ -44,8 +38,7 @@ export default {
       return this.history.index > 0
     },
     canRedo(){
-      let h = this.history
-      return h.stack.length - 1 > h.index
+      return this.history.stack.length - 1 > this.history.index
     },
     activeCube:{
       get(){
@@ -136,4 +129,5 @@ export default {
 
   .btn-toggle--selected
     box-shadow none
+
 </style>

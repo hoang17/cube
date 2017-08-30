@@ -114,7 +114,7 @@ import Draggable from 'vuedraggable'
 export default {
   title: 'Build',
   asyncData ({ store, route }) {
-    return store.dispatch('fetchPage', { id: route.params.id })
+    return store.dispatch('fetchPageToEdit', { id: route.params.id })
   },
   components: {
     Draggable,
@@ -184,7 +184,7 @@ export default {
   watch: {
     id(){
       if (this.id != this.page._id) {
-        this.$store.dispatch('fetchPage', { id: this.id })
+        this.$store.dispatch('fetchPageToEdit', { id: this.id })
         this.activeCube = this.page
       }
     },

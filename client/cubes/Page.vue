@@ -15,7 +15,7 @@ export default {
   asyncData ({ store, route }) {
     if (!route.params.id && !route.meta.id)
       route.params.id = home
-    return store.dispatch('fetchPage', { id: route.params.id })
+    return store.dispatch('fetchPageToView', { id: route.params.id })
   },
   data() {
     return {
@@ -24,7 +24,7 @@ export default {
   watch: {
     id(){
       if (this.id != this.page._id)
-        this.$store.dispatch('fetchPage', { id: this.id })
+        this.$store.dispatch('fetchPageToView', { id: this.id })
     }
   },
   computed: {
