@@ -2,7 +2,7 @@
   v-card.elevation-0
     v-card-text
       h1.title {{ cube.name }}
-      v-text-field(label='Content', v-model='cube.content')
+      v-text-field(label='Title', v-model='cube.content')
       v-text-field(label='Font', v-model='cube.style.fontFamily')
       v-text-field(label='Color', v-model='cube.style.color')
       v-text-field(label='Size', v-model='cube.style.fontSize')
