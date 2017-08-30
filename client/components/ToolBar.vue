@@ -29,7 +29,11 @@ export default {
   props: ['cube'],
   computed: {
     history(){
-      return this.$store.state.histories[this.page._id]
+      let i = this.page._id
+      let h = this.$store.state.histories
+      if (!h[i])
+        this.$set(h, i, { index:-1, stack:[] })
+      return h[i]
     },
     page(){
       return this.$store.state.page

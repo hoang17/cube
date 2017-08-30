@@ -29,34 +29,20 @@ export function createStore () {
 
         commit('setPage', newPage)
       },
+
       async savePage({ state, commit }) {
         let data = await savePage(state.page)
         return data._id
       },
-      async fetchPageToEdit({ state, commit }, { id }){
-        // fetch pages & init histories
-        if (!state.pages || (id && !state.pages[id])){
-          state.pages = await fetchPages()
 
-          // init histories
-          for (let i in state.pages){
-            if (!state.histories[i])
-              state.histories[i] = { index:-1, stack:[] }
-          }
-          if (!state.histories[id])
-            state.histories[id] = { index:-1, stack:[] }
-        }
+      async fetchPage({ state, commit }, { id }){
+        if (!state.pages || (id && !state.pages[id]))
+          state.pages = await fetchPages()
 
         let page = id ? state.pages[id] : newPage
         commit('setPage', page)
       },
-      async fetchPageToView({ state, commit }, { id }) {
-        // fetch pages
-        if (!state.pages || !state.pages[id])
-          state.pages = await fetchPages()
-        if (state.pages[id])
-          commit('setPage', state.pages[id])
-      },
+
       async fetchPages({ state, commit }) {
         state.pages = await fetchPages()
       },
