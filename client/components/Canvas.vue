@@ -191,18 +191,13 @@ export default {
         this.activeCube = this.page
       }
     },
-    // page(to, from){
-    //   if (to._id == this.newPage._id)
-    //     this.$router.push({ name: 'build' })
-    //   else
-    //     this.$router.push({ name: 'build', params: { id: to._id }})
-    //   this.activeCube = this.page
-    // }
   },
   mounted() {
     // *** BRAIN FUCK :-? ***
-    // console.log(this.$store.state.page == this.$store.getters.page);
+    if (this.page._id == this.newPage._id)
+      this.$store.state.newPage = this.$store.getters.page
     this.activeCube = this.$store.state.page = this.$store.getters.page
+
   },
   methods: {
     selectPage(){

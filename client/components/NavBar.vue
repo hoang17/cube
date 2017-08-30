@@ -52,7 +52,7 @@ export default {
   }),
   methods: {
     selectPage(page){
-      let id = page ? page._id : undefined
+      let id = page ? page._id : null
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){

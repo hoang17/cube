@@ -76,24 +76,20 @@ export default {
       h.stack.push(_.cloneDeep(page))
     },
     undo() {
-      if (this.canUndo) {
-        this.stopWatch()
-        this.activeCube = null
-        let h = this.history
-        h.index--
-        this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
-        this.startWatch()
-      }
+      this.stopWatch()
+      this.activeCube = null
+      let h = this.history
+      h.index--
+      this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
+      this.startWatch()
     },
     redo() {
-      if (this.canRedo) {
-        this.stopWatch()
-        this.activeCube = null
-        let h = this.history
-        h.index++
-        this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
-        this.startWatch()
-      }
+      this.stopWatch()
+      this.activeCube = null
+      let h = this.history
+      h.index++
+      this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
+      this.startWatch()
     },
     startWatch(){
       this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
