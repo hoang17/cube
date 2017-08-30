@@ -170,10 +170,7 @@ export default {
       return this.$store.state.user
     },
     page() {
-      return this.$store.state.page
-    },
-    newPage() {
-      return this.$store.state.newPage
+      return this.$store.getters.page
     },
     cubes: {
       get() {
@@ -194,10 +191,7 @@ export default {
   },
   mounted() {
     // *** BRAIN FUCK :-? ***
-    if (this.page._id == this.newPage._id)
-      this.$store.state.newPage = this.$store.getters.page
-    this.activeCube = this.$store.state.page = this.$store.getters.page
-
+    this.activeCube = this.page
   },
   methods: {
     selectPage(){

@@ -35,7 +35,7 @@ export default {
       return this.$store.state.user
     },
     page() {
-      return this.$store.state.page
+      return this.$store.getters.page
     },
     cubes() {
       return this.$store.getters.cubes

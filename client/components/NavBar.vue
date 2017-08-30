@@ -4,13 +4,13 @@
       //-v-subheader {{ page.content }}
       //-v-divider.my-4(dark)
 
-      v-list-tile(@click="selectPage()", :class="{active: page._id == newPage._id }")
+      v-list-tile(@click="selectPage()", :class="{active: page._id == newId }")
         v-list-tile-action
           v-icon add
         v-list-tile-content
           v-list-tile-title Add New Page
 
-      v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newPage._id")
+      v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newId")
         v-list-tile-action
           v-icon web_asset
         v-list-tile-content
@@ -37,11 +37,11 @@ import _ from 'lodash'
 
 export default {
   computed: {
-    newPage() {
-      return this.$store.state.newPage
+    newId() {
+      return this.$store.state.newId
     },
     page(){
-      return this.$store.state.page
+      return this.$store.getters.page
     },
     pages(){
       return this.$store.state.pages
@@ -56,7 +56,7 @@ export default {
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){
-      this.$store.state.page.cubes.push(_.cloneDeep(cube.defaultValue))
+      this.$store.getters.page.cubes.push(_.cloneDeep(cube.defaultValue))
     }
   }
 }

@@ -32,7 +32,7 @@ export default {
       return this.$store.getters.history
     },
     page(){
-      return this.$store.state.page
+      return this.$store.getters.page
     },
     canUndo(){
       return this.history.index > 0

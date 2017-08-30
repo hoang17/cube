@@ -9,8 +9,8 @@ import { newPage, fetchPages, fetchPage, savePage, deletePage } from './api'
 export function createStore () {
   return new Vuex.Store({
     state: {
-      newPage: newPage(),
-      page: null,
+      newId: null,
+      pageId: null,
       pages: null,
       activeCube: null,
       user: null,
@@ -22,25 +22,29 @@ export function createStore () {
         Vue.delete(state.pages, page._id)
 
         if (page.new)
-          state.newPage = newPage()
+          commit('addNewPage')
         else
           deletePage(page._id)
 
-        commit('setPage', state.newPage)
+          commit('setPageId', state.newId)
       },
 
       async savePage({ state, commit }) {
-        let data = await savePage(state.page)
-        if (state.page.new)
-          state.newPage = newPage()
+        let page = state.pages[state.pageId]
+        let data = await savePage(page)
+        if (page.new)
+          commit('addNewPage')
         return data._id
       },
 
       async fetchPage({ state, commit }, { id }){
         if (!state.pages || (id && !state.pages[id]))
           state.pages = await fetchPages()
-        let page = id ? state.pages[id] : state.newPage
-        commit('setPage', page)
+
+        if (!state.newId)
+          commit('addNewPage')
+
+        commit('setPageId', id ? id : state.newId)
       },
 
       async fetchPages({ state, commit }) {
@@ -48,12 +52,20 @@ export function createStore () {
       },
     },
     mutations: {
+      setPageId(state, id){
+        state.pageId = id
+      },
+      addNewPage(state) {
+        let page = newPage()
+        state.newId = page._id
+        Vue.set(state.pages, page._id, page)
+      },
       setPage(state, page) {
-        state.page = page
-        state.pages[state.page._id] = page
+        state.pageId = page._id
+        Vue.set(state.pages, state.pageId, page)
       },
       setCubes(state, cubes) {
-        state.page.cubes = cubes
+        state.pages[state.pageId].cubes = cubes
       },
       setActiveCube(state, cube) {
         state.activeCube = cube
@@ -62,11 +74,11 @@ export function createStore () {
     getters: {
       activeCube: state => state.activeCube,
       pages: state => state.pages,
-      cubes: state => state.page.cubes,
-      page: state => state.pages[state.page._id],
-      pageState: state => () => state.page,
+      cubes: state => state.pages[state.pageId].cubes,
+      page: state => state.pages[state.pageId],
+      pageState: state => () => state.pages[state.pageId],
       history(state){
-        let i = state.page._id
+        let i = state.pageId
         let h = state.histories
         if (!h[i])
           Vue.set(h, i, { index:-1, stack:[] })
