@@ -193,7 +193,7 @@ export default {
       this.activeCube = this.page
     }
   },
-  beforeMounted() {
+  mounted() {
     // *** BRAIN FUCK :-? ***
     // console.log(this.$store.state.page == this.$store.getters.page);
     this.activeCube = this.$store.state.page = this.$store.getters.page
