@@ -1,6 +1,8 @@
 // const _ = require('lodash')
 const router = require('express').Router()
 
+var options = {  keepAlive: 300000, connectTimeoutMS: 30000 }
+
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
 const pages = db.get('pages')
