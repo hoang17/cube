@@ -28,23 +28,25 @@ export function newPage(){
     _id: ObjectId(),
     name: 'Page',
     type: 'pg',
-    url: '/',
+    host: undefined,
+    path: undefined,
+    url: undefined,
     userId: undefined,
     content: 'New Page 🙌🏻',
     new: true,
     style: {
-      color: '',
+      color: undefined,
       display: 'block',
-      width: '',
+      width: undefined,
       fontFamily: 'Roboto',
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',
       letterSpacing: '0rem',
-      textTransform: 'none',
+      textTransform: undefined,
       textAlign: 'center',
-      flex: undefined,
-      flexFlow: undefined
+      // flex: undefined,
+      // flexFlow: undefined
     },
     cubes: [],
   }
@@ -105,21 +107,9 @@ export async function deletePage(id){
   }
 }
 
-export async function fetchRoute(host, path){
-
-  switch (path) {
-    case '/':
-      return '599e64ecb66d9f0c26a53523'
-    case '/about':
-      return '599fd1eedc7aff3ec97827fe'
-    case '/blog':
-      return '59a332a1a7a59317775f6233'
-    default:
-      return '59a7109889c70c5c4c82cb0d'
-  }
-
+export async function fetchRoute(url){
   try {
-    let res = await api.post('routes', {host, path})
+    let res = await api.post('routes', { url })
     return res.data
   } catch (e) {
     console.error(e)

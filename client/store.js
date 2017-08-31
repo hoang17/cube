@@ -17,11 +17,15 @@ export function createStore () {
       user: null,
       token: null,
       histories: {},
+      routes: {}
     },
     actions: {
-      async fetchRoute({ state, commit }, { host, path }){
-        console.log('fetch route', host + path)
-        return await fetchRoute(host, path)
+      async fetchRoute({ state, commit }, { url }){
+        if (state.routes[url])
+          return state.routes[url]
+        let id = await fetchRoute(url)
+        Vue.set(state.routes, url, id)
+        return id
       },
 
       async deletePage({ state, commit }, { page }) {
@@ -44,8 +48,9 @@ export function createStore () {
       },
 
       async fetchPage({ state, commit }, { id }){
-        if (!state.pages || (id && !state.pages[id]))
-          state.pages = await fetchPages()
+        if (!state.pages || (id && !state.pages[id])){
+          state.pages = await fetchPages()          
+        }
 
         if (!state.newId)
           commit('addNewPage')

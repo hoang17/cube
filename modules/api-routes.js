@@ -5,9 +5,18 @@ var options = {  keepAlive: 300000, connectTimeoutMS: 30000 }
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, options)
 
+const cubes = db.get('cubes')
 const pages = db.get('pages')
 
-const cubes = db.get('cubes')
+try {
+  pages.createIndex('userId')
+  pages.createIndex('host')
+  pages.createIndex({ url: 1 }, { unique: true })
+  // pages.index('path')
+  // pages.index(['host', 'path'])
+} catch (e) {
+  console.error(e)
+}
 
 router.route('/pages')
   .get(async function(req, res) {
@@ -35,6 +44,14 @@ router.route('/pages/:id')
   .delete(async function(req, res) {
     let data = await pages.remove({ _id: req.params.id })
     res.json({ message: 'Page deleted', _id: req.params.id })
+  })
+
+router.route('/routes')
+  .post(async function(req, res) {
+    let url = req.body.url
+    log(url)
+    let page = await pages.findOne({url: url})
+    res.send(page._id)
   })
 
 router.route('/cubes/:id')

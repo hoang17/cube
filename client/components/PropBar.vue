@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.editbox.elevation-0
+  .cube.propbar.elevation-0
     .action
       v-btn(primary, dark, @click="done") Done
       v-btn(light, @click="remove") Remove
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.editbox
+.propbar
   position absolute
   z-index 3
   top 0
@@ -39,15 +39,22 @@ export default {
     min-height auto
 
   .input-group
-    padding 16px 0 4px 0
+    padding 16px 0 2px 0
     label
-      font-size 14px !important
+      font-size 13px !important
+      text-transform lowercase
   .input-group--text-field
     input
-      font-size 14px !important
+      font-size 13px !important
   .input-group--text-field
     textarea
-      font-size 14px !important
+      font-size 13px !important
+
+  .input-group--text-field.input-group--dirty:not(.input-group--textarea)
+  .input-group--text-field:not(.input-group--single-line):focus:not(.input-group--textarea)
+  .input-group--text-field:not(.input-group--single-line).input-group--focused:not(.input-group--textarea)
+    label
+      transform translate3d(0,-18px,0) scale(.90)
 
 .action
   position fixed

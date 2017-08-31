@@ -93,7 +93,7 @@ module.exports = function(app) {
 
     const context = {
       title: 'Vue 2.0', // default title
-      host: req.headers.host.split(':')[0],
+      host: req.headers.host,
       url: req.url,
       user: req.user
     }

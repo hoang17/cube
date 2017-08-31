@@ -9,7 +9,8 @@ export default {
     return this.page.content
   },
   async asyncData ({ store, route }) {
-    let id = route.params.id ? route.params.id : await store.dispatch('fetchRoute', { host: store.state.host, path: route.path })
+    let url = store.state.host + route.path
+    let id = route.params.id ? route.params.id : await store.dispatch('fetchRoute', { url })
     return store.dispatch('fetchPage', { id })
   },
   data() {
@@ -18,17 +19,20 @@ export default {
   },
   watch: {
     async id(){
-      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { host: this.$store.state.host, path: this.$route.path })
+      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { url: this.url })
       this.$store.dispatch('fetchPage', { id })
     },
     async path(){
-      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { host: this.$store.state.host, path: this.$route.path })
+      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { url: this.url })
       this.$store.dispatch('fetchPage', { id })
     }
   },
   computed: {
     path(){
       return this.$route.path
+    },
+    url(){
+      return this.$store.state.host + this.$route.path
     },
     id(){
       return this.$route.params.id
