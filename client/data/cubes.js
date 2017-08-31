@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-exports.text = {
+export const text = {
   name: 'Text',
   tag: 'tx',
   props() {
@@ -26,7 +26,7 @@ exports.text = {
   }
 }
 
-exports.link = {
+export const link = {
   name: 'Link',
   tag: 'lnk',
   props() {
@@ -54,7 +54,7 @@ exports.link = {
   }
 }
 
-exports.button = {
+export const button = {
   name: 'Button',
   tag: 'btn',
   props() {
@@ -81,7 +81,7 @@ exports.button = {
   }
 }
 
-exports.container = {
+export const container = {
   name: 'Container',
   tag: 'container',
   props() {
@@ -119,12 +119,7 @@ exports.container = {
   }
 }
 
-let link = exports.link.props()
-let link1 = _.cloneDeep(link)
-let link2 = _.cloneDeep(link)
-let link3 = _.cloneDeep(link)
-
-exports.navigation = {
+export const navigation = {
   name: 'Navigation',
   tag: 'na',
   props() {
@@ -132,7 +127,7 @@ exports.navigation = {
       type: 'na',
       name: 'Navigation',
       content: 'Navigation 🙌🏻',
-      cubes: [ link1, link2, link3 ],
+      cubes: [ link.props(), link.props(), link.props() ],
       style: {
         color: undefined,
         display: 'block',
@@ -151,7 +146,7 @@ exports.navigation = {
   }
 }
 
-exports.photo = {
+export const photo = {
   name: 'Photo',
   tag: 'ph',
   props() {

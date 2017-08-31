@@ -8,7 +8,7 @@ import * as filters from './modules/filters'
 import InfiniteLoading from './addons/InfiniteLoading'
 import Vuetify from 'vuetify'
 import ClickOutside from './directives/ClickOutside'
-import cubes from './data/cubes'
+import * as cubes from './data/cubes'
 
 Vue.use(Vuetify)
 

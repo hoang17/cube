@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import cubes from '../data/cubes'
+import * as cubes from '../data/cubes'
 import _ from 'lodash'
 
 export default {
