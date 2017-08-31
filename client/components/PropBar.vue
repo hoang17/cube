@@ -63,6 +63,6 @@ export default {
   overflow-y auto
   pointer-events auto
   height 100%
-  padding-bottom 20px
+  padding-bottom 100px
 
 </style>

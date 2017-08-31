@@ -12,8 +12,8 @@
       v-text-field(label='Text Alignment', v-model='cube.style.textAlign')
       v-text-field(label='Text Transform', v-model='cube.style.textTransform')
       v-text-field(label='Display', v-model='cube.style.display')
-      v-text-field(label='Flex', v-model='cube.style.flex')
-      v-text-field(label='Flex Flow', v-model='cube.style.flexFlow')
+      //- v-text-field(label='Flex', v-model='cube.style.flex')
+      //- v-text-field(label='Flex Flow', v-model='cube.style.flexFlow')
 </template>
 
 <script>

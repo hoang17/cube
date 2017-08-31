@@ -56,7 +56,7 @@ export default {
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){
-      this.$store.getters.page.cubes.push(_.cloneDeep(cube.defaultValue))
+      this.$store.getters.page.cubes.push(cube.props())
     }
   }
 }

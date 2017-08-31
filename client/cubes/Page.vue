@@ -1,8 +1,6 @@
 <template lang="pug">
   .canvas(:style="page.style")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
-    //-v-layout(row-sm, column, child-flex-sm)
-      v-flex(xs12, md4, offset-md4)
 </template>
 
 <script>
@@ -52,7 +50,7 @@ export default {
 
 <style lang="stylus" scoped>
 .canvas
-  /*background-color #fff*/
+  // background-color #fff
 
   .cube
     position relative
@@ -61,9 +59,9 @@ export default {
     padding 10px
     transition .3s cubic-bezier(.25,.8,.25,1)
 
-@media (max-width: 1024px)
-  .container
-    display block !important
-    /*flex-direction column !important*/
+// @media (max-width: 1024px)
+//   .container
+//     display block !important
+//     // flex-direction column !important
 
 </style>

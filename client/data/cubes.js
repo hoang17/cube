@@ -3,23 +3,25 @@ import _ from 'lodash'
 exports.text = {
   name: 'Text',
   tag: 'tx',
-  defaultValue: {
-    type: 'tx',
-    name: 'Text',
-    content: 'New text 🙌🏻',
-    style: {
-      color: undefined,
-      display: 'block',
-      width: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
-      textAlign: 'center',
-      padding: undefined,
-      margin: undefined,
+  props() {
+    return {
+      type: 'tx',
+      name: 'Text',
+      content: 'New text 🙌🏻',
+      style: {
+        color: undefined,
+        display: 'block',
+        width: undefined,
+        fontFamily: undefined,
+        fontSize: '1em',
+        fontWeight: '400',
+        lineHeight: '1',
+        letterSpacing: '0rem',
+        // textTransform: undefined,
+        textAlign: 'center',
+        padding: undefined,
+        margin: undefined,
+      }
     }
   }
 }
@@ -27,25 +29,27 @@ exports.text = {
 exports.link = {
   name: 'Link',
   tag: 'lnk',
-  defaultValue: {
-    type: 'lnk',
-    name: 'Link',
-    content: 'Link 🙌🏻',
-    url: undefined,
-    style: {
-      color: undefined,
-      display: undefined,
-      width: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
-      textAlign: 'center',
-      margin: undefined,
-      border: undefined,
-      borderRadius: undefined,
+  props() {
+    return {
+      type: 'lnk',
+      name: 'Link',
+      content: 'Link 🙌🏻',
+      url: undefined,
+      style: {
+        color: undefined,
+        display: undefined,
+        width: undefined,
+        fontFamily: undefined,
+        fontSize: '1em',
+        fontWeight: '400',
+        lineHeight: '1',
+        letterSpacing: '0rem',
+        // textTransform: undefined,
+        textAlign: 'center',
+        margin: undefined,
+        border: undefined,
+        borderRadius: undefined,
+      }
     }
   }
 }
@@ -53,24 +57,26 @@ exports.link = {
 exports.button = {
   name: 'Button',
   tag: 'btn',
-  defaultValue: {
-    type: 'btn',
-    name: 'Button',
-    content: 'Button 🙌🏻',
-    url: undefined,
-    style: {
-      color: undefined,
-      display: undefined,
-      width: undefined,
-      height: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
-      textAlign: 'center',
-      margin: undefined
+  props() {
+    return {
+      type: 'btn',
+      name: 'Button',
+      content: 'Button 🙌🏻',
+      url: undefined,
+      style: {
+        color: undefined,
+        display: undefined,
+        width: undefined,
+        height: undefined,
+        fontFamily: undefined,
+        fontSize: '1em',
+        fontWeight: '400',
+        lineHeight: '1',
+        letterSpacing: '0rem',
+        // textTransform: undefined,
+        textAlign: 'center',
+        margin: undefined
+      }
     }
   }
 }
@@ -78,40 +84,42 @@ exports.button = {
 exports.container = {
   name: 'Container',
   tag: 'container',
-  defaultValue: {
-    type: 'container',
-    name: 'Container',
-    content: 'Container 🙌🏻',
-    cubes: [],
-    style: {
-      color: undefined,
-      display: 'block',
-      width: undefined,
-      height: undefined,
-      minWidth: undefined,
-      minHeight: undefined,
-      maxWidth: undefined,
-      maxHeight: undefined,
-      padding: undefined,
-      margin: undefined,
-      background: undefined,
-      border: undefined,
-      borderRadius: undefined,
-      order: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
-      textAlign: 'center',
-      flex: undefined,
-      flexFlow: undefined
+  props() {
+    return {
+      type: 'container',
+      name: 'Container',
+      content: 'Container 🙌🏻',
+      cubes: [],
+      style: {
+        color: undefined,
+        display: 'block',
+        width: undefined,
+        height: undefined,
+        minWidth: undefined,
+        minHeight: undefined,
+        maxWidth: undefined,
+        maxHeight: undefined,
+        padding: undefined,
+        margin: undefined,
+        background: undefined,
+        border: undefined,
+        borderRadius: undefined,
+        order: undefined,
+        fontFamily: undefined,
+        fontSize: '1em',
+        fontWeight: '400',
+        lineHeight: '1',
+        letterSpacing: '0rem',
+        // textTransform: undefined,
+        textAlign: 'center',
+        flex: undefined,
+        flexFlow: undefined
+      }
     }
   }
 }
 
-let link = exports.link.defaultValue
+let link = exports.link.props()
 let link1 = _.cloneDeep(link)
 let link2 = _.cloneDeep(link)
 let link3 = _.cloneDeep(link)
@@ -119,24 +127,26 @@ let link3 = _.cloneDeep(link)
 exports.navigation = {
   name: 'Navigation',
   tag: 'na',
-  defaultValue: {
-    type: 'na',
-    name: 'Navigation',
-    content: 'Navigation 🙌🏻',
-    cubes: [ link1, link2, link3 ],
-    style: {
-      color: undefined,
-      display: 'block',
-      width: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
-      textAlign: 'center',
-      border: undefined,
-      borderRadius: undefined,
+  props() {
+    return {
+      type: 'na',
+      name: 'Navigation',
+      content: 'Navigation 🙌🏻',
+      cubes: [ link1, link2, link3 ],
+      style: {
+        color: undefined,
+        display: 'block',
+        width: undefined,
+        fontFamily: undefined,
+        fontSize: '1em',
+        fontWeight: '400',
+        lineHeight: '1',
+        letterSpacing: '0rem',
+        // textTransform: undefined,
+        textAlign: 'center',
+        border: undefined,
+        borderRadius: undefined,
+      }
     }
   }
 }
@@ -144,21 +154,23 @@ exports.navigation = {
 exports.photo = {
   name: 'Photo',
   tag: 'ph',
-  defaultValue: {
-    type: 'ph',
-    content: 'Photo 🙌🏻',
-    style: {
-      color: undefined,
-      display: 'block',
-      width: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
-      textAlign: 'center',
-      margin: undefined
+  props() {
+    return {
+      type: 'ph',
+      content: 'Photo 🙌🏻',
+      style: {
+        color: undefined,
+        display: 'block',
+        width: undefined,
+        fontFamily: undefined,
+        fontSize: '1em',
+        fontWeight: '400',
+        lineHeight: '1',
+        letterSpacing: '0rem',
+        // textTransform: undefined,
+        textAlign: 'center',
+        margin: undefined
+      }
     }
   }
 }
