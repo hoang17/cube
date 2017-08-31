@@ -218,11 +218,10 @@ export default {
           cubes.splice(index, 1)
           this.activeCube = null
         } else {
-          for (let i in cubes) {
-            let c = cubes[i]
+          cubes.map(c => {
             if (c.cubes && c.cubes.length > 0)
               remove(c.cubes)
-          }
+          })
         }
       }
 

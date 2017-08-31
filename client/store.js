@@ -36,7 +36,7 @@ export function createStore () {
         else
           deletePage(page._id)
 
-          commit('setPageId', state.newId)
+        commit('setPageId', state.newId)
       },
 
       async savePage({ state, commit }) {
@@ -49,7 +49,12 @@ export function createStore () {
 
       async fetchPage({ state, commit }, { id }){
         if (!state.pages || (id && !state.pages[id])){
-          state.pages = await fetchPages()          
+          state.pages = await fetchPages()
+          // build routes
+          for (let i in state.pages){
+            let p = state.pages[i]
+            state.routes[p.url] = i
+          }
         }
 
         if (!state.newId)
