@@ -212,26 +212,21 @@ export default {
         return
       }
 
-      // remove top level cube
-      let index = this.cubes.indexOf(this.activeCube)
-      if (index > -1){
-        this.cubes.splice(index, 1)
-        this.activeCube = null
-        return
-      }
-
-      // find the child cube to remove
-      for (let i in this.cubes){
-        if (!this.cubes[i].cubes)
-          continue
-        index = this.cubes[i].cubes.indexOf(this.activeCube)
-        if (index > -1) {
-          this.cubes[i].cubes.splice(index, 1)
+      var remove = cubes => {
+        let index = cubes.indexOf(this.activeCube)
+        if (index > -1){
+          cubes.splice(index, 1)
           this.activeCube = null
-          return
+        } else {
+          for (let i in cubes) {
+            let c = cubes[i]
+            if (c.cubes && c.cubes.length > 0)
+              remove(c.cubes)
+          }
         }
       }
 
+      remove(this.cubes)
     },
   }
 }
