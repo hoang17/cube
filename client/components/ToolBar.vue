@@ -2,6 +2,8 @@
   v-toolbar(dense)
     v-btn(icon, @click='save')
       v-icon save
+    v-btn(icon, @click="dup()")
+      v-icon content_copy
     v-btn(icon, @click="undo()", :disabled="!canUndo")
       v-icon undo
     v-btn(icon, @click="redo()", :disabled="!canRedo")
@@ -24,6 +26,7 @@
 
 <script>
 import _  from 'lodash'
+import { ObjectId } from '../api'
 
 export default {
   props: ['cube'],
@@ -69,6 +72,15 @@ export default {
     }
   },
   methods: {
+    dup(){
+      let p = _.cloneDeep(this.page)
+      p._id = ObjectId()
+      p.new = true
+      p.content += ' Copy'
+      p.url = '/' + p._id
+      this.$store.commit('setPage', p)
+      this.$router.push({ name: 'build', params: { id: p._id }})
+    },
     snapshot(page) {
       let h = this.history
       h.index++

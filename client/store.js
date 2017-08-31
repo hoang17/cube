@@ -42,7 +42,7 @@ export function createStore () {
       async savePage({ state, commit }) {
         let page = state.pages[state.pageId]
         let data = await savePage(page)
-        if (page.new)
+        if (page._id == state.newId)
           commit('addNewPage')
         return data._id
       },
