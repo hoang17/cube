@@ -72,7 +72,7 @@ export function createStore () {
         state.pageId = id
       },
       addNewPage(state) {
-        let page = newPage()
+        let page = newPage(state.host)
         state.newId = page._id
         Vue.set(state.pages, page._id, page)
       },

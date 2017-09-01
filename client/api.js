@@ -23,14 +23,16 @@ export async function patch(endpoint, params){
 
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
-export function newPage(){
+export function newPage(host){
+  let id = ObjectId()
+  let path = '/' + id
   return {
-    _id: ObjectId(),
+    _id: id,
     name: 'Page',
     type: 'pg',
-    host: undefined,
-    path: undefined,
-    url: undefined,
+    host: host,
+    path: path,
+    url: host + path,
     userId: undefined,
     content: 'New Page 🙌🏻',
     new: true,
