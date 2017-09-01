@@ -2,17 +2,17 @@
 import Vue from 'vue'
 import 'es6-promise/auto'
 import { createApp } from './app'
-import ProgressBar from './addons/ProgressBar.vue'
-import VueLazyload from 'vue-lazyload'
-import VueAutosize from 'vue-autosize'
+
+// import VueLazyload from 'vue-lazyload'
+// import VueAutosize from 'vue-autosize'
+
+// Vue.use(VueLazyload)
+// Vue.use(VueAutosize)
 
 // global progress bar
+import ProgressBar from './addons/ProgressBar.vue'
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
-
-Vue.use(VueLazyload)
-
-Vue.use(VueAutosize)
 
 // a global mixin that calls `asyncData` when a route component's params change
 // Vue.mixin({
@@ -43,12 +43,12 @@ Vue.use(VueAutosize)
 // })
 
 // a global mixin that calls `asyncData` when a route component's params change
-Vue.mixin({
-  beforeRouteUpdate (to, from, next) {
-    // console.log("@@@@ beforeRouteUpdate")
-    next()
-  }
-})
+// Vue.mixin({
+//   beforeRouteUpdate (to, from, next) {
+//     // console.log("@@@@ beforeRouteUpdate")
+//     next()
+//   }
+// })
 
 const { app, router, store } = createApp()
 
