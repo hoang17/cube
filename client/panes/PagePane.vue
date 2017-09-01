@@ -4,7 +4,7 @@
       h1.title {{ cube.name }}
       v-text-field(label='Title', v-model='cube.content')
       v-text-field(label='Host', v-model='cube.host')
-      v-text-field(label='Path', v-model='cube.path')
+      v-text-field(label='Path', v-model='cube.path', prefix="/")
       v-text-field(label='URL', v-model='cube.url', readonly)
       v-text-field(label='Font', v-model='cube.style.fontFamily')
       v-text-field(label='Color', v-model='cube.style.color')
@@ -25,7 +25,7 @@ export default {
   props: ['cube'],
   computed: {
     url(){
-      return this.cube.host + this.cube.path
+      return this.cube.host + '/' + this.cube.path
     }
   },
   watch: {

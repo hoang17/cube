@@ -141,6 +141,7 @@ module.exports = function(app) {
     if (req.url.includes('/dist/')
       || req.url.includes('/css/')
       || req.url.includes('/favicon.ico')
+      || req.url.includes('/__webpack_hmr')
     ) return next()
 
     log('catch all', req.url)

@@ -50,6 +50,17 @@ export default {
     textarea
       font-size 13px !important
 
+  .input-group--prefix:not(.input-group--focused):not(.input-group--dirty)
+    label
+      left 8px
+      top 15px
+
+  .input-group--prefix .input-group--text-field__prefix
+  .input-group--prefix .input-group--text-field__suffix
+  .input-group--suffix .input-group--text-field__prefix
+  .input-group--suffix .input-group--text-field__suffix
+    font-size 13px !important
+
   .input-group--text-field.input-group--dirty:not(.input-group--textarea)
   .input-group--text-field:not(.input-group--single-line):focus:not(.input-group--textarea)
   .input-group--text-field:not(.input-group--single-line).input-group--focused:not(.input-group--textarea)

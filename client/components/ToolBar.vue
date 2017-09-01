@@ -90,7 +90,7 @@ export default {
       p._id = ObjectId()
       p.new = true
       p.content += ' Copy'
-      p.path = '/' + p._id
+      p.path = p._id
       p.url = p.host + '/' + p._id
       this.$store.commit('setPage', p)
       this.activeCube = p

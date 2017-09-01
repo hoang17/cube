@@ -32,7 +32,7 @@ export function newPage(host){
     type: 'pg',
     host: host,
     path: path,
-    url: host + path,
+    url: host + '/' + path,
     userId: undefined,
     content: 'New Page 🙌🏻',
     new: true,

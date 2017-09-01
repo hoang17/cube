@@ -17,7 +17,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const expressValidator = require('express-validator')
-const expressStatusMonitor = require('express-status-monitor')
+// const expressStatusMonitor = require('express-status-monitor')
 
 
 // const sass = require('node-sass-middleware');
@@ -39,10 +39,10 @@ dotenv.load({ path: '.env' })
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home')
+// const homeController = require('./controllers/home')
 const userController = require('./controllers/user')
 const apiController = require('./controllers/api')
-const contactController = require('./controllers/contact')
+// const contactController = require('./controllers/contact')
 
 /**
  * API keys and Passport configuration.
@@ -78,7 +78,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 // app.use(helmet())
 app.use(compression())
-app.use(expressStatusMonitor())
+// app.use(expressStatusMonitor())
 // app.use(sass({
 //   src: publicDir,
 //   dest: publicDir
@@ -142,7 +142,7 @@ app.use(express.static(publicDir, { maxAge: 31557600000 })) // one year
  * Primary app routes.
  */
 // app.get('/', homeController.index);
-app.get('/privacy', homeController.privacy);
+// app.get('/privacy', homeController.privacy);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
@@ -152,8 +152,8 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-app.get('/contact', contactController.getContact);
-app.post('/contact', contactController.postContact);
+// app.get('/contact', contactController.getContact);
+// app.post('/contact', contactController.postContact);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);

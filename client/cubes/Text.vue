@@ -34,6 +34,7 @@ export default {
   position relative
   margin 10px auto
   padding 10px
+  line-height 1.75
 
   &[edit]:after
     transition .3s cubic-bezier(.25,.8,.25,1)

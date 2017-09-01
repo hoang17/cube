@@ -1,6 +1,7 @@
 // entry-client.js
 import Vue from 'vue'
 import 'es6-promise/auto'
+import './plugins/favicon'
 import { createApp } from './app'
 
 // import VueLazyload from 'vue-lazyload'
