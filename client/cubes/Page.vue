@@ -9,21 +9,15 @@ export default {
     return this.page.content
   },
   async asyncData ({ store, route }) {
-    let url = store.state.host + route.path
-    let id = route.params.id ? route.params.id : await store.dispatch('fetchRoute', { url })
+    let id = await store.dispatch('fetchRoute', { url: store.state.host + route.path })
     return store.dispatch('fetchPage', { id })
   },
   data() {
-    return {
-    }
+    return {}
   },
   watch: {
-    async id(){
-      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { url: this.url })
-      this.$store.dispatch('fetchPage', { id })
-    },
     async path(){
-      let id = this.$route.params.id ? this.$route.params.id : await this.$store.dispatch('fetchRoute', { url: this.url })
+      let id = await this.$store.dispatch('fetchRoute', { url: this.url })
       this.$store.dispatch('fetchPage', { id })
     }
   },
@@ -33,9 +27,6 @@ export default {
     },
     url(){
       return this.$store.state.host + this.$route.path
-    },
-    id(){
-      return this.$route.params.id
     },
     user(){
       return this.$store.state.user
@@ -47,8 +38,7 @@ export default {
       return this.$store.getters.cubes
     },
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
