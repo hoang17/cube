@@ -10,7 +10,7 @@
       v-icon undo
     v-btn(icon, @click="redo()", :disabled="!canRedo")
       v-icon redo
-    a(:href="page.url", target='_blank', rel='noopener')
+    a(:href="url", target='_blank', rel='noopener')
       v-btn(icon)
         v-icon visibility
     //-.text-format(v-if="cube")
@@ -33,6 +33,9 @@ import { ObjectId } from '../api'
 export default {
   props: ['cube'],
   computed: {
+    url(){
+      return this.page.url.startsWith('/') ? this.page.url : '//'+this.page.url
+    },
     history(){
       return this.$store.getters.history
     },
