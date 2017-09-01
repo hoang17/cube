@@ -4,11 +4,13 @@
       v-icon save
     v-btn(icon, @click="dup()")
       v-icon content_copy
+    v-btn(icon, @click='trash()')
+      v-icon delete
     v-btn(icon, @click="undo()", :disabled="!canUndo")
       v-icon undo
     v-btn(icon, @click="redo()", :disabled="!canRedo")
       v-icon redo
-    a(:href="'/view/'+page._id", target='_blank', rel='noopener')
+    a(:href="page.url", target='_blank', rel='noopener')
       v-btn(icon)
         v-icon visibility
     //-.text-format(v-if="cube")
@@ -72,12 +74,21 @@ export default {
     }
   },
   methods: {
+    trash(){
+      if (confirm("Do you want to delete this page?")) {
+        this.$store.dispatch('deletePage', { page: this.page })
+        this.activeCube = null
+        this.$router.push({ name: 'build' })
+        return
+      }
+    },
     dup(){
       let p = _.cloneDeep(this.page)
       p._id = ObjectId()
       p.new = true
       p.content += ' Copy'
-      p.url = '/' + p._id
+      p.path = '/' + p._id
+      p.url = p.host + '/' + p._id
       this.$store.commit('setPage', p)
       this.activeCube = p
       this.$router.push({ name: 'build', params: { id: p._id }})
