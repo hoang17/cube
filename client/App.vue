@@ -15,22 +15,29 @@ export default {
 <style lang="stylus">
 
 body
-  /*font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;*/
-  font-size 15px
+  font-family -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
+  text-rendering optimizeLegibility
+  font-size 14px
   background-color lighten(#eceef1, 30%)
   margin 0
-  color #34495e
-  /*overflow-y scroll*/
   height 100vh
+  word-spacing 0.05em
+  /*color #34495e*/
+  /*-webkit-font-smoothing auto*/
+  /*overflow-y scroll*/
 
 /*h1,h2,h3,h4,h5,h6
   margin auto*/
+
+.application--light
+  color #000
 
 p
   margin 0
 
 a
-  color #34495e
+  /*color #34495e*/
+  color rgb(134,142,150)
   text-decoration none
 
   &:hover

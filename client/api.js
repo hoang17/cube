@@ -40,7 +40,7 @@ export function newPage(host){
       color: undefined,
       display: 'block',
       width: undefined,
-      fontFamily: 'Roboto',
+      fontFamily: undefined,
       fontSize: '1em',
       fontWeight: '400',
       lineHeight: '1',

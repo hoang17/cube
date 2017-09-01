@@ -6,7 +6,7 @@
    "engines": {
      "node": ">= 7.10.0"
    },
-   "aliases": [
+   "alias": [
      "active.now.sh",
      "live.now.sh",
      "hot.now.sh",
