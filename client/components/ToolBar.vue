@@ -79,6 +79,7 @@ export default {
       p.content += ' Copy'
       p.url = '/' + p._id
       this.$store.commit('setPage', p)
+      this.activeCube = p
       this.$router.push({ name: 'build', params: { id: p._id }})
     },
     snapshot(page) {

@@ -31,9 +31,9 @@ export function createStore () {
       async deletePage({ state, commit }, { page }) {
         Vue.delete(state.pages, page._id)
 
-        if (page.new)
+        if (page._id == state.newId)
           commit('addNewPage')
-        else
+        else if (!page.new)
           deletePage(page._id)
 
         commit('setPageId', state.newId)
