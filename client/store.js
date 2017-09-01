@@ -24,7 +24,8 @@ export function createStore () {
         if (state.routes[url])
           return state.routes[url]
         let id = await fetchRoute(url)
-        Vue.set(state.routes, url, id)
+        if (id)
+          Vue.set(state.routes, url, id)
         return id
       },
 

@@ -92,10 +92,12 @@ module.exports = function(app) {
     }
 
     const context = {
-      title: 'Vue 2.0', // default title
+      title: 'Cube', // default title
       host: req.headers.host,
       url: req.url,
-      user: req.user
+      user: req.user,
+      req: req,
+      res: res,
     }
 
     renderer.renderToString(context, (err, html) => {
@@ -107,7 +109,7 @@ module.exports = function(app) {
         microCache.set(req.url, html)
       }
       if (!isProd) {
-        console.log(chalk.red(`whole request: ${Date.now() - s}ms`))
+        console.log(chalk.red(`render whole request: ${Date.now() - s}ms`))
       }
     })
   }

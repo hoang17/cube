@@ -8,8 +8,11 @@ export default {
   title(){
     return this.page.content
   },
-  async asyncData ({ store, route }) {
+  async asyncData ({ store, route, context }) {
+    // context.res.status(404).end('404 | Page Not Found')
     let id = await store.dispatch('fetchRoute', { url: store.state.host + route.path })
+    if (!id)
+      throw {code: 404}
     return store.dispatch('fetchPage', { id })
   },
   data() {

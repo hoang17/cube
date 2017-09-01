@@ -9,7 +9,7 @@ export default context => {
   // everything is ready before rendering.
   return new Promise((resolve, reject) => {
     const s = isDev && Date.now()
-    const { app, router, store } = createApp()
+    const { app, router, store } = createApp(context)
 
     // set server-side router's location
     router.push(context.url)
@@ -36,7 +36,8 @@ export default context => {
       Promise.all(matchedComponents.map(component => {
         return component.asyncData && component.asyncData({
           store,
-          route: router.currentRoute
+          route: router.currentRoute,
+          context
         })
       })).then(() => {
         isDev && console.log(`data pre-fetch: ${Date.now() - s}ms`)

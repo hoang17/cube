@@ -35,7 +35,7 @@ Object.keys(filters).forEach(key => {
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export function createApp () {
+export function createApp (context) {
   // create store and router instances
   const store = createStore()
   const router = createRouter()
@@ -50,6 +50,7 @@ export function createApp () {
   const app = new Vue({
     router,
     store,
+    context,
     render: h => h(App)
   })
 

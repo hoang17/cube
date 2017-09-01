@@ -51,7 +51,8 @@ router.route('/routes')
     let url = req.body.url
     log(url)
     let page = await pages.findOne({url: url})
-    res.send(page._id)
+    let id = page ? page._id : null
+    res.send(id)
   })
 
 router.route('/cubes/:id')
