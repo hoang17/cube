@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import _  from 'lodash'
+import { cloneDeep }  from 'lodash'
 import { ObjectId } from '../api'
 
 export default {
@@ -86,7 +86,7 @@ export default {
       }
     },
     dup(){
-      let p = _.cloneDeep(this.page)
+      let p = cloneDeep(this.page)
       p._id = ObjectId()
       p.new = true
       p.content += ' Copy'
@@ -100,14 +100,14 @@ export default {
       let h = this.history
       h.index++
       h.stack.splice(h.index)
-      h.stack.push(_.cloneDeep(page))
+      h.stack.push(cloneDeep(page))
     },
     undo() {
       this.stopWatch()
       this.activeCube = null
       let h = this.history
       h.index--
-      this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
+      this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
     redo() {
@@ -115,7 +115,7 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index++
-      this.$store.commit('setPage', _.cloneDeep(h.stack[h.index]))
+      this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
     startWatch(){

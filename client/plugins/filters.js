@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { truncate } from 'lodash'
 import numeral from 'numeral'
 
 export function host (url) {
@@ -43,7 +43,7 @@ export function formatNumber(num){
 }
 
 export function cropTxt(txt, length = 300){
-  return _.truncate(txt, {
+  return truncate(txt, {
       'length': length,
       'separator': /,? +/
     })

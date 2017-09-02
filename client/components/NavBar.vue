@@ -33,7 +33,6 @@
 
 <script>
 import * as cubes from '../data/cubes'
-import _ from 'lodash'
 
 export default {
   computed: {

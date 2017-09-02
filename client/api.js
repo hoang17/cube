@@ -2,7 +2,7 @@ import axios from 'axios'
 const port = process.env.PORT || 3000
 const isClient = process.env.VUE_ENV === 'client'
 const host = isClient ? window.location.origin : `http://localhost:${port}`
-import _  from 'lodash'
+import { fromPairs, map } from 'lodash'
 
 const api = axios.create({
   baseURL: `${host}/api/`,
@@ -75,7 +75,7 @@ export function newPage(host){
 export async function fetchPages(){
   try {
     let res = await api.get('pages')
-    return _.fromPairs(_.map(res.data, i => [i._id, i]))
+    return fromPairs(map(res.data, i => [i._id, i]))
     // return res.data
   } catch (e) {
     console.error(e)
