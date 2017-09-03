@@ -46,13 +46,8 @@ export default {
 </script>
 
 <style lang="stylus">
-.page
-  // background-color #fff
 
-  .cube
-    position relative
-    margin 10px auto
-    text-align center
-    padding 10px
-    transition .3s cubic-bezier(.25,.8,.25,1)
+/*.page
+  background-color #fff*/
+
 </style>

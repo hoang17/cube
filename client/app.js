@@ -11,9 +11,9 @@ import ClickOutside from './directives/ClickOutside'
 import * as cubes from './data/cubes'
 
 require('../node_modules/vuetify/dist/vuetify.min.css')
+require('./app.styl')
 
 Vue.use(Vuetify)
-
 
 Vue.directive('click-outside', ClickOutside)
 

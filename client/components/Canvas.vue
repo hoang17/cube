@@ -243,12 +243,7 @@ export default {
     margin 20px auto
 
   .cube
-    position relative
-    margin 10px auto
-    text-align center
     user-select none
-    padding 10px
-    transition .3s cubic-bezier(.25,.8,.25,1)
 
     &[edit]
       cursor pointer

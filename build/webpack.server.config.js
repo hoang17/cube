@@ -56,8 +56,14 @@ module.exports = {
       },
       {
         test: /\.styl$/,
-        loader: "vue-style-loader!css-loader!stylus-loader",
-        options: { extractCSS: true }
+        // use: [ 'vue-style-loader', 'css-loader', 'stylus-loader' ]
+        use: isProd
+          ? ExtractTextPlugin.extract({
+              use: ['css-loader', 'stylus-loader'],
+              fallback: 'vue-style-loader'
+            })
+          : ['vue-style-loader', 'css-loader', 'stylus-loader']
+        // loader: "vue-style-loader!css-loader!stylus-loader",
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
