@@ -51,9 +51,8 @@ module.exports = {
               use: 'css-loader?minimize',
               fallback: 'vue-style-loader'
             })
-          : ['vue-style-loader', 'css-loader'],
-        // loader: "vue-style-loader!css-loader",
-        // options: { extractCSS: true }
+          : ['vue-style-loader', 'css-loader']
+        // loader: "vue-style-loader!css-loader"
       },
       {
         test: /\.styl$/,
@@ -84,7 +83,7 @@ module.exports = {
           compress: { warnings: false },
           output: {comments: false}
         }),
-        new webpack.optimize.AggressiveMergingPlugin(),
+        // new webpack.optimize.AggressiveMergingPlugin(),
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css'
         }),
