@@ -128,12 +128,19 @@ export default {
       this.activeCube = null
       this.page.userId = this.$store.state.user._id
       let id = await this.$store.dispatch('savePage')
+      console.log('saved');
       this.$router.push({ name: 'build', params: { id: id }})
     }
   },
-  mounted () {
+  mounted() {
     this.snapshot(this.page)
     this.startWatch()
+    document.addEventListener("keydown", e => {
+      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+        e.preventDefault()
+        this.save()
+      }
+    }, false)
   }
 }
 </script>
