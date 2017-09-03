@@ -90,7 +90,7 @@
     "vue-server-renderer": "^2.4.2",
     "vue-textarea-autosize": "^1.0.3",
     "vuedraggable": "^2.14.1",
-    "vuetify": "^0.14.11",
+    "vuetify": "^0.15.2",
     "vuex": "^2.3.1",
     "vuex-router-sync": "^4.2.0",
     "winston": "^2.3.1"

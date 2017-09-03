@@ -1,5 +1,5 @@
 <template lang="pug">
-  .canvas(:style="page.style")
+  .page(:style="page.style")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
 </template>
 
@@ -45,8 +45,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.canvas
+<style lang="stylus">
+.page
   // background-color #fff
 
   .cube
@@ -55,10 +55,4 @@ export default {
     text-align center
     padding 10px
     transition .3s cubic-bezier(.25,.8,.25,1)
-
-// @media (max-width: 1024px)
-//   .container
-//     display block !important
-//     // flex-direction column !important
-
 </style>

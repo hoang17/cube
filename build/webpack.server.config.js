@@ -46,11 +46,19 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: "vue-style-loader!css-loader"
+        use: isProd
+          ? ExtractTextPlugin.extract({
+              use: 'css-loader?minimize',
+              fallback: 'vue-style-loader'
+            })
+          : ['vue-style-loader', 'css-loader'],
+        // loader: "vue-style-loader!css-loader",
+        // options: { extractCSS: true }
       },
       {
         test: /\.styl$/,
-        loader: "vue-style-loader!css-loader!stylus-loader"
+        loader: "vue-style-loader!css-loader!stylus-loader",
+        options: { extractCSS: true }
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
