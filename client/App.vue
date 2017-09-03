@@ -11,3 +11,7 @@ export default {
   name: 'app'
 }
 </script>
+
+<style lang="stylus">
+  @require './app'
+</style>
