@@ -4,6 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const vueConfig = require('./vue-loader.config')
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -89,9 +91,16 @@ module.exports = {
           compress: { warnings: false },
           output: {comments: false}
         }),
-        // new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin(),
         new ExtractTextPlugin({
-          filename: 'common.[chunkhash].css'
+          filename: 'common.[chunkhash].css',
+          allChunks: true
+        }),
+        new OptimizeCssAssetsPlugin({
+          assetNameRegExp: /\.css$/g,
+          cssProcessor: require('cssnano'),
+          cssProcessorOptions: { discardComments: {removeAll: true } },
+          canPrint: true
         }),
         // extract vendor chunks for better caching
         new webpack.optimize.CommonsChunkPlugin({
