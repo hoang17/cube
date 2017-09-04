@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const vueConfig = require('./vue-loader.config')
 
@@ -99,7 +99,8 @@ module.exports = {
           output: {comments: false}
         }),
         new ExtractTextPlugin({
-          filename: 'common.[chunkhash].css'
+          filename: 'common.[chunkhash].css',
+          allChunks: true
         }),
         new OptimizeCssAssetsPlugin({
           assetNameRegExp: /\.css$/g,

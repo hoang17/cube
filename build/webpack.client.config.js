@@ -4,7 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const vueConfig = require('./vue-loader.config')
 
@@ -120,6 +121,7 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
           name: 'manifest'
         }),
+        // new BundleAnalyzerPlugin(),
         new VueSSRClientPlugin(),
         new SWPrecachePlugin({
           cacheId: 'vue-hn',
@@ -162,6 +164,7 @@ module.exports = {
           'process.env.NODE_ENV': JSON.stringify('development'),
           'process.env.VUE_ENV': '"client"'
         }),
+        // new BundleAnalyzerPlugin(),
         new FriendlyErrorsPlugin(),
         new VueSSRClientPlugin()
       ]
