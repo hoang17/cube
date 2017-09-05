@@ -10,7 +10,7 @@
         div(slot='header') {{ cube.name }}
         v-card
           v-card-text
-            component(:cube="cube", :is="cube.type + '-pane'")
+            component(:cube="cube", :is="cube.type + '-pane'", @keydown.native.enter.stop="")
             select(v-model="cube.css")
               option(selected, :value="undefined") Select style
               option(v-for='s in styles', :value="s._id") {{ s.name }}
@@ -18,11 +18,13 @@
         div(slot='header') {{ style }}
         v-card
           v-card-text.style
-            style-bar(:cube="cube")
+            style-bar(:cube="cube", @keydown.native.enter.stop="")
 </template>
 
 <script>
 import StyleBar from './StyleBar'
+import insertCss from 'insert-css'
+import { genStyle } from '../plugins/helpers'
 
 export default {
   props: ['cube'],
@@ -43,11 +45,12 @@ export default {
     },
   },
   mounted() {
-    this.styles.map(e => {
+    for (let id in this.styles){
+      let e = this.styles[id]
       let s = genStyle(e.style)
-      let style = `.--${e._id} {${s}}`
+      let style = `.--${id} {${s}}`
       insertCss(style)
-    })
+    }
   },
   methods: {
     async done(){
