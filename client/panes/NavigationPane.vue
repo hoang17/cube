@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-text-field(label='Label', v-model='cube.content')
+    v-text-field(label='Name', v-model='cube.content')
     //- v-text-field(label='Font', v-model='cube.style.fontFamily')
     //- v-text-field(label='Color', v-model='cube.style.color')
     //- v-text-field(label='Size', v-model='cube.style.fontSize')

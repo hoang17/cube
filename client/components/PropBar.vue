@@ -11,10 +11,13 @@
         v-card
           v-card-text
             component(:cube="cube", :is="cube.type + '-pane'")
+            select(v-model="cube.css")
+              option(selected, :value="undefined") Select style
+              option(v-for='s in styles', :value="s._id") {{ s.name }}
       v-expansion-panel-content
         div(slot='header') {{ style }}
         v-card
-          v-card-text
+          v-card-text.style
             style-bar(:cube="cube")
 </template>
 
@@ -31,18 +34,21 @@ export default {
     }
   },
   computed: {
+    styles(){
+      return this.$store.state.styles
+    },
     style(){
       let s = this.$store.state.styles[this.cube.css]
       return s ? s.name + ' style' : 'style'
     },
   },
-  // mounted() {
-  //   this.styles.map(e => {
-  //     let s = genStyle(e.style)
-  //     let style = `.--${e._id} {${s}}`
-  //     insertCss(style)
-  //   })
-  // },
+  mounted() {
+    this.styles.map(e => {
+      let s = genStyle(e.style)
+      let style = `.--${e._id} {${s}}`
+      insertCss(style)
+    })
+  },
   methods: {
     async done(){
       this.$emit('done')
@@ -69,6 +75,14 @@ export default {
   border-left 1px solid rgba(0,0,0,0.12)
   text-align center
   overflow auto
+
+  .action
+    width 100%
+    height 48px
+    text-align left
+    // position fixed
+    // top 0
+    // z-index 4
 
   .input-group__details
     min-height auto
@@ -102,28 +116,23 @@ export default {
     label
       transform translate3d(0,-18px,0) scale(.90)
 
-.action
-  width 100%
-  height 48px
-  text-align left
-  // position fixed
-  // top 0
-  // z-index 4
-
   .icon
     font-size 20px
 
-.pane
-  pointer-events auto
+  select
+    margin 10px auto
 
-.expansion-panel__header
-  text-transform uppercase
-  font-weight 500
-  // box-shadow 1px -1px 1px 1px rgba(0,0,0,.1)
-  // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
+  .style
+    padding-top 0
 
-.expansion-panel__body
-  border-top 0.1rem solid #d1d1d1
-//   box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
+  .expansion-panel__header
+    text-transform uppercase
+    font-weight 500
+    // box-shadow 1px -1px 1px 1px rgba(0,0,0,.1)
+    // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
+
+  .expansion-panel__body
+    border-top 0.1rem solid #d1d1d1
+  //   box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
 
 </style>

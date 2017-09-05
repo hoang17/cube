@@ -2,9 +2,9 @@
   .style-bar
     //- v-btn(icon, @click='saveStyle')
     //-   v-icon save
-    select(v-model="cube.css")
-      option(selected, :value="undefined") Select style
-      option(v-for='s in styles', :value="s._id") {{ s.name }}
+    //- select(v-model="cube.css")
+    //-   option(selected, :value="undefined") Select style
+    //-   option(v-for='s in styles', :value="s._id") {{ s.name }}
 
     v-text-field(label='Font', v-model='cube.style.fontFamily')
     v-text-field(label='Color', v-model='cube.style.color')
@@ -15,9 +15,14 @@
     v-text-field(label='Text Alignment', v-model='cube.style.textAlign')
     v-text-field(label='Text Transform', v-model='cube.style.textTransform')
     v-text-field(label='Width', v-model='cube.style.width')
-    v-text-field(label='Display', v-model='cube.style.display')
+    v-text-field(label='Height', v-model='cube.style.height')
     v-text-field(label='Margin', v-model='cube.style.margin')
     v-text-field(label='Padding', v-model='cube.style.padding')
+    v-text-field(label='Display', v-model='cube.style.display')
+    v-text-field(label='Min Width', v-model='cube.style.minWidth')
+    v-text-field(label='Min Height', v-model='cube.style.minHeight')
+    v-text-field(label='Max Width', v-model='cube.style.maxWidth')
+    v-text-field(label='Max Height', v-model='cube.style.maxHeight')
 </template>
 
 <script>
