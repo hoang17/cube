@@ -2,11 +2,13 @@
   .propbar
     .action
       //- v-btn(primary, dark, @click="done") Done
+      //- v-btn(icon, @click='saveStyle')
+      //-   v-icon save
       v-btn(icon, @click="remove")
         v-icon delete
 
     v-expansion-panel(expand)
-      v-expansion-panel-content
+      v-expansion-panel-content(:value="true")
         div(slot='header') {{ cube.name }}
         v-card
           v-card-text
@@ -15,10 +17,10 @@
               option(selected, :value="undefined") Select style
               option(v-for='s in styles', :value="s._id") {{ s.name }}
       v-expansion-panel-content
-        div(slot='header') {{ style }}
+        div(slot='header') {{ styleName }}
         v-card
           v-card-text.style
-            style-bar(:cube="cube", @keydown.native.enter.stop="")
+            style-bar(:stl="stl", @keydown.native.enter.stop="")
 </template>
 
 <script>
@@ -36,12 +38,17 @@ export default {
     }
   },
   computed: {
+    stl(){
+      return this.style ? this.style.style : this.cube.style
+    },
     styles(){
       return this.$store.state.styles
     },
     style(){
-      let s = this.$store.state.styles[this.cube.css]
-      return s ? s.name + ' style' : 'style'
+      return this.$store.state.styles[this.cube.css]
+    },
+    styleName(){
+      return this.style ? this.style.name + ' style' : 'style'
     },
   },
   mounted() {
@@ -58,7 +65,10 @@ export default {
     },
     async remove(){
       this.$emit('remove')
-    }
+    },
+    async saveStyle(){
+      let id = await this.$store.dispatch('saveStyle', { name: this.css, style: this.style })
+    },
   },
 }
 </script>

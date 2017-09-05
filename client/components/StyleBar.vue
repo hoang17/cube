@@ -1,60 +1,31 @@
 <template lang="pug">
   .style-bar
-    //- v-btn(icon, @click='saveStyle')
-    //-   v-icon save
-    //- select(v-model="cube.css")
-    //-   option(selected, :value="undefined") Select style
-    //-   option(v-for='s in styles', :value="s._id") {{ s.name }}
-
-    v-text-field(label='Font', v-model='cube.style.fontFamily')
-    v-text-field(label='Color', v-model='cube.style.color')
-    v-text-field(label='Size', v-model='cube.style.fontSize')
-    v-text-field(label='Weight', v-model='cube.style.fontWeight')
-    v-text-field(label='Line Height', v-model='cube.style.lineHeight')
-    v-text-field(label='Letter Spacing', v-model='cube.style.letterSpacing')
-    v-text-field(label='Text Alignment', v-model='cube.style.textAlign')
-    v-text-field(label='Text Transform', v-model='cube.style.textTransform')
-    v-text-field(label='Width', v-model='cube.style.width')
-    v-text-field(label='Height', v-model='cube.style.height')
-    v-text-field(label='Margin', v-model='cube.style.margin')
-    v-text-field(label='Padding', v-model='cube.style.padding')
-    v-text-field(label='Display', v-model='cube.style.display')
-    v-text-field(label='Min Width', v-model='cube.style.minWidth')
-    v-text-field(label='Min Height', v-model='cube.style.minHeight')
-    v-text-field(label='Max Width', v-model='cube.style.maxWidth')
-    v-text-field(label='Max Height', v-model='cube.style.maxHeight')
+    v-text-field(label='Font', v-model='stl.fontFamily')
+    v-text-field(label='Color', v-model='stl.color')
+    v-text-field(label='Size', v-model='stl.fontSize')
+    v-text-field(label='Weight', v-model='stl.fontWeight')
+    v-text-field(label='Line Height', v-model='stl.lineHeight')
+    v-text-field(label='Letter Spacing', v-model='stl.letterSpacing')
+    v-text-field(label='Text Alignment', v-model='stl.textAlign')
+    v-text-field(label='Text Transform', v-model='stl.textTransform')
+    v-text-field(label='Width', v-model='stl.width')
+    v-text-field(label='Height', v-model='stl.height')
+    v-text-field(label='Margin', v-model='stl.margin')
+    v-text-field(label='Padding', v-model='stl.padding')
+    v-text-field(label='Display', v-model='stl.display')
+    v-text-field(label='Min Width', v-model='stl.minWidth')
+    v-text-field(label='Min Height', v-model='stl.minHeight')
+    v-text-field(label='Max Width', v-model='stl.maxWidth')
+    v-text-field(label='Max Height', v-model='stl.maxHeight')
 </template>
 
 <script>
-import insertCss from 'insert-css'
-import { genStyle } from '../plugins/helpers'
-
 export default {
-  props: ['cube'],
-  components: {
-  },
+  props: ['stl'],
   data () {
     return {
     }
   },
-  computed: {
-    styles(){
-      return this.$store.state.styles
-    },
-  },
-  mounted() {
-    for (let id in this.styles){
-      let e = this.styles[id]
-      let s = genStyle(e.style)
-      let style = `.--${id} {${s}}`
-      insertCss(style)
-    }
-  },
-  methods: {
-    async saveStyle(){
-      let id = await this.$store.dispatch('saveStyle', { name: this.cube.css, style: this.cube.style })
-    },
-  }
 }
 </script>
 
