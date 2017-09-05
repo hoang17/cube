@@ -1,7 +1,7 @@
 <template lang="pug">
   .page(:style="page.style")
+    style {{ rules }}
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
-    //-style {{ rules }}
 </template>
 
 <script>
@@ -14,7 +14,8 @@ export default {
   },
   async asyncData ({ store, route, context }) {
     await store.dispatch('fetchStyles')
-    context.rules = getRules(store.state.styles)
+    // context.rules = getRules(store.state.styles)
+
     // context.res.status(404).end('404 | Page Not Found')
     let id = await store.dispatch('fetchRoute', { url: store.state.host + route.path })
     if (!id)
@@ -49,9 +50,9 @@ export default {
     cubes() {
       return this.$store.getters.cubes
     },
-    // rules(){
-    //   return getRules(this.$store.state.styles)
-    // },
+    rules(){
+      return getRules(this.$store.state.styles)
+    },
   },
   methods: {}
 }
