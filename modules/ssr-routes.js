@@ -98,6 +98,7 @@ module.exports = function(app) {
       user: req.user,
       req: req,
       res: res,
+      rules: '',
     }
 
     renderer.renderToString(context, (err, html) => {

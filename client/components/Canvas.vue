@@ -113,7 +113,8 @@ import Draggable from 'vuedraggable'
 
 export default {
   title: 'Build',
-  asyncData ({ store, route }) {
+  async asyncData ({ store, route }) {
+    await store.dispatch('fetchStyles')
     return store.dispatch('fetchPage', { id: route.params.id })
   },
   components: {
@@ -272,6 +273,6 @@ export default {
   top 0
   width 100%
   height 100%
-  z-index 10000
+  z-index 5
   outline 0
 </style>

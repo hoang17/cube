@@ -1,14 +1,20 @@
 <template lang="pug">
   .page(:style="page.style")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
+    //-style {{ rules }}
 </template>
 
 <script>
+import insertCss from 'insert-css'
+import { getRules } from '../plugins/helpers'
+
 export default {
   title(){
     return this.page.content
   },
   async asyncData ({ store, route, context }) {
+    await store.dispatch('fetchStyles')
+    context.rules = getRules(store.state.styles)
     // context.res.status(404).end('404 | Page Not Found')
     let id = await store.dispatch('fetchRoute', { url: store.state.host + route.path })
     if (!id)
@@ -16,11 +22,14 @@ export default {
     return store.dispatch('fetchPage', { id })
   },
   data() {
-    return {}
+    return {
+    }
   },
   watch: {
     async path(){
       let id = await this.$store.dispatch('fetchRoute', { url: this.url })
+      if (!id)
+        this.pageNotFound()
       this.$store.dispatch('fetchPage', { id })
     }
   },
@@ -40,6 +49,9 @@ export default {
     cubes() {
       return this.$store.getters.cubes
     },
+    // rules(){
+    //   return getRules(this.$store.state.styles)
+    // },
   },
   methods: {}
 }

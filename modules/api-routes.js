@@ -6,6 +6,8 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, 
 
 const cubes = db.get('cubes')
 const pages = db.get('pages')
+const styles = db.get('styles')
+const blocks = db.get('blocks')
 
 try {
   pages.createIndex('userId')
@@ -16,6 +18,24 @@ try {
 } catch (e) {
   console.error(e)
 }
+
+router.route('/styles')
+  .get(async function(req, res) {
+    let data = await styles.find()
+    res.json(data)
+  })
+  .post(async function(req, res) {
+    let style = req.body
+    if (style.new){
+      delete style.new
+      style = await styles.insert(style)
+      res.json({ message: 'Style created', _id: style._id })
+    } else {
+      styles.update({'_id': style._id }, style)
+      res.json({ message: 'Style updated', _id: style._id })
+    }
+  })
+
 
 router.route('/pages')
   .get(async function(req, res) {

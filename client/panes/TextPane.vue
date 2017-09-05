@@ -1,36 +1,43 @@
 <template lang="pug">
-  v-card.elevation-0
-    v-card-text
-      h1.title {{ cube.name }}
-      textarea-autosize(placeholder='Enter text...', v-model='cube.content', :min-height='30', :max-height='350')
-      v-text-field(label='Font', v-model='cube.style.fontFamily')
-      v-text-field(label='Color', v-model='cube.style.color')
-      v-text-field(label='Size', v-model='cube.style.fontSize')
-      v-text-field(label='Weight', v-model='cube.style.fontWeight')
-      v-text-field(label='Line Height', v-model='cube.style.lineHeight')
-      v-text-field(label='Letter Spacing', v-model='cube.style.letterSpacing')
-      v-text-field(label='Text Alignment', v-model='cube.style.textAlign')
-      v-text-field(label='Text Transform', v-model='cube.style.textTransform')
-      v-text-field(label='Width', v-model='cube.style.width')
-      v-text-field(label='Display', v-model='cube.style.display')
-      v-text-field(label='Margin', v-model='cube.style.margin')
-      v-text-field(label='Padding', v-model='cube.style.padding')
+  div
+    textarea-autosize(placeholder='Enter text...', v-model='cube.content', :min-height='30', :max-height='350')
+    //- vue-select(:options='styles', v-model='cube.css')
+    v-text-field(label='Font', v-model='cube.style.fontFamily')
+    v-text-field(label='Color', v-model='cube.style.color')
+    v-text-field(label='Size', v-model='cube.style.fontSize')
+    v-text-field(label='Weight', v-model='cube.style.fontWeight')
+    v-text-field(label='Line Height', v-model='cube.style.lineHeight')
+    v-text-field(label='Letter Spacing', v-model='cube.style.letterSpacing')
+    v-text-field(label='Text Alignment', v-model='cube.style.textAlign')
+    v-text-field(label='Text Transform', v-model='cube.style.textTransform')
+    v-text-field(label='Width', v-model='cube.style.width')
+    v-text-field(label='Display', v-model='cube.style.display')
+    v-text-field(label='Margin', v-model='cube.style.margin')
+    v-text-field(label='Padding', v-model='cube.style.padding')
 </template>
 
 <script>
 import Vue from 'vue'
 import VueTextareaAutosize from 'vue-textarea-autosize'
+// import VueSelect from 'vue-select'
 
 Vue.use(VueTextareaAutosize)
 
 export default {
   props: ['cube'],
-  methods: {
+  components: {
+    // VueSelect
+  },
+  data () {
+    return {
+      // styles: ['text', 'sub-text','link','header','footer']
+    }
   },
 }
 </script>
 
 <style lang="stylus" scoped>
+
 textarea
   padding 10px 5px
   resize none

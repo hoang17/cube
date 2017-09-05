@@ -1,7 +1,7 @@
 @import '../node_modules/vuetify/src/stylus/settings/_colors'
 
 $theme := {
-  primary: $grey.darken-4
+  primary: $blue.darken-2
   accent: $red.accent-2
   secondary: $grey.lighten-1
   info: $blue.lighten-1
@@ -10,12 +10,14 @@ $theme := {
   success: $green.lighten-2
 }
 
+$font-size-root := 14px
+
 @import '../node_modules/vuetify/src/stylus/main'
 
 body
   font-family -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
   text-rendering optimizeLegibility
-  font-size 14px
+  font-size $font-size-root
   background-color lighten(#eceef1, 30%)
   margin 0
   height 100vh
@@ -29,6 +31,17 @@ body
 
 .application--light
   color #000
+
+  .menu__content--select
+    .list__tile
+      height 32px
+      padding 0 10px
+      font-size 13px !important
+
+  .propbar
+    .input-group--select
+      .input-group__selections__comma
+        font-size 13px !important
 
 a
   // color #34495e

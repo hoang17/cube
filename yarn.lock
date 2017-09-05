@@ -3520,6 +3520,10 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
+insert-css@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/insert-css/-/insert-css-2.0.0.tgz#eb5d1097b7542f4c79ea3060d3aee07d053880f4"
+
 instagram-node@^0.5.8:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/instagram-node/-/instagram-node-0.5.8.tgz#7317aa23f816654c0b003ace51d81a509af5ecbf"
@@ -7132,9 +7136,9 @@ vue-router@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.7.0.tgz#16d424493aa51c3c8cce8b7c7210ea4c3a89aff1"
 
-vue-select@sagalbot/vue-select:
+vue-select@^2.2.0:
   version "2.2.0"
-  resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/afca6bf11cef752cc8c7fc80c5d9d2bc888133e1"
+  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.2.0.tgz#7769dbde2c3d62aa6e819e9a96a57e464fb3a180"
 
 vue-server-renderer@^2.4.2:
   version "2.4.2"

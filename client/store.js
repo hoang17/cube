@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { newPage, fetchPages, fetchPage, savePage, deletePage, fetchRoute } from './api'
+import { newPage, fetchPages, fetchPage, savePage, deletePage, fetchRoute, saveStyle, fetchStyles } from './api'
 
 export function createStore () {
   return new Vuex.Store({
@@ -16,9 +16,19 @@ export function createStore () {
       user: null,
       token: null,
       histories: {},
-      routes: {}
+      routes: {},
+      styles: [],
     },
     actions: {
+      async fetchStyles({ state, commit }) {
+        state.styles = await fetchStyles()
+      },
+
+      async saveStyle({ state, commit }, style) {
+        let data = await saveStyle(style)
+        return data._id
+      },
+
       async fetchRoute({ state, commit }, { url }){
         if (state.routes[url])
           return state.routes[url]

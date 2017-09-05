@@ -117,3 +117,22 @@ export async function fetchRoute(url){
     console.error(e)
   }
 }
+
+export async function saveStyle(style){
+  try {
+    let res = await api.post('styles', style)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function fetchStyles(){
+  try {
+    let res = await api.get('styles')
+    // return fromPairs(map(res.data, i => [i._id, i]))
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}

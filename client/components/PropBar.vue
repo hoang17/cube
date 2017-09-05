@@ -1,16 +1,51 @@
 <template lang="pug">
-  .cube.propbar.elevation-0
+  .propbar.elevation-0
     .action
       v-btn(primary, dark, @click="done") Done
       v-btn(light, @click="remove") Remove
-    .list
-      component(:cube="cube", :is="cube.type + '-pane'")
+    v-card.elevation-0
+      v-card-text
+        h1.title {{ cube.name }}
+        v-layout(row, wrap)
+          v-flex(xs10)
+            select.style(v-model='cube.css')
+              //-option(disabled) Select Style
+              option(v-for='s in styles', :value="s._id") {{ s.name }}
+          v-flex(xs2)
+            v-btn(icon, @click='saveStyle')
+              v-icon save
+        br
+        component.pane(:cube="cube", :is="cube.type + '-pane'")
 </template>
 
 <script>
+import insertCss from 'insert-css'
+import { genStyle } from '../plugins/helpers'
+
 export default {
   props: ['cube'],
+  data () {
+    return {
+      // styles: ['text', 'sub-text','link','header','footer']
+    }
+  },
+  computed: {
+    styles(){
+      return this.$store.state.styles
+    },
+  },
+  mounted() {
+    this.styles.map(e => {
+      let s = genStyle(e.style)
+      let style = `.--${e._id} {${s}}`
+      insertCss(style)
+    })
+  },
   methods: {
+    async saveStyle(){
+      let id = await this.$store.dispatch('saveStyle', { name: this.cube.css, style: this.cube.style, new: true })
+      console.log('style saved')
+    },
     async done(){
       this.$emit('done')
     },
@@ -34,6 +69,7 @@ export default {
   user-select none
   transition .3s cubic-bezier(.25,.8,.25,1)
   border-left 1px solid rgba(0,0,0,0.12)
+  text-align center
 
   .input-group__details
     min-height auto
@@ -73,11 +109,11 @@ export default {
   width 100%
   z-index 4
   background-color #fff
-  padding 10px 0
+  padding 10px
   border-top: 1px solid rgba(0,0,0,.12)
   background-color #f2f3f5
 
-.list
+.pane
   overflow-y auto
   pointer-events auto
   height 100%

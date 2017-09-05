@@ -1,7 +1,7 @@
 <template lang="pug">
-  draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}")
+  draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="'--'+cube.css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
-  .cube.container(v-else, :style="cube.style", :content="cube.content")
+  .cube.container(v-else, :style="cube.style", :content="cube.content", :class="'--'+cube.css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i")
 </template>
 
