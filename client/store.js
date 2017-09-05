@@ -17,7 +17,7 @@ export function createStore () {
       token: null,
       histories: {},
       routes: {},
-      styles: [],
+      styles: {},
     },
     actions: {
       async fetchStyles({ state, commit }) {

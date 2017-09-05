@@ -1,50 +1,49 @@
 <template lang="pug">
-  .propbar.elevation-0
+  .propbar
     .action
-      v-btn(primary, dark, @click="done") Done
-      v-btn(light, @click="remove") Remove
-    v-card.elevation-0
-      v-card-text
-        h1.title {{ cube.name }}
-        .layout
-          .flex.xs10
-            select(v-model="cube.css")
-              option(selected, :value="undefined") Select style
-              option(v-for='s in styles', :value="s._id") {{ s.name }}
-          .flex.xs2
-            v-btn(icon, @click='saveStyle')
-              v-icon save
-        br
-        component.pane(:cube="cube", :is="cube.type + '-pane'")
+      //- v-btn(primary, dark, @click="done") Done
+      v-btn(icon, @click="remove")
+        v-icon delete
+
+    v-expansion-panel(expand)
+      v-expansion-panel-content
+        div(slot='header') {{ cube.name }}
+        v-card
+          v-card-text
+            component(:cube="cube", :is="cube.type + '-pane'")
+      v-expansion-panel-content
+        div(slot='header') {{ style }}
+        v-card
+          v-card-text
+            style-bar(:cube="cube")
 </template>
 
 <script>
-import insertCss from 'insert-css'
-import { genStyle } from '../plugins/helpers'
+import StyleBar from './StyleBar'
 
 export default {
   props: ['cube'],
+  components: {
+    StyleBar
+  },
   data () {
     return {
-      // styles: ['text', 'sub-text','link','header','footer']
     }
   },
   computed: {
-    styles(){
-      return this.$store.state.styles
+    style(){
+      let s = this.$store.state.styles[this.cube.css]
+      return s ? s.name + ' style' : 'style'
     },
   },
-  mounted() {
-    this.styles.map(e => {
-      let s = genStyle(e.style)
-      let style = `.--${e._id} {${s}}`
-      insertCss(style)
-    })
-  },
+  // mounted() {
+  //   this.styles.map(e => {
+  //     let s = genStyle(e.style)
+  //     let style = `.--${e._id} {${s}}`
+  //     insertCss(style)
+  //   })
+  // },
   methods: {
-    async saveStyle(){
-      let id = await this.$store.dispatch('saveStyle', { name: this.cube.css, style: this.cube.style })
-    },
     async done(){
       this.$emit('done')
     },
@@ -69,6 +68,7 @@ export default {
   transition .3s cubic-bezier(.25,.8,.25,1)
   border-left 1px solid rgba(0,0,0,0.12)
   text-align center
+  overflow auto
 
   .input-group__details
     min-height auto
@@ -102,24 +102,28 @@ export default {
     label
       transform translate3d(0,-18px,0) scale(.90)
 
-  .btn--icon
-    width 20px
-    height 20px
-
 .action
-  position fixed
-  bottom 0
   width 100%
-  z-index 4
-  background-color #fff
-  padding 10px
-  border-top: 1px solid rgba(0,0,0,.12)
-  background-color #f2f3f5
+  height 48px
+  text-align left
+  // position fixed
+  // top 0
+  // z-index 4
+
+  .icon
+    font-size 20px
 
 .pane
-  overflow-y auto
   pointer-events auto
-  height 100%
-  padding-bottom 100px
+
+.expansion-panel__header
+  text-transform uppercase
+  font-weight 500
+  // box-shadow 1px -1px 1px 1px rgba(0,0,0,.1)
+  // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
+
+.expansion-panel__body
+  border-top 0.1rem solid #d1d1d1
+//   box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
 
 </style>

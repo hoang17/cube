@@ -131,7 +131,7 @@ export async function saveStyle(style){
 export async function fetchStyles(){
   try {
     let res = await api.get('styles')
-    // return fromPairs(map(res.data, i => [i._id, i]))
+    return fromPairs(map(res.data, i => [i._id, i]))
     return res.data
   } catch (e) {
     console.error(e)
