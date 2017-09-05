@@ -4,20 +4,21 @@
 export const text = {
   name: 'Text',
   tag: 'tx',
-  props() {
+  new(){
     return {
       type: 'tx',
       name: 'Text',
       content: 'New text 🙌🏻',
+      css: undefined,
       style: {
         color: undefined,
-        display: 'block',
+        display: undefined,
         width: undefined,
         fontFamily: undefined,
-        fontSize: '1em',
-        fontWeight: '400',
-        lineHeight: '1',
-        letterSpacing: '0rem',
+        fontSize: undefined,
+        fontWeight: undefined,
+        lineHeight: undefined,
+        letterSpacing: undefined,
         textTransform: undefined,
         textAlign: undefined,
         padding: undefined,
@@ -30,21 +31,22 @@ export const text = {
 export const link = {
   name: 'Link',
   tag: 'lnk',
-  props() {
+  new(){
     return {
       type: 'lnk',
       name: 'Link',
       content: 'Link 🙌🏻',
       url: undefined,
+      css: undefined,
       style: {
         color: undefined,
         display: undefined,
         width: undefined,
         fontFamily: undefined,
-        fontSize: '1em',
-        fontWeight: '400',
-        lineHeight: '1',
-        letterSpacing: '0rem',
+        fontSize: undefined,
+        fontWeight: undefined,
+        lineHeight: undefined,
+        letterSpacing: undefined,
         textTransform: undefined,
         textAlign: 'center',
         margin: undefined,
@@ -58,23 +60,24 @@ export const link = {
 export const button = {
   name: 'Button',
   tag: 'btn',
-  props() {
+  new(){
     return {
       type: 'btn',
       name: 'Button',
       content: 'Button 🙌🏻',
       url: undefined,
+      css: undefined,
       style: {
         color: undefined,
         display: undefined,
         width: undefined,
         height: undefined,
         fontFamily: undefined,
-        fontSize: '1em',
-        fontWeight: '400',
-        lineHeight: '1',
-        letterSpacing: '0rem',
-        // textTransform: undefined,
+        fontSize: undefined,
+        fontWeight: undefined,
+        lineHeight: undefined,
+        letterSpacing: undefined,
+        textTransform: undefined,
         textAlign: 'center',
         margin: undefined
       }
@@ -85,12 +88,12 @@ export const button = {
 export const container = {
   name: 'Container',
   tag: 'container',
-  props() {
+  new(){
     return {
       type: 'container',
       name: 'Container',
       content: 'Container 🙌🏻',
-      cubes: [],
+      css: undefined,
       style: {
         color: undefined,
         display: 'block',
@@ -107,15 +110,16 @@ export const container = {
         borderRadius: undefined,
         order: undefined,
         fontFamily: undefined,
-        fontSize: '1em',
-        fontWeight: '400',
-        lineHeight: '1',
-        letterSpacing: '0rem',
-        // textTransform: undefined,
+        fontSize: undefined,
+        fontWeight: undefined,
+        lineHeight: undefined,
+        letterSpacing: undefined,
+        textTransform: undefined,
         textAlign: 'center',
         flex: undefined,
         flexFlow: undefined
-      }
+      },
+      cubes: []
     }
   }
 }
@@ -123,26 +127,27 @@ export const container = {
 export const navigation = {
   name: 'Navigation',
   tag: 'na',
-  props() {
+  new(){
     return {
       type: 'na',
       name: 'Navigation',
       content: 'Navigation 🙌🏻',
-      cubes: [ link.props(), link.props(), link.props() ],
+      css: undefined,
       style: {
         color: undefined,
         display: 'block',
         width: undefined,
         fontFamily: undefined,
-        fontSize: '1em',
-        fontWeight: '400',
-        lineHeight: '1',
-        letterSpacing: '0rem',
-        // textTransform: undefined,
+        fontSize: undefined,
+        fontWeight: undefined,
+        lineHeight: undefined,
+        letterSpacing: undefined,
+        textTransform: undefined,
         textAlign: 'center',
         border: undefined,
         borderRadius: undefined,
-      }
+      },
+      cubes: [ link.new(), link.new(), link.new()]
     }
   }
 }
@@ -150,19 +155,20 @@ export const navigation = {
 export const photo = {
   name: 'Photo',
   tag: 'ph',
-  props() {
+  new(){
     return {
       type: 'ph',
       content: 'Photo 🙌🏻',
+      css: undefined,
       style: {
         color: undefined,
         display: 'block',
         width: undefined,
         fontFamily: undefined,
-        fontSize: '1em',
-        fontWeight: '400',
-        lineHeight: '1',
-        letterSpacing: '0rem',
+        fontSize: undefined,
+        fontWeight: undefined,
+        lineHeight: undefined,
+        letterSpacing: undefined,
         // textTransform: undefined,
         textAlign: 'center',
         margin: undefined

@@ -25,7 +25,7 @@ export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toStrin
 
 export function newPage(host){
   let id = ObjectId()
-  let path = '/' + id
+  let path = id
   return {
     _id: id,
     name: 'Page',
@@ -36,16 +36,17 @@ export function newPage(host){
     userId: undefined,
     content: 'New Page 🙌🏻',
     new: true,
+    css: null,
     style: {
-      color: undefined,
-      display: 'block',
-      width: undefined,
-      fontFamily: undefined,
-      fontSize: '1em',
-      fontWeight: '400',
-      lineHeight: '1',
-      letterSpacing: '0rem',
-      textTransform: undefined,
+      color: null,
+      display: null,
+      width: null,
+      fontFamily: null,
+      fontSize: null,
+      fontWeight: null,
+      lineHeight: null,
+      letterSpacing: null,
+      textTransform: null,
       textAlign: 'center',
       // flex: undefined,
       // flexFlow: undefined

@@ -125,7 +125,7 @@ export default {
       }, {deep: true})
     },
     async save(){
-      this.activeCube = null
+      // this.activeCube = null
       this.page.userId = this.$store.state.user._id
       let id = await this.$store.dispatch('savePage')
       console.log('saved');

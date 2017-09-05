@@ -1,5 +1,5 @@
 <template lang="pug">
-  .page(:style="page.style")
+  .page(:style="page.style | styl", :class="'--'+page.css")
     div(v-html="style")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
 </template>

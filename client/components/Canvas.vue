@@ -4,7 +4,7 @@
       toolbar(:cube='activeCube')
       navbar
       propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
-    draggable.canvas(@click.native.stop="selectPage", :style="page.style", v-model='cubes', :options="{group:'cubes'}")
+    draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
       //-.layout
         .flex.xs12.md8.offset-md2
