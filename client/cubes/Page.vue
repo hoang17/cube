@@ -1,6 +1,6 @@
 <template lang="pug">
   .page(:style="page.style")
-    style {{ rules }}
+    div(v-html="style")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
 </template>
 
@@ -50,8 +50,9 @@ export default {
     cubes() {
       return this.$store.getters.cubes
     },
-    rules(){
-      return getRules(this.$store.state.styles)
+    style(){
+      let s = getRules(this.$store.state.styles)
+      return `<style>${s}</style>`
     },
   },
   methods: {}

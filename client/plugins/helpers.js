@@ -89,13 +89,11 @@ export function genStyle (style) {
 
 // Get style rules from array of style
 export function getRules(styles){
-  console.log('styles', styles);
   let rules = ''
   for (let i in styles){
     let e = styles[i]
     let s = genStyle(e.style)
     rules += `.--${e._id} {${s}}`
   }
-  console.log('rules', rules);
   return rules
 }
