@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     textarea-autosize(placeholder='Enter text...', v-model='cube.content', :min-height='30', :max-height='350')
-    //- vue-select(:options='styles', v-model='cube.css')
+    //- vue-select(:options='styles', v-model='cube.css', label="name")
     v-text-field(label='Font', v-model='cube.style.fontFamily')
     v-text-field(label='Color', v-model='cube.style.color')
     v-text-field(label='Size', v-model='cube.style.fontSize')
@@ -30,8 +30,12 @@ export default {
   },
   data () {
     return {
-      // styles: ['text', 'sub-text','link','header','footer']
     }
+  },
+  computed: {
+    // styles(){
+    //   return this.$store.state.styles
+    // },
   },
 }
 </script>

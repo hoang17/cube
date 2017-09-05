@@ -1,15 +1,13 @@
 <template lang="pug">
-  v-app
-    v-layout(row wrap)
-      v-flex(xs12, md6, offset-md3)
-        v-layout(row wrap)
-
-          v-flex(xs3, v-for="(page, i) in pages", :key="i")
-            v-card.primary.ma-1(dark)
-              v-card-text
-                .site
-                  .headline
-                    a(:href="'/build/'+page._id") {{ page.content }}
+  .layout
+    .flex.xs12.md6.offset-md3
+      .layout
+        .flex.xs3(v-for="(page, i) in pages", :key="i")
+          v-card.primary.ma-1(dark)
+            v-card-text
+              .site
+                .headline
+                  a(:href="'/build/'+page._id") {{ page.content }}
 </template>
 
 <script>

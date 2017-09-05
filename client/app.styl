@@ -1,18 +1,20 @@
-@import '../node_modules/vuetify/src/stylus/settings/_colors'
+// @require '../node_modules/vuetify/src/stylus/settings/_colors'
+//
+// $theme := {
+//   primary: $blue.darken-2
+//   accent: $red.accent-2
+//   secondary: $grey.lighten-1
+//   info: $blue.lighten-1
+//   warning: $amber.darken-2
+//   error: $red.accent-4
+//   success: $green.lighten-2
+// }
+//
+// $font-size-root := 14px
 
-$theme := {
-  primary: $blue.darken-2
-  accent: $red.accent-2
-  secondary: $grey.lighten-1
-  info: $blue.lighten-1
-  warning: $amber.darken-2
-  error: $red.accent-4
-  success: $green.lighten-2
-}
-
-$font-size-root := 14px
-
-@import '../node_modules/vuetify/src/stylus/main'
+// @require '../node_modules/vuetify/src/stylus/main'
+@require '../node_modules/vuetify/dist/vuetify.min.css'
+@require './app.css'
 
 body
   font-family -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
@@ -68,3 +70,18 @@ p
   text-align center
   padding 10px
   transition .3s cubic-bezier(.25,.8,.25,1)
+
+select
+	appearance none
+	background-color transparent
+	border .1rem solid #d1d1d1
+	border-radius 2px
+	box-shadow none
+	box-sizing inherit
+	height 2.4rem
+	padding 0 1.0rem // The .6rem vertically centers text on FF, ignored by Webkit
+	width 100%
+
+	&:focus
+		// border-color #666
+		outline 0

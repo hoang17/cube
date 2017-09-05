@@ -6,8 +6,8 @@
       propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style", v-model='cubes', :options="{group:'cubes'}")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
-      //-v-layout(row, wrap)
-        v-flex(xs12, md8, offset-md2)
+      //-.layout
+        .flex.xs12.md8.offset-md2
           v-card
             v-toolbar.blue(dark)
               v-btn(icon, light)

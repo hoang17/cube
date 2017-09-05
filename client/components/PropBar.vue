@@ -6,12 +6,12 @@
     v-card.elevation-0
       v-card-text
         h1.title {{ cube.name }}
-        v-layout(row, wrap)
-          v-flex(xs10)
-            select.style(v-model='cube.css')
-              //-option(disabled) Select Style
+        .layout
+          .flex.xs10
+            select(v-model="cube.css")
+              option(selected, :value="undefined") Select style
               option(v-for='s in styles', :value="s._id") {{ s.name }}
-          v-flex(xs2)
+          .flex.xs2
             v-btn(icon, @click='saveStyle')
               v-icon save
         br
@@ -43,8 +43,7 @@ export default {
   },
   methods: {
     async saveStyle(){
-      let id = await this.$store.dispatch('saveStyle', { name: this.cube.css, style: this.cube.style, new: true })
-      console.log('style saved')
+      let id = await this.$store.dispatch('saveStyle', { name: this.cube.css, style: this.cube.style })
     },
     async done(){
       this.$emit('done')
@@ -102,6 +101,10 @@ export default {
   .input-group--text-field:not(.input-group--single-line).input-group--focused:not(.input-group--textarea)
     label
       transform translate3d(0,-18px,0) scale(.90)
+
+  .btn--icon
+    width 20px
+    height 20px
 
 .action
   position fixed
