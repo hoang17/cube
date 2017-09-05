@@ -1,6 +1,6 @@
 <template lang="pug">
-  .cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="'--'+cube.css")
-  //-vue-markdown.cube.text(:edit="edit", :active="active", :style="cube.style", @click.native.stop="edit && focus()", :source='cube.content')
+  .cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="cube.css | css")
+  //-vue-markdown.cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
 <script>
@@ -31,10 +31,6 @@ export default {
 
 <style lang="stylus" scoped>
 .text
-  position relative
-  margin 10px auto
-  padding 10px
-  line-height 1.75
 
   &[edit]:after
     transition .3s cubic-bezier(.25,.8,.25,1)

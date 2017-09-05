@@ -1,6 +1,6 @@
 <template lang="pug">
-  a.cube.link(v-if="edit", :edit="edit", :active="active", :style="cube.style", @click.stop="edit && focus()", :class="'--'+cube.css") {{ cube.content }}
-  router-link.cube.link(v-else, :style="cube.style", :to="cube.url?cube.url:''", :class="'--'+cube.css") {{ cube.content }}
+  a.cube.link(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="cube.css | css") {{ cube.content }}
+  router-link.cube.link(v-else, :style="cube.style | styl", :to="cube.url?cube.url:''", :class="cube.css | css") {{ cube.content }}
 </template>
 
 <script>
@@ -26,10 +26,7 @@ export default {
 
 <style lang="stylus" scoped>
 .link
-  margin 10px auto
-  padding 10px
   display inline-block
-  position relative
 
   &[edit]
     cursor pointer

@@ -1,7 +1,7 @@
 <template lang="pug">
-  draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="'--'+cube.css")
+  draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="cube.css | css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
-  .cube.container(v-else, :style="cube.style", :content="cube.content", :class="'--'+cube.css")
+  .cube.container(v-else, :style="cube.style | styl", :content="cube.content", :class="cube.css | css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i")
 </template>
 
@@ -32,9 +32,6 @@ export default {
 
 <style lang="stylus" scoped>
 .container
-  position relative
-  margin 10px auto
-  padding 10px
   min-height 38px
 
   &:empty:before

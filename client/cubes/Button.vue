@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-btn.cube.button(:edit="edit", :active="active", :style="cube.style", @click.stop="onClick") {{ cube.content }}
+  v-btn.cube.button(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick") {{ cube.content }}
 </template>
 
 <script>
@@ -32,9 +32,6 @@ export default {
 
 <style lang="stylus" scoped>
 .button
-  position relative
-  margin 10px auto
-  padding 10px
   display inline-block
 
   &[edit]
