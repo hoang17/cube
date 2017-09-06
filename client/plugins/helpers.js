@@ -93,7 +93,7 @@ export function getRules(styles){
   for (let i in styles){
     let e = styles[i]
     let s = genStyle(e.style)
-    rules += `.--${e._id} {${s}}`
+    rules += `.--${e._id}{${s}}`
   }
-  return rules
+  return `<style>${rules}</style>`
 }

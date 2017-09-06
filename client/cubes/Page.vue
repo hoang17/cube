@@ -50,8 +50,7 @@ export default {
       return this.$store.getters.cubes
     },
     rules(){
-      let s = getRules(this.$store.state.styles)
-      return `<style>${s}</style>`
+      return getRules(this.$store.state.styles)
     },
   },
   methods: {}
