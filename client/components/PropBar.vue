@@ -1,5 +1,6 @@
 <template lang="pug">
   .propbar
+    div(v-html="rules")
     .action
       //- v-btn(primary, dark, @click="done") Done
       //- v-btn(icon, @click='saveStyle')
@@ -10,14 +11,32 @@
     v-expansion-panel(expand)
       v-expansion-panel-content(:value="true")
         div(slot='header') {{ cube.name }}
+        //- .action
+        //-   v-btn(icon, @click="remove")
+        //-     v-icon delete
         v-card
           v-card-text
             component(:cube="cube", :is="cube.type + '-pane'", @keydown.native.enter.stop="")
+
+      v-expansion-panel-content
+        div(slot='header') style
+        v-card
+          v-card-text
+            //- v-chip.primary.white--text inline
+            //- v-chip.secondary.white--text header
+            //- v-chip.red.white--text text
+            //- v-chip.green.white--text sub-text
+            v-chip(small, outline, v-if="style") {{ style.name }}
+            v-chip(small, outline) inline
+
             select(v-model="cube.css")
-              option(selected, :value="undefined") Select style
+              option(selected, :value="undefined") inline
               option(v-for='s in styles', :value="s._id") {{ s.name }}
       v-expansion-panel-content
-        div(slot='header') {{ styleName }}
+        div(slot='header') {{ styleName }} style
+        .action
+          v-btn(icon, @click='saveStyle')
+            v-icon save
         v-card
           v-card-text.style
             style-bar(:stl="stl", @keydown.native.enter.stop="")
@@ -25,8 +44,8 @@
 
 <script>
 import StyleBar from './StyleBar'
-import insertCss from 'insert-css'
-import { genStyle } from '../plugins/helpers'
+import { getRules } from '../plugins/helpers'
+// import insertCss from 'insert-css'
 
 export default {
   props: ['cube'],
@@ -48,17 +67,21 @@ export default {
       return this.$store.state.styles[this.cube.css]
     },
     styleName(){
-      return this.style ? this.style.name + ' style' : 'style'
+      return this.style ? this.style.name : 'inline'
+    },
+    rules(){
+      let s = getRules(this.$store.state.styles)
+      return `<style>${s}</style>`
     },
   },
-  mounted() {
-    for (let id in this.styles){
-      let e = this.styles[id]
-      let s = genStyle(e.style)
-      let style = `.--${id} {${s}}`
-      insertCss(style)
-    }
-  },
+  // mounted() {
+  //   for (let id in this.styles){
+  //     let e = this.styles[id]
+  //     let s = genStyle(e.style)
+  //     let style = `.--${id} {${s}}`
+  //     insertCss(style)
+  //   }
+  // },
   methods: {
     async done(){
       this.$emit('done')
@@ -67,7 +90,13 @@ export default {
       this.$emit('remove')
     },
     async saveStyle(){
-      let id = await this.$store.dispatch('saveStyle', { name: this.css, style: this.style })
+      if (this.style){
+        let id = await this.$store.dispatch('saveStyle', this.style)
+        console.log('style saved');
+      } else {
+        let id = await this.$store.dispatch('savePage')
+        console.log('page saved');
+      }
     },
   },
 }
@@ -93,9 +122,8 @@ export default {
     width 100%
     height 48px
     text-align left
-    // position fixed
-    // top 0
-    // z-index 4
+    background-color #fafafa
+    box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
 
   .input-group__details
     min-height auto
@@ -134,6 +162,14 @@ export default {
 
   select
     margin 10px auto
+
+  .chip--small
+    height 20px
+    font-size 12px
+    padding 0 8px
+    margin 10px 5px 10px 0
+    color #424242!important
+    border-color #424242!important
 
   .style
     padding-top 0

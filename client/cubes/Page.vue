@@ -1,11 +1,10 @@
 <template lang="pug">
   .page(:style="page.style | styl", :class="'--'+page.css")
-    div(v-html="style")
+    div(v-html="rules")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
 </template>
 
 <script>
-import insertCss from 'insert-css'
 import { getRules } from '../plugins/helpers'
 
 export default {
@@ -50,7 +49,7 @@ export default {
     cubes() {
       return this.$store.getters.cubes
     },
-    style(){
+    rules(){
       let s = getRules(this.$store.state.styles)
       return `<style>${s}</style>`
     },
