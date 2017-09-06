@@ -13,8 +13,6 @@
 import Draggable from 'vuedraggable'
 import { cloneDeep }  from 'lodash'
 import { getRules } from '../plugins/helpers'
-// import { focus } from 'vue-focus'
-// import { mixin }  from 'vue-focus'
 
 export default {
   title: 'Build',
@@ -22,8 +20,6 @@ export default {
     await store.dispatch('fetchStyles')
     return store.dispatch('fetchPage', { id: route.params.id })
   },
-  // directives: { focus },
-  // mixins: [ mixin ],
   components: {
     Draggable,
     'navbar': () => import('./NavBar'),
@@ -36,9 +32,6 @@ export default {
     }
   },
   computed: {
-    // focused(){
-    //   return this.activeCube == this.page
-    // },
     rules(){
       return getRules(this.$store.state.styles)
     },
@@ -80,14 +73,6 @@ export default {
     // *** BRAIN FUCK :-? ***
     this.activeCube = this.page
 
-    // let events = ['cut', 'copy', 'paste']
-    // events.forEach(function(event) {
-    //   document.addEventListener(event, function(e) {
-    //     console.log(event);
-    //     console.log(e.clipboardData.getData('Text'));
-    //   })
-    // })
-
     document.addEventListener('keydown', e => {
       // if (window.event) e =  event
       var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
@@ -101,19 +86,9 @@ export default {
     }, false)
   },
   methods: {
-    // keydown(e){
-    //   if (e.keyCode == 67 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-    //     e.preventDefault()
-    //     this.copy()
-    //   }       
-    //   else if (e.keyCode == 86 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-    //     e.preventDefault()
-    //     this.paste()
-    //   }
-    // },
     copy(){
       if (!this.activeCube) return
-      this.clipboard = this.activeCube
+      this.clipboard = cloneDeep(this.activeCube)
       console.log('copied');
     },
     paste(){
@@ -124,7 +99,6 @@ export default {
       } else {
         this.$store.getters.page.cubes.push(c)
       }
-      // this.$store.commit('setActiveCube', c)
       console.log('pasted');
     },
     selectPage(){

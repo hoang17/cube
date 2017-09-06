@@ -36,6 +36,9 @@ import * as cubes from '../data/cubes'
 
 export default {
   computed: {
+    activeCube() {
+      return this.$store.getters.activeCube
+    },
     newId() {
       return this.$store.state.newId
     },
@@ -56,8 +59,12 @@ export default {
     },
     addCube(cube){
       let c = cube.new()
-      this.$store.commit('setActiveCube', c)
-      this.$store.getters.page.cubes.push(c)
+      if (this.activeCube.cubes){
+        this.activeCube.cubes.push(c)
+      } else {
+        this.$store.getters.page.cubes.push(c)
+      }
+      // this.$store.commit('setActiveCube', c)
     }
   }
 }
