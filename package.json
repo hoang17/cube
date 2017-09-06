@@ -5,7 +5,7 @@
   "engines": {
     "node": "^8.4.0",
     "npm": "^5.3.0",
-    "yarn": "0.28.4",
+    "yarn": "0.28.4"
   },
   "author": "Hoang Le <lehuyhoang117@gmail.com>",
   "license": "MIT",
