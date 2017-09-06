@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer.grey.lighten-4.pb-0(permanent, absolute, height='100%', light)
+  v-navigation-drawer(permanent, absolute, height='100%', light)
     v-list(dense)
       //-v-subheader {{ page.content }}
       //-v-divider.my-4(dark)
@@ -16,7 +16,7 @@
         v-list-tile-content
           v-list-tile-title {{ p.content }}
 
-      v-divider.my-4(dark)
+      v-divider.my-2(dark)
       v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in cubes')
         v-list-tile-action
           v-icon add
