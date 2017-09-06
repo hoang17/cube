@@ -62,7 +62,7 @@ export default {
       if (this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
-        this.$store.getters.page.cubes.push(c)
+        this.page.cubes.push(c)
       }
       // this.$store.commit('setActiveCube', c)
     }

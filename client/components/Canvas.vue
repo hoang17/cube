@@ -4,7 +4,7 @@
     .control
       toolbar(:cube='activeCube')
       navbar
-      propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube", tabindex="1", @keydown.native.stop="")
+      propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="trash", tabindex="1", @keydown.native="keydown")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>
@@ -79,25 +79,40 @@ export default {
 
       if (e.keyCode == 67 && metaKey(e)){
         this.copy()
-      }       
+      }
       else if (e.keyCode == 86 && metaKey(e)){
         this.paste()
+      }
+      else if (e.keyCode == 88 && metaKey(e)){
+        this.cut()
       }
     }, false)
   },
   methods: {
+    keydown(e){
+      var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+      if ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey(e)){
+        e.stopPropagation()
+      }
+    },
     copy(){
-      if (!this.activeCube) return
+      if (!this.activeCube || this.activeCube.name == 'Page') return
       this.clipboard = cloneDeep(this.activeCube)
       console.log('copied');
     },
+    cut(){
+      if (!this.activeCube || this.activeCube.name == 'Page') return
+      this.clipboard = cloneDeep(this.activeCube)
+      this.removeActiveCube()
+      console.log('cut');
+    },
     paste(){
-      if (!this.activeCube) return
+      if (!this.activeCube || !this.clipboard) return
       let c = cloneDeep(this.clipboard)
       if (this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
-        this.$store.getters.page.cubes.push(c)
+        this.cubes.push(c)
       }
       console.log('pasted');
     },
@@ -110,7 +125,7 @@ export default {
     deselectCube(){
       this.activeCube = null
     },
-    removeCube(){
+    trash(){
       // remove page
       if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
         this.$store.dispatch('deletePage', { page: this.page })
@@ -118,7 +133,9 @@ export default {
         this.$router.push({ name: 'build' })
         return
       }
-
+      this.removeActiveCube()
+    },
+    removeActiveCube(){
       var remove = cubes => {
         let index = cubes.indexOf(this.activeCube)
         if (index > -1){
@@ -131,9 +148,8 @@ export default {
           })
         }
       }
-
       remove(this.cubes)
-    },
+    }
   }
 }
 </script>
