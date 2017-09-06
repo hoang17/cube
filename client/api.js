@@ -35,7 +35,6 @@ export function newPage(host){
     url: host + '/' + path,
     userId: undefined,
     content: 'New Page 🙌🏻',
-    new: true,
     css: null,
     style: {
       color: null,
@@ -52,6 +51,7 @@ export function newPage(host){
       // flexFlow: undefined
     },
     cubes: [],
+    new: true,
   }
 }
 

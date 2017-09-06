@@ -1,16 +1,20 @@
 <template lang="pug">
   .main
+    div(v-html="rules")
     .control
       toolbar(:cube='activeCube')
       navbar
-      propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
-    draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css", tabindex="-1", @keydown.native="keydown")
+      propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube", tabindex="1", @keydown.native.stop="")
+    draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>
 
 <script>
 import Draggable from 'vuedraggable'
 import { cloneDeep }  from 'lodash'
+import { getRules } from '../plugins/helpers'
+// import { focus } from 'vue-focus'
+// import { mixin }  from 'vue-focus'
 
 export default {
   title: 'Build',
@@ -18,6 +22,8 @@ export default {
     await store.dispatch('fetchStyles')
     return store.dispatch('fetchPage', { id: route.params.id })
   },
+  // directives: { focus },
+  // mixins: [ mixin ],
   components: {
     Draggable,
     'navbar': () => import('./NavBar'),
@@ -30,6 +36,12 @@ export default {
     }
   },
   computed: {
+    // focused(){
+    //   return this.activeCube == this.page
+    // },
+    rules(){
+      return getRules(this.$store.state.styles)
+    },
     id(){
       return this.$route.params.id
     },
@@ -67,18 +79,38 @@ export default {
   mounted() {
     // *** BRAIN FUCK :-? ***
     this.activeCube = this.page
-  },
-  methods: {
-    keydown(e){
-      if (e.keyCode == 67 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-        e.preventDefault()
+
+    // let events = ['cut', 'copy', 'paste']
+    // events.forEach(function(event) {
+    //   document.addEventListener(event, function(e) {
+    //     console.log(event);
+    //     console.log(e.clipboardData.getData('Text'));
+    //   })
+    // })
+
+    document.addEventListener('keydown', e => {
+      // if (window.event) e =  event
+      var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+
+      if (e.keyCode == 67 && metaKey(e)){
         this.copy()
-      }
-      else if (e.keyCode == 86 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-        e.preventDefault()
+      }       
+      else if (e.keyCode == 86 && metaKey(e)){
         this.paste()
       }
-    },
+    }, false)
+  },
+  methods: {
+    // keydown(e){
+    //   if (e.keyCode == 67 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+    //     e.preventDefault()
+    //     this.copy()
+    //   }       
+    //   else if (e.keyCode == 86 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+    //     e.preventDefault()
+    //     this.paste()
+    //   }
+    // },
     copy(){
       if (!this.activeCube) return
       this.clipboard = this.activeCube

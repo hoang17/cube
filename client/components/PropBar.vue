@@ -1,6 +1,5 @@
 <template lang="pug">
   .propbar
-    div(v-html="rules")
     .action
       //- v-btn(primary, dark, @click="done") Done
       //- v-btn(icon, @click='saveStyle')
@@ -20,6 +19,8 @@
 
       v-expansion-panel-content
         div(slot='header') style
+          //- v-chip(small, outline, v-if="style") {{ style.name }}
+          //- v-chip(small, outline) inline
         v-card
           v-card-text
             //- v-chip.primary.white--text inline
@@ -33,19 +34,19 @@
               option(selected, :value="undefined") inline
               option(v-for='s in styles', :value="s._id") {{ s.name }}
       v-expansion-panel-content
-        div(slot='header') {{ styleName }} style
+        //- div(slot='header') {{ styleName }} style
+        div(slot='header')
+          v-chip(small, outline)  {{ styleName }}
         .action
           v-btn(icon, @click='saveStyle')
             v-icon save
         v-card
-          v-card-text.style
+          v-card-text.pt-0
             style-bar(:stl="stl", @keydown.native.enter.stop="")
 </template>
 
 <script>
 import StyleBar from './StyleBar'
-import { getRules } from '../plugins/helpers'
-// import insertCss from 'insert-css'
 
 export default {
   props: ['cube'],
@@ -64,23 +65,12 @@ export default {
       return this.$store.state.styles
     },
     style(){
-      return this.$store.state.styles[this.cube.css]
+      return this.styles[this.cube.css]
     },
     styleName(){
       return this.style ? this.style.name : 'inline'
     },
-    rules(){
-      return getRules(this.$store.state.styles)
-    },
   },
-  // mounted() {
-  //   for (let id in this.styles){
-  //     let e = this.styles[id]
-  //     let s = genStyle(e.style)
-  //     let style = `.--${id} {${s}}`
-  //     insertCss(style)
-  //   }
-  // },
   methods: {
     async done(){
       this.$emit('done')
@@ -167,15 +157,14 @@ export default {
     font-size 12px
     padding 0 8px
     margin 10px 5px 10px 0
-    color #424242!important
-    border-color #424242!important
-
-  .style
-    padding-top 0
+    color #424242
+    border-color #424242
+    text-transform none
 
   .expansion-panel__header
     text-transform uppercase
     font-weight 500
+    padding 0 18px
     // box-shadow 1px -1px 1px 1px rgba(0,0,0,.1)
     // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
 

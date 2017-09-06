@@ -138,7 +138,7 @@ export default {
     this.snapshot(this.page)
     this.startWatch()
 
-    document.onkeydown = e => {
+    document.addEventListener('keydown', e => {
       // if (window.event) e =  event
       var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
@@ -157,7 +157,7 @@ export default {
         // console.log("⌘+s")
         this.save()
       }
-    }
+    }, false)
   }
 }
 </script>
