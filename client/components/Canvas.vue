@@ -54,7 +54,7 @@ export default {
     },
     cubes: {
       get() {
-        return this.$store.getters.cubes
+        return this.page.cubes
       },
       set(cubes) {
         this.$store.commit('setCubes', cubes)
@@ -157,10 +157,10 @@ export default {
 <style lang="stylus" scoped>
 .canvas
   background-color #fff
-  margin-left 300px
-  margin-right 28em
-  padding 48px 10px 0 10px
-  height 100vh
+  margin 0 28em 0 300px
+  padding 48px 10px 20px 10px
+  min-height 100vh
+  height 100%
   outline none
 
   .card

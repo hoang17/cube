@@ -100,7 +100,6 @@ export function createStore () {
     getters: {
       activeCube: state => state.activeCube,
       pages: state => state.pages,
-      cubes: state => state.pages[state.pageId].cubes,
       page: state => state.pages[state.pageId],
       pageState: state => () => state.pages[state.pageId],
       history(state){

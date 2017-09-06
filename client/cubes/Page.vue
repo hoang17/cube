@@ -47,7 +47,7 @@ export default {
       return this.$store.getters.page
     },
     cubes() {
-      return this.$store.getters.cubes
+      return this.page.cubes
     },
     rules(){
       return getRules(this.$store.state.styles)
