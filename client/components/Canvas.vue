@@ -4,12 +4,13 @@
       toolbar(:cube='activeCube')
       navbar
       propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="removeCube")
-    draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
+    draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css", tabindex="-1", @keydown.native="keydown")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>
 
 <script>
 import Draggable from 'vuedraggable'
+import { cloneDeep }  from 'lodash'
 
 export default {
   title: 'Build',
@@ -25,6 +26,7 @@ export default {
   },
   data() {
     return {
+      clipboard: null
     }
   },
   computed: {
@@ -67,6 +69,32 @@ export default {
     this.activeCube = this.page
   },
   methods: {
+    keydown(e){
+      if (e.keyCode == 67 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+        e.preventDefault()
+        this.copy()
+      }
+      else if (e.keyCode == 86 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+        e.preventDefault()
+        this.paste()
+      }
+    },
+    copy(){
+      if (!this.activeCube) return
+      this.clipboard = this.activeCube
+      console.log('copied');
+    },
+    paste(){
+      if (!this.activeCube) return
+      let c = cloneDeep(this.clipboard)
+      if (this.activeCube.cubes){
+        this.activeCube.cubes.push(c)
+      } else {
+        this.$store.getters.page.cubes.push(c)
+      }
+      // this.$store.commit('setActiveCube', c)
+      console.log('pasted');
+    },
     selectPage(){
       this.activeCube = this.page
     },
@@ -111,6 +139,7 @@ export default {
   margin-right 28em
   padding 48px 10px 0 10px
   height 100vh
+  outline none
 
   .card
     margin 20px auto
