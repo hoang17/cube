@@ -103,6 +103,7 @@ export default {
       h.stack.push(cloneDeep(page))
     },
     undo() {
+      if (!this.canUndo) return
       this.stopWatch()
       this.activeCube = null
       let h = this.history
@@ -111,6 +112,7 @@ export default {
       this.startWatch()
     },
     redo() {
+      if (!this.canRedo) return
       this.stopWatch()
       this.activeCube = null
       let h = this.history
@@ -130,17 +132,32 @@ export default {
       let id = await this.$store.dispatch('savePage')
       console.log('saved');
       this.$router.push({ name: 'build', params: { id: id }})
-    }
+    },
   },
   mounted() {
     this.snapshot(this.page)
     this.startWatch()
-    document.addEventListener("keydown", e => {
-      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+
+    document.onkeydown = e => {
+      // if (window.event) e =  event
+      var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+
+      if (e.keyCode == 90 && e.shiftKey && metaKey(e)) {
         e.preventDefault()
+        // console.log("⌘+⌃+z")
+        this.redo()
+      }
+      else if (e.keyCode == 90 && metaKey(e)) {
+        e.preventDefault()
+        // console.log("⌘+z")
+        this.undo()
+      }
+      else if (e.keyCode == 83 && metaKey(e)){
+        e.preventDefault()
+        // console.log("⌘+s")
         this.save()
       }
-    }, false)
+    }
   }
 }
 </script>
