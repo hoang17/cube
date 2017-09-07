@@ -89,16 +89,13 @@ export default {
     snapshot(page) {
       let h = this.history
       h.index++
-
-      if (h.index == 0){
+      if (h.index == 0)
         h.sid = page.sid
-      } else {
+      else {
         this.stopWatch()
         page.sid = nanoid(10)
         this.startWatch()
       }
-      // h.saved = h.index == 0
-
       h.stack.splice(h.index)
       h.stack.push(cloneDeep(page))
     },
@@ -108,7 +105,6 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index--
-      // h.saved = false
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
@@ -118,7 +114,6 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index++
-      // h.saved = false
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
@@ -131,12 +126,10 @@ export default {
     },
     async save(){
       if (this.saved) return
-      // this.activeCube = null
       let id = await this.$store.dispatch('savePage')
       this.history.sid = this.page.sid
       this.$router.push({ name: 'build', params: { id: id }})
       console.log('saved');
-      // this.history.saved = true
     },
   },
   mounted() {
