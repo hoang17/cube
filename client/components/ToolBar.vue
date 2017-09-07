@@ -95,6 +95,7 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index--
+      h.saved = false
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
@@ -104,6 +105,7 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index++
+      h.saved = false
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },

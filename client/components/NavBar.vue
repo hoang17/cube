@@ -59,7 +59,7 @@ export default {
     },
     addCube(cube){
       let c = cube.new()
-      if (this.activeCube.cubes){
+      if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
         this.page.cubes.push(c)
