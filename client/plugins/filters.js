@@ -1,4 +1,4 @@
-import { truncate } from 'lodash'
+import truncate from 'lodash/truncate'
 import numeral from 'numeral'
 import { genStyle } from './helpers'
 

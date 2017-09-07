@@ -4,8 +4,8 @@
       //- v-btn(primary, dark, @click="done") Done
       //- v-btn(icon, @click='saveStyle')
       //-   v-icon save
-      v-btn(icon, @click="remove")
-        v-icon delete
+      //- v-btn(icon, @click="remove")
+      //-   v-icon delete
 
     v-expansion-panel(expand)
       v-expansion-panel-content(:value="true")

@@ -4,7 +4,7 @@
       v-icon save
     v-btn(icon, @click="dup()")
       v-icon content_copy
-    v-btn(icon, @click='trash()')
+    v-btn(icon, @click='remove()')
       v-icon delete
     v-btn(icon, @click="undo()", :disabled="!canUndo")
       v-icon undo
@@ -27,8 +27,7 @@
 </template>
 
 <script>
-import { cloneDeep }  from 'lodash'
-import { ObjectId } from '../api'
+import cloneDeep  from 'lodash/cloneDeep'
 
 export default {
   props: ['cube'],
@@ -77,24 +76,11 @@ export default {
     }
   },
   methods: {
-    trash(){
-      if (confirm("Do you want to delete this page?")) {
-        this.$store.dispatch('deletePage', { page: this.page })
-        this.activeCube = null
-        this.$router.push({ name: 'build' })
-        return
-      }
+    remove(){
+      this.$emit('remove')
     },
     dup(){
-      let p = cloneDeep(this.page)
-      p._id = ObjectId()
-      p.new = true
-      p.content += ' Copy'
-      p.path = p._id
-      p.url = p.host + '/' + p._id
-      this.$store.commit('setPage', p)
-      this.activeCube = p
-      this.$router.push({ name: 'build', params: { id: p._id }})
+      this.$emit('dup')
     },
     snapshot(page) {
       let h = this.history

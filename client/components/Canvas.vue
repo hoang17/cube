@@ -2,7 +2,7 @@
   .main
     div(v-html="rules")
     .control
-      toolbar(:cube='activeCube')
+      toolbar(:cube='activeCube', @remove="trash", @dup="dup")
       navbar
       propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="trash", tabindex="1", @keydown.native="keydown")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
@@ -11,8 +11,9 @@
 
 <script>
 import Draggable from 'vuedraggable'
-import { cloneDeep }  from 'lodash'
+import cloneDeep  from 'lodash/cloneDeep'
 import { getRules } from '../plugins/helpers'
+import { ObjectId } from '../api'
 
 export default {
   title: 'Build',
@@ -116,14 +117,19 @@ export default {
       }
       console.log('pasted');
     },
-    selectPage(){
-      this.activeCube = this.page
-    },
-    selectCube(cube){
-      this.activeCube = cube
-    },
-    deselectCube(){
-      this.activeCube = null
+    dup(){
+      if (this.activeCube == this.page) {
+        let p = cloneDeep(this.page)
+        p._id = ObjectId()
+        p.new = true
+        p.content += ' Copy'
+        p.path = p._id
+        p.url = p.host + '/' + p._id
+        this.$store.commit('setPage', p)
+        this.activeCube = p
+        this.$router.push({ name: 'build', params: { id: p._id }})
+      }
+      else this.cubes.push(cloneDeep(this.activeCube))
     },
     trash(){
       // remove page
@@ -131,9 +137,8 @@ export default {
         this.$store.dispatch('deletePage', { page: this.page })
         this.activeCube = null
         this.$router.push({ name: 'build' })
-        return
       }
-      this.removeActiveCube()
+      else this.removeActiveCube()
     },
     removeActiveCube(){
       var remove = cubes => {
@@ -149,7 +154,16 @@ export default {
         }
       }
       remove(this.cubes)
-    }
+    },
+    selectPage(){
+      this.activeCube = this.page
+    },
+    selectCube(cube){
+      this.activeCube = cube
+    },
+    deselectCube(){
+      this.activeCube = null
+    },
   }
 }
 </script>

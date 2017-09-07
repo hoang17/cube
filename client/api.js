@@ -2,7 +2,8 @@ import axios from 'axios'
 const port = process.env.PORT || 3000
 const isClient = process.env.VUE_ENV === 'client'
 const host = isClient ? window.location.origin : `http://localhost:${port}`
-import { fromPairs, map } from 'lodash'
+import fromPairs from 'lodash/fromPairs'
+import map from 'lodash/map'
 
 const api = axios.create({
   baseURL: `${host}/api/`,
