@@ -27,12 +27,13 @@
             //- v-chip.secondary.white--text header
             //- v-chip.red.white--text text
             //- v-chip.green.white--text sub-text
-            v-chip(small, outline, v-if="style") {{ style.name }}
-            v-chip(small, outline) inline
+
+            //- v-chip(small, outline, v-if="style") {{ style.name }}
+            //- v-chip(small, outline) inline
             v-chip.green.white--text(small, @click="addStyle") + add new style
 
             select(v-model="cube.css")
-              option(selected, :value="undefined") inline
+              option(selected, :value="null") inline
               option(v-for='s in styles', :value="s._id") {{ s.name }}
       v-expansion-panel-content
         //- div(slot='header') {{ styleName }} style
@@ -92,7 +93,6 @@ export default {
       }
     },
     async saveStyle(){
-      console.log('saveStyle');
       if (this.style){
         await this.$store.dispatch('saveStyle', this.style)
         console.log('style saved');

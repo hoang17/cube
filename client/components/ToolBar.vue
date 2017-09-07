@@ -1,6 +1,6 @@
 <template lang="pug">
   v-toolbar(dense)
-    v-btn(icon, @click='save')
+    v-btn(icon, @click='save', :disabled="history.saved")
       v-icon save
     v-btn(icon, @click="dup()")
       v-icon content_copy
@@ -85,6 +85,7 @@ export default {
     snapshot(page) {
       let h = this.history
       h.index++
+      h.saved = h.index == 0
       h.stack.splice(h.index)
       h.stack.push(cloneDeep(page))
     },
@@ -108,16 +109,19 @@ export default {
     },
     startWatch(){
       this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
-        if (page._id == old._id || this.history.index == -1)
+        if (page._id == old._id || this.history.index == -1){
           this.snapshot(page)
+        }
       }, {deep: true})
     },
     async save(){
+      if (this.history.saved) return
       // this.activeCube = null
       this.page.userId = this.$store.state.user._id
       let id = await this.$store.dispatch('savePage')
       console.log('saved');
       this.$router.push({ name: 'build', params: { id: id }})
+      this.history.saved = true
     },
   },
   mounted() {
@@ -156,6 +160,11 @@ export default {
   pointer-events auto
   box-shadow none
   width auto
+
+  .btn
+  .btn__content
+  .icon
+    transition none
 
   .icon
     font-size 20px

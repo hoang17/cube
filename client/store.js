@@ -116,7 +116,7 @@ export function createStore () {
         let i = state.pageId
         let h = state.histories
         if (!h[i])
-          Vue.set(h, i, { index:-1, stack:[] })
+          Vue.set(h, i, { index:-1, stack:[], saved: true })
         return h[i]
       },
     }
