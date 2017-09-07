@@ -58,7 +58,7 @@ export default {
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){
-      let c = cube.new()
+      let c = cube.init()
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {

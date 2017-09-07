@@ -4,7 +4,7 @@
 export const text = {
   name: 'Text',
   type: 'tx',
-  new(){
+  init(){
     return {
       type: 'tx',
       name: 'Text',
@@ -31,7 +31,7 @@ export const text = {
 export const link = {
   name: 'Link',
   type: 'lnk',
-  new(){
+  init(){
     return {
       type: 'lnk',
       name: 'Link',
@@ -61,7 +61,7 @@ export const link = {
 export const button = {
   name: 'Button',
   type: 'btn',
-  new(){
+  init(){
     return {
       type: 'btn',
       name: 'Button',
@@ -90,7 +90,7 @@ export const button = {
 export const container = {
   name: 'Container',
   type: 'container',
-  new(){
+  init(){
     return {
       type: 'container',
       name: 'Container',
@@ -129,7 +129,7 @@ export const container = {
 export const navigation = {
   name: 'Navigation',
   type: 'na',
-  new(){
+  init(){
     return {
       type: 'na',
       name: 'Navigation',
@@ -151,7 +151,7 @@ export const navigation = {
         border: null,
         borderRadius: null,
       },
-      cubes: [ link.new(), link.new(), link.new()]
+      cubes: [ link.init(), link.init(), link.init()]
     }
   }
 }
@@ -159,7 +159,7 @@ export const navigation = {
 export const photo = {
   name: 'Photo',
   type: 'ph',
-  new(){
+  init(){
     return {
       type: 'ph',
       content: 'Photo',
