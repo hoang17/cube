@@ -92,7 +92,7 @@ export function createStore () {
         state.pageId = id
       },
       addNewPage(state) {
-        let page = newPage(state.host)
+        let page = newPage(state.user._id, state.host)
         state.newId = page._id
         Vue.set(state.pages, page._id, page)
       },
@@ -116,7 +116,7 @@ export function createStore () {
         let i = state.pageId
         let h = state.histories
         if (!h[i])
-          Vue.set(h, i, { index:-1, stack:[], saved: true })
+          Vue.set(h, i, { index:-1, stack:[], sid: null })
         return h[i]
       },
     }

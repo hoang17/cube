@@ -13,7 +13,7 @@
 import Draggable from 'vuedraggable'
 import cloneDeep  from 'lodash/cloneDeep'
 import { getRules } from '../plugins/helpers'
-import { ObjectId } from '../api'
+import { ObjectId } from '../data/factory'
 
 export default {
   title: 'Build',

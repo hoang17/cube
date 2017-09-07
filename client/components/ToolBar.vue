@@ -1,14 +1,14 @@
 <template lang="pug">
   v-toolbar(dense)
-    v-btn(icon, @click='save', :disabled="history.saved")
+    v-btn(icon, @click='save', :disabled="saved")
       v-icon save
-    v-btn(icon, @click="dup()")
+    v-btn(icon, @click="dup")
       v-icon content_copy
-    v-btn(icon, @click='remove()')
+    v-btn(icon, @click='remove')
       v-icon delete
-    v-btn(icon, @click="undo()", :disabled="!canUndo")
+    v-btn(icon, @click="undo", :disabled="!canUndo")
       v-icon undo
-    v-btn(icon, @click="redo()", :disabled="!canRedo")
+    v-btn(icon, @click="redo", :disabled="!canRedo")
       v-icon redo
     a(:href="url", target='_blank', rel='noopener')
       v-btn(icon)
@@ -28,10 +28,14 @@
 
 <script>
 import cloneDeep  from 'lodash/cloneDeep'
+import { nanoid } from '../data/factory'
 
 export default {
   props: ['cube'],
   computed: {
+    saved(){
+      return !this.history.sid || this.history.sid == this.page.sid
+    },
     url(){
       return this.page.url.startsWith('/') ? this.page.url : '//'+this.page.url
     },
@@ -58,7 +62,7 @@ export default {
   },
   data() {
     return {
-      stopWatch: undefined,
+      stopWatch: () => {},
       // toggle_exclusive: 2,
       // toggle_multiple: [],
       // toggle_options: [
@@ -85,7 +89,16 @@ export default {
     snapshot(page) {
       let h = this.history
       h.index++
-      h.saved = h.index == 0
+
+      if (h.index == 0){
+        h.sid = page.sid
+      } else {
+        this.stopWatch()
+        page.sid = nanoid(10)
+        this.startWatch()
+      }
+      // h.saved = h.index == 0
+
       h.stack.splice(h.index)
       h.stack.push(cloneDeep(page))
     },
@@ -95,7 +108,7 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index--
-      h.saved = false
+      // h.saved = false
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
@@ -105,7 +118,7 @@ export default {
       this.activeCube = null
       let h = this.history
       h.index++
-      h.saved = false
+      // h.saved = false
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.startWatch()
     },
@@ -117,13 +130,13 @@ export default {
       }, {deep: true})
     },
     async save(){
-      if (this.history.saved) return
+      if (this.saved) return
       // this.activeCube = null
-      this.page.userId = this.$store.state.user._id
       let id = await this.$store.dispatch('savePage')
-      console.log('saved');
+      this.history.sid = this.page.sid
       this.$router.push({ name: 'build', params: { id: id }})
-      this.history.saved = true
+      console.log('saved');
+      // this.history.saved = true
     },
   },
   mounted() {

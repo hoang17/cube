@@ -10,7 +10,7 @@ const styles = db.get('styles')
 const blocks = db.get('blocks')
 
 try {
-  pages.createIndex('userId')
+  pages.createIndex('uid')
   pages.createIndex('host')
   pages.createIndex({ url: 1 }, { unique: true })
   // pages.index('path')

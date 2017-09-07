@@ -1,6 +1,10 @@
+import generate from 'nanoid/generate'
+
+export const nanoid = (length = 22) => generate('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
+
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
-export function newPage(host){
+export function newPage(uid, host){
   let id = ObjectId()
   return {
     _id: id,
@@ -9,9 +13,10 @@ export function newPage(host){
     host: host,
     path: id,
     url: host + '/' + id,
-    userId: null,
+    uid: uid,
     content: 'New Page 🙌🏻',
     css: null,
+    sid: nanoid(10),
     style: {
       color: null,
       display: null,
