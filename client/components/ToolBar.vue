@@ -4,13 +4,13 @@
       v-icon save
     v-btn(icon, @click="dup")
       v-icon content_copy
-    v-btn(icon, @click='remove')
+    v-btn(icon, @click='remove', :disabled="blank")
       v-icon delete
     v-btn(icon, @click="undo", :disabled="!canUndo")
       v-icon undo
     v-btn(icon, @click="redo", :disabled="!canRedo")
       v-icon redo
-    a(:href="url", target='_blank', rel='noopener')
+    a(:href="url", target='_blank', rel='noopener', v-show="page._id!=newId")
       v-btn(icon)
         v-icon visibility
     //-.text-format(v-if="cube")
@@ -44,6 +44,12 @@ export default {
     },
     page(){
       return this.$store.getters.page
+    },
+    newId(){
+      return this.$store.state.newId
+    },
+    blank(){
+      return this.page._id==this.newId && this.history.stack.length<=1
     },
     canUndo(){
       return this.history.index > 0
@@ -127,7 +133,7 @@ export default {
     async save(){
       if (this.saved) return
 
-      if (this.page._id == this.$store.state.newId){
+      if (this.page._id == this.newId){
         await this.$store.dispatch('addPage')
         this.stopWatch()
         this.$store.commit('addNewPage')

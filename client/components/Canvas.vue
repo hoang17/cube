@@ -76,25 +76,28 @@ export default {
 
     document.addEventListener('keydown', e => {
       // if (window.event) e =  event
-      var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
-      if (e.keyCode == 67 && metaKey(e)){
+      var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+
+      if (e.keyCode == 8 || e.keyCode == 46)
+        this.trash()
+      else if (e.keyCode == 67 && metaKey)
         this.copy()
+      else if (e.keyCode == 68 && metaKey){
+        this.dup()
+        e.preventDefault()
       }
-      else if (e.keyCode == 86 && metaKey(e)){
+      else if (e.keyCode == 86 && metaKey)
         this.paste()
-      }
-      else if (e.keyCode == 88 && metaKey(e)){
+      else if (e.keyCode == 88 && metaKey)
         this.cut()
-      }
     }, false)
   },
   methods: {
     keydown(e){
-      var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
-      if ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey(e)){
+      var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+      if (e.keyCode == 8 || e.keyCode == 46 || ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey))
         e.stopPropagation()
-      }
     },
     copy(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
