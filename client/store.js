@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { newPage } from './data/factory'
-import { fetchPages, fetchPage, savePage, deletePage, fetchRoute, addStyle, updateStyle, deleteStyle, fetchStyles } from './api'
+import { fetchPages, fetchPage, addPage, updatePage, deletePage, fetchRoute, addStyle, updateStyle, deleteStyle, fetchStyles } from './api'
 
 export function createStore () {
   return new Vuex.Store({
@@ -29,7 +29,7 @@ export function createStore () {
         let data = await updateStyle(style)
       },
 
-      async addNewStyle({ state, commit }, style) {
+      async addStyle({ state, commit }, style) {
         let data = await addStyle(style)
         Vue.set(state.styles, style._id, style)
       },
@@ -53,18 +53,18 @@ export function createStore () {
 
         if (page._id == state.newId)
           commit('addNewPage')
-        else if (!page.new)
+        else
           deletePage(page._id)
 
         commit('setPageId', state.newId)
       },
 
-      async savePage({ state, commit }) {
-        let page = state.pages[state.pageId]
-        let data = await savePage(page)
-        if (page._id == state.newId)
-          commit('addNewPage')
-        return data._id
+      async addPage({ state, commit }) {
+        return await addPage(state.pages[state.pageId])
+      },
+
+      async updatePage({ state, commit }) {
+        return await updatePage(state.pages[state.pageId])
       },
 
       async fetchPage({ state, commit }, { id }){

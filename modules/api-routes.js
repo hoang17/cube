@@ -25,8 +25,7 @@ router.route('/styles')
     res.json(data)
   })
   .post(async function(req, res) {
-    let style = req.body
-    style = await styles.insert(style)
+    let style = await styles.insert(req.body)
     res.json({ message: 'Style created', _id: style._id })
   })
   .put(async function(req, res) {
@@ -53,15 +52,13 @@ router.route('/pages')
     res.json(data)
   })
   .post(async function(req, res) {
+    let page = await pages.insert(req.body)
+    res.json({ message: 'Page created', _id: page._id })
+  })
+  .put(async function(req, res) {
     let page = req.body
-    if (page.new){
-      delete page.new
-      page = await pages.insert(page)
-      res.json({ message: 'Page created', _id: page._id })
-    } else {
-      pages.update({'_id': page._id }, page)
-      res.json({ message: 'Page updated', _id: page._id })
-    }
+    pages.update({'_id': page._id }, page)
+    res.json({ message: 'Page updated', _id: page._id })
   })
 
 router.route('/pages/:id')

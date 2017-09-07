@@ -87,7 +87,7 @@ export default {
       var name = prompt("Please enter new style name", "style name")
       if (name) {
         let style = newStyle(name)
-        await this.$store.dispatch('addNewStyle', style)
+        await this.$store.dispatch('addStyle', style)
         this.cube.css = style._id
         console.log('style created');
       }
@@ -96,10 +96,11 @@ export default {
       if (this.style){
         await this.$store.dispatch('saveStyle', this.style)
         console.log('style saved');
-      } else {
-        await this.$store.dispatch('savePage')
-        console.log('page saved');
       }
+      // else {
+      //   await this.$store.dispatch('savePage')
+      //   console.log('page saved');
+      // }
     },
     async removeStyle(){
       if (this.style){

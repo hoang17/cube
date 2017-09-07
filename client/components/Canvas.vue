@@ -4,7 +4,7 @@
     .control
       toolbar(:cube='activeCube', @remove="trash", @dup="dup")
       navbar
-      propbar(v-if="activeCube", :cube='activeCube', @done="deselectCube", @remove="trash", tabindex="1", @keydown.native="keydown")
+      propbar(v-if="activeCube", :cube='activeCube', @remove="trash", tabindex="1", @keydown.native="keydown")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>
@@ -117,17 +117,17 @@ export default {
       }
       console.log('pasted');
     },
-    dup(){
+    async dup(){
       if (this.activeCube == this.page) {
         let p = cloneDeep(this.page)
         p._id = ObjectId()
-        p.new = true
         p.content += ' Copy'
         p.path = p._id
         p.url = p.host + '/' + p._id
         this.$store.commit('setPage', p)
         this.activeCube = p
         this.$router.push({ name: 'build', params: { id: p._id }})
+        await this.$store.dispatch('addPage')
       }
       else this.cubes.push(cloneDeep(this.activeCube))
     },
@@ -135,7 +135,7 @@ export default {
       // remove page
       if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
         this.$store.dispatch('deletePage', { page: this.page })
-        this.activeCube = null
+        // this.activeCube = null
         this.$router.push({ name: 'build' })
       }
       else this.removeActiveCube()
@@ -145,7 +145,7 @@ export default {
         let index = cubes.indexOf(this.activeCube)
         if (index > -1){
           cubes.splice(index, 1)
-          this.activeCube = null
+          this.activeCube = this.page
         } else {
           cubes.map(c => {
             if (c.cubes && c.cubes.length > 0)
@@ -161,9 +161,9 @@ export default {
     selectCube(cube){
       this.activeCube = cube
     },
-    deselectCube(){
-      this.activeCube = null
-    },
+    // deselectCube(){
+    //   this.activeCube = null
+    // },
   }
 }
 </script>

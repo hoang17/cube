@@ -102,19 +102,19 @@ export default {
     undo() {
       if (!this.canUndo) return
       this.stopWatch()
-      this.activeCube = null
       let h = this.history
       h.index--
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
+      this.activeCube = this.page
       this.startWatch()
     },
     redo() {
       if (!this.canRedo) return
       this.stopWatch()
-      this.activeCube = null
       let h = this.history
       h.index++
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
+      this.activeCube = this.page
       this.startWatch()
     },
     startWatch(){
@@ -126,10 +126,21 @@ export default {
     },
     async save(){
       if (this.saved) return
-      let id = await this.$store.dispatch('savePage')
-      this.history.sid = this.page.sid
-      this.$router.push({ name: 'build', params: { id: id }})
-      console.log('saved');
+
+      if (this.page._id == this.$store.state.newId){
+        await this.$store.dispatch('addPage')
+        this.stopWatch()
+        this.$store.commit('addNewPage')
+        this.startWatch()
+        this.history.sid = this.page.sid
+        this.$router.push({ name: 'build', params: { id: this.page._id }})
+        console.log('page created');
+      }
+      else {
+        await this.$store.dispatch('updatePage')
+        this.history.sid = this.page.sid
+        console.log('page updated');
+      }
     },
   },
   mounted() {

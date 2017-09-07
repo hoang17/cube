@@ -31,8 +31,7 @@ export function newPage(uid, host){
       // flex: null,
       // flexFlow: null
     },
-    cubes: [],
-    new: true,
+    cubes: []
   }
 }
 

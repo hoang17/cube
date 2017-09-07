@@ -59,9 +59,18 @@ export async function fetchPage(id){
   }
 }
 
-export async function savePage(page){
+export async function addPage(page){
   try {
     let res = await api.post('pages', page)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function updatePage(page){
+  try {
+    let res = await api.put('pages', page)
     return res.data
   } catch (e) {
     console.error(e)
