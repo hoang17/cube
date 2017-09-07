@@ -3,12 +3,12 @@
 
 export const text = {
   name: 'Text',
-  tag: 'tx',
+  type: 'tx',
   new(){
     return {
       type: 'tx',
       name: 'Text',
-      content: 'New text 🙌🏻',
+      content: 'New text',
       css: undefined,
       style: {
         color: undefined,
@@ -30,12 +30,12 @@ export const text = {
 
 export const link = {
   name: 'Link',
-  tag: 'lnk',
+  type: 'lnk',
   new(){
     return {
       type: 'lnk',
       name: 'Link',
-      content: 'Link 🙌🏻',
+      content: 'Link',
       url: undefined,
       css: undefined,
       style: {
@@ -49,6 +49,7 @@ export const link = {
         letterSpacing: undefined,
         textTransform: undefined,
         textAlign: 'center',
+        padding: undefined,
         margin: undefined,
         border: undefined,
         borderRadius: undefined,
@@ -59,12 +60,12 @@ export const link = {
 
 export const button = {
   name: 'Button',
-  tag: 'btn',
+  type: 'btn',
   new(){
     return {
       type: 'btn',
       name: 'Button',
-      content: 'Button 🙌🏻',
+      content: 'Button',
       url: undefined,
       css: undefined,
       style: {
@@ -79,7 +80,8 @@ export const button = {
         letterSpacing: undefined,
         textTransform: undefined,
         textAlign: 'center',
-        margin: undefined
+        padding: undefined,
+        margin: undefined,
       }
     }
   }
@@ -87,12 +89,12 @@ export const button = {
 
 export const container = {
   name: 'Container',
-  tag: 'container',
+  type: 'container',
   new(){
     return {
       type: 'container',
       name: 'Container',
-      content: 'Container 🙌🏻',
+      content: 'Container',
       css: undefined,
       style: {
         color: undefined,
@@ -126,12 +128,12 @@ export const container = {
 
 export const navigation = {
   name: 'Navigation',
-  tag: 'na',
+  type: 'na',
   new(){
     return {
       type: 'na',
       name: 'Navigation',
-      content: 'Navigation 🙌🏻',
+      content: 'Navigation',
       css: undefined,
       style: {
         color: undefined,
@@ -144,6 +146,8 @@ export const navigation = {
         letterSpacing: undefined,
         textTransform: undefined,
         textAlign: 'center',
+        padding: undefined,
+        margin: undefined,
         border: undefined,
         borderRadius: undefined,
       },
@@ -154,11 +158,11 @@ export const navigation = {
 
 export const photo = {
   name: 'Photo',
-  tag: 'ph',
+  type: 'ph',
   new(){
     return {
       type: 'ph',
-      content: 'Photo 🙌🏻',
+      content: 'Photo',
       css: undefined,
       style: {
         color: undefined,
@@ -169,7 +173,7 @@ export const photo = {
         fontWeight: undefined,
         lineHeight: undefined,
         letterSpacing: undefined,
-        // textTransform: undefined,
+        textTransform: undefined,
         textAlign: 'center',
         margin: undefined
       }
@@ -177,18 +181,18 @@ export const photo = {
   }
 }
 
-// { name: 'Icon', tag: 'icon' },
-// { name: 'DataTable', tag: 'data-table' },
-// { name: 'DataForm', tag: 'data-form' },
-// { name: 'Timer', tag: 'timer' },
-// { name: 'Container', tag: 'container' },
-// { name: 'VideoBox', tag: 'video-box' },
-// { name: 'AudioBox', tag: 'audio-box' },
-// { name: 'Card', tag: 'card' },
-// { name: 'List', tag: 'list' },
-// { name: 'Grid', tag: 'grid' },
-// { name: 'Popup', tag: 'popup' },
-// { name: 'Toolbar', tag: 'toolbar' },
-// { name: 'Gallery', tag: 'gallery' },
-// { name: 'ContactForm', tag: 'contact-form' },
-// { name: 'SocialShare', tag: 'social-share' },
+// { name: 'Icon', type: 'icon' },
+// { name: 'DataTable', type: 'data-table' },
+// { name: 'DataForm', type: 'data-form' },
+// { name: 'Timer', type: 'timer' },
+// { name: 'Container', type: 'container' },
+// { name: 'VideoBox', type: 'video-box' },
+// { name: 'AudioBox', type: 'audio-box' },
+// { name: 'Card', type: 'card' },
+// { name: 'List', type: 'list' },
+// { name: 'Grid', type: 'grid' },
+// { name: 'Popup', type: 'popup' },
+// { name: 'Toolbar', type: 'toolbar' },
+// { name: 'Gallery', type: 'gallery' },
+// { name: 'ContactForm', type: 'contact-form' },
+// { name: 'SocialShare', type: 'social-share' },

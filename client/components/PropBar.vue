@@ -29,6 +29,7 @@
             //- v-chip.green.white--text sub-text
             v-chip(small, outline, v-if="style") {{ style.name }}
             v-chip(small, outline) inline
+            v-chip.green.white--text(small, @click="addStyle") + add new style
 
             select(v-model="cube.css")
               option(selected, :value="undefined") inline
@@ -40,13 +41,16 @@
         .action
           v-btn(icon, @click='saveStyle')
             v-icon save
+          v-btn(icon, @click="removeStyle")
+            v-icon delete
         v-card
           v-card-text.pt-0
-            style-bar(:stl="stl", @keydown.native.enter.stop="")
+            style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
 </template>
 
 <script>
 import StyleBar from './StyleBar'
+import { newStyle } from '../data/factory'
 
 export default {
   props: ['cube'],
@@ -58,7 +62,7 @@ export default {
     }
   },
   computed: {
-    stl(){
+    rule(){
       return this.style ? this.style.style : this.cube.style
     },
     styles(){
@@ -78,15 +82,31 @@ export default {
     async remove(){
       this.$emit('remove')
     },
+    async addStyle(){
+      var name = prompt("Please enter new style name", "style name")
+      if (name) {
+        let style = newStyle(name)
+        await this.$store.dispatch('addNewStyle', style)
+        this.cube.css = style._id
+        console.log('style created');
+      }
+    },
     async saveStyle(){
+      console.log('saveStyle');
       if (this.style){
-        let id = await this.$store.dispatch('saveStyle', this.style)
+        await this.$store.dispatch('saveStyle', this.style)
         console.log('style saved');
       } else {
-        let id = await this.$store.dispatch('savePage')
+        await this.$store.dispatch('savePage')
         console.log('page saved');
       }
     },
+    async removeStyle(){
+      if (this.style){
+        await this.$store.dispatch('removeStyle', this.style)
+        this.cube.css = undefined
+      }
+    }
   },
 }
 </script>

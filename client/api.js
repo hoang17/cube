@@ -22,40 +22,6 @@ export async function patch(endpoint, params){
   return res.data
 }
 
-export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
-
-export function newPage(host){
-  let id = ObjectId()
-  let path = id
-  return {
-    _id: id,
-    name: 'Page',
-    type: 'pg',
-    host: host,
-    path: path,
-    url: host + '/' + path,
-    userId: undefined,
-    content: 'New Page 🙌🏻',
-    css: null,
-    style: {
-      color: null,
-      display: null,
-      width: null,
-      fontFamily: null,
-      fontSize: null,
-      fontWeight: null,
-      lineHeight: null,
-      letterSpacing: null,
-      textTransform: null,
-      textAlign: 'center',
-      // flex: undefined,
-      // flexFlow: undefined
-    },
-    cubes: [],
-    new: true,
-  }
-}
-
 // export async function saveCube(cube){
 //   try {
 //     let res = await api.post('cubes', cube)
@@ -120,9 +86,27 @@ export async function fetchRoute(url){
   }
 }
 
-export async function saveStyle(style){
+export async function addStyle(style){
   try {
     let res = await api.post('styles', style)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function updateStyle(style){
+  try {
+    let res = await api.put('styles', style)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function deleteStyle(id){
+  try {
+    let res = await api.delete(`styles/${id}`)
     return res.data
   } catch (e) {
     console.error(e)

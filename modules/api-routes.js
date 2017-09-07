@@ -26,14 +26,24 @@ router.route('/styles')
   })
   .post(async function(req, res) {
     let style = req.body
-    if (style.new){
-      delete style.new
-      style = await styles.insert(style)
-      res.json({ message: 'Style created', _id: style._id })
-    } else {
-      styles.update({'_id': style._id }, style)
-      res.json({ message: 'Style updated', _id: style._id })
-    }
+    style = await styles.insert(style)
+    res.json({ message: 'Style created', _id: style._id })
+  })
+  .put(async function(req, res) {
+    let style = req.body
+    styles.update({'_id': style._id }, style)
+    res.json({ message: 'Style updated', _id: style._id })
+  })
+
+router.route('/styles/:id')
+  .get(async function(req, res) {
+    let id = req.params.id
+    let style = await styles.findOne({_id: id})
+    res.json(style)
+  })
+  .delete(async function(req, res) {
+    let data = await styles.remove({ _id: req.params.id })
+    res.json({ message: 'Style deleted', _id: req.params.id })
   })
 
 

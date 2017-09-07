@@ -22,8 +22,8 @@ Vue.component('infinite-loading', InfiniteLoading)
 Vue.component('pg-pane', () => import('./panes/PagePane'))
 
 for (let i in cubes) {
-  Vue.component(cubes[i].tag, () => import(`./cubes/${cubes[i].name}`))
-  Vue.component(cubes[i].tag+'-pane', () => import(`./panes/${cubes[i].name+'Pane'}`))
+  Vue.component(cubes[i].type, () => import(`./cubes/${cubes[i].name}`))
+  Vue.component(cubes[i].type+'-pane', () => import(`./panes/${cubes[i].name+'Pane'}`))
 }
 
 Vue.config.productionTip = false
