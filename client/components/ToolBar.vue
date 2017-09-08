@@ -158,7 +158,6 @@ export default {
     },
     startWatch(){
       this.stopWatch = this.$store.watch(() => this.$store.state.pages, () => {
-        // this.snapshot(this.page)
         this.takeSnapshot(this.page)
       }, {deep: true})
     },

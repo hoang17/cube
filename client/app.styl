@@ -17,22 +17,27 @@
 @require './app.css'
 
 body
-  font-family -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
+  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   text-rendering optimizeLegibility
   font-size 14px
   background-color lighten(#eceef1, 30%)
   margin 0
   word-spacing 0.05em
   line-height 1.5
+  -webkit-font-smoothing auto
   // color #34495e
-  // -webkit-font-smoothing auto
   // overflow-y scroll
+
+*::selection
+  background rgba(78,188,221,0.15)
 
 // h1,h2,h3,h4,h5,h6
 //   margin auto
 
 .application--light
-  color #000
+.list__tile__title
+  color rgb(66, 66, 65)
+  // color #000
 
   .menu__content--select
     .list__tile
