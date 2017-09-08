@@ -187,7 +187,7 @@ export default {
         p.path = NanoSlug()
         p.url = p.host + '/' + p.path
         this.stopWatch()
-        this.$store.commit('setPage', p)
+        this.$store.commit('setNewPage', p)
         this.startWatch()
         this.activeCube = p
         this.$router.push({ name: 'build', params: { id: p._id }})
@@ -197,7 +197,8 @@ export default {
     },
     trash(){
       // remove page
-      if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
+      if (this.activeCube == this.page) {
+        if (!confirm("Do you want to delete this page?")) return
         this.stopWatch()
         this.$store.dispatch('deletePage', { page: this.page })
         this.startWatch()

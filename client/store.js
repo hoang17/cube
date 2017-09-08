@@ -102,6 +102,10 @@ export function createStore () {
       setPage(state, page) {
         state.pageId = page._id
         Vue.set(state.pages, state.pageId, page)
+      },
+      setNewPage(state, page){
+        state.pageId = page._id
+        Vue.set(state.pages, state.pageId, page)
         Vue.set(state.histories, page._id, History(page))
       },
       setCubes(state, cubes) {
