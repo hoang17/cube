@@ -19,8 +19,14 @@
 
       v-expansion-panel-content
         div(slot='header') style
+          v-chip(small, outline)  {{ styleName }}
           //- v-chip(small, outline, v-if="style") {{ style.name }}
           //- v-chip(small, outline) inline
+        .action
+          v-btn(icon, @click="addStyle", title="Add new style")
+            v-icon insert_drive_file
+          v-btn(icon, @click="removeStyle", title="Delete style")
+            v-icon delete
         v-card
           v-card-text
             //- v-chip.primary.white--text inline
@@ -30,23 +36,25 @@
 
             //- v-chip(small, outline, v-if="style") {{ style.name }}
             //- v-chip(small, outline) inline
-            v-chip.green.white--text(small, @click="addStyle") + add new style
+            //- v-chip.green.white--text(small, @click="addStyle") + add new style
 
             select(v-model="cube.css")
               option(selected, :value="null") inline
               option(v-for='s in styles', :value="s._id") {{ s.name }}
-      v-expansion-panel-content
-        //- div(slot='header') {{ styleName }} style
-        div(slot='header')
-          v-chip(small, outline)  {{ styleName }}
-        .action
-          v-btn(icon, @click='saveStyle')
-            v-icon save
-          v-btn(icon, @click="removeStyle")
-            v-icon delete
-        v-card
-          v-card-text.pt-0
+
             style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
+      //- v-expansion-panel-content
+      //-   //- div(slot='header') {{ styleName }} style
+      //-   div(slot='header')
+      //-     v-chip(small, outline)  {{ styleName }}
+      //-   .action
+      //-     //- v-btn(icon, @click='saveStyle')
+      //-     //-   v-icon save
+      //-     v-btn(icon, @click="removeStyle")
+      //-       v-icon delete
+      //-   v-card
+      //-     v-card-text.pt-0
+      //-       style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
 </template>
 
 <script>
@@ -127,6 +135,7 @@ export default {
   border-left 1px solid rgba(0,0,0,0.12)
   text-align center
   overflow auto
+  outline none
 
   .action
     width 100%
@@ -177,7 +186,7 @@ export default {
     height 20px
     font-size 12px
     padding 0 8px
-    margin 10px 5px 10px 0
+    margin 8px 5px 10px 8px
     color #424242
     border-color #424242
     text-transform none
