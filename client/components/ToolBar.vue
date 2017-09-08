@@ -4,7 +4,7 @@
       v-icon save
     v-btn(icon, @click="dup")
       v-icon content_copy
-    v-btn(icon, @click='remove', :disabled="blank")
+    v-btn(icon, @click='trash', :disabled="blank")
       v-icon delete
     v-btn(icon, @click="undo", :disabled="!canUndo")
       v-icon undo
@@ -27,12 +27,12 @@
 </template>
 
 <script>
+import { ObjectId, NanoId, NanoSlug } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
-import { NanoId } from '../data/factory'
 import debounce from 'lodash/debounce'
 
 export default {
-  props: ['cube'],
+  // props: ['cube'],
   data() {
     return {
       // toggle_exclusive: 2,
@@ -53,13 +53,16 @@ export default {
   },
   computed: {
     saved(){
-      return !this.history.sid || this.history.sid == this.page.sid
+      return this.history.sid == this.page.sid
     },
     url(){
       return this.page.url.startsWith('/') ? this.page.url : '//'+this.page.url
     },
+    histories(){
+      return this.$store.state.histories
+    },
     history(){
-      return this.$store.getters.history
+      return this.histories[this.$store.state.pageId]
     },
     page(){
       return this.$store.getters.page
@@ -68,7 +71,7 @@ export default {
       return this.$store.state.newId
     },
     blank(){
-      return this.page._id==this.newId && this.history.stack.length<=1
+      return this.page._id == this.newId && this.history.stack.length < 2
     },
     canUndo(){
       return this.history.index > 0
@@ -86,22 +89,12 @@ export default {
     }
   },
   methods: {
-    remove(){
-      this.$emit('remove')
-    },
-    dup(){
-      this.$emit('dup')
-    },
     snapshot(page) {
-      let h = this.history
+      let h = this.histories[page._id]
       h.index++
-      if (h.index == 0)
-        h.sid = page.sid
-      else {
-        this.stopWatch()
-        page.sid = NanoId()
-        this.startWatch()
-      }
+      this.stopWatch()
+      page.sid = NanoId()
+      this.startWatch()
       h.stack.splice(h.index)
       h.stack.push(cloneDeep(page))
     },
@@ -142,7 +135,9 @@ export default {
       }
     },
     async savePage(page){
-      // if (this.saved) return
+      // if saved return
+      if (this.histories[page._id].sid == this.page.sid) return
+
       if (page._id == this.newId){
         console.log('page changed');
       } else {
@@ -152,43 +147,115 @@ export default {
       }
     },
     startWatch(){
-      this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
-        if (page._id == old._id || this.history.index == -1){
-          this.pageChanged(page)
-        }
+      this.stopWatch = this.$store.watch(() => this.$store.state.pages, () => {
+        this.snapshot(this.page)
       }, {deep: true})
     },
     stopWatch: () => {},
-    pageChanged: debounce(function(page) {
-      this.snapshot(page)
-      if (this.history.index > 0){
-        this.savePage(page)
+    // pageChanged: debounce(function(page) {
+    //   this.snapshot(page)
+    //   if (this.history.index > 0){
+    //     this.savePage(page)
+    //   }
+    // }, 500),
+    copy(){
+      if (!this.activeCube || this.activeCube.name == 'Page') return
+      this.clipboard = cloneDeep(this.activeCube)
+      console.log('copied');
+    },
+    cut(){
+      if (!this.activeCube || this.activeCube.name == 'Page') return
+      this.clipboard = cloneDeep(this.activeCube)
+      this.removeActiveCube()
+      console.log('cut');
+    },
+    paste(){
+      if (!this.activeCube || !this.clipboard) return
+      let c = cloneDeep(this.clipboard)
+      if (this.activeCube.cubes){
+        this.activeCube.cubes.push(c)
+      } else {
+        this.cubes.push(c)
       }
-    }, 500),
+      console.log('pasted');
+    },
+    async dup(){
+      if (this.activeCube == this.page) {
+        let p = cloneDeep(this.page)
+        p._id = ObjectId()
+        p.content += ' Copy'
+        p.path = NanoSlug()
+        p.url = p.host + '/' + p.path
+        this.stopWatch()
+        this.$store.commit('setPage', p)
+        this.startWatch()
+        this.activeCube = p
+        this.$router.push({ name: 'build', params: { id: p._id }})
+        await this.$store.dispatch('addPage')
+      }
+      else this.cubes.push(cloneDeep(this.activeCube))
+    },
+    trash(){
+      // remove page
+      if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
+        this.stopWatch()
+        this.$store.dispatch('deletePage', { page: this.page })
+        this.startWatch()
+        this.$router.push({ name: 'build' })
+      }
+      else this.removeActiveCube()
+    },
+    removeActiveCube(){
+      var remove = cubes => {
+        let index = cubes.indexOf(this.activeCube)
+        if (index > -1){
+          cubes.splice(index, 1)
+          this.activeCube = this.page
+        } else {
+          cubes.map(c => {
+            if (c.cubes && c.cubes.length > 0)
+              remove(c.cubes)
+          })
+        }
+      }
+      remove(this.cubes)
+    },
   },
   mounted() {
-    this.snapshot(this.page)
     this.startWatch()
 
     document.addEventListener('keydown', e => {
       // if (window.event) e =  event
-      var metaKey = (e) => navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+      var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
-      if (e.keyCode == 90 && e.shiftKey && metaKey(e)) {
+      if (e.keyCode == 8 || e.keyCode == 46)
+        this.trash()
+      else if (e.keyCode == 90 && e.shiftKey && metaKey) {
         e.preventDefault()
         // console.log("⌘+⌃+z")
         this.redo()
       }
-      else if (e.keyCode == 90 && metaKey(e)) {
+      else if (e.keyCode == 90 && metaKey) {
         e.preventDefault()
         // console.log("⌘+z")
         this.undo()
       }
-      else if (e.keyCode == 83 && metaKey(e)){
+      else if (e.keyCode == 83 && metaKey){
         e.preventDefault()
         // console.log("⌘+s")
         this.save()
       }
+      else if (e.keyCode == 67 && metaKey)
+        this.copy()
+      else if (e.keyCode == 68 && metaKey){
+        this.dup()
+        e.preventDefault()
+      }
+      else if (e.keyCode == 86 && metaKey)
+        this.paste()
+      else if (e.keyCode == 88 && metaKey)
+        this.cut()
+
     }, false)
   }
 }

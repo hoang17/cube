@@ -2,9 +2,9 @@
   .main
     div(v-html="rules")
     .control
-      toolbar(:cube='activeCube', @remove="trash", @dup="dup")
+      toolbar
       navbar
-      propbar(v-if="activeCube", :cube='activeCube', @remove="trash", tabindex="1", @keydown.native="keydown")
+      propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>
@@ -13,7 +13,6 @@
 import Draggable from 'vuedraggable'
 import cloneDeep  from 'lodash/cloneDeep'
 import { getRules } from '../plugins/helpers'
-import { ObjectId, NanoSlug } from '../data/factory'
 
 export default {
   title: 'Build',
@@ -74,89 +73,30 @@ export default {
     // *** BRAIN FUCK :-? ***
     this.activeCube = this.page
 
-    document.addEventListener('keydown', e => {
-      // if (window.event) e =  event
-
-      var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
-
-      if (e.keyCode == 8 || e.keyCode == 46)
-        this.trash()
-      else if (e.keyCode == 67 && metaKey)
-        this.copy()
-      else if (e.keyCode == 68 && metaKey){
-        this.dup()
-        e.preventDefault()
-      }
-      else if (e.keyCode == 86 && metaKey)
-        this.paste()
-      else if (e.keyCode == 88 && metaKey)
-        this.cut()
-    }, false)
+    // document.addEventListener('keydown', e => {
+    //   // if (window.event) e =  event
+    //
+    //   var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
+    //
+    //   if (e.keyCode == 8 || e.keyCode == 46)
+    //     this.trash()
+    //   else if (e.keyCode == 67 && metaKey)
+    //     this.copy()
+    //   else if (e.keyCode == 68 && metaKey){
+    //     this.dup()
+    //     e.preventDefault()
+    //   }
+    //   else if (e.keyCode == 86 && metaKey)
+    //     this.paste()
+    //   else if (e.keyCode == 88 && metaKey)
+    //     this.cut()
+    // }, false)
   },
   methods: {
     keydown(e){
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
       if (e.keyCode == 8 || e.keyCode == 46 || ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey))
         e.stopPropagation()
-    },
-    copy(){
-      if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = cloneDeep(this.activeCube)
-      console.log('copied');
-    },
-    cut(){
-      if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = cloneDeep(this.activeCube)
-      this.removeActiveCube()
-      console.log('cut');
-    },
-    paste(){
-      if (!this.activeCube || !this.clipboard) return
-      let c = cloneDeep(this.clipboard)
-      if (this.activeCube.cubes){
-        this.activeCube.cubes.push(c)
-      } else {
-        this.cubes.push(c)
-      }
-      console.log('pasted');
-    },
-    async dup(){
-      if (this.activeCube == this.page) {
-        let p = cloneDeep(this.page)
-        p._id = ObjectId()
-        p.content += ' Copy'
-        p.path = NanoSlug()
-        p.url = p.host + '/' + p.path
-        this.$store.commit('setPage', p)
-        this.activeCube = p
-        this.$router.push({ name: 'build', params: { id: p._id }})
-        await this.$store.dispatch('addPage')
-      }
-      else this.cubes.push(cloneDeep(this.activeCube))
-    },
-    trash(){
-      // remove page
-      if (this.activeCube == this.page && confirm("Do you want to delete this page?")) {
-        this.$store.dispatch('deletePage', { page: this.page })
-        // this.activeCube = null
-        this.$router.push({ name: 'build' })
-      }
-      else this.removeActiveCube()
-    },
-    removeActiveCube(){
-      var remove = cubes => {
-        let index = cubes.indexOf(this.activeCube)
-        if (index > -1){
-          cubes.splice(index, 1)
-          this.activeCube = this.page
-        } else {
-          cubes.map(c => {
-            if (c.cubes && c.cubes.length > 0)
-              remove(c.cubes)
-          })
-        }
-      }
-      remove(this.cubes)
     },
     selectPage(){
       this.activeCube = this.page

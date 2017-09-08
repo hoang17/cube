@@ -59,7 +59,7 @@
 
 <script>
 import StyleBar from './StyleBar'
-import { newStyle } from '../data/factory'
+import { Style } from '../data/factory'
 import debounce from 'lodash/debounce'
 
 export default {
@@ -106,16 +106,16 @@ export default {
         this.stylesChanged()
       }, {deep: true})
     },
-    async done(){
-      this.$emit('done')
-    },
-    async remove(){
-      this.$emit('remove')
-    },
+    // async done(){
+    //   this.$emit('done')
+    // },
+    // async remove(){
+    //   this.$emit('remove')
+    // },
     async addStyle(){
       var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
       if (name) {
-        let style = newStyle(name)
+        let style = Style(name)
         this.stopWatch()
         await this.$store.dispatch('addStyle', style)
         this.startWatch()

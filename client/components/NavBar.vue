@@ -54,8 +54,7 @@ export default {
   }),
   methods: {
     showBadge(page){
-      let h = this.$store.getters.histories(page._id)
-      return h.sid && h.sid != page.sid
+      return this.$store.state.histories[page._id].sid != page.sid
     },
     selectPage(page){
       let id = page ? page._id : null

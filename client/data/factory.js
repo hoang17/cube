@@ -1,4 +1,5 @@
 import generate from 'nanoid/generate'
+import cloneDeep  from 'lodash/cloneDeep'
 
 export const NanoId = (length = 10) => generate('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
 
@@ -6,7 +7,15 @@ export const NanoSlug = (length = 6) => generate('0123456789abcdefABCDEF', lengt
 
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
-export function newPage(uid, host){
+export function History(page){
+  return {
+    index: 0,
+    stack:[cloneDeep(page)],
+    sid: page.sid,
+  }
+}
+
+export function Page(uid, host){
   let id = ObjectId()
   let path = NanoSlug()
   return {
@@ -38,7 +47,7 @@ export function newPage(uid, host){
   }
 }
 
-export function newStyle(name){
+export function Style(name){
   return {
     _id: ObjectId(),
     name: name,
