@@ -48,7 +48,7 @@ export function createStore () {
         return id
       },
 
-      async deletePage({ state, commit }, { page }) {
+      async deletePage({ state, commit }, page) {
         Vue.delete(state.pages, page._id)
         Vue.delete(state.histories, page._id)
 
@@ -60,8 +60,8 @@ export function createStore () {
         commit('setPageId', state.newId)
       },
 
-      async addPage({ state, commit }) {
-        return await addPage(state.pages[state.pageId])
+      async addPage({ state, commit }, page) {
+        return await addPage(page)
       },
 
       async updatePage({ state, commit }, page) {

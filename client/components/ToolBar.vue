@@ -128,28 +128,20 @@ export default {
     },
     async save(){
       if (this.saved) return
-
-      if (this.page._id == this.newId){
-        await this.$store.dispatch('addPage')
-        this.stopWatch()
-        this.$store.commit('addNewPage')
-        this.startWatch()
-        this.history.sid = this.page.sid
-        this.$router.push({ name: 'build', params: { id: this.page._id }})
-        console.log('page created');
-      }
-      else {
-        await this.$store.dispatch('updatePage', this.page)
-        this.history.sid = this.page.sid
-        console.log('page updated');
-      }
+      this.savePage(this.page)
     },
     async savePage(page){
       // if saved return
       if (this.histories[page._id].sid == this.page.sid) return
 
       if (page._id == this.newId){
-        console.log('page changed');
+        await this.$store.dispatch('addPage', page)
+        this.stopWatch()
+        this.$store.commit('addNewPage')
+        this.startWatch()
+        this.history.sid = page.sid
+        this.$router.push({ name: 'build', params: { id: page._id }})
+        console.log('page created');
       } else {
         await this.$store.dispatch('updatePage', page)
         this.history.sid = page.sid
@@ -211,7 +203,7 @@ export default {
       if (this.activeCube == this.page) {
         if (!confirm("Do you want to delete this page?")) return
         this.stopWatch()
-        this.$store.dispatch('deletePage', { page: this.page })
+        this.$store.dispatch('deletePage', this.page)
         this.startWatch()
         this.$router.push({ name: 'build' })
       }
