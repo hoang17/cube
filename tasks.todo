@@ -9,8 +9,8 @@ TODO:
 ✔ Fix undo redo bug @timestamp(2017-09-07 21:43) @done(2017-09-08 10:09)
 ✔ Change new to init @timestamp(2017-09-07 21:44) @done(2017-09-08 10:09)
 ✔ Auto save style @timestamp(2017-09-08 10:42) @done(2017-09-08 11:18)
-☐ Debounce page state watch @timestamp(2017-09-08 10:15)
-☐ Auto save page
+✔ Debounce page state watch @timestamp(2017-09-08 10:15) @done(2017-09-08 19:43)
+✔ Auto save page @done(2017-09-08 19:43)
 ☐ Restore active cube when undo/redo
 ☐ Reuse cube block by referencing
 ☐ Copy/paste between tabs
