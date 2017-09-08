@@ -11,6 +11,7 @@ TODO:
 ✔ Auto save style @timestamp(2017-09-08 10:42) @done(2017-09-08 11:18)
 ☐ Debounce page state watch @timestamp(2017-09-08 10:15)
 ☐ Auto save page
+☐ Restore active cube when undo/redo
 ☐ Reuse cube block by referencing
 ☐ Copy/paste between tabs
 ☐
