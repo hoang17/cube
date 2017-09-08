@@ -60,6 +60,7 @@
 <script>
 import StyleBar from './StyleBar'
 import { newStyle } from '../data/factory'
+import debounce from 'lodash/debounce'
 
 export default {
   props: ['cube'],
@@ -84,7 +85,18 @@ export default {
       return this.style ? this.style.name : 'inline'
     },
   },
+  watch: {
+    styles: {
+      handler: function (val, old) {
+        this.stylesChanged()
+      },
+      deep: true
+    },
+  },
   methods: {
+    stylesChanged: debounce(function() {
+      this.saveStyle()
+    }, 500),
     async done(){
       this.$emit('done')
     },
@@ -92,7 +104,7 @@ export default {
       this.$emit('remove')
     },
     async addStyle(){
-      var name = prompt("Please enter new style name", "style name")
+      var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
       if (name) {
         let style = newStyle(name)
         await this.$store.dispatch('addStyle', style)
@@ -201,5 +213,4 @@ export default {
   .expansion-panel__body
     border-top 0.1rem solid #d1d1d1
   //   box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
-
 </style>

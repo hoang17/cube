@@ -8,8 +8,9 @@ ctrl-s: add/update timestamp for current task
 TODO:
 ✔ Fix undo redo bug @timestamp(2017-09-07 21:43) @done(2017-09-08 10:09)
 ✔ Change new to init @timestamp(2017-09-07 21:44) @done(2017-09-08 10:09)
+✔ Auto save style @timestamp(2017-09-08 10:42) @done(2017-09-08 11:18)
 ☐ Debounce page state watch @timestamp(2017-09-08 10:15)
-☐ Auto save
+☐ Auto save page
 ☐ Reuse cube block by referencing
 ☐ Copy/paste between tabs
 ☐
