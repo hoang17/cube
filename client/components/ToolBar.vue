@@ -29,6 +29,7 @@
 <script>
 import cloneDeep  from 'lodash/cloneDeep'
 import { NanoId } from '../data/factory'
+import debounce from 'lodash/debounce'
 
 export default {
   props: ['cube'],
@@ -68,7 +69,6 @@ export default {
   },
   data() {
     return {
-      stopWatch: () => {},
       // toggle_exclusive: 2,
       // toggle_multiple: [],
       // toggle_options: [
@@ -123,13 +123,6 @@ export default {
       this.activeCube = this.page
       this.startWatch()
     },
-    startWatch(){
-      this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
-        if (page._id == old._id || this.history.index == -1){
-          this.snapshot(page)
-        }
-      }, {deep: true})
-    },
     async save(){
       if (this.saved) return
 
@@ -148,6 +141,19 @@ export default {
         console.log('page updated');
       }
     },
+    startWatch(){
+      this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
+        if (page._id == old._id || this.history.index == -1){
+          this.snapshot(page)
+          // this.pageChanged(page)
+        }
+      }, {deep: true})
+    },
+    stopWatch: () => {},
+    pageChanged: debounce(function(page) {
+      console.log(page.name);
+      // this.updatePage(page)
+    }, 500),
   },
   mounted() {
     this.snapshot(this.page)
