@@ -85,18 +85,27 @@ export default {
       return this.style ? this.style.name : 'inline'
     },
   },
-  watch: {
-    styles: {
-      handler: function (val, old) {
-        this.stylesChanged()
-      },
-      deep: true
-    },
+  // watch: {
+  //   styles: {
+  //     handler: function (val, old) {
+  //       this.stylesChanged()
+  //     },
+  //     deep: true
+  //   },
+  // },
+  mounted() {
+    this.startWatch()
   },
   methods: {
+    stopWatch: () => {},
     stylesChanged: debounce(function() {
       this.saveStyle()
     }, 500),
+    startWatch(){
+      this.stopWatch = this.$store.watch(() => this.styles, (val, old) => {
+        this.stylesChanged()
+      }, {deep: true})
+    },
     async done(){
       this.$emit('done')
     },
@@ -107,7 +116,9 @@ export default {
       var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
       if (name) {
         let style = newStyle(name)
+        this.stopWatch()
         await this.$store.dispatch('addStyle', style)
+        this.startWatch()
         this.cube.css = style._id
         console.log('style created');
       }
@@ -125,7 +136,7 @@ export default {
     async removeStyle(){
       if (this.style){
         await this.$store.dispatch('removeStyle', this.style)
-        this.cube.css = undefined
+        this.cube.css = null
       }
     }
   },
