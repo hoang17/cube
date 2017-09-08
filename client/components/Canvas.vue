@@ -52,8 +52,13 @@ export default {
     page() {
       return this.$store.getters.page
     },
-    cubes() {
-      return this.page.cubes
+    cubes: {
+      get() {
+        return this.page.cubes
+      },
+      set(cubes) {
+        this.$store.commit('setCubes', cubes)
+      }
     },
   },
   watch: {
