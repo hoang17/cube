@@ -17,8 +17,7 @@ import { getRules } from '../plugins/helpers'
 export default {
   title: 'Build',
   async asyncData ({ store, route }) {
-    await store.dispatch('fetchStyles')
-    return store.dispatch('fetchPage', { id: route.params.id })
+    return store.dispatch('fetchBuild', route.params.id)
   },
   components: {
     Draggable,
@@ -64,7 +63,7 @@ export default {
   watch: {
     id(){
       if (this.id != this.page._id) {
-        this.$store.dispatch('fetchPage', { id: this.id })
+        this.$store.commit('setActivePage', this.id ? this.id : this.$store.state.newId)
         this.activeCube = this.page
       }
     },

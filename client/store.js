@@ -40,24 +40,20 @@ export function createStore () {
       },
 
       async fetchRoute({ state, commit }, { url }){
-        if (state.routes[url])
-          return state.routes[url]
-        let id = await fetchRoute(url)
-        if (id)
-          Vue.set(state.routes, url, id)
-        return id
+        return state.routes[url]
+        // if (state.routes[url])
+        //   return state.routes[url]
+        // let id = await fetchRoute(url)
+        // if (id)
+        //   Vue.set(state.routes, url, id)
+        // return id
       },
 
       async deletePage({ state, commit }, page) {
         Vue.delete(state.pages, page._id)
         Vue.delete(state.histories, page._id)
-
-        if (page._id == state.newId)
-          commit('addNewPage')
-        else
-          deletePage(page._id)
-
-        commit('setPageId', state.newId)
+        commit('setActivePage', state.newId)
+        deletePage(page._id)
       },
 
       async addPage({ state, commit }, page) {
@@ -68,29 +64,35 @@ export function createStore () {
         return await updatePage(page)
       },
 
-      async fetchPage({ state, commit }, { id }){
-        if (!state.pages || (id && !state.pages[id])){
-          state.pages = await fetchPages()
-          // build routes & histories
-          for (let i in state.pages){
-            let p = state.pages[i]
-            state.routes[p.url] = i
-            Vue.set(state.histories, i, History(p))
-          }
-        }
-
-        if (!state.newId)
-          commit('addNewPage')
-
-        commit('setPageId', id ? id : state.newId)
-      },
-
       async fetchPages({ state, commit }) {
         state.pages = await fetchPages()
       },
+
+      async fetchBuild({state, commit}, id){
+        state.styles = await fetchStyles()
+        state.pages = await fetchPages()
+        // build routes & histories
+        for (let i in state.pages){
+          let p = state.pages[i]
+          state.routes[p.url] = i
+          Vue.set(state.histories, i, History(p))
+        }
+        commit('addNewPage')
+        commit('setActivePage', id ? id : state.newId)
+      },
+
+      async fetchView({state, commit}, { url }){
+        state.styles = await fetchStyles()
+        state.pages = await fetchPages()
+        // build routes
+        for (let i in state.pages){
+          state.routes[state.pages[i].url] = i
+        }
+        return state.routes[url]
+      }
     },
     mutations: {
-      setPageId(state, id){
+      setActivePage(state, id){
         state.pageId = id
       },
       addNewPage(state) {

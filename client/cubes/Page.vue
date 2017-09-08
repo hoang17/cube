@@ -12,14 +12,11 @@ export default {
     return this.page.content
   },
   async asyncData ({ store, route, context }) {
-    await store.dispatch('fetchStyles')
-    // context.rules = getRules(store.state.styles)
-
     // context.res.status(404).end('404 | Page Not Found')
-    let id = await store.dispatch('fetchRoute', { url: store.state.host + route.path })
+    let id = await store.dispatch('fetchView', { url: store.state.host + route.path })
     if (!id)
       throw {code: 404}
-    return store.dispatch('fetchPage', { id })
+    store.commit('setActivePage', id)
   },
   data() {
     return {
@@ -29,8 +26,8 @@ export default {
     async path(){
       let id = await this.$store.dispatch('fetchRoute', { url: this.url })
       if (!id)
-        this.pageNotFound()
-      this.$store.dispatch('fetchPage', { id })
+        return this.pageNotFound()
+      this.$store.commit('setActivePage', id)
     }
   },
   computed: {
@@ -39,9 +36,6 @@ export default {
     },
     url(){
       return this.$store.state.host + this.$route.path
-    },
-    user(){
-      return this.$store.state.user
     },
     page() {
       return this.$store.getters.page
@@ -53,7 +47,11 @@ export default {
       return getRules(this.$store.state.styles)
     },
   },
-  methods: {}
+  methods: {
+    pageNotFound(){
+      alert('404 | Page not found')
+    }
+  }
 }
 </script>
 
