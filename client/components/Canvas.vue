@@ -52,13 +52,8 @@ export default {
     page() {
       return this.$store.getters.page
     },
-    cubes: {
-      get() {
-        return this.page.cubes
-      },
-      set(cubes) {
-        this.$store.commit('setCubes', cubes)
-      }
+    cubes() {
+      return this.page.cubes
     },
   },
   watch: {
@@ -72,25 +67,6 @@ export default {
   mounted() {
     // *** BRAIN FUCK :-? ***
     this.activeCube = this.page
-
-    // document.addEventListener('keydown', e => {
-    //   // if (window.event) e =  event
-    //
-    //   var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
-    //
-    //   if (e.keyCode == 8 || e.keyCode == 46)
-    //     this.trash()
-    //   else if (e.keyCode == 67 && metaKey)
-    //     this.copy()
-    //   else if (e.keyCode == 68 && metaKey){
-    //     this.dup()
-    //     e.preventDefault()
-    //   }
-    //   else if (e.keyCode == 86 && metaKey)
-    //     this.paste()
-    //   else if (e.keyCode == 88 && metaKey)
-    //     this.cut()
-    // }, false)
   },
   methods: {
     keydown(e){

@@ -79,6 +79,14 @@ export default {
     canRedo(){
       return this.history.stack.length - 1 > this.history.index
     },
+    cubes: {
+      get() {
+        return this.page.cubes
+      },
+      set(cubes) {
+        this.$store.commit('setCubes', cubes)
+      }
+    },
     activeCube:{
       get(){
         return this.$store.getters.activeCube
@@ -106,6 +114,7 @@ export default {
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.activeCube = this.page
       this.startWatch()
+      this.autoSavePage(this.page)
     },
     redo() {
       if (!this.canRedo) return
@@ -115,6 +124,7 @@ export default {
       this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
       this.activeCube = this.page
       this.startWatch()
+      this.autoSavePage(this.page)
     },
     async save(){
       if (this.saved) return
@@ -148,16 +158,18 @@ export default {
     },
     startWatch(){
       this.stopWatch = this.$store.watch(() => this.$store.state.pages, () => {
-        this.snapshot(this.page)
+        // this.snapshot(this.page)
+        this.takeSnapshot(this.page)
       }, {deep: true})
     },
     stopWatch: () => {},
-    // pageChanged: debounce(function(page) {
-    //   this.snapshot(page)
-    //   if (this.history.index > 0){
-    //     this.savePage(page)
-    //   }
-    // }, 500),
+    takeSnapshot: debounce(function(page) {
+      this.snapshot(page)
+      this.savePage(page)
+    }, 500),
+    autoSavePage: debounce(function(page) {
+      this.savePage(page)
+    }, 500),
     copy(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
       this.clipboard = cloneDeep(this.activeCube)
