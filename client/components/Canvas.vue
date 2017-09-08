@@ -13,7 +13,7 @@
 import Draggable from 'vuedraggable'
 import cloneDeep  from 'lodash/cloneDeep'
 import { getRules } from '../plugins/helpers'
-import { ObjectId } from '../data/factory'
+import { ObjectId, NanoSlug } from '../data/factory'
 
 export default {
   title: 'Build',
@@ -125,8 +125,8 @@ export default {
         let p = cloneDeep(this.page)
         p._id = ObjectId()
         p.content += ' Copy'
-        p.path = p._id
-        p.url = p.host + '/' + p._id
+        p.path = NanoSlug()
+        p.url = p.host + '/' + p.path
         this.$store.commit('setPage', p)
         this.activeCube = p
         this.$router.push({ name: 'build', params: { id: p._id }})

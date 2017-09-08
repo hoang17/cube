@@ -7,13 +7,13 @@
       v-list-tile(@click="selectPage()", :class="{active: page._id == newId }")
         v-list-tile-action
           v-icon add
-        v-list-tile-content
+        v-list-tile-content(v-badge="{value:'',visible:showBadge(pages[newId])}")
           v-list-tile-title Add New Page
 
       v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newId")
         v-list-tile-action
           v-icon web_asset
-        v-list-tile-content
+        v-list-tile-content(v-badge="{value:'',visible:showBadge(p)}")
           v-list-tile-title {{ p.content }}
 
       v-divider.my-2(dark)
@@ -53,6 +53,10 @@ export default {
     cubes: cubes,
   }),
   methods: {
+    showBadge(page){
+      let h = this.$store.getters.histories(page._id)
+      return h.sid && h.sid != page.sid
+    },
     selectPage(page){
       let id = page ? page._id : null
       this.$router.push({ name: 'build', params: { id: id }})
@@ -77,6 +81,14 @@ export default {
   .active
     .list__tile__title
       font-weight bold
+
+  .badge:after
+    background #4caf50!important
+    font-size 8px
+    width 10px
+    height 10px
+    top 15px
+    right 0
 
   v-card
     a

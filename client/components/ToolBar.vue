@@ -28,7 +28,7 @@
 
 <script>
 import cloneDeep  from 'lodash/cloneDeep'
-import { nanoid } from '../data/factory'
+import { NanoId } from '../data/factory'
 
 export default {
   props: ['cube'],
@@ -99,7 +99,7 @@ export default {
         h.sid = page.sid
       else {
         this.stopWatch()
-        page.sid = nanoid(10)
+        page.sid = NanoId()
         this.startWatch()
       }
       h.stack.splice(h.index)

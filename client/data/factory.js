@@ -1,22 +1,25 @@
 import generate from 'nanoid/generate'
 
-export const nanoid = (length = 22) => generate('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
+export const NanoId = (length = 10) => generate('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
+
+export const NanoSlug = (length = 6) => generate('0123456789abcdefABCDEF', length)
 
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
 export function newPage(uid, host){
   let id = ObjectId()
+  let path = NanoSlug()
   return {
     _id: id,
     name: 'Page',
     type: 'pg',
     host: host,
-    path: id,
-    url: host + '/' + id,
+    path: path,
+    url: host + '/' + path,
     uid: uid,
     content: 'New Page 🙌🏻',
     css: null,
-    sid: nanoid(10),
+    sid: NanoId(),
     style: {
       color: null,
       display: null,
