@@ -33,6 +33,24 @@ import debounce from 'lodash/debounce'
 
 export default {
   props: ['cube'],
+  data() {
+    return {
+      // toggle_exclusive: 2,
+      // toggle_multiple: [],
+      // toggle_options: [
+      //   { icon: 'format_align_left', value: 1 },
+      //   { icon: 'format_align_center', value: 2 },
+      //   { icon: 'format_align_right', value: 3 },
+      //   { icon: 'format_align_justify', value: 4 },
+      // ],
+      // toggle_options_multiple: [
+      //   { icon: 'format_bold', value: 1 },
+      //   { icon: 'format_italic', value: 2 },
+      //   { icon: 'format_underlined', value: 3 },
+      //   { icon: 'format_color_fill', value: 4 }
+      // ],
+    }
+  },
   computed: {
     saved(){
       return !this.history.sid || this.history.sid == this.page.sid
@@ -65,24 +83,6 @@ export default {
       set(cube){
         this.$store.commit('setActiveCube', cube)
       }
-    }
-  },
-  data() {
-    return {
-      // toggle_exclusive: 2,
-      // toggle_multiple: [],
-      // toggle_options: [
-      //   { icon: 'format_align_left', value: 1 },
-      //   { icon: 'format_align_center', value: 2 },
-      //   { icon: 'format_align_right', value: 3 },
-      //   { icon: 'format_align_justify', value: 4 },
-      // ],
-      // toggle_options_multiple: [
-      //   { icon: 'format_bold', value: 1 },
-      //   { icon: 'format_italic', value: 2 },
-      //   { icon: 'format_underlined', value: 3 },
-      //   { icon: 'format_color_fill', value: 4 }
-      // ],
     }
   },
   methods: {
@@ -202,5 +202,4 @@ export default {
 
   .btn-toggle--selected
     box-shadow none
-
 </style>
