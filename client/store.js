@@ -63,8 +63,8 @@ export function createStore () {
         return await addPage(state.pages[state.pageId])
       },
 
-      async updatePage({ state, commit }) {
-        return await updatePage(state.pages[state.pageId])
+      async updatePage({ state, commit }, page) {
+        return await updatePage(page)
       },
 
       async fetchPage({ state, commit }, { id }){

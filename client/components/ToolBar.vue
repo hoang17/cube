@@ -136,23 +136,34 @@ export default {
         console.log('page created');
       }
       else {
-        await this.$store.dispatch('updatePage')
+        await this.$store.dispatch('updatePage', this.page)
         this.history.sid = this.page.sid
+        console.log('page updated');
+      }
+    },
+    async savePage(page){
+      // if (this.saved) return
+      if (page._id == this.newId){
+        console.log('page changed');
+      } else {
+        await this.$store.dispatch('updatePage', page)
+        this.history.sid = page.sid
         console.log('page updated');
       }
     },
     startWatch(){
       this.stopWatch = this.$store.watch(this.$store.getters.pageState, (page, old) => {
         if (page._id == old._id || this.history.index == -1){
-          this.snapshot(page)
-          // this.pageChanged(page)
+          this.pageChanged(page)
         }
       }, {deep: true})
     },
     stopWatch: () => {},
     pageChanged: debounce(function(page) {
-      console.log(page.name);
-      // this.updatePage(page)
+      this.snapshot(page)
+      if (this.history.index > 0){
+        this.savePage(page)
+      }
     }, 500),
   },
   mounted() {
