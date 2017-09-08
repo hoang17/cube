@@ -194,7 +194,7 @@ export default {
         this.startWatch()
         this.activeCube = p
         this.$router.push({ name: 'build', params: { id: p._id }})
-        await this.$store.dispatch('addPage')
+        await this.$store.dispatch('addPage', p)
       }
       else this.cubes.push(cloneDeep(this.activeCube))
     },
