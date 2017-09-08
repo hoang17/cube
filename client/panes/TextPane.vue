@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    textarea-autosize(placeholder='Enter text...', v-model='cube.content', :min-height='50', :max-height='350')
+    textarea-autosize(placeholder='Enter text...', v-model='cube.content', :min-height='minHeight', :max-height='350')
     //- vue-select(:options='styles', v-model='cube.css', label="name")
     //- v-text-field(label='Font', v-model='cube.style.fontFamily')
     //- v-text-field(label='Color', v-model='cube.style.color')
@@ -18,27 +18,25 @@
 
 <script>
 import Vue from 'vue'
-import VueTextareaAutosize from 'vue-textarea-autosize'
+import TextareaAutosize from '../addons/TextareaAutosize'
 // import VueSelect from 'vue-select'
-
-Vue.use(VueTextareaAutosize)
+// import VueTextareaAutosize from 'vue-textarea-autosize'
+// Vue.use(VueTextareaAutosize)
 
 export default {
   props: ['cube'],
   components: {
-    // VueSelect
+    TextareaAutosize // VueSelect
   },
-  data () {
+  data() {
     return {
+      minHeight: 50
     }
-  },
-  computed: {
   },
 }
 </script>
 
 <style lang="stylus" scoped>
-
 textarea
   padding 10px 5px
   resize none
@@ -51,5 +49,4 @@ textarea
 
   &:focus
     outline none
-
 </style>
