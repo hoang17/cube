@@ -6,5 +6,10 @@ ctrl-c: cancel the selected tasks
 ctrl-s: add/update timestamp for current task
 
 TODO:
-☐ fix undo redo bug @timestamp(2017-09-07 21:43)
-☐ change new to init @timestamp(2017-09-07 21:44)
+✔ Fix undo redo bug @timestamp(2017-09-07 21:43) @done(2017-09-08 10:09)
+✔ Change new to init @timestamp(2017-09-07 21:44) @done(2017-09-08 10:09)
+☐ Debounce page state watch @timestamp(2017-09-08 10:15)
+☐ Auto save
+☐ Reuse cube block by referencing
+☐ Copy/paste between tabs
+☐
