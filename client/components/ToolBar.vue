@@ -197,7 +197,7 @@ export default {
       p.content += ' Copy'
       p.path = NanoSlug()
       p.host = this.$store.state.host
-      p.url = this.host + '/' + p.path
+      p.url = p.host + '/' + p.path
       this.stopWatch()
       this.$store.commit('setNewPage', p)
       this.startWatch()
@@ -267,6 +267,7 @@ export default {
     },
   },
   mounted() {
+    if (this.sw) return
     this.startWatch()
 
     document.addEventListener("copy", (e) => {
