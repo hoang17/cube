@@ -35,6 +35,7 @@ export default {
   // props: ['cube'],
   data() {
     return {
+      sw: null // stopWatch handler
       // toggle_exclusive: 2,
       // toggle_multiple: [],
       // toggle_options: [
@@ -149,11 +150,16 @@ export default {
       }
     },
     startWatch(){
-      this.stopWatch = this.$store.watch(() => this.$store.state.pages, () => {
+      if (this.sw) return
+      this.sw = this.$store.watch(() => this.$store.state.pages, () => {
         this.takeSnapshot(this.page)
       }, {deep: true})
     },
-    stopWatch: () => {},
+    stopWatch(){
+      if (!this.sw) return
+      this.sw()
+      this.sw = null
+    },
     takeSnapshot: debounce(function(page) {
       this.snapshot(page)
       this.savePage(page)
@@ -247,7 +253,7 @@ export default {
       // e.preventDefault();
 
       if (!this.activeCube) return
-      
+
       // Get pasted data via clipboard API
       var clipboardData = e.clipboardData || window.clipboardData
       var s = clipboardData.getData('Text')
