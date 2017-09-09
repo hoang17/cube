@@ -196,7 +196,7 @@ export default {
       p._id = ObjectId()
       p.content += ' Copy'
       p.path = NanoSlug()
-      p.url = p.host + '/' + p.path
+      p.url = this.$store.state.host + '/' + p.path
       this.stopWatch()
       this.$store.commit('setNewPage', p)
       this.startWatch()
