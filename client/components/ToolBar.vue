@@ -205,6 +205,8 @@ export default {
       else this.cubes.push(cloneDeep(this.activeCube))
     },
     trash(){
+      if (!this.activeCube) return
+
       // remove page
       if (this.activeCube == this.page) {
         if (!confirm("Do you want to delete this page?")) return
@@ -245,9 +247,6 @@ export default {
     })
 
     document.addEventListener('paste', (e) => {
-      // console.log(event);
-      // console.log(e.clipboardData.getData('Text'));
-
       // Stop data actually being pasted into div
       // e.stopPropagation();
       // e.preventDefault();
@@ -272,8 +271,10 @@ export default {
       e = e || window.event // IE
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
-      if (e.keyCode == 8 || e.keyCode == 46)
+      if (e.keyCode == 8 || e.keyCode == 46){
+        e.preventDefault()
         this.trash()
+      }
       else if (e.keyCode == 90 && e.shiftKey && metaKey) {
         e.preventDefault()
         // console.log("⌘+⌃+z")
