@@ -27,7 +27,6 @@ export default {
   },
   data() {
     return {
-      clipboard: null
     }
   },
   computed: {

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { ObjectId, NanoId, NanoSlug } from '../data/factory'
+import { ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       sw: null // stopWatch handler
+      // clipboard: null,
       // toggle_exclusive: 2,
       // toggle_multiple: [],
       // toggle_options: [
@@ -79,6 +80,9 @@ export default {
     },
     canRedo(){
       return this.history.stack.length - 1 > this.history.index
+    },
+    style(){
+      return this.$store.state.styles[this.activeCube.css]
     },
     cubes: {
       get() {
@@ -167,46 +171,58 @@ export default {
     autoSavePage: debounce(function(page) {
       this.savePage(page)
     }, 500),
-    copy(){
-      if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = cloneDeep(this.activeCube)
-      console.log('copied');
-    },
-    cut(){
-      if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = cloneDeep(this.activeCube)
-      this.removeActiveCube()
-      console.log('cut');
-    },
-    paste(){
-      if (!this.activeCube || !this.clipboard) return
-      let c = cloneDeep(this.clipboard)
-      if (this.activeCube.cubes){
-        this.activeCube.cubes.push(c)
-      } else {
-        this.cubes.push(c)
-      }
-      console.log('pasted');
+    // copy(){
+    //   if (!this.activeCube || this.activeCube.name == 'Page') return
+    //   this.clipboard = Clipboard(cloneDeep(this.activeCube))
+    //   console.log('copied');
+    // },
+    // cut(){
+    //   if (!this.activeCube || this.activeCube.name == 'Page') return
+    //   this.clipboard = Clipboard(cloneDeep(this.activeCube))
+    //   this.removeActiveCube()
+    //   console.log('cut');
+    // },
+    // paste(){
+    //   if (!this.activeCube || !this.clipboard) return
+    //   let c = cloneDeep(this.clipboard.cube)
+    //   if (this.activeCube.cubes){
+    //     this.activeCube.cubes.push(c)
+    //   } else {
+    //     this.cubes.push(c)
+    //   }
+    //   console.log('pasted');
+    // },
+    async dupPage(p){
+      p._id = ObjectId()
+      p.content += ' Copy'
+      p.path = NanoSlug()
+      p.url = p.host + '/' + p.path
+      this.stopWatch()
+      this.$store.commit('setNewPage', p)
+      this.startWatch()
+      this.activeCube = p
+      this.$router.push({ name: 'build', params: { id: p._id }})
+      await this.$store.dispatch('addPage', p)
     },
     async dup(){
       if (this.activeCube == this.page) {
         let p = cloneDeep(this.page)
-        p._id = ObjectId()
-        p.content += ' Copy'
-        p.path = NanoSlug()
-        p.url = p.host + '/' + p.path
-        this.stopWatch()
-        this.$store.commit('setNewPage', p)
-        this.startWatch()
-        this.activeCube = p
-        this.$router.push({ name: 'build', params: { id: p._id }})
-        await this.$store.dispatch('addPage', p)
+        await this.dupPage(p)
+        // p._id = ObjectId()
+        // p.content += ' Copy'
+        // p.path = NanoSlug()
+        // p.url = p.host + '/' + p.path
+        // this.stopWatch()
+        // this.$store.commit('setNewPage', p)
+        // this.startWatch()
+        // this.activeCube = p
+        // this.$router.push({ name: 'build', params: { id: p._id }})
+        // await this.$store.dispatch('addPage', p)
       }
       else this.cubes.push(cloneDeep(this.activeCube))
     },
     trash(){
       if (!this.activeCube) return
-
       // remove page
       if (this.activeCube == this.page) {
         if (!confirm("Do you want to delete this page?")) return
@@ -218,6 +234,7 @@ export default {
       else this.removeActiveCube()
     },
     removeActiveCube(){
+      if (this.activeCube.name == 'Page') return
       var remove = cubes => {
         let index = cubes.indexOf(this.activeCube)
         if (index > -1){
@@ -236,35 +253,44 @@ export default {
   mounted() {
     this.startWatch()
 
-    // let events = ['cut', 'copy', 'paste']
-
     document.addEventListener("copy", (e) => {
-      // e = e || window.event // IE
-      var s = JSON.stringify(this.activeCube)
-      e.clipboardData.setData("text/plain", s)
+      if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
+      e = e || window.event // IE
+      let c = Clipboard(this.activeCube, this.style)
+      e.clipboardData.setData("text/plain", JSON.stringify(c))
       e.preventDefault()
-      console.log('copied to clipboard');
+      console.log('copied');
+    })
+
+    document.addEventListener("cut", (e) => {
+      if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
+      e = e || window.event // IE
+      let c = Clipboard(this.activeCube, this.style)
+      e.clipboardData.setData("text/plain", JSON.stringify(c))
+      this.removeActiveCube()
+      e.preventDefault()
+      console.log('cut');
     })
 
     document.addEventListener('paste', (e) => {
-      // Stop data actually being pasted into div
-      // e.stopPropagation();
-      // e.preventDefault();
-
-      if (!this.activeCube) return
-
-      // Get pasted data via clipboard API
-      var clipboardData = e.clipboardData || window.clipboardData
-      var s = clipboardData.getData('Text')
-      // console.log(s);
-      var c = JSON.parse(s);
-      console.log(c);
-      if (this.activeCube.cubes){
-        this.activeCube.cubes.push(c)
-      } else {
-        this.cubes.push(c)
+      if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
+      try {
+        var clipboardData = e.clipboardData || window.clipboardData
+        var s = clipboardData.getData('Text')
+        var c = JSON.parse(s);
+        // console.log(c);
+        if (c.cube.name == 'Page'){
+          this.dupPage(c.cube)
+        }
+        else if (this.activeCube.cubes){
+          this.activeCube.cubes.push(c.cube)
+        } else {
+          this.cubes.push(c.cube)
+        }
+        console.log('pasted');
+      } catch (e) {
+        // console.log(e);
       }
-      console.log('pasted');
     })
 
     document.addEventListener('keydown', e => {
@@ -290,17 +316,19 @@ export default {
         // console.log("⌘+s")
         this.save()
       }
-      else if (e.keyCode == 67 && metaKey)
-        this.copy()
       else if (e.keyCode == 68 && metaKey){
-        this.dup()
         e.preventDefault()
+        this.dup()
       }
-      else if (e.keyCode == 86 && metaKey)
-        this.paste()
-      else if (e.keyCode == 88 && metaKey)
-        this.cut()
-
+      // else if (e.keyCode == 67 && metaKey){
+      //   this.copy()
+      // }
+      // else if (e.keyCode == 88 && metaKey){
+      //   this.cut()
+      // }
+      // else if (e.keyCode == 86 && metaKey){
+      //   this.paste()
+      // }
     }, false)
   }
 }

@@ -85,14 +85,6 @@ export default {
       return this.style ? this.style.name : 'inline'
     },
   },
-  // watch: {
-  //   styles: {
-  //     handler: function (val, old) {
-  //       this.stylesChanged()
-  //     },
-  //     deep: true
-  //   },
-  // },
   mounted() {
     this.startWatch()
   },
