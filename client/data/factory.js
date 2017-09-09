@@ -7,10 +7,10 @@ export const NanoSlug = (length = 6) => generate('0123456789abcdefABCDEF', lengt
 
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
-export function Clipboard(cube, style = null){
+export function Clipboard(cube, styles = null){
   return {
     cube: cube,
-    style: style,
+    styles: styles,
     timestamp: Date.now()
   }
 }

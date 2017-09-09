@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { Page, History } from './data/factory'
-import { fetchPages, fetchPage, addPage, updatePage, deletePage, fetchRoute, addStyle, updateStyle, deleteStyle, fetchStyles } from './api'
+import { fetchPages, fetchPage, addPage, updatePage, deletePage, fetchRoute, addBatchStyles, addStyle, updateStyle, deleteStyle, fetchStyles } from './api'
 
 export function createStore () {
   return new Vuex.Store({
@@ -30,8 +30,16 @@ export function createStore () {
       },
 
       async addStyle({ state, commit }, style) {
-        let data = await addStyle(style)
         Vue.set(state.styles, style._id, style)
+        let data = await addStyle(style)
+      },
+
+      async addBatchStyles({ state, commit }, styles) {
+        for (let i in styles){
+          if (state.styles[i]) continue
+          Vue.set(state.styles, i, styles[i])
+          addStyle(styles[i])
+        }
       },
 
       async removeStyle({ state, commit }, style) {

@@ -250,6 +250,21 @@ export default {
       }
       remove(this.cubes)
     },
+    getStyles(cube){
+      let styles = {}
+      let s = this.$store.state.styles
+      if (cube.css && s[cube.css]) styles[cube.css] = s[cube.css]
+
+      var getcss = cubes => {
+        if (!cubes) return
+        cubes.map(c => {
+          if (c.css && s[c.css]) styles[c.css] = s[c.css]
+          getcss(c.cubes)
+        })
+      }
+      getcss(cube.cubes)
+      return Object.keys(styles).length == 0 ? null : styles
+    },
   },
   mounted() {
     this.startWatch()
@@ -257,7 +272,7 @@ export default {
     document.addEventListener("copy", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
-      let c = Clipboard(this.activeCube, this.style)
+      let c = Clipboard(this.activeCube, this.getStyles(this.activeCube))
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       e.preventDefault()
       console.log('copied');
@@ -266,7 +281,7 @@ export default {
     document.addEventListener("cut", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
-      let c = Clipboard(this.activeCube, this.style)
+      let c = Clipboard(this.activeCube, this.getStyles(this.activeCube))
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       this.removeActiveCube()
       e.preventDefault()
@@ -279,6 +294,9 @@ export default {
         var clipboardData = e.clipboardData || window.clipboardData
         var s = clipboardData.getData('Text')
         var c = JSON.parse(s);
+        if (c.styles){
+          this.$store.dispatch('addBatchStyles', c.styles)
+        }
         // console.log(c);
         if (c.cube.name == 'Page'){
           this.dupPage(c.cube)
