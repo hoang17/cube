@@ -228,8 +228,42 @@ export default {
   mounted() {
     this.startWatch()
 
+    // let events = ['cut', 'copy', 'paste']
+
+    document.addEventListener("copy", (e) => {
+      // e = e || window.event // IE
+      var s = JSON.stringify(this.activeCube)
+      e.clipboardData.setData("text/plain", s)
+      e.preventDefault()
+      console.log('copied to clipboard');
+    })
+
+    document.addEventListener('paste', (e) => {
+      // console.log(event);
+      // console.log(e.clipboardData.getData('Text'));
+
+      // Stop data actually being pasted into div
+      // e.stopPropagation();
+      // e.preventDefault();
+
+      if (!this.activeCube) return
+      
+      // Get pasted data via clipboard API
+      var clipboardData = e.clipboardData || window.clipboardData
+      var s = clipboardData.getData('Text')
+      // console.log(s);
+      var c = JSON.parse(s);
+      console.log(c);
+      if (this.activeCube.cubes){
+        this.activeCube.cubes.push(c)
+      } else {
+        this.cubes.push(c)
+      }
+      console.log('pasted');
+    })
+
     document.addEventListener('keydown', e => {
-      // if (window.event) e =  event
+      e = e || window.event // IE
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
       if (e.keyCode == 8 || e.keyCode == 46)
