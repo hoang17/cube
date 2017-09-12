@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     active(){
-      return this.$store.getters.activeCube == this.cube
+      return this.$store.state.activeCube == this.cube
     },
     markdown() {
       return marked(this.cube.content, { sanitize: true })

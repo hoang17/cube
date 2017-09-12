@@ -38,7 +38,7 @@ export default {
     },
     activeCube: {
       get() {
-        return this.$store.getters.activeCube
+        return this.$store.state.activeCube
       },
       set(cube) {
         this.$store.commit('setActiveCube', cube)

@@ -126,10 +126,7 @@ export function createStore () {
       },
     },
     getters: {
-      activeCube: state => state.activeCube,
-      pages: state => state.pages,
       page: state => state.pages[state.pageId],
-      // histories: state => state.histories,
       // history: state => state.histories[state.pageId],
       // pageState: state => () => state.pages[state.pageId],
       // histories: state => (i) => {

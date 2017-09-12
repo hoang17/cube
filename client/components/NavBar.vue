@@ -37,7 +37,7 @@ import * as cubes from '../data/cubes'
 export default {
   computed: {
     activeCube() {
-      return this.$store.getters.activeCube
+      return this.$store.state.activeCube
     },
     newId() {
       return this.$store.state.newId
