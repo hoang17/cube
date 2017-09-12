@@ -30,6 +30,7 @@
 import { ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   // props: ['cube'],
@@ -54,23 +55,26 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'page'
+    ]),
+    ...mapState([
+      'newId',
+      'histories',
+    ]),
+    ...mapState({
+      history (state) {
+        return this.histories[state.pageId]
+      },
+      style(state){
+        return state.styles[this.activeCube.css]
+      },
+    }),
     saved(){
       return this.history.sid == this.page.sid
     },
     url(){
       return this.page.url.startsWith('/') ? this.page.url : '//'+this.page.url
-    },
-    histories(){
-      return this.$store.state.histories
-    },
-    history(){
-      return this.histories[this.$store.state.pageId]
-    },
-    page(){
-      return this.$store.getters.page
-    },
-    newId(){
-      return this.$store.state.newId
     },
     blank(){
       return this.page._id == this.newId && this.history.stack.length < 2
@@ -80,9 +84,6 @@ export default {
     },
     canRedo(){
       return this.history.stack.length - 1 > this.history.index
-    },
-    style(){
-      return this.$store.state.styles[this.activeCube.css]
     },
     cubes: {
       get() {

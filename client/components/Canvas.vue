@@ -13,6 +13,7 @@
 import Draggable from 'vuedraggable'
 import cloneDeep  from 'lodash/cloneDeep'
 import { getRules } from '../plugins/helpers'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   title: 'Build',
@@ -30,9 +31,17 @@ export default {
     }
   },
   computed: {
-    rules(){
-      return getRules(this.$store.state.styles)
-    },
+    ...mapGetters([
+      'page'
+    ]),
+    ...mapState({
+      rules(state){
+        return getRules(state.styles)
+      },
+      user(state){
+        return state.user
+      },
+    }),
     id(){
       return this.$route.params.id
     },
@@ -43,12 +52,6 @@ export default {
       set(cube) {
         this.$store.commit('setActiveCube', cube)
       }
-    },
-    user(){
-      return this.$store.state.user
-    },
-    page() {
-      return this.$store.getters.page
     },
     cubes: {
       get() {

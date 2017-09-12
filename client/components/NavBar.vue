@@ -33,21 +33,18 @@
 
 <script>
 import * as cubes from '../data/cubes'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    activeCube() {
-      return this.$store.state.activeCube
-    },
-    newId() {
-      return this.$store.state.newId
-    },
-    page(){
-      return this.$store.getters.page
-    },
-    pages(){
-      return this.$store.state.pages
-    },
+    ...mapGetters([
+      'page'
+    ]),
+    ...mapState([
+      'newId',
+      'pages',
+      'activeCube',
+    ]),
   },
   data: () => ({
     cubes: cubes,
