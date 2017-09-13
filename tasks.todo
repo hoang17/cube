@@ -12,6 +12,6 @@ TODO:
 ✔ Debounce page state watch @timestamp(2017-09-08 10:15) @done(2017-09-08 19:43)
 ✔ Auto save page @done(2017-09-08 19:43)
 ✔ Copy/paste between tabs @done(2017-09-09 12:35)
-☐ Restore active cube when undo/redo
+✔ Restore active cube when undo/redo @done(2017-09-13 19:42)
 ☐ Reuse cube block by referencing
 ☐
