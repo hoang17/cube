@@ -4,7 +4,7 @@
       v-icon save
     v-btn(icon, @click="dup")
       v-icon content_copy
-    v-btn(icon, @click='trash', :disabled="blank")
+    v-btn(icon, @click='trash', :disabled="!canTrash")
       v-icon delete
     v-btn(icon, @click="undo", :disabled="!canUndo")
       v-icon undo
@@ -60,6 +60,7 @@ export default {
     ]),
     ...mapState([
       'newId',
+      'pageId',
       'histories',
     ]),
     ...mapState({
@@ -76,8 +77,8 @@ export default {
     url(){
       return this.page.url.startsWith('/') ? this.page.url : '//'+this.page.url
     },
-    blank(){
-      return this.page._id == this.newId && this.history.stack.length < 2
+    canTrash(){
+      return this.pageId != this.newId || this.history.stack.length > 1
     },
     canUndo(){
       return this.history.index > 0
