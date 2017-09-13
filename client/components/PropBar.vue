@@ -17,7 +17,7 @@
           v-card-text
             component(:cube="cube", :is="cube.type + '-pane'", @keydown.native.enter.stop="")
 
-      v-expansion-panel-content
+      v-expansion-panel-content(:value="true")
         div(slot='header') style
           v-chip(small, outline)  {{ styleName }}
           //- v-chip(small, outline, v-if="style") {{ style.name }}

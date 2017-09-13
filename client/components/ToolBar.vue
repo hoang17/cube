@@ -106,6 +106,7 @@ export default {
   methods: {
     snapshot(page, activeId) {
       let h = this.histories[page._id]
+      h.stack[h.index].activeId = activeId
       h.index++
       this.stopWatch()
       page.sid = NanoId()
@@ -136,6 +137,8 @@ export default {
       this.autoSavePage(this.page)
     },
     getActiveCube(id){
+      if (this.page._id == id) return this.page
+
       var find = cubes => {
         let r = cubes.find(e => e._id == id)
         if (r) return r
