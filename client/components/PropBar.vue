@@ -117,7 +117,7 @@ export default {
     },
     async saveStyle(){
       if (this.style){
-        await this.$store.dispatch('saveStyle', this.style)
+        await this.$store.dispatch('updateStyle', this.style)
         console.log('style saved');
       }
       // else {
@@ -209,7 +209,7 @@ export default {
   .expansion-panel__header
     text-transform uppercase
     font-weight 500
-    padding 0 18px
+    padding-left 18px
     // box-shadow 1px -1px 1px 1px rgba(0,0,0,.1)
     // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
 

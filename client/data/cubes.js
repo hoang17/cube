@@ -1,11 +1,11 @@
-
-// Cube prototypes
+import { ObjectId } from './factory'
 
 export const text = {
   name: 'Text',
   type: 'tx',
   init(){
     return {
+      _id: ObjectId(),
       type: 'tx',
       name: 'Text',
       content: 'New text',
@@ -33,6 +33,7 @@ export const link = {
   type: 'lnk',
   init(){
     return {
+      _id: ObjectId(),
       type: 'lnk',
       name: 'Link',
       content: 'Link',
@@ -63,6 +64,7 @@ export const button = {
   type: 'btn',
   init(){
     return {
+      _id: ObjectId(),
       type: 'btn',
       name: 'Button',
       content: 'Button',
@@ -92,6 +94,7 @@ export const container = {
   type: 'container',
   init(){
     return {
+      _id: ObjectId(),
       type: 'container',
       name: 'Container',
       content: 'Container',
@@ -131,6 +134,7 @@ export const navigation = {
   type: 'na',
   init(){
     return {
+      _id: ObjectId(),
       type: 'na',
       name: 'Navigation',
       content: 'Navigation',
@@ -161,6 +165,7 @@ export const photo = {
   type: 'ph',
   init(){
     return {
+      _id: ObjectId(),
       type: 'ph',
       content: 'Photo',
       css: null,

@@ -71,7 +71,6 @@ export default {
     },
   },
   mounted() {
-    // *** BRAIN FUCK :-? ***
     this.activeCube = this.page
   },
   methods: {

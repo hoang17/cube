@@ -7,7 +7,6 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, 
 const cubes = db.get('cubes')
 const pages = db.get('pages')
 const styles = db.get('styles')
-const blocks = db.get('blocks')
 
 try {
   pages.createIndex('uid')
@@ -93,14 +92,13 @@ router.route('/cubes')
     res.json(data)
   })
   .post(async function(req, res) {
+    cube = await cubes.insert(req.body)
+    res.json({ message: 'Cube created', _id: cube._id })
+  })
+  .put(async function(req, res) {
     let cube = req.body
-    if (cube._id){
-      cubes.update({'_id': cube._id }, cube)
-      res.json({ message: 'Cube updated', _id: cube._id })
-    } else {
-      cube = await cubes.insert(cube)
-      res.json({ message: 'Cube created', _id: cube._id })
-    }
+    cubes.update({'_id': cube._id }, cube)
+    res.json({ message: 'Cube updated', _id: cube._id })
   })
 
 router.route('/cubes/:id')

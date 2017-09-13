@@ -39,12 +39,19 @@ export async function patch(endpoint, params){
 //     console.error(e)
 //   }
 // }
+// export async function fetchCubes(){
+//   try {
+//     let res = await api.get('cubes')
+//     return fromPairs(map(res.data, i => [i._id, i]))
+//   } catch (e) {
+//     console.error(e)
+//   }
+// }
 
 export async function fetchPages(){
   try {
     let res = await api.get('pages')
     return fromPairs(map(res.data, i => [i._id, i]))
-    // return res.data
   } catch (e) {
     console.error(e)
   }

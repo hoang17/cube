@@ -1,10 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
-
 import { Page, History } from './data/factory'
-import { fetchPages, fetchPage, addPage, updatePage, deletePage, fetchRoute, addBatchStyles, addStyle, updateStyle, deleteStyle, fetchStyles } from './api'
+import {
+  addPage,
+  updatePage,
+  deletePage,
+  fetchPages,
+  fetchPage,
+  fetchRoute,
+  addStyles,
+  addStyle,
+  updateStyle,
+  deleteStyle,
+  fetchStyles,
+  fetchCubes,
+} from './api'
 
 export function createStore () {
   return new Vuex.Store({
@@ -21,20 +32,16 @@ export function createStore () {
       styles: {},
     },
     actions: {
-      async fetchStyles({ state, commit }) {
-        state.styles = await fetchStyles()
-      },
-
-      async saveStyle({ state, commit }, style) {
-        let data = await updateStyle(style)
+      async updateStyle({ state, commit }, style) {
+        return await updateStyle(style)
       },
 
       async addStyle({ state, commit }, style) {
         Vue.set(state.styles, style._id, style)
-        let data = await addStyle(style)
+        return await addStyle(style)
       },
 
-      async addBatchStyles({ state, commit }, styles) {
+      async addStyles({ state, commit }, styles) {
         for (let i in styles){
           if (state.styles[i]) continue
           Vue.set(state.styles, i, styles[i])
@@ -43,18 +50,12 @@ export function createStore () {
       },
 
       async removeStyle({ state, commit }, style) {
-        let data = await deleteStyle(style._id)
+        await deleteStyle(style._id)
         Vue.delete(state.styles, style._id)
       },
 
       async fetchRoute({ state, commit }, { url }){
         return state.routes[url]
-        // if (state.routes[url])
-        //   return state.routes[url]
-        // let id = await fetchRoute(url)
-        // if (id)
-        //   Vue.set(state.routes, url, id)
-        // return id
       },
 
       async deletePage({ state, commit }, page) {
@@ -79,6 +80,7 @@ export function createStore () {
       async fetchBuild({state, commit}, id){
         state.styles = await fetchStyles()
         state.pages = await fetchPages()
+        // state.cubes = await fetchCubes()
         // build routes & histories
         for (let i in state.pages){
           let p = state.pages[i]
@@ -127,21 +129,6 @@ export function createStore () {
     },
     getters: {
       page: state => state.pages[state.pageId],
-      // history: state => state.histories[state.pageId],
-      // pageState: state => () => state.pages[state.pageId],
-      // histories: state => (i) => {
-      //   let h = state.histories
-      //   if (!h[i])
-      //     Vue.set(h, i, { index:-1, stack:[], sid: null })
-      //   return h[i]
-      // },
-      // history: state => {
-      //   let i = state.pageId
-      //   let h = state.histories
-      //   if (!h[i])
-      //     Vue.set(h, i, { index:-1, stack:[], sid: null })
-      //   return h[i]
-      // },
     }
   })
 }

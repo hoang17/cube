@@ -104,22 +104,23 @@ export default {
     }
   },
   methods: {
-    snapshot(page) {
+    snapshot(page, activeId) {
       let h = this.histories[page._id]
       h.index++
       this.stopWatch()
       page.sid = NanoId()
       this.startWatch()
       h.stack.splice(h.index)
-      h.stack.push(cloneDeep(page))
+      h.stack.push({ page: cloneDeep(page), activeId: activeId })
     },
     undo() {
       if (!this.canUndo) return
       this.stopWatch()
       let h = this.history
       h.index--
-      this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
-      this.activeCube = this.page
+      let snap = h.stack[h.index]
+      this.$store.commit('setPage', cloneDeep(snap.page))
+      this.activeCube = this.getActiveCube(snap.activeId)
       this.startWatch()
       this.autoSavePage(this.page)
     },
@@ -128,10 +129,25 @@ export default {
       this.stopWatch()
       let h = this.history
       h.index++
-      this.$store.commit('setPage', cloneDeep(h.stack[h.index]))
-      this.activeCube = this.page
+      let snap = h.stack[h.index]
+      this.$store.commit('setPage', cloneDeep(snap.page))
+      this.activeCube = this.getActiveCube(snap.activeId)
       this.startWatch()
       this.autoSavePage(this.page)
+    },
+    getActiveCube(id){
+      var find = cubes => {
+        let r = cubes.find(e => e._id == id)
+        if (r) return r
+        for (let i in cubes){
+          let c = cubes[i]
+          if (c.cubes && c.cubes.length > 0){
+            let cc = find(c.cubes)
+            if (cc) return cc
+          }
+        }
+      }
+      return find(this.cubes)
     },
     async save(){
       if (this.saved) return
@@ -158,7 +174,7 @@ export default {
     startWatch(){
       if (this.sw) return
       this.sw = this.$store.watch(() => this.$store.state.pages, () => {
-        this.takeSnapshot(this.page)
+        this.takeSnapshot(this.page, this.activeCube._id)
       }, {deep: true})
     },
     stopWatch(){
@@ -166,8 +182,8 @@ export default {
       this.sw()
       this.sw = null
     },
-    takeSnapshot: debounce(function(page) {
-      this.snapshot(page)
+    takeSnapshot: debounce(function(page, activeId) {
+      this.snapshot(page, activeId)
       this.savePage(page)
     }, 500),
     autoSavePage: debounce(function(page) {
