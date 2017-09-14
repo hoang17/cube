@@ -43,9 +43,9 @@ export default {
     width 100%
     height 100%
 
-  &[edit]:hover:after
-    border 1px dotted #03a9f4 !important
+  // &[edit]:hover:after
+  //   border 1px dotted #03a9f4 !important
 
-  &[active]:after
-    border 1px dashed rgba(0,0,0,.5) !important
+  // &[active]:after
+  //   border 1px dashed rgba(0,0,0,.5) !important
 </style>

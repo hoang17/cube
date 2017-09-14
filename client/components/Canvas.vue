@@ -93,6 +93,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.application--dark
+  .canvas
+    background-color hsl(220, 13%, 18%)
+    color hsl(220, 14%, 71%)
+
+.application--light
+  .canvas
+    background-color #fff
+  
 .canvas
   background-color #fff
   margin 0 28em 0 300px
@@ -121,11 +130,11 @@ export default {
       width 100%
       height 100%
 
-    &[edit]:hover:after
-      border 1px dotted #03a9f4 !important
+    // &[edit]:hover:after
+    //   border 1px dotted #03a9f4 !important
 
-    &[active]:after
-      border 1px dashed rgba(0,0,0,.5) !important
+    // &[active]:after
+    //   border 1px dashed rgba(0,0,0,.5) !important
 
 .control
   position fixed

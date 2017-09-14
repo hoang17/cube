@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer(permanent, absolute, height='100%', light)
+  v-navigation-drawer(permanent, absolute, height='100%')
     v-list(dense)
       //-v-subheader {{ page.content }}
       //-v-divider.my-4(dark)

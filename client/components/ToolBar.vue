@@ -317,7 +317,7 @@ export default {
         var s = clipboardData.getData('Text')
         var c = JSON.parse(s);
         if (c.styles){
-          this.$store.dispatch('addBatchStyles', c.styles)
+          this.$store.dispatch('addStyles', c.styles)
         }
         // console.log(c);
         if (c.cube.name == 'Page'){
@@ -381,8 +381,8 @@ export default {
   margin-right 28em
   z-index 5
   pointer-events auto
-  box-shadow none
-  width auto
+  box-shadow inset 0 -10px 5px -10px #666
+  width auto  
 
   .btn
   .btn__content

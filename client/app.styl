@@ -20,11 +20,12 @@ body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   text-rendering optimizeLegibility
   font-size 14px
-  background-color #fafafa
   margin 0
   word-spacing 0.05em
   line-height 1.5
   -webkit-font-smoothing auto
+  background-color hsl(220, 13%, 18%)
+  // background-color #fafafa
   // background-color lighten(#eceef1, 30%)
   // color #34495e
   // overflow-y scroll
@@ -35,11 +36,38 @@ body
 // h1,h2,h3,h4,h5,h6
 //   margin auto
 
+a
+  text-decoration none
+  color rgb(134,142,150)    
+  &:hover
+  &:active
+  &:focus
+    color #000
+  
 .application--light
-.list__tile__title
-  color rgb(66, 66, 65)
-  // color #000
+  .list__tile__title
+  .theme--light.navigation-drawer
+  .theme--light.navigation-drawer .list
+    color rgb(66, 66, 65)
 
+.application--dark
+  // background-color hsl(220, 13%, 18%)
+  // color hsl(220, 14%, 71%)
+  *::selection
+    background #2C93FA
+    color #fff
+  
+  a
+    color rgb(134,142,150)
+    &:hover
+    &:active
+    &:focus
+      color #fff
+      
+  .list__tile__title
+    color #fff  
+
+.application
   .menu__content--select
     .list__tile
       height 32px
@@ -51,15 +79,6 @@ body
       .input-group__selections__comma
         font-size 13px !important
 
-a
-  // color #34495e
-  color rgb(134,142,150)
-  text-decoration none
-
-  &:hover
-  &:active
-  &:focus
-    color #000
 
 p
   margin 0
@@ -70,12 +89,25 @@ p
 .fade-enter, .fade-leave-active
   opacity 0
 
+
 .cube
   position relative
   text-align center
   margin 10px auto
   padding 10px
   transition .3s cubic-bezier(.25,.8,.25,1)
+
+  &[edit]:hover:after
+    border 1px dotted #03a9f4 !important
+
+  &[active]:after
+    border 1px dashed rgba(0,0,0,.5) !important
+
+.application--dark
+  .cube
+    &[active]:after
+      border 1px dashed #4FFBFF !important
+
 
 select
 	appearance none

@@ -66,4 +66,16 @@ export default {
 
   &[active]:after
     border 1px dashed rgba(0,0,0,.5) !important
+    
+.application--dark
+  .nav
+    &[edit]:after
+      border 1px dashed #666 !important
+    
+    &[edit]:hover:after
+      border 1px dotted #03a9f4 !important
+
+    &[active]:after
+      border 1px dashed #4FFBFF !important
+
 </style>

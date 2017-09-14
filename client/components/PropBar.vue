@@ -156,8 +156,8 @@ export default {
     width 100%
     height 48px
     text-align left
-    background-color #fafafa
-    box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
+    // background-color #fafafa
+    // box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
 
   .input-group__details
     min-height auto
@@ -214,6 +214,20 @@ export default {
     // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
 
   .expansion-panel__body
-    border-top 0.1rem solid #d1d1d1
-  //   box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
+    border-top 1px solid hsla(0,0%,100%,.12)
+    // border-top 0.1rem solid #d1d1d1
+    // box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
+
+.application--light
+  .action 
+    background-color #fafafa
+    box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
+    
+.application--dark
+  .chip--small
+    color #ddd
+    border-color #ddd
+  .action
+    background-color #333
+    box-shadow inset 0 -10px 5px -10px #999
 </style>

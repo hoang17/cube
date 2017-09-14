@@ -56,8 +56,6 @@ export default {
 </script>
 
 <style lang="stylus">
-
-/*.page
-  background-color #fff*/
-
+.page
+  padding-top 10px
 </style>

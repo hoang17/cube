@@ -14,4 +14,4 @@ TODO:
 ✔ Copy/paste between tabs @done(2017-09-09 12:35)
 ✔ Restore active cube when undo/redo @done(2017-09-13 19:42)
 ☐ Reuse cube block by referencing
-☐
+☐ Undo/redo style editing
