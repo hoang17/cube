@@ -3943,9 +3943,9 @@ kind-of@^4.0.0:
   dependencies:
     is-buffer "^1.1.5"
 
-last-call-webpack-plugin@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-2.1.1.tgz#bd7af41186b80e6cc3968eee5d65b250eaf791f1"
+last-call-webpack-plugin@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-2.1.2.tgz#ad80c6e310998294d2ed2180a68e9589e4768c44"
   dependencies:
     lodash "^4.17.4"
     webpack-sources "^1.0.1"
@@ -4928,12 +4928,12 @@ openid@1.x.x:
   dependencies:
     request "^2.61.0"
 
-optimize-css-assets-webpack-plugin@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-3.1.1.tgz#b86f255a762d9143e3db41a64a136a6b76e8c8a7"
+optimize-css-assets-webpack-plugin@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/optimize-css-assets-webpack-plugin/-/optimize-css-assets-webpack-plugin-3.2.0.tgz#09a40c4cefde1dd0142444a873c56aa29eb18e6f"
   dependencies:
     cssnano "^3.4.0"
-    last-call-webpack-plugin "^2.1.1"
+    last-call-webpack-plugin "^2.1.2"
 
 optionator@^0.8.2:
   version "0.8.2"
@@ -7098,9 +7098,9 @@ void-elements@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
-vue-autosize@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/vue-autosize/-/vue-autosize-1.0.1.tgz#28debe1c18cf84e825006d9f5d56173ac0145482"
+vue-autosize@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vue-autosize/-/vue-autosize-1.0.2.tgz#d4159848a7c0f839d49dea45412ce472cdd3a48a"
   dependencies:
     autosize "^4.0.0"
     autosize-input "^0.4.0"
@@ -7163,9 +7163,9 @@ vue-select@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.2.0.tgz#7769dbde2c3d62aa6e819e9a96a57e464fb3a180"
 
-vue-server-renderer@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.4.2.tgz#0ba0f984181ea1c455362b09bddf60bc0e0a03fa"
+vue-server-renderer@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.4.4.tgz#bd59cf4e42dfaf2c9e388af8837b5420dd51360d"
   dependencies:
     chalk "^1.1.3"
     hash-sum "^1.0.2"
@@ -7176,16 +7176,23 @@ vue-server-renderer@^2.4.2:
     serialize-javascript "^1.3.0"
     source-map "0.5.6"
 
-vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
+vue-style-loader@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.0.1.tgz#c8b639bb2f24baf9d78274dc17e4f264c1deda08"
   dependencies:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.4.2.tgz#5a45d843f148b098f6c1d1e35ac20c4956d30ad1"
+vue-style-loader@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.0.3.tgz#623658f81506aef9d121cdc113a4f5c9cac32df7"
+  dependencies:
+    hash-sum "^1.0.2"
+    loader-utils "^1.0.2"
+
+vue-template-compiler@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.4.4.tgz#2cde3b704124985c27d50b5387c9691ba515fb57"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -7198,9 +7205,9 @@ vue-textarea-autosize@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/vue-textarea-autosize/-/vue-textarea-autosize-1.0.3.tgz#13d3a6d00c805b671dc59af85908f42c83b718d3"
 
-vue@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
+vue@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.4.tgz#ea9550b96a71465fd2b8b17b61673b3561861789"
 
 vuedraggable@^2.14.1:
   version "2.14.1"
@@ -7208,9 +7215,9 @@ vuedraggable@^2.14.1:
   dependencies:
     sortablejs "^1.6.0"
 
-vuetify@^0.15.5:
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.15.5.tgz#3a93ed8592994c46dbd21749b57f733e04e28562"
+vuetify@^0.15.7:
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.15.7.tgz#a712d646485d22dfd8b7ab2e70fb378582beb9d7"
 
 vuex-router-sync@^4.3.1:
   version "4.3.1"
