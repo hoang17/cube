@@ -7,12 +7,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'app',
   data() {
   	return {
-      dark: true
   	}
+  },
+  computed: {
+    ...mapState(['dark']),
   }
 }
 </script>

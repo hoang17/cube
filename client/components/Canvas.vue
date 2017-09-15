@@ -1,5 +1,5 @@
 <template lang="pug">
-  .workspace(:class="{drawer: drawer}")
+  .workspace(:class="{drawer: drawer, drawerRight: drawerRight}")
     div(v-html="rules")
     .control
       navbar(:drawer.sync='drawer')
@@ -106,7 +106,7 @@ export default {
 
 .canvas
   // background-color #fff
-  margin 0 28em 0 0
+  margin 0
   padding 48px 10px 20px 10px
   min-height 100vh
   height 100%
@@ -140,9 +140,11 @@ export default {
     // &[active]:after
     //   border 1px dashed rgba(0,0,0,.5) !important
 
-.drawer
-  .canvas
-    margin-left 300px
+.drawer .canvas
+  margin-left 300px
+
+.drawerRight .canvas
+  margin-right 300px
 
 .control
   position fixed

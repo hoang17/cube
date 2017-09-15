@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-toolbar(fixed,dense)
+  v-toolbar.elevation-1(fixed, dense)
     v-toolbar-side-icon(@click.stop="$emit('update:drawer', !drawer)")
     v-btn(icon, @click='save', :disabled="saved")
       v-icon save

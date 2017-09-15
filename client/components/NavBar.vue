@@ -41,7 +41,7 @@
           v-list-tile-content
             v-list-tile-title Dark mode
           v-list-tile-action.switch
-            v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='dark')
+            v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='$store.state.dark')
 </template>
 
 <script>
@@ -60,9 +60,16 @@ export default {
       'activeCube',
       'user',
     ]),
+    dark: {
+      get(){
+        return this.$store.state.dark
+      },
+      set(dark){
+        this.$store.state.dark = dark
+      }
+    }
   },
   data: () => ({
-    dark: true,
     mini: false,
     cubes: cubes,
   }),

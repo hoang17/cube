@@ -30,6 +30,7 @@ export function createStore () {
       histories: {},
       routes: {},
       styles: {},
+      dark: true,
     },
     actions: {
       async updateStyle({ state, commit }, style) {
