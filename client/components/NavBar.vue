@@ -1,9 +1,17 @@
 <template lang="pug">
-  v-navigation-drawer(permanent, absolute, height='100%')
-    v-list(dense)
-      //-v-subheader {{ page.content }}
-      //-v-divider.my-4(dark)
-
+  v-navigation-drawer(persistent, absolute, height='100%', :mini-variant.sync='mini', v-model='drawer', overflow)
+    v-toolbar.transparent(flat,dense)
+      v-list.pa-0
+        v-list-tile(avatar)
+          v-list-tile-avatar
+            img(src='https://randomuser.me/api/portraits/men/85.jpg')
+          v-list-tile-content
+            v-list-tile-title John Leider
+          v-list-tile-action
+            v-btn(icon, @click.native.stop='mini = !mini')
+              v-icon chevron_left
+    v-list.pt-0(dense)
+      v-divider
       v-list-tile(@click="selectPage()", :class="{active: page._id == newId }")
         v-list-tile-action
           v-icon add
@@ -22,13 +30,7 @@
           v-icon add
         v-list-tile-content
           v-list-tile-title {{ cube.name }}
-      //-template(v-for='(item, i) in items')
-        v-divider.my-4(dark, v-if='item.divider', :key='i')
-        v-list-tile(:key='i', v-else)
-          v-list-tile-action
-            v-icon {{ item.icon }}
-          v-list-tile-content
-            v-list-tile-title {{ item.text }}
+      v-divider.my-4(dark)
 </template>
 
 <script>
@@ -36,6 +38,7 @@ import * as cubes from '../data/cubes'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
+  props: ['drawer'],
   computed: {
     ...mapGetters([
       'page'
@@ -47,6 +50,7 @@ export default {
     ]),
   },
   data: () => ({
+    mini: false,
     cubes: cubes,
   }),
   methods: {

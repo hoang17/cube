@@ -1,5 +1,6 @@
 <template lang="pug">
-  v-toolbar(dense)
+  v-toolbar(fixed,dense)
+    v-toolbar-side-icon(@click.stop="$emit('update:drawer', !drawer)")
     v-btn(icon, @click='save', :disabled="saved")
       v-icon save
     v-btn(icon, @click="dup")
@@ -33,7 +34,7 @@ import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
-  // props: ['cube'],
+  props: ['drawer'],
   data() {
     return {
       sw: null // stopWatch handler
@@ -375,14 +376,14 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .toolbar
   margin-left 300px
   margin-right 28em
-  z-index 5
+  z-index 1
   pointer-events auto
-  box-shadow inset 0 -10px 5px -10px #666
-  width auto  
+  // box-shadow inset 0 -10px 5px -10px #666
+  // width auto
 
   .btn
   .btn__content

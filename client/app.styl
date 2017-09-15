@@ -38,36 +38,21 @@ body
 
 a
   text-decoration none
-  color rgb(134,142,150)    
+  color rgb(134,142,150)
   &:hover
   &:active
   &:focus
     color #000
-  
-.application--light
+
+p
+  margin 0
+
+.application
   .list__tile__title
   .theme--light.navigation-drawer
   .theme--light.navigation-drawer .list
     color rgb(66, 66, 65)
 
-.application--dark
-  // background-color hsl(220, 13%, 18%)
-  // color hsl(220, 14%, 71%)
-  *::selection
-    background #2C93FA
-    color #fff
-  
-  a
-    color rgb(134,142,150)
-    &:hover
-    &:active
-    &:focus
-      color #fff
-      
-  .list__tile__title
-    color #fff  
-
-.application
   .menu__content--select
     .list__tile
       height 32px
@@ -80,8 +65,22 @@ a
         font-size 13px !important
 
 
-p
-  margin 0
+.application--dark
+  // background-color hsl(220, 13%, 18%)
+  // color hsl(220, 14%, 71%)
+  *::selection
+    background #2C93FA
+    color #fff
+
+  a
+    color rgb(134,142,150)
+    &:hover
+    &:active
+    &:focus
+      color #fff
+
+  .list__tile__title
+    color #fff
 
 .fade-enter-active, .fade-leave-active
   transition all .2s ease

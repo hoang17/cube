@@ -1,11 +1,11 @@
 <template lang="pug">
   .propbar
-    .action
-      //- v-btn(primary, dark, @click="done") Done
-      //- v-btn(icon, @click='saveStyle')
-      //-   v-icon save
-      //- v-btn(icon, @click="remove")
-      //-   v-icon delete
+    //- .action
+      v-btn(primary, dark, @click="done") Done
+      v-btn(icon, @click='saveStyle')
+        v-icon save
+      v-btn(icon, @click="remove")
+        v-icon delete
 
     v-expansion-panel(expand)
       v-expansion-panel-content(:value="true")
@@ -219,10 +219,10 @@ export default {
     // box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
 
 .application--light
-  .action 
+  .action
     background-color #fafafa
     box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
-    
+
 .application--dark
   .chip--small
     color #ddd

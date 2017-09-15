@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-app(dark)
+  v-app(:dark="dark")
     transition(name='fade', mode='out-in')
       router-view
       //-keep-alive(include="groups,likes,pages")
@@ -8,7 +8,12 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  data() {
+  	return {
+      dark: true
+  	}
+  }
 }
 </script>
 
