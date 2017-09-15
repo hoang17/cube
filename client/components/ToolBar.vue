@@ -15,7 +15,7 @@
       v-btn(icon)
         v-icon visibility
     v-spacer
-    v-toolbar-side-icon(@click.stop='drawerRight = !drawerRight')        
+    v-toolbar-side-icon(@click.stop="$emit('update:drawerRight', !drawerRight)")
     //-.text-format(v-if="cube")
       v-btn-toggle(v-bind:items='toggle_options', v-model='toggle_exclusive')
       v-btn-toggle(v-bind:items='toggle_options_multiple', multiple, v-model='toggle_multiple')
@@ -36,7 +36,7 @@ import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
-  props: ['drawer'],
+  props: ['drawer', 'drawerRight'],
   data() {
     return {
       sw: null // stopWatch handler

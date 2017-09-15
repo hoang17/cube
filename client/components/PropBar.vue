@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer.propbar(persistent, :value="true", absolute, overflow, right, enable-resize-watcher)
+  v-navigation-drawer.propbar(persistent, absolute, overflow, right, enable-resize-watcher, v-model='drawerRight')
     //- .action
       v-btn(primary, dark, @click="done") Done
       v-btn(icon, @click='saveStyle')
@@ -61,7 +61,7 @@ import { Style } from '../data/factory'
 import debounce from 'lodash/debounce'
 
 export default {
-  props: ['cube'],
+  props: ['cube', 'drawerRight'],
   components: {
     StyleBar
   },
