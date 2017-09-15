@@ -378,7 +378,7 @@ export default {
 
 <style lang="stylus" scoped>
 .toolbar
-  margin-left 300px
+  // margin-left 300px
   margin-right 28em
   z-index 1
   pointer-events auto

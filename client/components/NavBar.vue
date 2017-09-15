@@ -1,12 +1,12 @@
 <template lang="pug">
-  v-navigation-drawer(persistent, absolute, height='100%', :mini-variant.sync='mini', v-model='drawer', overflow)
+  v-navigation-drawer(persistent, absolute, :mini-variant.sync='mini', v-model='drawer', overflow)
     v-toolbar.transparent(flat,dense)
-      v-list.pa-0
+      v-list.pa-0(dense)
         v-list-tile(avatar)
           v-list-tile-avatar
-            img(src='https://randomuser.me/api/portraits/men/85.jpg')
+            img(:src='user.profile.picture')
           v-list-tile-content
-            v-list-tile-title John Leider
+            v-list-tile-title {{ user.profile.name }}
           v-list-tile-action
             v-btn(icon, @click.native.stop='mini = !mini')
               v-icon chevron_left
@@ -47,6 +47,7 @@ export default {
       'newId',
       'pages',
       'activeCube',
+      'user',
     ]),
   },
   data: () => ({
@@ -76,11 +77,11 @@ export default {
 
 <style lang="stylus" scoped>
 .navigation-drawer
+  z-index 3
   user-select none
 
-  .active
-    .list__tile__title
-      font-weight bold
+  .active .list__tile__title
+    font-weight bold
 
   .badge:after
     background #4caf50!important
@@ -93,4 +94,13 @@ export default {
   v-card
     a
       text-decoration none
+
+  .list__tile--avatar .avatar .icon
+  .list__tile--avatar .avatar img
+    width 30px
+    height 30px
+
+.navigation-drawer--mini-variant
+  margin-top 48px
+
 </style>

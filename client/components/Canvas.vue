@@ -1,9 +1,9 @@
 <template lang="pug">
-  .main
+  .workspace(:class="{drawer: drawer}")
     div(v-html="rules")
     .control
-      toolbar(:drawer.sync='drawer')
       navbar(:drawer.sync='drawer')
+      toolbar(:drawer.sync='drawer')
       propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown")
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
@@ -96,7 +96,7 @@ export default {
 <style lang="stylus" scoped>
 .application--dark
   .canvas
-    background-color hsl(220, 13%, 18%)
+    // background-color hsl(220, 13%, 18%)
     color hsl(220, 14%, 71%)
 
 .application--light
@@ -104,12 +104,14 @@ export default {
     background-color #fff
 
 .canvas
-  background-color #fff
-  margin 0 28em 0 300px
+  // background-color #fff
+  margin 0 28em 0 0
   padding 48px 10px 20px 10px
   min-height 100vh
   height 100%
   outline none
+  transition margin .3s cubic-bezier(.25,.8,.5,1)
+  will-change margin-left
 
   .card
     margin 20px auto
@@ -136,6 +138,10 @@ export default {
 
     // &[active]:after
     //   border 1px dashed rgba(0,0,0,.5) !important
+
+.drawer
+  .canvas
+    margin-left 300px
 
 .control
   position fixed
