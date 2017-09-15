@@ -1,5 +1,5 @@
 <template lang="pug">
-  .propbar
+  v-navigation-drawer.propbar(persistent, :value="true", absolute, overflow, right, enable-resize-watcher)
     //- .action
       v-btn(primary, dark, @click="done") Done
       v-btn(icon, @click='saveStyle')
@@ -16,7 +16,6 @@
         v-card
           v-card-text
             component(:cube="cube", :is="cube.type + '-pane'", @keydown.native.enter.stop="")
-
       v-expansion-panel-content(:value="true")
         div(slot='header') style
           v-chip(small, outline)  {{ styleName }}
@@ -56,7 +55,6 @@
       //-     v-card-text.pt-0
       //-       style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
 </template>
-
 <script>
 import StyleBar from './StyleBar'
 import { Style } from '../data/factory'
@@ -137,12 +135,12 @@ export default {
 
 <style lang="stylus">
 .propbar
-  position absolute
+  // position absolute
+  // top 0
+  // right 0
+  // height 100%
+  // width 28em
   z-index 3
-  top 0
-  right 0
-  height 100%
-  width 28em
   pointer-events auto
   will-change transform
   user-select none

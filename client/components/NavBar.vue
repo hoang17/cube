@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer(persistent, absolute, :mini-variant.sync='mini', v-model='drawer', overflow)
+  v-navigation-drawer(persistent, absolute, :mini-variant.sync='mini', v-model='drawer', overflow, enable-resize-watcher)
     v-toolbar.transparent(flat,dense)
       v-list.pa-0(dense)
         v-list-tile(avatar)
@@ -30,7 +30,18 @@
           v-icon add
         v-list-tile-content
           v-list-tile-title {{ cube.name }}
-      v-divider.my-4(dark)
+      v-divider.my-2(dark)
+
+    v-toolbar.transparent(flat,dense)
+      v-list
+        v-list-tile
+          v-list-tile-action
+            i.fa.fa-moon-o
+            //- v-icon fa-moon
+          v-list-tile-content
+            v-list-tile-title Dark mode
+          v-list-tile-action.switch
+            v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='dark')
 </template>
 
 <script>
@@ -51,6 +62,7 @@ export default {
     ]),
   },
   data: () => ({
+    dark: true,
     mini: false,
     cubes: cubes,
   }),
@@ -80,8 +92,10 @@ export default {
   z-index 3
   user-select none
 
-  .active .list__tile__title
-    font-weight bold
+  .active
+    background-color rgba(0, 0, 0, 0.18)
+    .list__tile__title
+      font-weight bold
 
   .badge:after
     background #4caf50!important
@@ -99,6 +113,12 @@ export default {
   .list__tile--avatar .avatar img
     width 30px
     height 30px
+
+  .list__tile__action
+    min-width 36px
+
+  .list__tile__action.switch
+    min-width 96px
 
 .navigation-drawer--mini-variant
   margin-top 48px

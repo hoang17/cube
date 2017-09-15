@@ -3,8 +3,8 @@
     div(v-html="rules")
     .control
       navbar(:drawer.sync='drawer')
-      toolbar(:drawer.sync='drawer')
       propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown")
+      toolbar(:drawer.sync='drawer')
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>

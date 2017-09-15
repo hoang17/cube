@@ -14,6 +14,8 @@
     a(:href="url", target='_blank', rel='noopener', v-show="page._id!=newId")
       v-btn(icon)
         v-icon visibility
+    v-spacer
+    v-toolbar-side-icon(@click.stop='drawerRight = !drawerRight')        
     //-.text-format(v-if="cube")
       v-btn-toggle(v-bind:items='toggle_options', v-model='toggle_exclusive')
       v-btn-toggle(v-bind:items='toggle_options_multiple', multiple, v-model='toggle_multiple')
