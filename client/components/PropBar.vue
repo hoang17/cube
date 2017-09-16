@@ -135,20 +135,14 @@ export default {
 
 <style lang="stylus">
 .propbar
-  // position absolute
-  // top 0
-  // right 0
-  // height 100%
-  // width 28em
-  z-index 3
-  pointer-events auto
-  will-change transform
-  user-select none
-  transition .3s cubic-bezier(.25,.8,.25,1)
-  border-left 1px solid rgba(0,0,0,0.12)
-  text-align center
-  overflow auto
   outline none
+  user-select none
+  text-align center
+  border-left 1px solid rgba(0,0,0,0.12)
+  // z-index 3
+  // pointer-events auto
+  // will-change transform
+  // transition .3s cubic-bezier(.25,.8,.25,1)
 
   .action
     width 100%

@@ -37,7 +37,6 @@
         v-list-tile
           v-list-tile-action
             i.fa.fa-moon-o
-            //- v-icon fa-moon
           v-list-tile-content
             v-list-tile-title Dark mode
           v-list-tile-action.switch

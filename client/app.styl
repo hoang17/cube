@@ -121,3 +121,14 @@ select
 	&:focus
 		// border-color #666
 		outline 0
+
+$right-pane-width := 28em
+
+.navigation-drawer--right
+  width $right-pane-width
+
+.navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open.navigation-drawer--right:not(.navigation-drawer--clipped):not(.navigation-drawer--floating)+.toolbar
+  padding-right $right-pane-width
+
+.navigation-drawer--close:not(.navigation--permanent).navigation-drawer--right
+  transform: translate3d($right-pane-width,0,0)

@@ -13,5 +13,6 @@ TODO:
 ✔ Auto save page @done(2017-09-08 19:43)
 ✔ Copy/paste between tabs @done(2017-09-09 12:35)
 ✔ Restore active cube when undo/redo @done(2017-09-13 19:42)
+✔ Dark mode @done(2017-09-16 04:06)
 ☐ Reuse cube block by referencing
 ☐ Undo/redo style editing

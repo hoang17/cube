@@ -144,7 +144,7 @@ export default {
   margin-left 300px
 
 .drawerRight .canvas
-  margin-right 300px
+  margin-right 28em
 
 .control
   position fixed

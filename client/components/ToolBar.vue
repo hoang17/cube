@@ -380,12 +380,9 @@ export default {
 
 <style lang="stylus" scoped>
 .toolbar
-  // margin-left 300px
-  margin-right 28em
   z-index 1
   pointer-events auto
   // box-shadow inset 0 -10px 5px -10px #666
-  // width auto
 
   .btn
   .btn__content
