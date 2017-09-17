@@ -98,7 +98,7 @@ export default {
 
 <style lang="stylus" scoped>
 .navigation-drawer
-  z-index 4
+  z-index 5
   user-select none
 
   .active
