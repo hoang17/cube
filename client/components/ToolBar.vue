@@ -1,6 +1,6 @@
 <template lang="pug">
   v-toolbar.elevation-1(fixed, dense)
-    v-toolbar-side-icon(@click.stop="$emit('update:drawer', !drawer)")
+    v-toolbar-side-icon(@click.stop="drawer.left=!drawer.left")
     v-btn(icon, @click='save', :disabled="saved")
       v-icon save
     v-btn(icon, @click="dup")
@@ -14,8 +14,10 @@
     a(:href="url", target='_blank', rel='noopener', v-show="page._id!=newId")
       v-btn(icon)
         v-icon visibility
+    v-btn(icon)
+      i.fa.fa-cube
     v-spacer
-    v-toolbar-side-icon(@click.stop="$emit('update:drawerRight', !drawerRight)")
+    v-toolbar-side-icon(@click.stop="drawer.right=!drawer.right")
     //-.text-format(v-if="cube")
       v-btn-toggle(v-bind:items='toggle_options', v-model='toggle_exclusive')
       v-btn-toggle(v-bind:items='toggle_options_multiple', multiple, v-model='toggle_multiple')

@@ -1,10 +1,10 @@
 <template lang="pug">
-  .workspace(:class="{drawer: drawer, drawerRight: drawerRight}")
+  .workspace(:class="{drawer: drawer.left, drawerRight: drawer.right}")
     div(v-html="rules")
     .control
       navbar(:drawer.sync='drawer')
-      propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawerRight.sync='drawerRight')
-      toolbar(:drawer.sync='drawer', :drawerRight.sync='drawerRight')
+      propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawer.sync='drawer')
+      toolbar(:drawer.sync='drawer')
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
 </template>
@@ -28,8 +28,7 @@ export default {
   },
   data() {
     return {
-      drawer: true,
-      drawerRight: true,
+      drawer: {left: true, right: true},
     }
   },
   computed: {
@@ -94,18 +93,17 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .application--dark
   .canvas
     // background-color hsl(220, 13%, 18%)
     color hsl(220, 14%, 71%)
 
-.application--light
-  .canvas
-    background-color #fff
+// .application--light
+//   .canvas
+//     background-color #fff
 
 .canvas
-  // background-color #fff
   margin 0
   padding 48px 10px 20px 10px
   min-height 100vh
@@ -139,12 +137,6 @@ export default {
 
     // &[active]:after
     //   border 1px dashed rgba(0,0,0,.5) !important
-
-.drawer .canvas
-  margin-left 300px
-
-.drawerRight .canvas
-  margin-right 28em
 
 .control
   position fixed

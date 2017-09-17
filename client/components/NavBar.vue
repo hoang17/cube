@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-navigation-drawer(persistent, absolute, :mini-variant.sync='mini', v-model='drawer', overflow, enable-resize-watcher)
+  v-navigation-drawer(persistent, absolute, :mini-variant.sync='mini', v-model='drawer.left', overflow, enable-resize-watcher)
     v-toolbar.transparent(flat,dense)
       v-list.pa-0(dense)
         v-list-tile(avatar)
@@ -14,20 +14,23 @@
       v-divider
       v-list-tile(@click="selectPage()", :class="{active: page._id == newId }")
         v-list-tile-action
-          v-icon add
+          //- v-icon add
+          i.fa.fa-file-text-o
         v-list-tile-content(v-badge="{value:'',visible:showBadge(pages[newId])}")
           v-list-tile-title Add New Page
 
       v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newId")
         v-list-tile-action
-          v-icon web_asset
+          //- v-icon web_asset
+          i.fa.fa-file-o
         v-list-tile-content(v-badge="{value:'',visible:showBadge(p)}")
           v-list-tile-title {{ p.content }}
 
       v-divider.my-2(dark)
       v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in cubes')
         v-list-tile-action
-          v-icon add
+          //- v-icon add
+          i.fa.fa-cube
         v-list-tile-content
           v-list-tile-title {{ cube.name }}
       v-divider.my-2(dark)
@@ -95,7 +98,7 @@ export default {
 
 <style lang="stylus" scoped>
 .navigation-drawer
-  z-index 3
+  z-index 4
   user-select none
 
   .active
