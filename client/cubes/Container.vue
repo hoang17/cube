@@ -1,5 +1,5 @@
 <template lang="pug">
-  draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="cube.css | css")
+  draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="css", @mouseover.native.stop="hover=true", @mouseout.native.stop="hover=false")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
   .cube.container(v-else, :style="cube.style | styl", :content="cube.content", :class="cube.css | css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="map(c.type)", :key="i", :edit="edit")
@@ -13,11 +13,15 @@ export default {
   components: {
     draggable,
   },
-  data() {
+  data(){
     return {
+      hover: false
     }
   },
   computed: {
+    css(){
+      return '--' + this.cube.css + (this.hover ? ' hover' : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     }
@@ -64,7 +68,7 @@ export default {
     height 100%
     border 1px dashed rgba(0,0,0,.2) !important
 
-  &[edit]:hover:after
+  &[edit].hover:after
     border 1px dotted #03a9f4 !important
 
   &[active]:after
@@ -75,7 +79,7 @@ export default {
     &[edit]:after
       border 1px dashed #666 !important
 
-    &[edit]:hover:after
+    &[edit].hover:after
       border 1px dotted #03a9f4 !important
 
     &[active]:after

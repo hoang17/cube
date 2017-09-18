@@ -1,16 +1,20 @@
 <template lang="pug">
-  .cube.block(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :content="cube.content", :class="cube.css | css")
+  .cube.block(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :content="cube.content", :class="css", @mouseover.stop="hover=true", @mouseout.stop="hover=false")
     component(:cube="source", :is="source.type", :edit="edit", :select="select")
 </template>
 
 <script>
 export default {
   props: ['cube','select','edit'],
-  data() {
+  data(){
     return {
+      hover: false
     }
   },
   computed: {
+    css(){
+      return '--' + this.cube.css + (this.hover ? ' hover' : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     },
@@ -40,7 +44,7 @@ export default {
     height 100%
     border 1px dashed rgba(0,0,0,.2) !important
 
-  &[edit]:hover:after
+  &[edit].hover:after
     border 1px dotted #03a9f4 !important
 
   &[active]:after
@@ -51,7 +55,7 @@ export default {
     &[edit]:after
       border 1px dashed #666 !important
 
-    &[edit]:hover:after
+    &[edit].hover:after
       border 1px dotted #03a9f4 !important
 
     &[active]:after

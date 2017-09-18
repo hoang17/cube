@@ -1,15 +1,10 @@
 <template lang="pug">
-  v-btn.cube.button(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="cube.css | css") {{ cube.content }}
+  v-btn.cube.button(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="cube.css | css", @mouseover.stop="") {{ cube.content }}
 </template>
 
 <script>
 export default {
   props: ['cube','select','deselect','edit'],
-  data() {
-    return {
-      // content: this.cube.content
-    }
-  },
   computed: {
     active(){
       return this.$store.state.activeCube == this.cube
@@ -48,8 +43,8 @@ export default {
     width 100%
     height 100%
 
-  // &[edit]:hover:after
-  //   border 1px dotted #03a9f4 !important
+  &[edit]:hover:after
+    border 1px dotted #03a9f4 !important
 
   // &[active]:after
   //   border 1px dashed rgba(0,0,0,.5) !important

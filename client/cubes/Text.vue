@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="cube.css | css")
+  .cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="cube.css|css", @mouseover.stop="")
   //-vue-markdown.cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
@@ -43,8 +43,8 @@ export default {
     width 100%
     height 100%
 
-  // &[edit]:hover:after
-  //   border 1px dotted #03a9f4 !important
+  &[edit]:hover:after
+    border 1px dotted #03a9f4 !important
 
   // &[active]:after
   //   border 1px dashed rgba(0,0,0,.5) !important

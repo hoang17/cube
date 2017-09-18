@@ -15,7 +15,8 @@ TODO:
 ✔ Restore active cube when undo/redo @done(2017-09-13 19:42)
 ✔ Dark mode @done(2017-09-16 04:06)
 ✔ Reuse cube block by referencing @done(2017-09-18 15:59)
-☐ Copy paste block
+✔ Copy paste block @done(2017-09-19 00:06)
+✔ Hover cube @done(2017-09-19 01:14)
 ☐ Disallow deleting Block if links > 0
 ☐ Undo/redo style, block editing
 ☐ Unify style
