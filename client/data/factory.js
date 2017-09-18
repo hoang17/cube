@@ -117,7 +117,7 @@ export function Block(cube){
     _id: ObjectId(),
     type: 'block',
     name: 'Block',
-    content: cube.content,
+    content: [cube.content,'Block 📦'].join(' '),
     src: cube._id,
     css: null,
     style: {

@@ -101,6 +101,10 @@ export default {
     },
     addCube(cube){
       let c = cube.link ? Block(cube) : clone(cube)
+      if (cube.link) {
+        cube.links.push(c._id)
+        this.$store.dispatch('updateCube', cube)
+      }
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {

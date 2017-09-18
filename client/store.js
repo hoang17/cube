@@ -15,6 +15,7 @@ import {
   deleteStyle,
   fetchStyles,
   addCube,
+  updateCube,
   fetchCubes,
   deleteCube,
 } from './api'
@@ -44,6 +45,10 @@ export function createStore () {
       async removeCube({ state, commit }, cube) {
         await deleteCube(cube._id)
         Vue.delete(state.cubes, cube._id)
+      },
+
+      async updateCube({ state, commit }, cube) {
+        return await updateCube(cube)
       },
 
       async updateStyle({ state, commit }, style) {
