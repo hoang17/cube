@@ -99,9 +99,12 @@ export default {
     // background-color hsl(220, 13%, 18%)
     color hsl(220, 14%, 71%)
 
-// .application--light
-//   .canvas
-//     background-color #fff
+.application--light
+  .canvas
+    background-color #fff
+
+  .navigation-drawer--right
+    background-color #fafafa
 
 .canvas
   margin 0
