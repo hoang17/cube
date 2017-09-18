@@ -37,12 +37,8 @@ export function indexCubes(pages){
   }, {})
 }
 
-export function Clipboard(cube, styles = null){
-  return {
-    cube: cube,
-    styles: styles,
-    timestamp: Date.now()
-  }
+export function Clipboard(cube, styles = null, cubes = null){
+  return { cube, styles, cubes, timestamp: Date.now() }
 }
 
 export function History(page){

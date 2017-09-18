@@ -68,6 +68,14 @@ export function createStore () {
         }
       },
 
+      async addCubes({ state, commit }, cubes) {
+        for (let i in cubes){
+          if (state.cubes[i]) continue
+          Vue.set(state.cubes, i, cubes[i])
+          addCube(cubes[i])
+        }
+      },
+
       async removeStyle({ state, commit }, style) {
         await deleteStyle(style._id)
         Vue.delete(state.styles, style._id)
