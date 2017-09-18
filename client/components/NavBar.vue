@@ -32,14 +32,14 @@
       v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in baseCubes')
         v-list-tile-action
           //- v-icon add
-          i.fa.fa-cube
+          i.fa.fa-sticky-note-o
         v-list-tile-content
           v-list-tile-title {{ cube.name }}
 
       v-divider.my-2(dark)
       v-list-tile(:key='i', @click.stop="addCube(cube)", v-for='(cube, i) in cubes')
         v-list-tile-action
-          i.fa(:class="cube.link?'fa-link':'fa-cube'")
+          i.fa(:class="cube.link?'fa-cubes':'fa-cube'")
         v-list-tile-content
           v-list-tile-title {{ cube.content }}
         v-list-tile-action

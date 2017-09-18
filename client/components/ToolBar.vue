@@ -25,7 +25,7 @@
     v-btn(icon, @click="createCube", :disabled="!canCreateCube")
       i.fa.fa-cube
     v-btn(icon, @click="createLink", :disabled="!canCreateCube")
-      i.fa.fa-link
+      i.fa.fa-cubes
       //- v-icon.link link
     v-spacer
     v-toolbar-side-icon(@click.stop="drawer.right=!drawer.right")
