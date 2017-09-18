@@ -302,7 +302,9 @@ export default {
           this.activeCube = this.page
         } else {
           cubes.map(c => {
-            if (c.cubes && c.cubes.length > 0)
+            if (c.src){
+              remove(this.$store.state.cubes[c.src].cubes)
+            } else if (c.cubes && c.cubes.length > 0)
               remove(c.cubes)
           })
         }
