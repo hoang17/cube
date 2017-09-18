@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.lc(:style="cube.style | styl", :class="cube.css | css")
+  .cube.block(:style="cube.style | styl", :class="cube.css | css")
     component(:cube="source", :is="source.type")
 </template>
 

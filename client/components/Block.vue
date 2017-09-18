@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.lc(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :content="cube.content", :class="cube.css | css")
+  .cube.block(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :content="cube.content", :class="cube.css | css")
     component(:cube="source", :is="source.type", :edit="edit", :select="select")
 </template>
 
@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.lc
+.block
   &[edit]:after
     transition .3s cubic-bezier(.25,.8,.25,1)
     pointer-events none
@@ -47,7 +47,7 @@ export default {
     border 1px dashed rgba(0,0,0,.5) !important
 
 .application--dark
-  .lc
+  .block
     &[edit]:after
       border 1px dashed #666 !important
 

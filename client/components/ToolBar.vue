@@ -103,7 +103,7 @@ export default {
       return this.history.stack.length - 1 > this.history.index
     },
     canCreateCube(){
-      return this.activeCube && this.activeCube.name != "Page" && this.activeCube.name != "LinkedCube" && !this.activeCube.link
+      return this.activeCube && this.activeCube.name != "Page" && this.activeCube.name != "Block" && !this.activeCube.link
     },
     canCopy(){
       return this.activeCube && this.activeCube.name != 'Page'

@@ -44,7 +44,7 @@
           v-list-tile-title {{ cube.content }}
         v-list-tile-action
           v-btn(icon, @click.stop="trash(cube)")
-            i.fa.fa-trash
+            i.fa.fa-trash-o
 
       v-divider.my-2(dark)
 
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { clone, LinkedCube } from '../data/factory'
+import { clone, Block } from '../data/factory'
 import * as baseCubes from '../data/cubes'
 import { mapState, mapGetters } from 'vuex'
 
@@ -100,7 +100,7 @@ export default {
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){
-      let c = cube.link ? LinkedCube(cube) : clone(cube)
+      let c = cube.link ? Block(cube) : clone(cube)
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {

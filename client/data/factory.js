@@ -112,12 +112,12 @@ export function Style(name){
   }
 }
 
-export function LinkedCube(cube){
+export function Block(cube){
   return {
     _id: ObjectId(),
-    type: 'lc',
-    name: 'LinkedCube',
-    content: 'Linked Cube',
+    type: 'block',
+    name: 'Block',
+    content: cube.content,
     src: cube._id,
     css: null,
     style: {

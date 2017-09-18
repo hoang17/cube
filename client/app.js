@@ -20,10 +20,10 @@ Vue.directive('click-outside', ClickOutside)
 Vue.component('infinite-loading', InfiniteLoading)
 
 Vue.component('pg-pane', () => import('./panes/PagePane'))
-Vue.component('lc-pane', () => import('./panes/LinkedCubePane'))
+Vue.component('block-pane', () => import('./panes/BlockPane'))
 
-Vue.component('lc', () => import('./components/LinkedCube'))
-Vue.component('lcv', () => import('./views/LinkedCubeView'))
+Vue.component('block', () => import('./components/Block'))
+Vue.component('bv', () => import('./views/BlockView'))
 
 for (let i in cubes) {
   Vue.component(cubes[i].type, () => import(`./cubes/${cubes[i].name}`))

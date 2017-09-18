@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     map(type){
-      return type == 'lc' ? 'lcv' : type
+      return type == 'block' ? 'bv' : type
     },
     focus(){
       this.select(this.cube)

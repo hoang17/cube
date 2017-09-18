@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     map(type){
-      return type == 'lc' ? 'lcv' : type
+      return type == 'block' ? 'bv' : type
     },
     pageNotFound(){
       alert('404 | Page not found')

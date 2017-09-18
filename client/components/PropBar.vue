@@ -23,9 +23,9 @@
           //- v-chip(small, outline) inline
         .action
           v-btn(icon, @click="addStyle", title="Add new style")
-            v-icon insert_drive_file
+            i.fa.fa-file-o
           v-btn(icon, @click="removeStyle", title="Delete style")
-            v-icon delete
+            i.fa.fa-trash-o
         v-card
           v-card-text
             //- v-chip.primary.white--text inline
