@@ -15,10 +15,11 @@ TODO:
 ✔ Restore active cube when undo/redo @done(2017-09-13 19:42)
 ✔ Dark mode @done(2017-09-16 04:06)
 ✔ Reuse cube block by referencing @done(2017-09-18 15:59)
-☐ Undo/redo style editing
+☐ Disallow deleting Block if links > 0
+☐ Undo/redo style, block editing
 ☐ Unify style
 ☐ Fetch pages by user id
 ☐ Form
 ☐ Photo
 ☐ Select dropdown for cube props
-☐
+☐ Font selection
