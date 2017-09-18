@@ -87,41 +87,32 @@ export default {
     this.startWatch()
   },
   methods: {
-    stopWatch: () => {},
-    stylesChanged: debounce(function() {
-      this.saveStyle()
+    styleChanged: debounce(function(val) {
+      this.saveStyle(val)
     }, 500),
     startWatch(){
-      this.stopWatch = this.$store.watch(() => this.styles, (val, old) => {
-        this.stylesChanged()
+      for (let i in this.styles){
+        this.watchStyle(this.styles[i])
+      }
+    },
+    watchStyle(style){
+      this.$store.watch(() => style, (val, old) => {
+        this.styleChanged(val)
       }, {deep: true})
     },
-    // async done(){
-    //   this.$emit('done')
-    // },
-    // async remove(){
-    //   this.$emit('remove')
-    // },
     async addStyle(){
       var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
       if (name) {
         let style = Style(name)
-        this.stopWatch()
         await this.$store.dispatch('addStyle', style)
-        this.startWatch()
+        this.watchStyle(style)
         this.cube.css = style._id
         console.log('style created');
       }
     },
-    async saveStyle(){
-      if (this.style){
-        await this.$store.dispatch('updateStyle', this.style)
-        console.log('style saved');
-      }
-      // else {
-      //   await this.$store.dispatch('savePage')
-      //   console.log('page saved');
-      // }
+    async saveStyle(style){
+      await this.$store.dispatch('updateStyle', style)
+      console.log('style saved');
     },
     async removeStyle(){
       if (this.style){

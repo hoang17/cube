@@ -87,7 +87,6 @@ export const container = {
   links: [],
   style: {
     color: null,
-    display: 'block',
     width: null,
     height: null,
     minWidth: null,
@@ -96,6 +95,8 @@ export const container = {
     maxHeight: null,
     padding: null,
     margin: null,
+    display: null,
+    transform: null,
     background: null,
     border: null,
     borderRadius: null,

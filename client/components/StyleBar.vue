@@ -14,6 +14,7 @@
     v-text-field(label='Margin', v-model='rule.margin')
     v-text-field(label='Padding', v-model='rule.padding')
     v-text-field(label='Display', v-model='rule.display')
+    v-text-field(label='Transform', v-model='rule.transform')
     v-text-field(label='Min Width', v-model='rule.minWidth')
     v-text-field(label='Min Height', v-model='rule.minHeight')
     v-text-field(label='Max Width', v-model='rule.maxWidth')

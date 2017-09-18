@@ -102,7 +102,7 @@ export default {
     addCube(cube){
       let c = cube.link ? Block(cube) : clone(cube)
       if (cube.link) {
-        if (!cube.links) cube.links = []        
+        if (!cube.links) cube.links = []
         cube.links.push(c._id)
         this.$store.dispatch('updateCube', cube)
       }
