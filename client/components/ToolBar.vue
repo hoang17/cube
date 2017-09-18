@@ -135,8 +135,9 @@ export default {
     createLink(){
       let cube = clone(this.activeCube)
       cube.link = true
-      // cube.links = [this.activeCube._id]
+      // cube.links = [cube._id]
       this.$store.dispatch('addCube', cube)
+      this.watchCube(cube)
     },
     createCube(){
       this.$store.dispatch('addCube', clone(this.activeCube))
@@ -326,10 +327,30 @@ export default {
       getcss(cube.cubes)
       return Object.keys(styles).length == 0 ? null : styles
     },
+    cubeChanged: debounce(function(val) {
+      this.saveCube(val)
+    }, 500),
+    startCubesWatch(){
+      let c = this.$store.state.cubes
+      for (let i in c){
+        this.watchCube(c[i])
+      }
+    },
+    watchCube(cube){
+      this.$store.watch(() => cube, (val, old) => {
+        this.cubeChanged(val)
+      }, {deep: true})
+    },
+    async saveCube(cube){
+      await this.$store.dispatch('updateCube', cube)
+      console.log('cube saved');
+    },
   },
   mounted() {
     if (this.stopWatchHandler) return
+
     this.startWatch()
+    this.startCubesWatch()
 
     document.addEventListener("copy", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
