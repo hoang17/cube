@@ -2,20 +2,31 @@
   v-toolbar.elevation-1(fixed, dense)
     v-toolbar-side-icon(@click.stop="drawer.left=!drawer.left")
     v-btn(icon, @click='save', :disabled="saved")
-      v-icon save
+      i.fa.fa-save
+    v-btn(icon, @click='copy', :disabled="!canCopy")
+      i.fa.fa-copy
+    v-btn(icon, @click='cut', :disabled="!canCut")
+      i.fa.fa-cut
+    v-btn(icon, @click='paste', :disabled="!canPaste")
+      v-icon content_paste
+      //- i.fa.fa-paste
     v-btn(icon, @click="dup")
-      v-icon content_copy
+      i.fa.fa-clone
     v-btn(icon, @click='trash', :disabled="!canTrash")
-      v-icon delete
+      //- v-icon delete
+      i.fa.fa-trash-o
     v-btn(icon, @click="undo", :disabled="!canUndo")
-      v-icon undo
+      v-icon.undo undo
     v-btn(icon, @click="redo", :disabled="!canRedo")
-      v-icon redo
+      v-icon.redo redo
     a(:href="url", target='_blank', rel='noopener', v-show="page._id!=newId")
       v-btn(icon)
         v-icon visibility
-    v-btn(icon)
+    v-btn(icon, @click="createCube", :disabled="!canCreateCube")
       i.fa.fa-cube
+    v-btn(icon, @click="createLink", :disabled="!canCreateCube")
+      i.fa.fa-link
+      //- v-icon.link link
     v-spacer
     v-toolbar-side-icon(@click.stop="drawer.right=!drawer.right")
     //-.text-format(v-if="cube")
@@ -32,7 +43,7 @@
 </template>
 
 <script>
-import { ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
+import { clone, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
@@ -41,7 +52,7 @@ export default {
   props: ['drawer', 'drawerRight'],
   data() {
     return {
-      sw: null // stopWatch handler
+      stopWatchHandler: null // stopWatch handler
       // clipboard: null,
       // toggle_exclusive: 2,
       // toggle_multiple: [],
@@ -91,6 +102,18 @@ export default {
     canRedo(){
       return this.history.stack.length - 1 > this.history.index
     },
+    canCreateCube(){
+      return this.activeCube && this.activeCube.name != "Page" && this.activeCube.name != "LinkedCube" && !this.activeCube.link
+    },
+    canCopy(){
+      return this.activeCube && this.activeCube.name != 'Page'
+    },
+    canCut(){
+      return this.activeCube && this.activeCube.name != 'Page'
+    },
+    canPaste(){
+      return this.activeCube && this.clipboard
+    },
     cubes: {
       get() {
         return this.page.cubes
@@ -109,6 +132,15 @@ export default {
     }
   },
   methods: {
+    createLink(){
+      let cube = clone(this.activeCube)
+      cube.link = true
+      // cube.links = [this.activeCube._id]
+      this.$store.dispatch('addCube', cube)
+    },
+    createCube(){
+      this.$store.dispatch('addCube', clone(this.activeCube))
+    },
     snapshot(page, activeId) {
       let h = this.histories[page._id]
       h.stack[h.index].activeId = activeId
@@ -176,19 +208,20 @@ export default {
       } else {
         await this.$store.dispatch('updatePage', page)
         this.history.sid = page.sid
-        console.log('page updated');
+        // console.log('page updated');
       }
     },
     startWatch(){
-      if (this.sw) return
-      this.sw = this.$store.watch(() => this.$store.state.pages, () => {
+      if (this.stopWatchHandler) return
+      this.stopWatchHandler = this.$store.watch(() => this.$store.state.pages, () => {
         this.takeSnapshot(this.page, this.activeCube._id)
       }, {deep: true})
     },
     stopWatch(){
-      if (!this.sw) return
-      this.sw()
-      this.sw = null
+      if (this.stopWatchHandler){
+        this.stopWatchHandler()
+        this.stopWatchHandler = null
+      }
     },
     takeSnapshot: debounce(function(page, activeId) {
       this.snapshot(page, activeId)
@@ -197,27 +230,27 @@ export default {
     autoSavePage: debounce(function(page) {
       this.savePage(page)
     }, 500),
-    // copy(){
-    //   if (!this.activeCube || this.activeCube.name == 'Page') return
-    //   this.clipboard = Clipboard(cloneDeep(this.activeCube))
-    //   console.log('copied');
-    // },
-    // cut(){
-    //   if (!this.activeCube || this.activeCube.name == 'Page') return
-    //   this.clipboard = Clipboard(cloneDeep(this.activeCube))
-    //   this.removeActiveCube()
-    //   console.log('cut');
-    // },
-    // paste(){
-    //   if (!this.activeCube || !this.clipboard) return
-    //   let c = cloneDeep(this.clipboard.cube)
-    //   if (this.activeCube.cubes){
-    //     this.activeCube.cubes.push(c)
-    //   } else {
-    //     this.cubes.push(c)
-    //   }
-    //   console.log('pasted');
-    // },
+    copy(){
+      if (!this.activeCube || this.activeCube.name == 'Page') return
+      this.clipboard = Clipboard(cloneDeep(this.activeCube))
+      console.log('copied');
+    },
+    cut(){
+      if (!this.activeCube || this.activeCube.name == 'Page') return
+      this.clipboard = Clipboard(cloneDeep(this.activeCube))
+      this.removeActiveCube()
+      console.log('cut');
+    },
+    paste(){
+      if (!this.activeCube || !this.clipboard) return
+      let c = cloneDeep(this.clipboard.cube)
+      if (this.activeCube.cubes){
+        this.activeCube.cubes.push(c)
+      } else {
+        this.cubes.push(c)
+      }
+      console.log('pasted');
+    },
     async dupPage(p){
       p._id = ObjectId()
       p.content += ' Copy'
@@ -293,7 +326,7 @@ export default {
     },
   },
   mounted() {
-    if (this.sw) return
+    if (this.stopWatchHandler) return
     this.startWatch()
 
     document.addEventListener("copy", (e) => {
@@ -391,8 +424,15 @@ export default {
   .icon
     transition none
 
-  .icon
-    font-size 20px
+  i
+    font-size 18px
+    &.fa-clone
+    &.fa-copy
+      font-size 16px
+    &.undo
+    &.redo
+    &.link
+      font-size 20px
 
   .btn-toggle--selected
     box-shadow none

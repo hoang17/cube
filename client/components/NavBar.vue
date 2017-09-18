@@ -14,51 +14,67 @@
       v-divider
       v-list-tile(@click="selectPage()", :class="{active: page._id == newId }")
         v-list-tile-action
-          //- v-icon add
-          i.fa.fa-file-text-o
+          i.fa.fa-plus
         v-list-tile-content(v-badge="{value:'',visible:showBadge(pages[newId])}")
           v-list-tile-title Add New Page
 
-      v-list-tile(:key='i', @click="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newId")
+      v-list-tile(:key='i', @click.stop="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newId")
         v-list-tile-action
           //- v-icon web_asset
           i.fa.fa-file-o
         v-list-tile-content(v-badge="{value:'',visible:showBadge(p)}")
           v-list-tile-title {{ p.content }}
+        //- v-list-tile-action
+          v-btn(icon, @click.stop="trashPage(p)")
+            i.fa.fa-trash
 
       v-divider.my-2(dark)
-      v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in cubes')
+      v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in baseCubes')
         v-list-tile-action
           //- v-icon add
           i.fa.fa-cube
         v-list-tile-content
           v-list-tile-title {{ cube.name }}
+
+      v-divider.my-2(dark)
+      v-list-tile(:key='i', @click.stop="addCube(cube)", v-for='(cube, i) in cubes')
+        v-list-tile-action
+          i.fa(:class="cube.link?'fa-link':'fa-cube'")
+        v-list-tile-content
+          v-list-tile-title {{ cube.content }}
+        v-list-tile-action
+          v-btn(icon, @click.stop="trash(cube)")
+            i.fa.fa-trash
+
       v-divider.my-2(dark)
 
     v-toolbar.transparent(flat,dense)
       v-list
         v-list-tile
           v-list-tile-action
-            i.fa.fa-moon-o
+            v-btn(icon, @click="dark=!dark")
+              i.fa.fa-moon-o
           v-list-tile-content
             v-list-tile-title Dark mode
           v-list-tile-action.switch
-            v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='$store.state.dark')
+            v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='dark')
 </template>
 
 <script>
-import * as cubes from '../data/cubes'
+import { clone, LinkedCube } from '../data/factory'
+import * as baseCubes from '../data/cubes'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   props: ['drawer'],
   computed: {
     ...mapGetters([
-      'page'
+      'page',
     ]),
     ...mapState([
       'newId',
       'pages',
+      'cubes',
       'activeCube',
       'user',
     ]),
@@ -73,7 +89,7 @@ export default {
   },
   data: () => ({
     mini: false,
-    cubes: cubes,
+    baseCubes: baseCubes,
   }),
   methods: {
     showBadge(page){
@@ -84,14 +100,18 @@ export default {
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addCube(cube){
-      let c = cube.init()
+      let c = cube.link ? LinkedCube(cube) : clone(cube)
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
         this.page.cubes.push(c)
       }
       // this.$store.commit('setActiveCube', c)
-    }
+    },
+    trash(cube){
+      if (confirm("Do you want to delete this cube?"))
+        this.$store.dispatch('removeCube', cube)
+    },
   }
 }
 </script>
@@ -127,7 +147,7 @@ export default {
     min-width 36px
 
   .list__tile__action.switch
-    min-width 96px
+    min-width 73px
 
 .navigation-drawer--mini-variant
   margin-top 48px

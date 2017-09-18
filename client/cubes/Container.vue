@@ -2,7 +2,7 @@
   draggable.cube.container(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="cube.css | css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
   .cube.container(v-else, :style="cube.style | styl", :content="cube.content", :class="cube.css | css")
-    component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i")
+    component(v-for="(c, i) in cube.cubes", :cube="c", :is="map(c.type)", :key="i", :edit="edit")
 </template>
 
 <script>
@@ -23,6 +23,9 @@ export default {
     }
   },
   methods: {
+    map(type){
+      return type == 'lc' ? 'lcv' : type
+    },
     focus(){
       this.select(this.cube)
     },
@@ -65,13 +68,13 @@ export default {
     border 1px dotted #03a9f4 !important
 
   &[active]:after
-    border 1px dashed rgba(0,0,0,.5) !important    
+    border 1px dashed rgba(0,0,0,.5) !important
 
 .application--dark
   .container
     &[edit]:after
       border 1px dashed #666 !important
-    
+
     &[edit]:hover:after
       border 1px dotted #03a9f4 !important
 

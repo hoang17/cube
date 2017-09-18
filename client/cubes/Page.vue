@@ -1,7 +1,7 @@
 <template lang="pug">
   .page(:style="page.style | styl", :class="'--'+page.css")
     div(v-html="rules")
-    component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="false")
+    component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
 
 <script>
@@ -48,6 +48,9 @@ export default {
     },
   },
   methods: {
+    map(type){
+      return type == 'lc' ? 'lcv' : type
+    },
     pageNotFound(){
       alert('404 | Page not found')
     }

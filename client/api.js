@@ -22,31 +22,41 @@ export async function patch(endpoint, params){
   return res.data
 }
 
-// export async function saveCube(cube){
-//   try {
-//     let res = await api.post('cubes', cube)
-//     return res.data
-//   } catch (e) {
-//     console.error(e)
-//   }
-// }
-//
-// export async function removeCube(id){
-//   try {
-//     let res = await api.delete(`cubes/${id}`)
-//     return res.data
-//   } catch (e) {
-//     console.error(e)
-//   }
-// }
-// export async function fetchCubes(){
-//   try {
-//     let res = await api.get('cubes')
-//     return fromPairs(map(res.data, i => [i._id, i]))
-//   } catch (e) {
-//     console.error(e)
-//   }
-// }
+export async function addCube(cube){
+  try {
+    let res = await api.post('cubes', cube)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function updateCube(cube){
+  try {
+    let res = await api.put('cubes', cube)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function deleteCube(id){
+  try {
+    let res = await api.delete(`cubes/${id}`)
+    return res.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function fetchCubes(){
+  try {
+    let res = await api.get('cubes')
+    return fromPairs(map(res.data, i => [i._id, i]))
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 export async function fetchPages(){
   try {

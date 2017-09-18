@@ -1,190 +1,169 @@
 import { ObjectId } from './factory'
 
 export const text = {
-  name: 'Text',
+  _id: ObjectId(),
   type: 'tx',
-  init(){
-    return {
-      _id: ObjectId(),
-      type: 'tx',
-      name: 'Text',
-      content: 'New text',
-      css: null,
-      style: {
-        color: null,
-        display: null,
-        width: null,
-        fontFamily: null,
-        fontSize: null,
-        fontWeight: null,
-        lineHeight: null,
-        letterSpacing: null,
-        textTransform: null,
-        textAlign: null,
-        padding: null,
-        margin: null,
-      }
-    }
+  name: 'Text',
+  content: 'New text',
+  css: null,
+  link: false,
+  links: [],
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: null,
+    padding: null,
+    margin: null,
   }
 }
 
 export const link = {
-  name: 'Link',
+  _id: ObjectId(),
   type: 'lnk',
-  init(){
-    return {
-      _id: ObjectId(),
-      type: 'lnk',
-      name: 'Link',
-      content: 'Link',
-      url: null,
-      css: null,
-      style: {
-        color: null,
-        display: null,
-        width: null,
-        fontFamily: null,
-        fontSize: null,
-        fontWeight: null,
-        lineHeight: null,
-        letterSpacing: null,
-        textTransform: null,
-        textAlign: 'center',
-        padding: null,
-        margin: null,
-        border: null,
-        borderRadius: null,
-      }
-    }
+  name: 'Link',
+  content: 'Link',
+  url: null,
+  css: null,
+  link: false,
+  links: [],
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    padding: null,
+    margin: null,
+    border: null,
+    borderRadius: null,
   }
 }
 
 export const button = {
-  name: 'Button',
+  _id: ObjectId(),
   type: 'btn',
-  init(){
-    return {
-      _id: ObjectId(),
-      type: 'btn',
-      name: 'Button',
-      content: 'Button',
-      url: null,
-      css: null,
-      style: {
-        color: null,
-        display: null,
-        width: null,
-        height: null,
-        fontFamily: null,
-        fontSize: null,
-        fontWeight: null,
-        lineHeight: null,
-        letterSpacing: null,
-        textTransform: null,
-        textAlign: 'center',
-        padding: null,
-        margin: null,
-      }
-    }
+  name: 'Button',
+  content: 'Button',
+  url: null,
+  css: null,
+  link: false,
+  links: [],
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    height: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    padding: null,
+    margin: null,
   }
 }
 
 export const container = {
-  name: 'Container',
+  _id: ObjectId(),
   type: 'container',
-  init(){
-    return {
-      _id: ObjectId(),
-      type: 'container',
-      name: 'Container',
-      content: 'Container',
-      css: null,
-      style: {
-        color: null,
-        display: 'block',
-        width: null,
-        height: null,
-        minWidth: null,
-        minHeight: null,
-        maxWidth: null,
-        maxHeight: null,
-        padding: null,
-        margin: null,
-        background: null,
-        border: null,
-        borderRadius: null,
-        order: null,
-        fontFamily: null,
-        fontSize: null,
-        fontWeight: null,
-        lineHeight: null,
-        letterSpacing: null,
-        textTransform: null,
-        textAlign: 'center',
-        flex: null,
-        flexFlow: null
-      },
-      cubes: []
-    }
-  }
+  name: 'Container',
+  content: 'Container',
+  css: null,
+  link: false,
+  links: [],
+  style: {
+    color: null,
+    display: 'block',
+    width: null,
+    height: null,
+    minWidth: null,
+    minHeight: null,
+    maxWidth: null,
+    maxHeight: null,
+    padding: null,
+    margin: null,
+    background: null,
+    border: null,
+    borderRadius: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    flex: null,
+    flexFlow: null
+  },
+  cubes: []
 }
 
 export const navigation = {
-  name: 'Navigation',
+  _id: ObjectId(),
   type: 'na',
-  init(){
-    return {
-      _id: ObjectId(),
-      type: 'na',
-      name: 'Navigation',
-      content: 'Navigation',
-      css: null,
-      style: {
-        color: null,
-        display: 'block',
-        width: null,
-        fontFamily: null,
-        fontSize: null,
-        fontWeight: null,
-        lineHeight: null,
-        letterSpacing: null,
-        textTransform: null,
-        textAlign: 'center',
-        padding: null,
-        margin: null,
-        border: null,
-        borderRadius: null,
-      },
-      cubes: [ link.init(), link.init(), link.init()]
-    }
-  }
+  name: 'Navigation',
+  content: 'Navigation',
+  css: null,
+  link: false,
+  links: [],
+  style: {
+    color: null,
+    display: 'block',
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    padding: null,
+    margin: null,
+    border: null,
+    borderRadius: null,
+  },
+  cubes: []
 }
 
-export const photo = {
-  name: 'Photo',
-  type: 'ph',
-  init(){
-    return {
-      _id: ObjectId(),
-      type: 'ph',
-      content: 'Photo',
-      css: null,
-      style: {
-        color: null,
-        display: 'block',
-        width: null,
-        fontFamily: null,
-        fontSize: null,
-        fontWeight: null,
-        lineHeight: null,
-        letterSpacing: null,
-        textTransform: null,
-        textAlign: 'center',
-        margin: null
-      }
-    }
-  }
-}
+// export const photo = {
+//   name: 'Photo',
+//   type: 'ph',
+//   init(){
+//     return {
+//       _id: ObjectId(),
+//       type: 'ph',
+//       content: 'Photo',
+//       css: null,
+//       style: {
+//         color: null,
+//         display: 'block',
+//         width: null,
+//         fontFamily: null,
+//         fontSize: null,
+//         fontWeight: null,
+//         lineHeight: null,
+//         letterSpacing: null,
+//         textTransform: null,
+//         textAlign: 'center',
+//         margin: null
+//       }
+//     }
+//   }
+// }
 
 // { name: 'Icon', type: 'icon' },
 // { name: 'DataTable', type: 'data-table' },

@@ -14,7 +14,9 @@ import {
   updateStyle,
   deleteStyle,
   fetchStyles,
+  addCube,
   fetchCubes,
+  deleteCube,
 } from './api'
 
 export function createStore () {
@@ -27,12 +29,23 @@ export function createStore () {
       host: null,
       user: null,
       token: null,
+      cubes: {},
+      styles: {},
       histories: {},
       routes: {},
-      styles: {},
       dark: true,
     },
     actions: {
+      async addCube({ state, commit }, cube) {
+        Vue.set(state.cubes, cube._id, cube)
+        return await addCube(cube)
+      },
+
+      async removeCube({ state, commit }, cube) {
+        await deleteCube(cube._id)
+        Vue.delete(state.cubes, cube._id)
+      },
+
       async updateStyle({ state, commit }, style) {
         return await updateStyle(style)
       },
@@ -81,7 +94,7 @@ export function createStore () {
       async fetchBuild({state, commit}, id){
         state.styles = await fetchStyles()
         state.pages = await fetchPages()
-        // state.cubes = await fetchCubes()
+        state.cubes = await fetchCubes()
         // build routes & histories
         for (let i in state.pages){
           let p = state.pages[i]
@@ -95,6 +108,7 @@ export function createStore () {
       async fetchView({state, commit}, { url }){
         state.styles = await fetchStyles()
         state.pages = await fetchPages()
+        state.cubes = await fetchCubes()
         // build routes
         for (let i in state.pages){
           state.routes[state.pages[i].url] = i

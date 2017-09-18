@@ -8,6 +8,18 @@ export const NanoSlug = (length = 6) => generate('0123456789abcdefABCDEF', lengt
 
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
+export function clone(cube){
+  const id = (c) => {
+    c._id = ObjectId()
+    if (c.cubes)
+      for (let i in c.cubes)
+        id(c.cubes[i])
+  }
+  let clone = cloneDeep(cube)
+  id(clone)
+  return clone
+}
+
 export function indexCubes(pages){
   let getCubes = p => {
     if (!p.cubes) return {}
@@ -42,17 +54,16 @@ export function History(page){
 }
 
 export function Page(uid, host){
-  let id = ObjectId()
   let path = NanoSlug()
   return {
-    _id: id,
-    name: 'Page',
+    _id: ObjectId(),
     type: 'pg',
+    name: 'Page',
     host: host,
     path: path,
     url: host + '/' + path,
     uid: uid,
-    content: 'New Page 🙌🏻',
+    content: 'New Page ✨',
     css: null,
     sid: NanoId(),
     style: {
@@ -98,5 +109,34 @@ export function Style(name){
       maxWidth: null,
       maxHeight: null,
     },
+  }
+}
+
+export function LinkedCube(cube){
+  return {
+    _id: ObjectId(),
+    type: 'lc',
+    name: 'LinkedCube',
+    content: 'Linked Cube',
+    src: cube._id,
+    css: null,
+    style: {
+      color: null,
+      display: 'block',
+      width: null,
+      height: null,
+      fontFamily: null,
+      fontSize: null,
+      fontWeight: null,
+      lineHeight: null,
+      letterSpacing: null,
+      textTransform: null,
+      textAlign: 'center',
+      padding: null,
+      margin: null,
+      border: null,
+      borderRadius: null,
+    },
+    cubes: []
   }
 }

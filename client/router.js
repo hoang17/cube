@@ -3,8 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// const Sites = () => import('./components/Sites')
-const Pages = () => import('./views/Pages')
 const Canvas = () => import('./components/Canvas')
 const Page = () => import('./cubes/Page')
 
@@ -15,7 +13,6 @@ export function createRouter () {
     routes: [
       // { path: '/', redirect: 'groups' },
       { path: '/', name: 'home', component: Page },
-      { path: '/site', name: 'pages', component: Pages },
       { path: '/build/:id?', name: 'build', component: Canvas },
       { path: '*', name: 'catch-all',component: Page },
     ],
