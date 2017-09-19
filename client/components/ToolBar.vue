@@ -24,7 +24,7 @@
         v-icon visibility
     v-btn(icon, @click="createCube", :disabled="!canCreateCube")
       i.fa.fa-cube
-    v-btn(icon, @click="createBlock", :disabled="!canCreateCube")
+    v-btn(icon, @click="toggleBlock", :disabled="!canToggleBlock")
       i.fa.fa-cubes
       //- v-icon.link link
     v-spacer
@@ -103,7 +103,10 @@ export default {
       return this.history.stack.length - 1 > this.history.index
     },
     canCreateCube(){
-      return this.activeCube && this.activeCube.name != "Page" && this.activeCube.name != "Block" && !this.activeCube.link
+      return this.activeCube && this.activeCube.name != "Page" && this.activeCube.name != "Block"
+    },
+    canToggleBlock(){
+      return this.activeCube && this.activeCube.name != "Page" && !this.activeCube.link
     },
     canCopy(){
       return this.activeCube && this.activeCube.name != 'Page'
@@ -132,19 +135,29 @@ export default {
     }
   },
   methods: {
-    createBlock(){
-      // Create cube
-      let cube = clone(this.activeCube)
-      // Create block
-      let block = Block(cube)
-      cube.link = true
-      cube.links = [block._id]
-      this.$store.dispatch('addCube', cube)
-      this.watchCube(cube)
-      this.setCube(this.activeCube, block)
+    toggleBlock(){
+      if (this.activeCube.link) return
+      if (this.activeCube.name == 'Block'){
+        let cube = clone(this.$store.state.cubes[this.activeCube.src])
+        cube.link = false
+        cube.links = []
+        this.setCube(this.activeCube, cube)
+      } else {
+        // Create cube
+        let cube = clone(this.activeCube)
+        // Create block
+        let block = Block(cube)
+        cube.link = true
+        cube.links = [block._id]
+        this.$store.dispatch('addCube', cube)
+        this.watchCube(cube)
+        this.setCube(this.activeCube, block)
+      }
     },
     createCube(){
-      this.$store.dispatch('addCube', clone(this.activeCube))
+      let cube = clone(this.activeCube)
+      cube.link = false
+      this.$store.dispatch('addCube', cube)
     },
     snapshot(page, activeId) {
       let h = this.histories[page._id]
@@ -250,7 +263,7 @@ export default {
     },
     paste(){
       if (!this.activeCube || !this.clipboard) return
-      let c = cloneDeep(this.clipboard.cube)
+      let c = clone(this.clipboard.cube)
       if (this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
@@ -273,7 +286,7 @@ export default {
     },
     async dup(){
       if (this.activeCube == this.page) {
-        let p = cloneDeep(this.page)
+        let p = clone(this.page)
         await this.dupPage(p)
         // p._id = ObjectId()
         // p.content += ' Copy'
@@ -287,7 +300,7 @@ export default {
         // await this.$store.dispatch('addPage', p)
       }
       else {
-        let cube = cloneDeep(this.activeCube)
+        let cube = clone(this.activeCube)
         cube.link = false
         this.cubes.push(cube)
         console.log('duped');
@@ -435,12 +448,12 @@ export default {
         }
         // console.log(c);
         if (c.cube.name == 'Page'){
-          this.dupPage(c.cube)
+          this.dupPage(clone(c.cube))
         }
         else if (this.activeCube.cubes){
-          this.activeCube.cubes.push(c.cube)
+          this.activeCube.cubes.push(clone(c.cube))
         } else {
-          this.cubes.push(c.cube)
+          this.cubes.push(clone(c.cube))
         }
         console.log('pasted');
       } catch (e) {

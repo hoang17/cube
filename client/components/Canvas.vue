@@ -11,7 +11,6 @@
 
 <script>
 import Draggable from 'vuedraggable'
-import cloneDeep  from 'lodash/cloneDeep'
 import { getRules } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 
