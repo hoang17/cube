@@ -168,13 +168,6 @@ export default {
       cube.link = false
       this.$store.dispatch('addCube', cube)
     },
-    // snapshotCube(page, activeId) {
-    //   let h = this.histories[page._id]
-    //   h.stack[h.index].activeId = activeId
-    //   h.index++
-    //   h.stack.splice(h.index)
-    //   h.stack.push({ cube: cloneDeep(cube), activeId: activeId })
-    // },
     snapshot(page, activeId) {
       let cubes = {}
       for (let i in page.blocks){
@@ -210,19 +203,18 @@ export default {
       if (this.page.sid != snap.page.sid){
         this.stopWatch()
         this.$store.commit('setPage', cloneDeep(snap.page))
-        this.activeCube = this.getActiveCube(snap.activeId)
         this.startWatch()
         this.autoSavePage(this.page)
       }
-
       for (let i in snap.cubes){
         if (!isEqual(snap.cubes[i], this.$store.state.cubes[i])){
           let cube = cloneDeep(snap.cubes[i])
           this.$store.commit('setCube', cube)
           this.watchCube(cube)
-          this.saveCube(cube)
+          this.autoSaveCube(cube)
         }
       }
+      this.activeCube = this.getActiveCube(snap.activeId)
     },
     getActiveCube(id){
       if (this.page._id == id) return this.page
@@ -290,6 +282,9 @@ export default {
     }, 500),
     autoSavePage: debounce(function(page) {
       this.savePage(page)
+    }, 500),
+    autoSaveCube: debounce(function(cube) {
+      this.saveCube(cube)
     }, 500),
     copy(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
