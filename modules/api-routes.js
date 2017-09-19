@@ -88,7 +88,7 @@ router.route('/cubes/:id')
 
 router.route('/cubes')
   .get(async function(req, res) {
-    let data = await cubes.find()
+    let data = await cubes.find({},{sort : { link : 1 }})
     res.json(data)
   })
   .post(async function(req, res) {

@@ -42,6 +42,7 @@
           i.fa(:class="cube.link?'fa-cubes':'fa-cube'")
         v-list-tile-content
           v-list-tile-title {{ cube.content }}
+            span.meta  {{ cube.link ? `${cube.linkCount} cubes` : '' }}
         v-list-tile-action
           v-btn(icon, @click.stop="trash(cube)")
             i.fa.fa-trash-o
@@ -102,8 +103,7 @@ export default {
     addCube(cube){
       let c = cube.link ? Block(cube) : clone(cube)
       if (cube.link) {
-        if (!cube.links) cube.links = []
-        cube.links.push(c._id)
+        cube.linkCount++
         this.$store.dispatch('updateCube', cube)
       }
       if (this.activeCube && this.activeCube.cubes){
@@ -114,8 +114,11 @@ export default {
       // this.$store.commit('setActiveCube', c)
     },
     trash(cube){
-      if (confirm("Do you want to delete this cube?"))
+      if (cube.link && cube.linkCount > 0){
+        alert(`Can not delete this block because ${cube.linkCount} other cubes linked to it`)
+      } else if (confirm("Do you want to delete this cube?")){
         this.$store.dispatch('removeCube', cube)
+      }
     },
   }
 }
@@ -153,6 +156,11 @@ export default {
 
   .list__tile__action.switch
     min-width 73px
+
+  .meta
+    color #999
+    font-size 10px
+    font-weight 100
 
 .navigation-drawer--mini-variant
   margin-top 48px

@@ -138,17 +138,20 @@ export default {
     toggleBlock(){
       if (this.activeCube.link) return
       if (this.activeCube.name == 'Block'){
-        let cube = clone(this.$store.state.cubes[this.activeCube.src])
+        let origin = this.$store.state.cubes[this.activeCube.src]
+        let cube = clone(origin)
         cube.link = false
-        cube.links = []
+        cube.linkCount = 0
         this.setCube(this.activeCube, cube)
+        origin.linkCount = origin.linkCount <= 0 ? 0 : origin.linkCount-1
+        this.$store.dispatch('updateCube', origin)
       } else {
         // Create cube
         let cube = clone(this.activeCube)
         // Create block
         let block = Block(cube)
         cube.link = true
-        cube.links = [block._id]
+        cube.linkCount++
         this.$store.dispatch('addCube', cube)
         this.watchCube(cube)
         this.setCube(this.activeCube, block)
@@ -320,6 +323,7 @@ export default {
     },
     removeActiveCube(){
       if (this.activeCube.name == 'Page') return
+
       var remove = cubes => {
         if (!cubes) return
         let index = cubes.indexOf(this.activeCube)
@@ -334,6 +338,12 @@ export default {
               remove(c.cubes)
           })
         }
+      }
+
+      if (this.activeCube.name == "Block"){
+        let origin = this.$store.state.cubes[this.activeCube.src]
+        origin.linkCount = origin.linkCount <= 0 ? 0 : origin.linkCount-1
+        this.$store.dispatch('updateCube', origin)
       }
       remove(this.cubes)
     },

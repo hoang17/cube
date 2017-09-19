@@ -7,7 +7,7 @@ export const text = {
   content: 'New text',
   css: null,
   link: false,
-  links: [],
+  linkCount: 0,
   style: {
     color: null,
     display: null,
@@ -32,7 +32,7 @@ export const link = {
   url: null,
   css: null,
   link: false,
-  links: [],
+  linkCount: 0,
   style: {
     color: null,
     display: null,
@@ -59,7 +59,7 @@ export const button = {
   url: null,
   css: null,
   link: false,
-  links: [],
+  linkCount: 0,
   style: {
     color: null,
     display: null,
@@ -84,7 +84,7 @@ export const container = {
   content: 'Container',
   css: null,
   link: false,
-  links: [],
+  linkCount: 0,
   style: {
     color: null,
     width: null,
@@ -120,7 +120,7 @@ export const navigation = {
   content: 'Navigation',
   css: null,
   link: false,
-  links: [],
+  linkCount: 0,
   style: {
     color: null,
     display: 'block',
