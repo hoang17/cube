@@ -19,7 +19,7 @@ TODO:
 ✔ Hover cube @done(2017-09-19 01:14)
 ✔ Universal Clipboard @done(2017-09-19 11:19)
 ✔ Toggle link/unlink cube block @done(2017-09-19 13:49)
-☐ Disallow deleting Block if links > 0
+✔ Disallow deleting Block if links > 0 @done(2017-09-19 15:15)
 ☐ Undo/redo style, block editing
 ☐ Unify style
 ☐ Fetch pages by user id
@@ -28,3 +28,4 @@ TODO:
 ☐ Select dropdown for cube props
 ☐ Font selection
 ☐ Local storage
+☐ Build a blog plugin (cubes are package into plugin)

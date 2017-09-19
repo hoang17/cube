@@ -151,6 +151,7 @@ export default {
         // Create block
         let block = Block(cube)
         cube.link = true
+        cube.linkCount = 0
         cube.linkCount++
         this.$store.dispatch('addCube', cube)
         this.watchCube(cube)
