@@ -37,8 +37,43 @@ export function indexCubes(pages){
   }, {})
 }
 
-export function Clipboard(cube, styles = null, cubes = null){
-  return { cube, styles, cubes, timestamp: Date.now() }
+export function Clipboard(cube, store = null, native = false){
+  var getStyles = () => {
+    let styles = {}
+    let s = store.state.styles
+    if (cube.css && s[cube.css]) styles[cube.css] = s[cube.css]
+
+    var getcss = cubes => {
+      if (!cubes) return
+      cubes.map(c => {
+        if (c.css && s[c.css]) styles[c.css] = s[c.css]
+        getcss(c.cubes)
+      })
+    }
+    getcss(cube.cubes)
+    return Object.keys(styles).length == 0 ? null : styles
+  }
+  var getCubes = () => {
+    let blocks = {}
+    let s = store.state.cubes
+    let id = cube.src
+    if (id && s[id]) blocks[id] = s[id]
+
+    var getBlocks = cubes => {
+      if (!cubes) return
+      cubes.map(c => {
+        let i = c.src
+        if (i && s[i]) blocks[i] = s[i]
+        getBlocks(c.cubes)
+      })
+    }
+    getBlocks(cube.cubes)
+    return Object.keys(blocks).length == 0 ? null : blocks
+  }
+  var cubes = native ? getCubes() : null
+  var styles = native ? getStyles() : null
+  cube = native ? cube : cloneDeep(cube)
+  return { cube, cubes, styles, timestamp: Date.now() }
 }
 
 export function History(page){

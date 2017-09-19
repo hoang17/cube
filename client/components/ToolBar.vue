@@ -233,12 +233,12 @@ export default {
     }, 500),
     copy(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = Clipboard(cloneDeep(this.activeCube))
+      this.clipboard = Clipboard(this.activeCube)
       console.log('copied');
     },
     cut(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = Clipboard(cloneDeep(this.activeCube))
+      this.clipboard = Clipboard(this.activeCube)
       this.removeActiveCube()
       console.log('cut');
     },
@@ -312,38 +312,6 @@ export default {
       }
       remove(this.cubes)
     },
-    getStyles(cube){
-      let styles = {}
-      let s = this.$store.state.styles
-      if (cube.css && s[cube.css]) styles[cube.css] = s[cube.css]
-
-      var getcss = cubes => {
-        if (!cubes) return
-        cubes.map(c => {
-          if (c.css && s[c.css]) styles[c.css] = s[c.css]
-          getcss(c.cubes)
-        })
-      }
-      getcss(cube.cubes)
-      return Object.keys(styles).length == 0 ? null : styles
-    },
-    getCubes(cube){
-      let blocks = {}
-      let s = this.$store.state.cubes
-      let id = cube.src
-      if (id && s[id]) blocks[id] = s[id]
-
-      var getBlocks = cubes => {
-        if (!cubes) return
-        cubes.map(c => {
-          let i = c.src
-          if (i && s[i]) blocks[i] = s[i]
-          getBlocks(c.cubes)
-        })
-      }
-      getBlocks(cube.cubes)
-      return Object.keys(blocks).length == 0 ? null : blocks
-    },
     cubeChanged: debounce(function(val) {
       this.saveCube(val)
     }, 500),
@@ -372,7 +340,8 @@ export default {
     document.addEventListener("copy", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
-      let c = Clipboard(this.activeCube, this.getStyles(this.activeCube), this.getCubes(this.activeCube))
+      this.clipboard = Clipboard(this.activeCube)
+      let c = Clipboard(this.activeCube, this.$store, true)
       // console.log(c);
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       e.preventDefault()
@@ -382,7 +351,7 @@ export default {
     document.addEventListener("cut", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
-      let c = Clipboard(this.activeCube, this.getStyles(this.activeCube), this.getCubes(this.activeCube))
+      let c = Clipboard(this.activeCube, this.$store, true)
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       this.removeActiveCube()
       e.preventDefault()
