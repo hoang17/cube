@@ -24,7 +24,7 @@
         v-icon visibility
     v-btn(icon, @click="createCube", :disabled="!canCreateCube")
       i.fa.fa-cube
-    v-btn(icon, @click="createLink", :disabled="!canCreateCube")
+    v-btn(icon, @click="createBlock", :disabled="!canCreateCube")
       i.fa.fa-cubes
       //- v-icon.link link
     v-spacer
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { clone, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
+import { clone, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
@@ -132,12 +132,16 @@ export default {
     }
   },
   methods: {
-    createLink(){
+    createBlock(){
+      // Create cube
       let cube = clone(this.activeCube)
+      // Create block
+      let block = Block(cube)
       cube.link = true
-      // cube.links = [cube._id]
+      cube.links = [block._id]
       this.$store.dispatch('addCube', cube)
       this.watchCube(cube)
+      this.setCube(this.activeCube, block)
     },
     createCube(){
       this.$store.dispatch('addCube', clone(this.activeCube))
@@ -233,7 +237,9 @@ export default {
     }, 500),
     copy(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
-      this.clipboard = Clipboard(cloneDeep(this.activeCube))
+      let cube = cloneDeep(this.activeCube)
+      cube.link = false
+      this.clipboard = Clipboard(cube)
       console.log('copied');
     },
     cut(){
@@ -280,7 +286,12 @@ export default {
         // this.$router.push({ name: 'build', params: { id: p._id }})
         // await this.$store.dispatch('addPage', p)
       }
-      else this.cubes.push(cloneDeep(this.activeCube))
+      else {
+        let cube = cloneDeep(this.activeCube)
+        cube.link = false
+        this.cubes.push(cube)
+        console.log('duped');
+      }
     },
     trash(){
       if (!this.activeCube) return
@@ -297,6 +308,7 @@ export default {
     removeActiveCube(){
       if (this.activeCube.name == 'Page') return
       var remove = cubes => {
+        if (!cubes) return
         let index = cubes.indexOf(this.activeCube)
         if (index > -1){
           cubes.splice(index, 1)
@@ -311,6 +323,26 @@ export default {
         }
       }
       remove(this.cubes)
+    },
+    setCube(cube, newCube){
+      if (this.activeCube.name == 'Page') return
+      var set = cubes => {
+        let index = cubes.indexOf(cube)
+        if (index > -1){
+          this.$set(cubes, index, newCube)
+          this.activeCube = newCube
+        } else {
+          cubes.map(c => {
+            if (c.cubes && c.cubes.length > 0)
+              set(c.cubes)
+            // if (c.src){
+            //   set(this.$store.state.cubes[c.src].cubes)
+            // } else if (c.cubes && c.cubes.length > 0)
+            //   set(c.cubes)
+          })
+        }
+      }
+      set(this.cubes)
     },
     getStyles(cube){
       let styles = {}

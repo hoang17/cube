@@ -156,5 +156,4 @@ export default {
 
 .navigation-drawer--mini-variant
   margin-top 48px
-
 </style>
