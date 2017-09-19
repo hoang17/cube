@@ -341,7 +341,7 @@ export default {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
       this.clipboard = Clipboard(this.activeCube)
-      let c = Clipboard(this.activeCube, this.$store, true)
+      let c = Clipboard(this.activeCube, this.$store)
       // console.log(c);
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       e.preventDefault()
@@ -351,7 +351,7 @@ export default {
     document.addEventListener("cut", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
-      let c = Clipboard(this.activeCube, this.$store, true)
+      let c = Clipboard(this.activeCube, this.$store)
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       this.removeActiveCube()
       e.preventDefault()
