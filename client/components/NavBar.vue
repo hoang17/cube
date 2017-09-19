@@ -42,7 +42,7 @@
           i.fa(:class="cube.link?'fa-cubes':'fa-cube'")
         v-list-tile-content
           v-list-tile-title {{ cube.content }}
-            span.meta  {{ cube.link ? `${cube.linkCount} cubes` : '' }}
+            span.meta  {{ cube.link ? `${linkCount(cube)} cubes` : '' }}
         v-list-tile-action
           v-btn(icon, @click.stop="trash(cube)")
             i.fa.fa-trash-o
@@ -71,6 +71,7 @@ export default {
   computed: {
     ...mapGetters([
       'page',
+      'linkCount'
     ]),
     ...mapState([
       'newId',
@@ -103,8 +104,9 @@ export default {
     addCube(cube){
       let c = cube.link ? Block(cube) : clone(cube)
       if (cube.link) {
-        cube.linkCount++
-        this.$store.dispatch('updateCube', cube)
+        if (!this.page.blocks) this.page.blocks = {}
+        let count = this.page.blocks[cube._id]
+        this.$set(this.page.blocks, cube._id, count ? count+1 : 1)
       }
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
@@ -114,8 +116,9 @@ export default {
       // this.$store.commit('setActiveCube', c)
     },
     trash(cube){
-      if (cube.link && cube.linkCount > 0){
-        alert(`Can not delete this block because ${cube.linkCount} other cubes linked to it`)
+      let count = this.linkCount(cube)
+      if (cube.link && count > 0){
+        alert(`Can not delete this block because ${count} other cubes linked to it`)
       } else if (confirm("Do you want to delete this cube?")){
         this.$store.dispatch('removeCube', cube)
       }

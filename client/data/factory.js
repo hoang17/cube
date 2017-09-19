@@ -41,10 +41,14 @@ export function Clipboard(cube, styles = null, cubes = null){
   return { cube, styles, cubes, timestamp: Date.now() }
 }
 
-export function History(page){
+export function History(page, allCubes){
+  let cubes = {}
+  for (let i in page.blocks){
+    cubes[i] = cloneDeep(allCubes[i])
+  }
   return {
     index: 0,
-    stack:[{ page: cloneDeep(page), activeId: page._id }],
+    stack:[{ page: cloneDeep(page), activeId: page._id, cubes }],
     sid: page.sid,
   }
 }
@@ -62,6 +66,8 @@ export function Page(uid, host){
     content: 'New Page ✨',
     css: null,
     sid: NanoId(),
+    blocks: {},
+    styles: {},
     style: {
       color: null,
       display: null,

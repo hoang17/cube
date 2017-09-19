@@ -46,6 +46,7 @@
 import { clone, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -141,21 +142,25 @@ export default {
         let origin = this.$store.state.cubes[this.activeCube.src]
         let cube = clone(origin)
         cube.link = false
-        cube.linkCount = 0
         this.setCube(this.activeCube, cube)
-        origin.linkCount = origin.linkCount <= 0 ? 0 : origin.linkCount-1
-        this.$store.dispatch('updateCube', origin)
+
+        // UPDATE BLOCKS COUNT
+        let blocks = this.page.blocks
+        let id = origin._id
+        blocks[id]--
+        if (blocks[id] < 0) blocks[id] = 0
+        // END UPDATE
       } else {
         // Create cube
         let cube = clone(this.activeCube)
         // Create block
         let block = Block(cube)
         cube.link = true
-        cube.linkCount = 0
-        cube.linkCount++
         this.$store.dispatch('addCube', cube)
         this.watchCube(cube)
         this.setCube(this.activeCube, block)
+        if (!this.page.blocks) this.page.blocks = {}
+        this.$set(this.page.blocks, cube._id, 1)
       }
     },
     createCube(){
@@ -163,47 +168,81 @@ export default {
       cube.link = false
       this.$store.dispatch('addCube', cube)
     },
+    // snapshotCube(page, activeId) {
+    //   let h = this.histories[page._id]
+    //   h.stack[h.index].activeId = activeId
+    //   h.index++
+    //   h.stack.splice(h.index)
+    //   h.stack.push({ cube: cloneDeep(cube), activeId: activeId })
+    // },
     snapshot(page, activeId) {
+      let cubes = {}
+      for (let i in page.blocks){
+        cubes[i] = cloneDeep(this.$store.state.cubes[i])
+      }
       let h = this.histories[page._id]
-      h.stack[h.index].activeId = activeId
+      let snap = h.stack[h.index]
+      snap.activeId = activeId
+      if (!isEqual(snap.page, this.page)){
+        this.stopWatch()
+        page.sid = NanoId()
+        this.startWatch()
+      }
       h.index++
-      this.stopWatch()
-      page.sid = NanoId()
-      this.startWatch()
       h.stack.splice(h.index)
-      h.stack.push({ page: cloneDeep(page), activeId: activeId })
+      h.stack.push({ page: cloneDeep(page), activeId: activeId, cubes })
     },
-    undo() {
+    undo(){
       if (!this.canUndo) return
-      this.stopWatch()
       let h = this.history
       h.index--
       let snap = h.stack[h.index]
-      this.$store.commit('setPage', cloneDeep(snap.page))
-      this.activeCube = this.getActiveCube(snap.activeId)
-      this.startWatch()
-      this.autoSavePage(this.page)
+      this.loadSnap(snap)
     },
-    redo() {
+    redo(){
       if (!this.canRedo) return
-      this.stopWatch()
       let h = this.history
       h.index++
       let snap = h.stack[h.index]
-      this.$store.commit('setPage', cloneDeep(snap.page))
-      this.activeCube = this.getActiveCube(snap.activeId)
-      this.startWatch()
-      this.autoSavePage(this.page)
+      this.loadSnap(snap)
+    },
+    loadSnap(snap){
+      if (this.page.sid != snap.page.sid){
+        this.stopWatch()
+        this.$store.commit('setPage', cloneDeep(snap.page))
+        this.activeCube = this.getActiveCube(snap.activeId)
+        this.startWatch()
+        this.autoSavePage(this.page)
+      }
+
+      for (let i in snap.cubes){
+        if (!isEqual(snap.cubes[i], this.$store.state.cubes[i])){
+          let cube = cloneDeep(snap.cubes[i])
+          this.$store.commit('setCube', cube)
+          this.watchCube(cube)
+          this.saveCube(cube)
+        }
+      }
     },
     getActiveCube(id){
       if (this.page._id == id) return this.page
 
       var find = cubes => {
+        if (!cubes) return
         let r = cubes.find(e => e._id == id)
         if (r) return r
         for (let i in cubes){
           let c = cubes[i]
-          if (c.cubes && c.cubes.length > 0){
+          if (c.src){
+            let origin = this.$store.state.cubes[c.src]
+            if (origin._id == id)
+              return origin
+            else {
+              let cc = find(origin.cubes)
+              if (cc) return cc
+            }
+          }
+          else if (c.cubes && c.cubes.length > 0){
             let cc = find(c.cubes)
             if (cc) return cc
           }
@@ -230,13 +269,13 @@ export default {
       } else {
         await this.$store.dispatch('updatePage', page)
         this.history.sid = page.sid
-        // console.log('page updated');
+        console.log('page updated');
       }
     },
     startWatch(){
       if (this.stopWatchHandler) return
       this.stopWatchHandler = this.$store.watch(() => this.$store.state.pages, () => {
-        this.takeSnapshot(this.page, this.activeCube._id)
+        this.pagesChanged(this.page, this.activeCube._id)
       }, {deep: true})
     },
     stopWatch(){
@@ -245,7 +284,7 @@ export default {
         this.stopWatchHandler = null
       }
     },
-    takeSnapshot: debounce(function(page, activeId) {
+    pagesChanged: debounce(function(page, activeId) {
       this.snapshot(page, activeId)
       this.savePage(page)
     }, 500),
@@ -333,19 +372,21 @@ export default {
           this.activeCube = this.page
         } else {
           cubes.map(c => {
-            if (c.src){
+            if (c.src)
               remove(this.$store.state.cubes[c.src].cubes)
-            } else if (c.cubes && c.cubes.length > 0)
+            else if (c.cubes && c.cubes.length > 0)
               remove(c.cubes)
           })
         }
       }
-
+      // UPDATE BLOCKS COUNT
       if (this.activeCube.name == "Block"){
-        let origin = this.$store.state.cubes[this.activeCube.src]
-        origin.linkCount = origin.linkCount <= 0 ? 0 : origin.linkCount-1
-        this.$store.dispatch('updateCube', origin)
+        let blocks = this.page.blocks
+        let id = this.activeCube.src
+        blocks[id]--
+        if (blocks[id] < 0) blocks[id] = 0
       }
+      // END UPDATE
       remove(this.cubes)
     },
     setCube(cube, newCube){
@@ -401,6 +442,7 @@ export default {
       return Object.keys(blocks).length == 0 ? null : blocks
     },
     cubeChanged: debounce(function(val) {
+      this.snapshot(this.page, this.activeCube._id)
       this.saveCube(val)
     }, 500),
     startCubesWatch(){
