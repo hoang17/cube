@@ -467,7 +467,7 @@ export default {
     },
     async saveCube(cube){
       await this.$store.dispatch('updateCube', cube)
-      console.log('cube saved');
+      console.log('cube updated');
     },
     styleChanged: debounce(function(val) {
       this.snapshot(this.page, this.activeCube._id)
@@ -485,7 +485,7 @@ export default {
     },
     async saveStyle(style){
       await this.$store.dispatch('updateStyle', style)
-      console.log('style saved');
+      console.log('style updated');
     },
   },
   mounted() {
