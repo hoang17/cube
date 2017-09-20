@@ -444,20 +444,31 @@ export default {
     },
     getStyles(cube){
       let styles = {}
+      let ss = this.$store.state.styles
+      if (cube.css && ss[cube.css]) styles[cube.css] = ss[cube.css]
+
       var getcss = cubes => {
         if (!cubes) return
         cubes.map(c => {
-          if (c.css && s[c.css]) styles[c.css] = s[c.css]
+          if (c.css && ss[c.css]) styles[c.css] = ss[c.css]
           getcss(c.cubes)
         })
       }
-      let s = this.$store.state.styles
-      if (cube.css && s[cube.css]) styles[cube.css] = s[cube.css]
-      getcss(cube.cubes)
+
+      if (cube.src){
+        let s = this.$store.state.cubes[cube.src]
+        if (s.css && ss[s.css]) styles[s.css] = ss[s.css]
+        getcss(s.cubes)
+      }
+      else getcss(cube.cubes)
       return Object.keys(styles).length == 0 ? null : styles
     },
     getCubes(cube){
       let blocks = {}
+      let s = this.$store.state.cubes
+      let id = cube.src
+      if (id && s[id]) blocks[id] = s[id]
+
       var getBlocks = cubes => {
         if (!cubes) return
         cubes.map(c => {
@@ -466,9 +477,6 @@ export default {
           getBlocks(c.cubes)
         })
       }
-      let s = this.$store.state.cubes
-      let id = cube.src
-      if (id && s[id]) blocks[id] = s[id]
       getBlocks(cube.cubes)
       return Object.keys(blocks).length == 0 ? null : blocks
     },
