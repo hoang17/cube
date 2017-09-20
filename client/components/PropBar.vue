@@ -103,10 +103,10 @@ export default {
       }
       if (this.cubeCss){
         let old = this.cubeCss
-        if (!this.page.styles[old]) this.page.styles[old] = 0
-        else {
+        if (this.page.styles[old]){
           this.page.styles[old]--
-          if (this.page.styles[old] < 0) this.page.styles[old] = 0
+          if (this.page.styles[old] <= 0)
+            this.$delete(this.page.styles, old)
         }
       }
     },

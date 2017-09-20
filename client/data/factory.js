@@ -44,7 +44,8 @@ export function Clipboard(cube, styles = null, cubes = null){
 export function getPageCubes(page, state){
   let cubes = {}
   for (let i in page.blocks){
-    cubes[i] = cloneDeep(state.cubes[i])
+    if (state.cubes[i])
+      cubes[i] = cloneDeep(state.cubes[i])
   }
   return cubes
 }
@@ -52,10 +53,32 @@ export function getPageCubes(page, state){
 export function getPageStyles(page, state){
   let styles = {}
   for (let i in page.styles){
-    styles[i] = cloneDeep(state.styles[i])
+    if (state.styles[i])
+      styles[i] = cloneDeep(state.styles[i])
   }
   return styles
 }
+
+export function getCubeStyles(cube){
+  let styles = {}
+  var getStyles = cubes => {
+    if (!cubes) return
+    for (let i in cubes){
+      let c = cubes[i]
+      if (c.css){
+        if (styles[c.css]) styles[c.css]++
+        else styles[c.css] = 1
+      }
+      if (c.cubes && c.cubes.length > 0)
+        getStyles(c.cubes)
+    }
+  }
+  if (cube.css)
+    styles[cube.css] = 1
+  getStyles(cube.cubes)
+  return styles
+}
+
 
 export function History(page, state){
   let cubes = getPageCubes(page, state)

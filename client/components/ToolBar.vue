@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { clone, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
+import { clone, getCubeStyles, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
@@ -146,10 +146,10 @@ export default {
         this.setCube(this.activeCube, cube)
 
         // UPDATE BLOCKS COUNT
-        let blocks = this.page.blocks
-        let id = origin._id
-        blocks[id]--
-        if (blocks[id] < 0) blocks[id] = 0
+        let i = origin._id
+        this.page.blocks[i]--
+        if (this.page.blocks[i] <= 0)
+          this.$delete(this.page.blocks, i)
         // END UPDATE
       } else {
         // Create cube
@@ -161,7 +161,7 @@ export default {
         this.watchCube(cube)
         this.setCube(this.activeCube, block)
         // UPDATE BLOCKS COUNT
-        if (!this.page.blocks) this.page.blocks = {}
+        // if (!this.page.blocks) this.page.blocks = {}
         this.$set(this.page.blocks, cube._id, 1)
         // END UPDATE
       }
@@ -390,10 +390,18 @@ export default {
       }
       // UPDATE BLOCKS COUNT
       if (this.activeCube.name == "Block"){
-        let blocks = this.page.blocks
-        let id = this.activeCube.src
-        blocks[id]--
-        if (blocks[id] < 0) blocks[id] = 0
+        let i = this.activeCube.src
+        this.page.blocks[i]--
+        if (this.page.blocks[i] <= 0)
+          this.$delete(this.page.blocks, i)
+      }
+      // UPDATE CSS COUNT
+      let styles = getCubeStyles(this.activeCube)
+      for (let i in styles){
+        let count = this.page.styles[i]
+        this.$set(this.page.styles, i, count ? count-styles[i] : 0)
+        if (this.page.styles[i] <= 0)
+          this.$delete(this.page.styles, i)
       }
       // END UPDATE
       remove(this.cubes)
