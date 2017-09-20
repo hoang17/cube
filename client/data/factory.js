@@ -41,14 +41,28 @@ export function Clipboard(cube, styles = null, cubes = null){
   return { cube, styles, cubes, timestamp: Date.now() }
 }
 
-export function History(page, allCubes){
+export function getPageCubes(page, state){
   let cubes = {}
   for (let i in page.blocks){
-    cubes[i] = cloneDeep(allCubes[i])
+    cubes[i] = cloneDeep(state.cubes[i])
   }
+  return cubes
+}
+
+export function getPageStyles(page, state){
+  let styles = {}
+  for (let i in page.styles){
+    styles[i] = cloneDeep(state.styles[i])
+  }
+  return styles
+}
+
+export function History(page, state){
+  let cubes = getPageCubes(page, state)
+  let styles = getPageStyles(page, state)
   return {
     index: 0,
-    stack:[{ page: cloneDeep(page), activeId: page._id, cubes }],
+    stack:[{ page: cloneDeep(page), activeId: page._id, cubes, styles }],
     sid: page.sid,
   }
 }

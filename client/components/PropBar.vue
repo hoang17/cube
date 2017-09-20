@@ -1,18 +1,8 @@
 <template lang="pug">
   v-navigation-drawer.propbar(persistent, absolute, overflow, right, enable-resize-watcher, v-model='drawer.right')
-    //- .action
-      v-btn(primary, dark, @click="done") Done
-      v-btn(icon, @click='saveStyle')
-        v-icon save
-      v-btn(icon, @click="remove")
-        v-icon delete
-
     v-expansion-panel(expand)
       v-expansion-panel-content(:value="true")
         div(slot='header') {{ cube.name }}
-        //- .action
-        //-   v-btn(icon, @click="remove")
-        //-     v-icon delete
         v-card
           v-card-text
             component(:cube="cube", :is="cube.type + '-pane'", @keydown.native.enter.stop="")
@@ -37,28 +27,17 @@
             //- v-chip(small, outline) inline
             //- v-chip.green.white--text(small, @click="addStyle") + add new style
 
-            select(v-model="cube.css")
+            select(v-model="cube.css", @change="cssChanged", @focus="cssFocus")
               option(selected, :value="null") inline
               option(v-for='s in styles', :value="s._id") {{ s.name }}
 
             style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
-      //- v-expansion-panel-content
-      //-   //- div(slot='header') {{ styleName }} style
-      //-   div(slot='header')
-      //-     v-chip(small, outline)  {{ styleName }}
-      //-   .action
-      //-     //- v-btn(icon, @click='saveStyle')
-      //-     //-   v-icon save
-      //-     v-btn(icon, @click="removeStyle")
-      //-       v-icon delete
-      //-   v-card
-      //-     v-card-text.pt-0
-      //-       style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
 </template>
 <script>
 import StyleBar from './StyleBar'
 import { Style } from '../data/factory'
 import debounce from 'lodash/debounce'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   props: ['cube', 'drawer'],
@@ -67,14 +46,18 @@ export default {
   },
   data () {
     return {
+      cubeCss: null,
     }
   },
   computed: {
+    ...mapGetters([
+      'page'
+    ]),
+    ...mapState([
+      'styles',
+    ]),
     rule(){
       return this.style ? this.style.style : this.cube.style
-    },
-    styles(){
-      return this.$store.state.styles
     },
     style(){
       return this.styles[this.cube.css]
@@ -82,23 +65,50 @@ export default {
     styleName(){
       return this.style ? this.style.name : 'inline'
     },
+    css(){
+      return this.cube.css
+    }
   },
-  mounted() {
-    this.startWatch()
-  },
+  // mounted() {
+  //   this.startWatch()
+  // },
   methods: {
-    styleChanged: debounce(function(val) {
-      this.saveStyle(val)
-    }, 500),
-    startWatch(){
-      for (let i in this.styles){
-        this.watchStyle(this.styles[i])
-      }
+    // styleChanged: debounce(function(val) {
+    //   this.saveStyle(val)
+    // }, 500),
+    // startWatch(){
+    //   for (let i in this.styles){
+    //     this.watchStyle(this.styles[i])
+    //   }
+    // },
+    // watchStyle(style){
+    //   this.$store.watch(() => style, (val, old) => {
+    //     this.styleChanged(val)
+    //   }, {deep: true})
+    // },
+    // async saveStyle(style){
+    //   await this.$store.dispatch('updateStyle', style)
+    //   console.log('style saved');
+    // },
+    cssFocus(){
+      this.cubeCss = this.cube.css
     },
-    watchStyle(style){
-      this.$store.watch(() => style, (val, old) => {
-        this.styleChanged(val)
-      }, {deep: true})
+    cssChanged(){
+      if (!this.page.styles)
+        this.$set(this.page, 'styles', {})
+      let css = this.cube.css
+      if (css){
+        let count = this.page.styles[css]
+        this.$set(this.page.styles, css, count ? count+1 : 1)
+      }
+      if (this.cubeCss){
+        let old = this.cubeCss
+        if (!this.page.styles[old]) this.page.styles[old] = 0
+        else {
+          this.page.styles[old]--
+          if (this.page.styles[old] < 0) this.page.styles[old] = 0
+        }
+      }
     },
     async addStyle(){
       var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
@@ -108,14 +118,15 @@ export default {
         this.watchStyle(style)
         this.cube.css = style._id
         console.log('style created');
+
+        if (!this.page.styles)
+          this.$set(this.page, 'styles', {})
+        let count = this.page.styles[style._id]
+        this.$set(this.page.styles, style._id, count ? count+1 : 1)
       }
     },
-    async saveStyle(style){
-      await this.$store.dispatch('updateStyle', style)
-      console.log('style saved');
-    },
     async removeStyle(){
-      if (this.style){
+      if (this.style && confirm('Do you want to delete this style?')){
         await this.$store.dispatch('removeStyle', this.style)
         this.cube.css = null
       }

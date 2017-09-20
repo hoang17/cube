@@ -112,7 +112,7 @@ export function createStore () {
         for (let i in state.pages){
           let p = state.pages[i]
           state.routes[p.url] = i
-          let history = History(p, state.cubes)
+          let history = History(p, state)
           Vue.set(state.histories, i, history)
         }
         commit('addNewPage')
@@ -138,7 +138,7 @@ export function createStore () {
         let page = Page(state.user._id, state.host)
         state.newId = page._id
         Vue.set(state.pages, page._id, page)
-        Vue.set(state.histories, page._id, History(page, state.cubes))
+        Vue.set(state.histories, page._id, History(page, state))
       },
       setPage(state, page) {
         state.pageId = page._id
@@ -147,10 +147,13 @@ export function createStore () {
       setCube(state, cube) {
         Vue.set(state.cubes, cube._id, cube)
       },
+      setStyle(state, style) {
+        Vue.set(state.styles, style._id, style)
+      },
       setNewPage(state, page){
         state.pageId = page._id
         Vue.set(state.pages, state.pageId, page)
-        Vue.set(state.histories, page._id, History(page, state.cubes))
+        Vue.set(state.histories, page._id, History(page, state))
       },
       setCubes(state, cubes) {
         state.pages[state.pageId].cubes = cubes

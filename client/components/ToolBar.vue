@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { clone, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
+import { clone, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
@@ -79,6 +79,7 @@ export default {
       'newId',
       'pageId',
       'histories',
+      'styles',
     ]),
     ...mapState({
       history (state) {
@@ -159,8 +160,10 @@ export default {
         this.$store.dispatch('addCube', cube)
         this.watchCube(cube)
         this.setCube(this.activeCube, block)
+        // UPDATE BLOCKS COUNT
         if (!this.page.blocks) this.page.blocks = {}
         this.$set(this.page.blocks, cube._id, 1)
+        // END UPDATE
       }
     },
     createCube(){
@@ -169,10 +172,10 @@ export default {
       this.$store.dispatch('addCube', cube)
     },
     snapshot(page, activeId) {
-      let cubes = {}
-      for (let i in page.blocks){
-        cubes[i] = cloneDeep(this.$store.state.cubes[i])
-      }
+      let state = this.$store.state
+      let cubes = getPageCubes(page, state)
+      let styles = getPageStyles(page, state)
+
       let h = this.histories[page._id]
       let snap = h.stack[h.index]
       snap.activeId = activeId
@@ -183,7 +186,7 @@ export default {
       }
       h.index++
       h.stack.splice(h.index)
-      h.stack.push({ page: cloneDeep(page), activeId: activeId, cubes })
+      h.stack.push({ page: cloneDeep(page), activeId: activeId, cubes, styles })
     },
     undo(){
       if (!this.canUndo) return
@@ -212,6 +215,14 @@ export default {
           this.$store.commit('setCube', cube)
           this.watchCube(cube)
           this.autoSaveCube(cube)
+        }
+      }
+      for (let i in snap.styles){
+        if (!isEqual(snap.styles[i], this.styles[i])){
+          let style = cloneDeep(snap.styles[i])
+          this.$store.commit('setStyle', style)
+          this.watchStyle(style)
+          this.autoSaveStyle(style)
         }
       }
       this.activeCube = this.getActiveCube(snap.activeId)
@@ -285,6 +296,9 @@ export default {
     }, 500),
     autoSaveCube: debounce(function(cube) {
       this.saveCube(cube)
+    }, 500),
+    autoSaveStyle: debounce(function(style) {
+      this.saveStyle(style)
     }, 500),
     copy(){
       if (!this.activeCube || this.activeCube.name == 'Page') return
@@ -455,12 +469,31 @@ export default {
       await this.$store.dispatch('updateCube', cube)
       console.log('cube saved');
     },
+    styleChanged: debounce(function(val) {
+      this.snapshot(this.page, this.activeCube._id)
+      this.saveStyle(val)
+    }, 500),
+    startStylesWatch(){
+      for (let i in this.styles){
+        this.watchStyle(this.styles[i])
+      }
+    },
+    watchStyle(style){
+      this.$store.watch(() => style, (val, old) => {
+        this.styleChanged(val)
+      }, {deep: true})
+    },
+    async saveStyle(style){
+      await this.$store.dispatch('updateStyle', style)
+      console.log('style saved');
+    },
   },
   mounted() {
     if (this.stopWatchHandler) return
 
     this.startWatch()
     this.startCubesWatch()
+    this.startStylesWatch()
 
     document.addEventListener("copy", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
