@@ -59,7 +59,8 @@ export function getPageStyles(page, state){
   return styles
 }
 
-export function getCubeStyles(cube){
+// GET ALL STYLES FROM A CUBE
+export function getCubeStyles(cube, cubes){
   let styles = {}
   var getStyles = cubes => {
     if (!cubes) return
@@ -69,16 +70,54 @@ export function getCubeStyles(cube){
         if (styles[c.css]) styles[c.css]++
         else styles[c.css] = 1
       }
-      if (c.cubes && c.cubes.length > 0)
-        getStyles(c.cubes)
+      if (c.src){
+        let s = cubes[c.src]
+        if (s.css){
+          if (styles[s.css]) styles[s.css]++
+          else styles[s.css] = 1
+        }
+        getStyles(s.cubes)
+      }
+      else getStyles(c.cubes)
     }
   }
+
   if (cube.css)
     styles[cube.css] = 1
-  getStyles(cube.cubes)
+
+  if (cube.src){
+    let s = cubes[cube.src]
+    if (s.css){
+      if (styles[s.css]) styles[s.css]++
+      else styles[s.css] = 1
+    }
+    getStyles(s.cubes)
+  }
+  else getStyles(cube.cubes)
+
   return styles
 }
 
+// GET ALL BLOCKS FROM A CUBE
+export function getCubeBlocks(cube){
+  let blocks = {}
+  var getBlocks = cubes => {
+    if (!cubes) return
+    for (let i in cubes){
+      let c = cubes[i]
+      if (c.src){
+        if (blocks[c.src]) blocks[c.src]++
+        else blocks[c.src] = 1
+      }
+      if (c.cubes && c.cubes.length > 0)
+        getBlocks(c.cubes)
+    }
+  }
+  if (cube.src)
+    blocks[cube.src] = 1
+  getBlocks(cube.cubes)
+  return blocks
+}
 
 export function History(page, state){
   let cubes = getPageCubes(page, state)

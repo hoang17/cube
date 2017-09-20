@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { clone, getCubeStyles, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
+import { clone, getCubeStyles, getCubeBlocks, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
@@ -316,6 +316,16 @@ export default {
     paste(){
       if (!this.activeCube || !this.clipboard) return
       let c = clone(this.clipboard.cube)
+      let styles = getCubeStyles(c, this.$store.state.cubes)
+      for (let i in styles){
+        let count = this.page.styles[i]
+        this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
+      }
+      let blocks = getCubeBlocks(c)
+      for (let i in blocks){
+        let count = this.page.blocks[i]
+        this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
+      }
       if (this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
@@ -396,7 +406,7 @@ export default {
           this.$delete(this.page.blocks, i)
       }
       // UPDATE CSS COUNT
-      let styles = getCubeStyles(this.activeCube)
+      let styles = getCubeStyles(this.activeCube, this.$store.state.cubes)
       for (let i in styles){
         let count = this.page.styles[i]
         this.$set(this.page.styles, i, count ? count-styles[i] : 0)
@@ -428,9 +438,6 @@ export default {
     },
     getStyles(cube){
       let styles = {}
-      let s = this.$store.state.styles
-      if (cube.css && s[cube.css]) styles[cube.css] = s[cube.css]
-
       var getcss = cubes => {
         if (!cubes) return
         cubes.map(c => {
@@ -438,15 +445,13 @@ export default {
           getcss(c.cubes)
         })
       }
+      let s = this.$store.state.styles
+      if (cube.css && s[cube.css]) styles[cube.css] = s[cube.css]
       getcss(cube.cubes)
       return Object.keys(styles).length == 0 ? null : styles
     },
     getCubes(cube){
       let blocks = {}
-      let s = this.$store.state.cubes
-      let id = cube.src
-      if (id && s[id]) blocks[id] = s[id]
-
       var getBlocks = cubes => {
         if (!cubes) return
         cubes.map(c => {
@@ -455,6 +460,9 @@ export default {
           getBlocks(c.cubes)
         })
       }
+      let s = this.$store.state.cubes
+      let id = cube.src
+      if (id && s[id]) blocks[id] = s[id]
       getBlocks(cube.cubes)
       return Object.keys(blocks).length == 0 ? null : blocks
     },
@@ -528,14 +536,30 @@ export default {
       try {
         var clipboardData = e.clipboardData || window.clipboardData
         var s = clipboardData.getData('Text')
-        var c = JSON.parse(s);
+        var c = JSON.parse(s)
         if (c.styles){
+          // ADD NEW STYLES TO DB
           this.$store.dispatch('addStyles', c.styles)
         }
         if (c.cubes){
+          // ADD NEW CUBES TO DB
           this.$store.dispatch('addCubes', c.cubes)
         }
-        // console.log(c);
+
+        // UPDATE STYLES COUNT
+        let styles = getCubeStyles(c.cube, this.$store.state.cubes)
+        console.log(styles);
+        for (let i in styles){
+          let count = this.page.styles[i]
+          this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
+        }
+        // UPDATE BLOCKS COUNT
+        let blocks = getCubeBlocks(c.cube)
+        for (let i in blocks){
+          let count = this.page.blocks[i]
+          this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
+        }
+
         if (c.cube.name == 'Page'){
           this.dupPage(clone(c.cube))
         }

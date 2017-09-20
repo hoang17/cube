@@ -8,25 +8,6 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 const pagesCo = db.get('pages')
 const cubesCo = db.get('cubes')
 
-// async function saveCubes(){
-//
-//   var flat = cc => {
-//     cc.map(cube => {
-//       let c = cloneDeep(cube)
-//       c._id = ObjectId()
-//       delete c.cubes
-//       cubesCo.insert(c)
-//       if (cube.cubes)
-//         flat(cube.cubes)
-//     })
-//   }
-//
-//   let pp = await pagesCo.find()
-//   pp.map(page => {
-//     flat(page.cubes)
-//   })
-// }
-
 function getPageBlocks(p){
   let blocks = {}
   var getBlocks = cubes => {

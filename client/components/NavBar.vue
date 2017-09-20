@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { clone, getCubeStyles, Block } from '../data/factory'
+import { clone, getCubeStyles, getCubeBlocks, Block } from '../data/factory'
 import * as baseCubes from '../data/cubes'
 import { mapState, mapGetters } from 'vuex'
 
@@ -108,12 +108,22 @@ export default {
         // if (!this.page.blocks) this.page.blocks = {}
         let count = this.page.blocks[cube._id]
         this.$set(this.page.blocks, cube._id, count ? count+1 : 1)
+      } else {
+        // UPDATE BLOCKS COUNT
+        let blocks = getCubeBlocks(cube)
+        for (let i in blocks){
+          let count = this.page.blocks[i]
+          this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
+        }
       }
-      let styles = getCubeStyles(cube)
+      // UPDATE STYLES COUNT
+      let styles = getCubeStyles(cube, this.$store.state.cubes)
+      console.log(styles);
       for (let i in styles){
         let count = this.page.styles[i]
         this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
       }
+      // END UPDATE
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
