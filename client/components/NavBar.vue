@@ -103,18 +103,12 @@ export default {
     },
     addCube(cube){
       let c = cube.link ? Block(cube) : clone(cube)
-      if (cube.link) {
-        // UPDATE BLOCKS COUNT
-        // if (!this.page.blocks) this.page.blocks = {}
-        let count = this.page.blocks[cube._id]
-        this.$set(this.page.blocks, cube._id, count ? count+1 : 1)
-      } else {
-        // UPDATE BLOCKS COUNT
-        let blocks = getCubeBlocks(cube)
-        for (let i in blocks){
-          let count = this.page.blocks[i]
-          this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
-        }
+
+      // UPDATE BLOCKS COUNT
+      let blocks = getCubeBlocks(cube)
+      for (let i in blocks){
+        let count = this.page.blocks[i]
+        this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
       }
       // UPDATE STYLES COUNT
       let styles = getCubeStyles(cube, this.$store.state.cubes)
@@ -124,6 +118,7 @@ export default {
         this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
       }
       // END UPDATE
+
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {

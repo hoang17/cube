@@ -1,7 +1,7 @@
-import { ObjectId } from './factory'
+// import { ObjectId } from './factory'
 
 export const text = {
-  _id: ObjectId(),
+  _id: null,
   type: 'tx',
   name: 'Text',
   content: 'New text',
@@ -24,7 +24,7 @@ export const text = {
 }
 
 export const link = {
-  _id: ObjectId(),
+  _id: null,
   type: 'lnk',
   name: 'Link',
   content: 'Link',
@@ -50,7 +50,7 @@ export const link = {
 }
 
 export const button = {
-  _id: ObjectId(),
+  _id: null,
   type: 'btn',
   name: 'Button',
   content: 'Button',
@@ -75,7 +75,7 @@ export const button = {
 }
 
 export const container = {
-  _id: ObjectId(),
+  _id: null,
   type: 'container',
   name: 'Container',
   content: 'Container',
@@ -110,7 +110,7 @@ export const container = {
 }
 
 export const navigation = {
-  _id: ObjectId(),
+  _id: null,
   type: 'na',
   name: 'Navigation',
   content: 'Navigation',

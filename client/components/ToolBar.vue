@@ -316,16 +316,21 @@ export default {
     paste(){
       if (!this.activeCube || !this.clipboard) return
       let c = clone(this.clipboard.cube)
+
+      // UPDATE STYLES COUNT
       let styles = getCubeStyles(c, this.$store.state.cubes)
       for (let i in styles){
         let count = this.page.styles[i]
         this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
       }
+      // UPDATE BLOCKS COUNT
       let blocks = getCubeBlocks(c)
       for (let i in blocks){
         let count = this.page.blocks[i]
         this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
       }
+      // END UPDATE
+
       if (this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
@@ -407,6 +412,7 @@ export default {
       }
       // UPDATE CSS COUNT
       let styles = getCubeStyles(this.activeCube, this.$store.state.cubes)
+      console.log(styles);
       for (let i in styles){
         let count = this.page.styles[i]
         this.$set(this.page.styles, i, count ? count-styles[i] : 0)
