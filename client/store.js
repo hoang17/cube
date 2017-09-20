@@ -168,11 +168,20 @@ export function createStore () {
         let count = 0
         for (let i in state.pages){
           let p = state.pages[i]
-          if (p.blocks && p.blocks[cube._id])
+          if (p.blocks[cube._id])
             count+=p.blocks[cube._id]
         }
         return count
-      }
+      },
+      styleCount: state => style => {
+        let count = 0
+        for (let i in state.pages){
+          let p = state.pages[i]
+          if (p.styles[style._id])
+            count+=p.styles[style._id]
+        }
+        return count
+      },
     }
   })
 }

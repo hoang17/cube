@@ -14,7 +14,7 @@
         .action
           v-btn(icon, @click="addStyle", title="Add new style")
             i.fa.fa-file-o
-          v-btn(icon, @click="removeStyle", title="Delete style")
+          v-btn(icon, @click="removeStyle", title="Delete style", :disabled="!cube.css || styleCount(style) > 1")
             i.fa.fa-trash-o
         v-card
           v-card-text
@@ -27,9 +27,9 @@
             //- v-chip(small, outline) inline
             //- v-chip.green.white--text(small, @click="addStyle") + add new style
 
-            select(v-model="cube.css", @change="cssChanged", @focus="cssFocus")
+            select(v-model="cube.css", @change="cssChanged", @click="cssFocus")
               option(selected, :value="null") inline
-              option(v-for='s in styles', :value="s._id") {{ s.name }}
+              option(v-for='s in styles', :value="s._id") {{ s.name }} ({{ styleCount(s) }})
 
             style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
 </template>
@@ -51,7 +51,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'page'
+      'page',
+      'styleCount'
     ]),
     ...mapState([
       'styles',
@@ -94,8 +95,6 @@ export default {
       this.cubeCss = this.cube.css
     },
     cssChanged(){
-      if (!this.page.styles)
-        this.$set(this.page, 'styles', {})
       let css = this.cube.css
       if (css){
         let count = this.page.styles[css]
@@ -119,14 +118,19 @@ export default {
         this.cube.css = style._id
         console.log('style created');
 
-        if (!this.page.styles)
-          this.$set(this.page, 'styles', {})
         let count = this.page.styles[style._id]
         this.$set(this.page.styles, style._id, count ? count+1 : 1)
       }
     },
     async removeStyle(){
-      if (this.style && confirm('Do you want to delete this style?')){
+      if (!this.style) return
+
+      let count = this.styleCount(this.style)
+      if (count > 1){
+        alert(`Can not delete this style because ${count} cubes are using it`)
+      }
+      else if (this.style && confirm('Do you want to delete this style?')){
+        this.$delete(this.page.styles, this.cube.css)
         await this.$store.dispatch('removeStyle', this.style)
         this.cube.css = null
       }
