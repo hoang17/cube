@@ -174,6 +174,7 @@ export function createStore () {
         return count
       },
       styleCount: state => style => {
+        if (!style) return 0
         let count = 0
         for (let i in state.pages){
           let p = state.pages[i]

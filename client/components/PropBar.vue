@@ -14,7 +14,7 @@
         .action
           v-btn(icon, @click="addStyle", title="Add new style")
             i.fa.fa-file-o
-          v-btn(icon, @click="removeStyle", title="Delete style", :disabled="!cube.css || styleCount(style) > 1")
+          v-btn(icon, @click="removeStyle", title="Delete style", :disabled="!style || styleCount(style) > 1")
             i.fa.fa-trash-o
         v-card
           v-card-text
@@ -35,7 +35,7 @@
 </template>
 <script>
 import StyleBar from './StyleBar'
-import { Style } from '../data/factory'
+import { bus, Style } from '../data/factory'
 import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
 
@@ -70,27 +70,7 @@ export default {
       return this.cube.css
     }
   },
-  // mounted() {
-  //   this.startWatch()
-  // },
   methods: {
-    // styleChanged: debounce(function(val) {
-    //   this.saveStyle(val)
-    // }, 500),
-    // startWatch(){
-    //   for (let i in this.styles){
-    //     this.watchStyle(this.styles[i])
-    //   }
-    // },
-    // watchStyle(style){
-    //   this.$store.watch(() => style, (val, old) => {
-    //     this.styleChanged(val)
-    //   }, {deep: true})
-    // },
-    // async saveStyle(style){
-    //   await this.$store.dispatch('updateStyle', style)
-    //   console.log('style saved');
-    // },
     cssFocus(){
       this.cubeCss = this.cube.css
     },
@@ -113,10 +93,11 @@ export default {
       var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
       if (name) {
         let style = Style(name)
+        style.style = this.cube.style
         await this.$store.dispatch('addStyle', style)
-        this.watchStyle(style)
         this.cube.css = style._id
         console.log('style created');
+        bus.$emit('watchStyle', style)
 
         let count = this.page.styles[style._id]
         this.$set(this.page.styles, style._id, count ? count+1 : 1)

@@ -1,6 +1,9 @@
 import generate from 'nanoid/generate'
 import cloneDeep  from 'lodash/cloneDeep'
 import reduce  from 'lodash/reduce'
+import Vue from 'vue'
+
+export const bus = new Vue()
 
 export const NanoId = (length = 10) => generate('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
 
@@ -168,7 +171,6 @@ export function Style(name){
     name: name,
     style: {
       color: null,
-      display: null,
       width: null,
       height: null,
       fontFamily: null,
@@ -180,12 +182,17 @@ export function Style(name){
       textAlign: null,
       padding: null,
       margin: null,
-      border: null,
-      borderRadius: null,
+      display: null,
       minWidth: null,
       minHeight: null,
       maxWidth: null,
       maxHeight: null,
+      border: null,
+      borderRadius: null,
+      transform: null,
+      background: null,
+      flex: null,
+      flexFlow: null
     },
   }
 }

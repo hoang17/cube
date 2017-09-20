@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { clone, getCubeStyles, getCubeBlocks, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
+import { bus, clone, getCubeStyles, getCubeBlocks, getPageCubes, getPageStyles, Block, ObjectId, NanoId, NanoSlug, Clipboard } from '../data/factory'
 import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
@@ -516,6 +516,10 @@ export default {
     this.startWatch()
     this.startCubesWatch()
     this.startStylesWatch()
+
+    bus.$on('watchStyle', style => {
+      this.watchStyle(style)
+    })
 
     document.addEventListener("copy", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
