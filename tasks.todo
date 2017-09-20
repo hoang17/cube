@@ -21,7 +21,6 @@ TODO:
 ✔ Toggle link/unlink cube block @done(2017-09-19 13:49)
 ✔ Disallow deleting Block if links > 0 @done(2017-09-19 15:15)
 ✔ Undo/redo style, block editing @done(2017-09-20 15:01)
-☐ Unify style
 ☐ Fetch pages by user id
 ☐ Form
 ☐ Photo

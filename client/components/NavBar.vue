@@ -29,7 +29,7 @@
             i.fa.fa-trash
 
       v-divider.my-2(dark)
-      v-list-tile(:key='i', @click="addCube(cube)", v-for='(cube, i) in baseCubes')
+      v-list-tile(:key='i', @click="addBaseCube(cube)", v-for='(cube, i) in baseCubes')
         v-list-tile-action
           //- v-icon add
           i.fa.fa-sticky-note-o
@@ -101,18 +101,25 @@ export default {
       let id = page ? page._id : null
       this.$router.push({ name: 'build', params: { id: id }})
     },
+    addBaseCube(cube){
+      let c = clone(cube)
+      if (this.activeCube && this.activeCube.cubes){
+        this.activeCube.cubes.push(c)
+      } else {
+        this.page.cubes.push(c)
+      }
+    },
     addCube(cube){
       let c = cube.link ? Block(cube) : clone(cube)
 
       // UPDATE BLOCKS COUNT
-      let blocks = getCubeBlocks(cube)
+      let blocks = getCubeBlocks(c)
       for (let i in blocks){
         let count = this.page.blocks[i]
         this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
       }
       // UPDATE STYLES COUNT
       let styles = getCubeStyles(cube, this.$store.state.cubes)
-      // console.log(styles);
       for (let i in styles){
         let count = this.page.styles[i]
         this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
