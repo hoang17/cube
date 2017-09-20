@@ -112,7 +112,7 @@ export default {
       }
       // UPDATE STYLES COUNT
       let styles = getCubeStyles(cube, this.$store.state.cubes)
-      console.log(styles);
+      // console.log(styles);
       for (let i in styles){
         let count = this.page.styles[i]
         this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
