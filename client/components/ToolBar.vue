@@ -404,9 +404,10 @@ export default {
         }
       }
       // UPDATE BLOCKS COUNT
-      if (this.activeCube.name == "Block"){
-        let i = this.activeCube.src
-        this.page.blocks[i]--
+      let blocks = getCubeBlocks(this.activeCube)
+      for (let i in blocks){
+        let count = this.page.blocks[i]
+        this.$set(this.page.blocks, i, count ? count-blocks[i] : 0)
         if (this.page.blocks[i] <= 0)
           this.$delete(this.page.blocks, i)
       }
@@ -571,27 +572,30 @@ export default {
           this.$store.dispatch('addCubes', c.cubes)
         }
 
-        // UPDATE STYLES COUNT
-        let styles = getCubeStyles(cube, c.cubes)
-        for (let i in styles){
-          let count = this.page.styles[i]
-          this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
-        }
-
-        // UPDATE BLOCKS COUNT
-        let blocks = getCubeBlocks(cube)
-        for (let i in blocks){
-          let count = this.page.blocks[i]
-          this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
-        }
-
         if (cube.name == 'Page'){
           this.dupPage(cube)
         }
-        else if (this.activeCube.cubes){
-          this.activeCube.cubes.push(cube)
-        } else {
-          this.cubes.push(cube)
+        else{
+          // UPDATE STYLES COUNT
+          let styles = getCubeStyles(cube, c.cubes)
+          for (let i in styles){
+            let count = this.page.styles[i]
+            this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
+          }
+
+          // UPDATE BLOCKS COUNT
+          let blocks = getCubeBlocks(cube)
+          for (let i in blocks){
+            let count = this.page.blocks[i]
+            this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
+          }
+          // END UPDATE
+
+          if (this.activeCube.cubes){
+            this.activeCube.cubes.push(cube)
+          } else {
+            this.cubes.push(cube)
+          }
         }
         console.log('pasted');
       } catch (e) {
