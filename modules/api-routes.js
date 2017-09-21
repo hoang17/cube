@@ -9,6 +9,13 @@ const pages = db.get('pages')
 const styles = db.get('styles')
 
 try {
+  cubes.createIndex('uid')
+  styles.createIndex('uid')
+
+  cubes.createIndex(['_id', 'uid'])
+  styles.createIndex(['_id', 'uid'])
+  pages.createIndex(['_id', 'uid'])
+
   pages.createIndex('uid')
   pages.createIndex('host')
   pages.createIndex({ url: 1 }, { unique: true })
@@ -19,23 +26,18 @@ try {
 }
 
 const authenticate = (req, res, next) => {
-  // if (req.isAuthenticated()) {
-  //   return next();
-  // }
-  // res.redirect('/login');
-
   var token = req.headers['x-token']
   if (token) {
     jwt.verify(token, process.env.SESSION_SECRET, function(err, decoded) {
       if (err) {
-        return res.status(403).send({ success: false, message: 'Authentication failed' })
+        return res.status(403).send({ success: false, message: 'Auth failed' })
       } else {
         req.decoded = decoded
         next()
       }
     })
   } else {
-    return res.status(403).send({ success: false, message: 'Authentication failed' })
+    return res.status(403).send({ success: false, message: 'Failed Auth' })
   }
 }
 
@@ -45,7 +47,8 @@ router.use(authenticate)
 
 router.route('/styles')
   .get(async function(req, res) {
-    let data = await styles.find()
+    let uid = req.decoded.id
+    let data = await styles.find({ uid:uid })
     res.json(data)
   })
   .post(async function(req, res) {
@@ -53,9 +56,13 @@ router.route('/styles')
     res.json({ message: 'Style created', _id: style._id })
   })
   .put(async function(req, res) {
+    let uid = req.user._id+''
     let style = req.body
-    styles.update({'_id': style._id }, style)
-    res.json({ message: 'Style updated', _id: style._id })
+    let data = await styles.update({'_id': style._id, uid: uid }, style)
+    if (data.nModified == 1)
+      res.json({ message: 'Style updated', _id: style._id })
+    else
+      res.status(403).send({ message: 'Update failed' })
   })
 
 router.route('/styles/:id')
@@ -65,14 +72,20 @@ router.route('/styles/:id')
     res.json(style)
   })
   .delete(async function(req, res) {
-    let data = await styles.remove({ _id: req.params.id })
-    res.json({ message: 'Style deleted', _id: req.params.id })
+    let uid = req.user._id+''
+    let id = req.params.id
+    let data = await styles.remove({ _id: id, uid: uid })
+    if (data.deletedCount == 1)
+      res.json({ message: 'Style deleted', _id: id })
+    else
+      res.status(403).send({ message: 'Deletion failed' })
   })
 
 
 router.route('/pages')
   .get(async function(req, res) {
-    let data = await pages.find()
+    let uid = req.decoded.id
+    let data = await pages.find({ uid:uid })
     res.json(data)
   })
   .post(async function(req, res) {
@@ -80,9 +93,15 @@ router.route('/pages')
     res.json({ message: 'Page created', _id: page._id })
   })
   .put(async function(req, res) {
+    let uid = req.user._id+''
     let page = req.body
-    pages.update({'_id': page._id }, page)
-    res.json({ message: 'Page updated', _id: page._id })
+    console.log({'_id': page._id, uid: uid });
+    let data = await pages.update({'_id': page._id, uid: uid }, page)
+    console.log(data);
+    if (data.nModified == 1)
+      res.json({ message: 'Page updated', _id: page._id })
+    else
+      res.status(403).send({ message: 'Update failed' })
   })
 
 router.route('/pages/:id')
@@ -92,8 +111,13 @@ router.route('/pages/:id')
     res.json(page)
   })
   .delete(async function(req, res) {
-    let data = await pages.remove({ _id: req.params.id })
-    res.json({ message: 'Page deleted', _id: req.params.id })
+    let uid = req.user._id+''
+    let id = req.params.id
+    let data = await pages.remove({ _id: id, uid: uid })
+    if (data.deletedCount == 1)
+      res.json({ message: 'Page deleted', _id: req.params.id })
+    else
+      res.status(403).send({ message: 'Deletion failed' })
   })
 
 router.route('/routes')
@@ -105,15 +129,10 @@ router.route('/routes')
     res.send(id)
   })
 
-router.route('/cubes/:id')
-  .delete(async function(req, res) {
-    let data = await cubes.remove({ _id: req.params.id })
-    res.json({ message: 'Cube deleted', _id: req.params.id })
-  })
-
 router.route('/cubes')
   .get(async function(req, res) {
-    let data = await cubes.find({},{sort : { link : 1 }})
+    let uid = req.decoded.id
+    let data = await cubes.find({ uid:uid },{sort : { link : 1 }})
     res.json(data)
   })
   .post(async function(req, res) {
@@ -121,15 +140,24 @@ router.route('/cubes')
     res.json({ message: 'Cube created', _id: cube._id })
   })
   .put(async function(req, res) {
+    let uid = req.user._id+''
     let cube = req.body
-    cubes.update({'_id': cube._id }, cube)
-    res.json({ message: 'Cube updated', _id: cube._id })
+    let data = await cubes.update({'_id': cube._id, uid: uid }, cube)
+    if (data.nModified == 1)
+      res.json({ message: 'Cube updated', _id: cube._id })
+    else
+      res.status(403).send({ message: 'Update failed' })
   })
 
 router.route('/cubes/:id')
   .delete(async function(req, res) {
-    let data = await cubes.remove({ _id: req.params.id })
-    res.json({ message: 'Cube deleted', _id: req.params.id })
+    let uid = req.user._id+''
+    let id = req.params.id
+    let data = await cubes.remove({ _id: id, uid: uid })
+    if (data.deletedCount == 1)
+      res.json({ message: 'Cube deleted', _id: id })
+    else
+      res.status(403).send({ message: 'Deletion failed' })
   })
 
 
