@@ -24,6 +24,7 @@
           i.fa.fa-file-o
         v-list-tile-content(v-badge="{value:'',visible:showBadge(p)}")
           v-list-tile-title {{ p.content }}
+          .meta  {{ p.host }}
         //- v-list-tile-action
           v-btn(icon, @click.stop="trashPage(p)")
             i.fa.fa-trash
@@ -42,7 +43,7 @@
           i.fa(:class="cube.link?'fa-cubes':'fa-cube'")
         v-list-tile-content
           v-list-tile-title {{ cube.content }}
-            span.meta  {{ cube.link ? `${linkCount(cube)} cubes` : '' }}
+          span.meta  {{ cube.link ? `${linkCount(cube)} cubes` : '' }}
         v-list-tile-action
           v-btn(icon, @click.stop="trash(cube)")
             i.fa.fa-trash-o
