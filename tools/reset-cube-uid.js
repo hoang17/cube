@@ -11,7 +11,7 @@ const dbstyles = db.get('styles')
 
 async function resetPages(){
 
-  let uid = null
+  let uid = "598a7e8ca2892300040ad87d"
 
   var update = function(c){
     if (!c.uid) c.uid = uid
@@ -25,8 +25,8 @@ async function resetPages(){
   let pp = await dbpages.find()
   for (let i in pp){
     let p = pp[i]
-    if (p.uid)
-      uid = p.uid
+    // if (p.uid)
+    //   uid = p.uid
     update(p)
     await dbpages.update({'_id': p._id }, p)
   }
