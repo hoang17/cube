@@ -22,7 +22,8 @@ TODO:
 ✔ Disallow deleting Block if links > 0 @done(2017-09-19 15:15)
 ✔ Undo/redo style, block editing @done(2017-09-20 15:01)
 ✔ Bug copy paste block: prevent recursively adding block @done(2017-09-21 08:53)
-☐ Fetch pages by user id
+✔ Fetch pages by user id @done(2017-09-21 23:41)
+✔ API authenticate @done(2017-09-21 23:41)
 ☐ Form
 ☐ Photo
 ☐ Select dropdown for cube props

@@ -25,7 +25,8 @@ async function resetPages(){
   let pp = await dbpages.find()
   for (let i in pp){
     let p = pp[i]
-    uid = p.uid
+    if (p.uid)
+      uid = p.uid
     update(p)
     await dbpages.update({'_id': p._id }, p)
   }
