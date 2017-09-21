@@ -8,7 +8,9 @@
           v-list-tile-content
             v-list-tile-title {{ user.profile.name }}
           v-list-tile-action
-            v-btn(icon, @click.native.stop='mini = !mini')
+            //- v-btn(icon, @click.native.stop='')
+              i.fa.fa-cog
+            //- v-btn(icon, @click.native.stop='mini = !mini')
               v-icon chevron_left
     v-list.pt-0(dense)
       v-divider
