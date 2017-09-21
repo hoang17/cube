@@ -113,32 +113,32 @@ export const container = {
   cubes: []
 }
 
-// export const navigation = {
-//   _id: null,
-//   type: 'na',
-//   name: 'Navigation',
-//   content: 'Navigation',
-//   css: null,
-//   link: false,
-//   uid: null,
-//   style: {
-//     color: null,
-//     display: 'block',
-//     width: null,
-//     fontFamily: null,
-//     fontSize: null,
-//     fontWeight: null,
-//     lineHeight: null,
-//     letterSpacing: null,
-//     textTransform: null,
-//     textAlign: 'center',
-//     padding: null,
-//     margin: null,
-//     border: null,
-//     borderRadius: null,
-//   },
-//   cubes: []
-// }
+export const navigation = {
+  _id: null,
+  type: 'na',
+  name: 'Navigation',
+  content: 'Navigation',
+  css: null,
+  link: false,
+  uid: null,
+  style: {
+    color: null,
+    display: 'block',
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    padding: null,
+    margin: null,
+    border: null,
+    borderRadius: null,
+  },
+  cubes: []
+}
 
 // export const photo = {
 //   name: 'Photo',
