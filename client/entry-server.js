@@ -1,5 +1,6 @@
 // entry-server.js
 import { createApp } from './app'
+import jwt from 'jsonwebtoken'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
@@ -9,6 +10,11 @@ export default context => {
   // everything is ready before rendering.
   return new Promise((resolve, reject) => {
     const s = isDev && Date.now()
+
+    context.token = jwt.sign({ id: context.user._id }, process.env.SESSION_SECRET, {
+      expiresIn: 1440 // expires in 24 hours
+    })
+
     const { app, router, store } = createApp(context)
 
     // set server-side router's location
@@ -16,12 +22,13 @@ export default context => {
 
     store.state.host = context.host
     store.state.user = context.user
+    store.state.token = context.token
 
     if (context.user){
-      let token = context.user.tokens.filter(function(token){
-        return token.kind == 'facebook'
+      let tk = context.user.tokens.filter(function(t){
+        return t.kind == 'facebook'
       })
-      store.state.token = token[0].accessToken
+      store.state.tokenFB = tk[0].accessToken
     }
 
     // wait until router has resolved possible async components and hooks

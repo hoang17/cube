@@ -315,6 +315,7 @@ export default {
     },
     paste(){
       if (!this.activeCube || !this.clipboard) return
+
       let c = clone(this.clipboard.cube)
 
       // UPDATE STYLES COUNT
@@ -331,7 +332,7 @@ export default {
       }
       // END UPDATE
 
-      if (this.activeCube.cubes){
+      if (this.activeCube.cubes && this.activeCube.name != "Block"){
         this.activeCube.cubes.push(c)
       } else {
         this.cubes.push(c)
@@ -563,6 +564,7 @@ export default {
         let s = clipboardData.getData('Text')
         let c = JSON.parse(s)
         let cube = clone(c.cube)
+
         if (c.styles){
           // ADD NEW STYLES TO DB
           this.$store.dispatch('addStyles', c.styles)
@@ -591,7 +593,7 @@ export default {
           }
           // END UPDATE
 
-          if (this.activeCube.cubes){
+          if (this.activeCube.cubes && this.activeCube.name != "Block"){
             this.activeCube.cubes.push(cube)
           } else {
             this.cubes.push(cube)

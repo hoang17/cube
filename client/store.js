@@ -2,25 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import { Page, History } from './data/factory'
-import {
-  addPage,
-  updatePage,
-  deletePage,
-  fetchPages,
-  fetchPage,
-  fetchRoute,
-  addStyles,
-  addStyle,
-  updateStyle,
-  deleteStyle,
-  fetchStyles,
-  addCube,
-  updateCube,
-  fetchCubes,
-  deleteCube,
-} from './api'
+import { setup } from './api'
 
-export function createStore () {
+export function createStore (context) {
+  let api = setup(context.token)
   return new Vuex.Store({
     state: {
       newId: null,
@@ -30,6 +15,7 @@ export function createStore () {
       host: null,
       user: null,
       token: null,
+      tokenFB: null,
       cubes: {},
       styles: {},
       histories: {},
@@ -39,32 +25,32 @@ export function createStore () {
     actions: {
       async addCube({ state, commit }, cube) {
         Vue.set(state.cubes, cube._id, cube)
-        return await addCube(cube)
+        return await api.addCube(cube)
       },
 
       async removeCube({ state, commit }, cube) {
-        await deleteCube(cube._id)
+        await api.deleteCube(cube._id)
         Vue.delete(state.cubes, cube._id)
       },
 
       async updateCube({ state, commit }, cube) {
-        return await updateCube(cube)
+        return await api.updateCube(cube)
       },
 
       async updateStyle({ state, commit }, style) {
-        return await updateStyle(style)
+        return await api.updateStyle(style)
       },
 
       async addStyle({ state, commit }, style) {
         Vue.set(state.styles, style._id, style)
-        return await addStyle(style)
+        return await api.addStyle(style)
       },
 
       async addStyles({ state, commit }, styles) {
         for (let i in styles){
           if (state.styles[i]) continue
           Vue.set(state.styles, i, styles[i])
-          addStyle(styles[i])
+          api.addStyle(styles[i])
         }
       },
 
@@ -72,12 +58,12 @@ export function createStore () {
         for (let i in cubes){
           if (state.cubes[i]) continue
           Vue.set(state.cubes, i, cubes[i])
-          addCube(cubes[i])
+          api.addCube(cubes[i])
         }
       },
 
       async removeStyle({ state, commit }, style) {
-        await deleteStyle(style._id)
+        await api.deleteStyle(style._id)
         Vue.delete(state.styles, style._id)
       },
 
@@ -89,25 +75,25 @@ export function createStore () {
         Vue.delete(state.pages, page._id)
         Vue.delete(state.histories, page._id)
         commit('setActivePage', state.newId)
-        deletePage(page._id)
+        api.deletePage(page._id)
       },
 
       async addPage({ state, commit }, page) {
-        return await addPage(page)
+        return await api.addPage(page)
       },
 
       async updatePage({ state, commit }, page) {
-        return await updatePage(page)
+        return await api.updatePage(page)
       },
 
       async fetchPages({ state, commit }) {
-        state.pages = await fetchPages()
+        state.pages = await api.fetchPages()
       },
 
       async fetchBuild({state, commit}, id){
-        state.styles = await fetchStyles()
-        state.pages = await fetchPages()
-        state.cubes = await fetchCubes()
+        state.styles = await api.fetchStyles()
+        state.pages = await api.fetchPages()
+        state.cubes = await api.fetchCubes()
         // build routes & histories
         for (let i in state.pages){
           let p = state.pages[i]
@@ -120,9 +106,9 @@ export function createStore () {
       },
 
       async fetchView({state, commit}, { url }){
-        state.styles = await fetchStyles()
-        state.pages = await fetchPages()
-        state.cubes = await fetchCubes()
+        state.styles = await api.fetchStyles()
+        state.pages = await api.fetchPages()
+        state.cubes = await api.fetchCubes()
         // build routes
         for (let i in state.pages){
           state.routes[state.pages[i].url] = i

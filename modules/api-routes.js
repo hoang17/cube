@@ -1,6 +1,6 @@
-const router = require('express').Router()
+const jwt = require('jsonwebtoken')
 
-var options = {  keepAlive: 300000, connectTimeoutMS: 30000 }
+const options = {  keepAlive: 300000, connectTimeoutMS: 30000 }
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, options)
 
@@ -17,6 +17,31 @@ try {
 } catch (e) {
   console.error(e)
 }
+
+const authenticate = (req, res, next) => {
+  // if (req.isAuthenticated()) {
+  //   return next();
+  // }
+  // res.redirect('/login');
+
+  var token = req.headers['x-token']
+  if (token) {
+    jwt.verify(token, process.env.SESSION_SECRET, function(err, decoded) {
+      if (err) {
+        return res.status(403).send({ success: false, message: 'Authentication failed' })
+      } else {
+        req.decoded = decoded
+        next()
+      }
+    })
+  } else {
+    return res.status(403).send({ success: false, message: 'Authentication failed' })
+  }
+}
+
+const router = require('express').Router()
+
+router.use(authenticate)
 
 router.route('/styles')
   .get(async function(req, res) {
