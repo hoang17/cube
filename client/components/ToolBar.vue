@@ -573,16 +573,13 @@ export default {
           this.$store.dispatch('addCubes', c.cubes)
         }
 
-        console.log('getCubeStyles...');
         // UPDATE STYLES COUNT
         let styles = getCubeStyles(cube, c.cubes)
-        console.log(styles);
         for (let i in styles){
           let count = this.page.styles[i]
           this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
         }
 
-        console.log('getCubeBlocks...');
         // UPDATE BLOCKS COUNT
         let blocks = getCubeBlocks(cube)
         for (let i in blocks){

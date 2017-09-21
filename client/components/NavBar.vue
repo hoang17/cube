@@ -110,6 +110,10 @@ export default {
       }
     },
     addCube(cube){
+      if (this.activeCube && this.activeCube.link && cube.link && cube._id == this.activeCube._id){
+        return alert('OOPS! Can not add a block to itself')
+      }
+
       let c = cube.link ? Block(cube) : clone(cube)
 
       // UPDATE BLOCKS COUNT

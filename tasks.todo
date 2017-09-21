@@ -21,6 +21,7 @@ TODO:
 ✔ Toggle link/unlink cube block @done(2017-09-19 13:49)
 ✔ Disallow deleting Block if links > 0 @done(2017-09-19 15:15)
 ✔ Undo/redo style, block editing @done(2017-09-20 15:01)
+✔ Bug copy paste block: prevent recursively adding block @done(2017-09-21 08:53)
 ☐ Fetch pages by user id
 ☐ Form
 ☐ Photo
