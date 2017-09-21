@@ -14,7 +14,7 @@ async function resetPages(){
   let uid = "598a7e8ca2892300040ad87d"
 
   var update = function(c){
-    if (!c.uid) c.uid = uid
+    c.uid = uid
     if (c.cubes){
       for (let i in c.cubes){
         update(c.cubes[i])
@@ -41,7 +41,7 @@ async function resetPages(){
   let ss = await dbstyles.find()
   for (let i in ss){
     let e = ss[i]
-    if (!e.uid) e.uid = uid
+    e.uid = uid
     await dbstyles.update({'_id': e._id }, e)
   }
 
