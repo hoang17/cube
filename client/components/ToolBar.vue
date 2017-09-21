@@ -538,9 +538,7 @@ export default {
     document.addEventListener("copy", (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       e = e || window.event // IE
-      let s = this.getStyles(this.activeCube)
-      console.log(s);
-      let c = Clipboard(this.activeCube, s, this.getCubes(this.activeCube))
+      let c = Clipboard(this.activeCube, this.getStyles(this.activeCube), this.getCubes(this.activeCube))
       // console.log(c);
       e.clipboardData.setData("text/plain", JSON.stringify(c))
       e.preventDefault()
