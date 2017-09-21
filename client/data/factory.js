@@ -170,6 +170,7 @@ export function Style(name){
   return {
     _id: ObjectId(),
     name: name,
+    uid: null,
     style: {
       color: null,
       width: null,

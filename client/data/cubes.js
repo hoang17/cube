@@ -7,6 +7,7 @@ export const text = {
   content: 'New text',
   css: null,
   link: false,
+  uid: null,
   style: {
     color: null,
     display: null,
@@ -31,6 +32,7 @@ export const link = {
   url: null,
   css: null,
   link: false,
+  uid: null,
   style: {
     color: null,
     display: null,
@@ -57,6 +59,7 @@ export const button = {
   url: null,
   css: null,
   link: false,
+  uid: null,
   style: {
     color: null,
     display: null,
@@ -81,6 +84,7 @@ export const container = {
   content: 'Container',
   css: null,
   link: false,
+  uid: null,
   style: {
     color: null,
     width: null,
@@ -116,6 +120,7 @@ export const navigation = {
   content: 'Navigation',
   css: null,
   link: false,
+  uid: null,
   style: {
     color: null,
     display: 'block',
@@ -138,27 +143,6 @@ export const navigation = {
 // export const photo = {
 //   name: 'Photo',
 //   type: 'ph',
-//   init(){
-//     return {
-//       _id: ObjectId(),
-//       type: 'ph',
-//       content: 'Photo',
-//       css: null,
-//       style: {
-//         color: null,
-//         display: 'block',
-//         width: null,
-//         fontFamily: null,
-//         fontSize: null,
-//         fontWeight: null,
-//         lineHeight: null,
-//         letterSpacing: null,
-//         textTransform: null,
-//         textAlign: 'center',
-//         margin: null
-//       }
-//     }
-//   }
 // }
 
 // { name: 'Icon', type: 'icon' },

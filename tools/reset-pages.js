@@ -5,8 +5,8 @@ dotenv.load({ path: '.env' })
 
 const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 
-const pagesCo = db.get('pages')
-const cubesCo = db.get('cubes')
+const dbpages = db.get('pages')
+const dbcubes = db.get('cubes')
 
 function getPageBlocks(p){
   let blocks = {}
@@ -27,7 +27,7 @@ function getPageBlocks(p){
 }
 
 async function getPageStyles(p){
-  let data = await cubesCo.find()
+  let data = await dbcubes.find()
   let cc = fromPairs(map(data, i => [i._id, i]))
   let styles = {}
 
@@ -57,12 +57,12 @@ async function getPageStyles(p){
 }
 
 async function resetPages(){
-  let pp = await pagesCo.find()
+  let pp = await dbpages.find()
   for (let i in pp){
     let p = pp[i]
     p.blocks = getPageBlocks(p)
     p.styles = await getPageStyles(p)
-    await pagesCo.update({'_id': p._id }, p)
+    await dbpages.update({'_id': p._id }, p)
   }
   db.close()
 }
