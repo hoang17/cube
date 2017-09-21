@@ -65,19 +65,20 @@ export function getPageStyles(page, state){
 // GET ALL STYLES FROM A CUBE
 export function getCubeStyles(cube, blocks){
   let styles = {}
+
   var getStyles = cubes => {
     if (!cubes) return
     for (let i in cubes){
       let c = cubes[i]
-      if (c.css){
-        if (styles[c.css]) styles[c.css]++
-        else styles[c.css] = 1
+      let j = c.css
+      if (j){
+        styles[j] = styles[j] ? styles[j]+1 : 1
       }
       if (c.src){
         let s = blocks[c.src]
-        if (s.css){
-          if (styles[s.css]) styles[s.css]++
-          else styles[s.css] = 1
+        let e = s.css
+        if (e){
+          styles[e] = styles[e] ? styles[e]+1 : 1
         }
         getStyles(s.cubes)
       }
@@ -89,12 +90,12 @@ export function getCubeStyles(cube, blocks){
     styles[cube.css] = 1
 
   if (cube.src){
-    let s = blocks[cube.src]
-    if (s.css){
-      if (styles[s.css]) styles[s.css]++
-      else styles[s.css] = 1
+    let o = blocks[cube.src]
+    let i = o.css
+    if (i){
+      styles[i] = styles[i] ? styles[i]+1 : 1
     }
-    getStyles(s.cubes)
+    getStyles(o.cubes)
   }
   else getStyles(cube.cubes)
 
