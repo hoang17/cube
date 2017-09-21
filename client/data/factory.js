@@ -80,9 +80,9 @@ export function getCubeStyles(cube, blocks){
         if (e){
           styles[e] = styles[e] ? styles[e]+1 : 1
         }
-        getStyles(s.cubes)
+        if (s.cubes) getStyles(s.cubes)
       }
-      else getStyles(c.cubes)
+      else if (c.cubes) getStyles(c.cubes)
     }
   }
 
@@ -95,9 +95,9 @@ export function getCubeStyles(cube, blocks){
     if (i){
       styles[i] = styles[i] ? styles[i]+1 : 1
     }
-    getStyles(o.cubes)
+    if (o.cubes) getStyles(o.cubes)
   }
-  else getStyles(cube.cubes)
+  else if (cube.cubes) getStyles(cube.cubes)
 
   return styles
 }

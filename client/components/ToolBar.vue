@@ -560,9 +560,10 @@ export default {
     document.addEventListener('paste', (e) => {
       if (!this.activeCube || e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') return
       try {
-        var clipboardData = e.clipboardData || window.clipboardData
-        var s = clipboardData.getData('Text')
-        var c = JSON.parse(s)
+        let clipboardData = e.clipboardData || window.clipboardData
+        let s = clipboardData.getData('Text')
+        let c = JSON.parse(s)
+        let cube = clone(c.cube)
         if (c.styles){
           // ADD NEW STYLES TO DB
           this.$store.dispatch('addStyles', c.styles)
@@ -574,7 +575,7 @@ export default {
 
         console.log('getCubeStyles...');
         // UPDATE STYLES COUNT
-        let styles = getCubeStyles(c.cube, this.$store.state.cubes)
+        let styles = getCubeStyles(cube, c.cubes)
         console.log(styles);
         for (let i in styles){
           let count = this.page.styles[i]
@@ -583,19 +584,19 @@ export default {
 
         console.log('getCubeBlocks...');
         // UPDATE BLOCKS COUNT
-        let blocks = getCubeBlocks(c.cube)
+        let blocks = getCubeBlocks(cube)
         for (let i in blocks){
           let count = this.page.blocks[i]
           this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
         }
 
-        if (c.cube.name == 'Page'){
-          this.dupPage(clone(c.cube))
+        if (cube.name == 'Page'){
+          this.dupPage(cube)
         }
         else if (this.activeCube.cubes){
-          this.activeCube.cubes.push(clone(c.cube))
+          this.activeCube.cubes.push(cube)
         } else {
-          this.cubes.push(clone(c.cube))
+          this.cubes.push(cube)
         }
         console.log('pasted');
       } catch (e) {
