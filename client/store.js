@@ -10,12 +10,12 @@ export function createStore (context) {
     state: {
       newId: null,
       pageId: null,
-      pages: null,
       activeCube: null,
       host: null,
       user: null,
       token: null,
       tokenFB: null,
+      pages: {},
       cubes: {},
       styles: {},
       histories: {},
@@ -106,15 +106,24 @@ export function createStore (context) {
       },
 
       async fetchView({state, commit}, { url }){
-        state.styles = await api.fetchStyles()
-        state.pages = await api.fetchPages()
-        state.cubes = await api.fetchCubes()
-        // build routes
-        for (let i in state.pages){
-          state.routes[state.pages[i].url] = i
-        }
-        return state.routes[url]
-      }
+        let { page, styles, cubes } = await api.fetchViewData(url)
+        Object.assign(state.styles, styles)
+        Object.assign(state.cubes, cubes)
+        state.pages[page._id] = page
+        state.routes[url] = page._id
+        return page._id
+      },
+
+      // async fetchView({state, commit}, { url }){
+      //   state.styles = await api.fetchStyles()
+      //   state.pages = await api.fetchPages()
+      //   state.cubes = await api.fetchCubes()
+      //   // build routes
+      //   for (let i in state.pages){
+      //     state.routes[state.pages[i].url] = i
+      //   }
+      //   return state.routes[url]
+      // }
     },
     mutations: {
       setActivePage(state, id){

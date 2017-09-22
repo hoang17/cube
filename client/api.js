@@ -14,6 +14,10 @@ const createAPI = (token) => {
   })
 }
 
+export function key(array){
+  return fromPairs(map(array, i => [i._id, i]))
+}
+
 export function setup(token){
   let api = createAPI(token)
   return {
@@ -52,7 +56,7 @@ export function setup(token){
     async fetchCubes(){
       try {
         let res = await api.get('cubes')
-        return fromPairs(map(res.data, i => [i._id, i]))
+        return key(res.data)
       } catch (e) {
         console.error(e)
       }
@@ -60,7 +64,7 @@ export function setup(token){
     async fetchPages(){
       try {
         let res = await api.get('pages')
-        return fromPairs(map(res.data, i => [i._id, i]))
+        return key(res.data)
       } catch (e) {
         console.error(e)
       }
@@ -132,11 +136,22 @@ export function setup(token){
     async fetchStyles(){
       try {
         let res = await api.get('styles')
-        return fromPairs(map(res.data, i => [i._id, i]))
+        return key(res.data)
         return res.data
       } catch (e) {
         console.error(e)
       }
-    }
+    },
+    async fetchViewData(url){
+      try {
+        let res = await api.post('view', {url: url})
+        let page = res.data.page
+        let styles = key(res.data.styles)
+        let cubes = key(res.data.cubes)
+        return { page, styles, cubes }
+      } catch (e) {
+        console.error(e)
+      }
+    },
   }
 }
