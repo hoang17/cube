@@ -24,7 +24,7 @@ export default {
   },
   watch: {
     async path(){
-      let id = await this.$store.dispatch('fetchRoute', { url: this.url })
+      let id = await this.$store.dispatch('fetchView', { url: this.url })
       if (!id)
         return this.pageNotFound()
       this.$store.commit('setActivePage', id)

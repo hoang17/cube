@@ -51,10 +51,8 @@ router.route('/view')
     data.page = await pages.findOne({url:req.body.url})
     let styleIds = Object.keys(data.page.styles)
     let cubeIds = Object.keys(data.page.blocks)
-
     data.styles = styleIds.length > 0 ? await styles.find({_id: {$in: styleIds }}) : []
     data.cubes = cubeIds.length > 0 ? await cubes.find({_id: {$in: cubeIds }}) : []
-
     res.json(data)
   })
 

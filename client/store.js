@@ -106,6 +106,7 @@ export function createStore (context) {
       },
 
       async fetchView({state, commit}, { url }){
+        if (state.routes[url]) return state.routes[url]
         let { page, styles, cubes } = await api.fetchViewData(url)
         Object.assign(state.styles, styles)
         Object.assign(state.cubes, cubes)
