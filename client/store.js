@@ -27,25 +27,20 @@ export function createStore (context) {
         Vue.set(state.cubes, cube._id, cube)
         return await api.addCube(cube)
       },
-
       async removeCube({ state, commit }, cube) {
         await api.deleteCube(cube._id)
         Vue.delete(state.cubes, cube._id)
       },
-
       async updateCube({ state, commit }, cube) {
         return await api.updateCube(cube)
       },
-
       async updateStyle({ state, commit }, style) {
         return await api.updateStyle(style)
       },
-
       async addStyle({ state, commit }, style) {
         Vue.set(state.styles, style._id, style)
         return await api.addStyle(style)
       },
-
       async addStyles({ state, commit }, styles) {
         for (let i in styles){
           if (state.styles[i]) continue
@@ -53,7 +48,6 @@ export function createStore (context) {
           api.addStyle(styles[i])
         }
       },
-
       async addCubes({ state, commit }, cubes) {
         for (let i in cubes){
           if (state.cubes[i]) continue
@@ -61,35 +55,28 @@ export function createStore (context) {
           api.addCube(cubes[i])
         }
       },
-
       async removeStyle({ state, commit }, style) {
         await api.deleteStyle(style._id)
         Vue.delete(state.styles, style._id)
       },
-
       async fetchRoute({ state, commit }, { url }){
         return state.routes[url]
       },
-
       async deletePage({ state, commit }, page) {
         Vue.delete(state.pages, page._id)
         Vue.delete(state.histories, page._id)
         commit('setActivePage', state.newId)
         api.deletePage(page._id)
       },
-
       async addPage({ state, commit }, page) {
         return await api.addPage(page)
       },
-
       async updatePage({ state, commit }, page) {
         return await api.updatePage(page)
       },
-
       async fetchPages({ state, commit }) {
         state.pages = await api.fetchPages()
       },
-
       async fetchBuild({state, commit}, id){
         state.styles = await api.fetchStyles()
         state.pages = await api.fetchPages()
@@ -104,27 +91,15 @@ export function createStore (context) {
         commit('addNewPage')
         commit('setActivePage', id ? id : state.newId)
       },
-
       async fetchView({state, commit}, { url }){
         if (state.routes[url]) return state.routes[url]
         let { page, styles, cubes } = await api.fetchViewData(url)
-        Object.assign(state.styles, styles)
-        Object.assign(state.cubes, cubes)
-        state.pages[page._id] = page
+        state.styles = Object.assign({}, state.styles, styles)
+        state.cubes = Object.assign({}, state.cubes, cubes)
+        Vue.$set(state.pages, page._id, page)
         state.routes[url] = page._id
         return page._id
       },
-
-      // async fetchView({state, commit}, { url }){
-      //   state.styles = await api.fetchStyles()
-      //   state.pages = await api.fetchPages()
-      //   state.cubes = await api.fetchCubes()
-      //   // build routes
-      //   for (let i in state.pages){
-      //     state.routes[state.pages[i].url] = i
-      //   }
-      //   return state.routes[url]
-      // }
     },
     mutations: {
       setActivePage(state, id){
