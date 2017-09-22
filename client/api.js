@@ -30,128 +30,68 @@ export function setup(token){
       return res.data
     },
     async addCube(cube){
-      try {
-        let res = await api.post('cubes', cube)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.post('cubes', cube)
+      return res.data
     },
     async updateCube(cube){
-      try {
-        let res = await api.put('cubes', cube)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.put('cubes', cube)
+      return res.data
     },
     async deleteCube(id){
-      try {
-        let res = await api.delete(`cubes/${id}`)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.delete(`cubes/${id}`)
+      return res.data
     },
     async fetchCubes(){
-      try {
-        let res = await api.get('cubes')
-        return key(res.data)
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.get('cubes')
+      return key(res.data)
     },
     async fetchPages(){
-      try {
-        let res = await api.get('pages')
-        return key(res.data)
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.get('pages')
+      return key(res.data)
     },
     async fetchPage(id){
-      try {
-        let res = await api.get(`pages/${id}`)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.get(`pages/${id}`)
+      return res.data
     },
     async addPage(page){
-      try {
-        let res = await api.post('pages', page)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.post('pages', page)
+      return res.data
     },
     async updatePage(page){
-      try {
-        let res = await api.put('pages', page)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.put('pages', page)
+      return res.data
     },
     async deletePage(id){
-      try {
-        let res = await api.delete(`pages/${id}`)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.delete(`pages/${id}`)
+      return res.data
     },
     async fetchRoute(url){
-      try {
-        let res = await api.post('routes', { url })
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.post('routes', { url })
+      return res.data
     },
     async addStyle(style){
-      try {
-        let res = await api.post('styles', style)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.post('styles', style)
+      return res.data
     },
     async updateStyle(style){
-      try {
-        let res = await api.put('styles', style)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.put('styles', style)
+      return res.data
     },
     async deleteStyle(id){
-      try {
-        let res = await api.delete(`styles/${id}`)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.delete(`styles/${id}`)
+      return res.data
     },
     async fetchStyles(){
-      try {
-        let res = await api.get('styles')
-        return key(res.data)
-        return res.data
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.get('styles')
+      return key(res.data)
+      return res.data
     },
     async fetchViewData(url){
-      try {
-        let res = await api.post('view', {url: url})
-        let page = res.data.page
-        let styles = key(res.data.styles)
-        let cubes = key(res.data.cubes)
-        return { page, styles, cubes }
-      } catch (e) {
-        console.error(e)
-      }
+      let res = await api.post('view', {url: url})
+      let page = res.data.page
+      let styles = key(res.data.styles)
+      let cubes = key(res.data.cubes)
+      return { page, styles, cubes }
     },
   }
 }

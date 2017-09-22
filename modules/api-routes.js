@@ -92,7 +92,6 @@ router.route('/styles/:id')
       res.status(403).send({ message: 'Deletion failed' })
   })
 
-
 router.route('/pages')
   .get(async function(req, res) {
     let uid = req.decoded.id
@@ -168,6 +167,5 @@ router.route('/cubes/:id')
     else
       res.status(403).send({ message: 'Deletion failed' })
   })
-
 
 module.exports = router

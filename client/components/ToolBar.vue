@@ -261,18 +261,23 @@ export default {
       // if saved return
       if (this.histories[page._id].sid == this.page.sid) return
 
-      if (page._id == this.newId){
-        await this.$store.dispatch('addPage', page)
-        this.stopWatch()
-        this.$store.commit('addNewPage')
-        this.startWatch()
-        this.history.sid = page.sid
-        this.$router.push({ name: 'build', params: { id: page._id }})
-        console.log('page created');
-      } else {
-        await this.$store.dispatch('updatePage', page)
-        this.history.sid = page.sid
-        console.log('page updated');
+      try {
+        if (page._id == this.newId){
+          await this.$store.dispatch('addPage', page)
+          this.stopWatch()
+          this.$store.commit('addNewPage')
+          this.startWatch()
+          this.history.sid = page.sid
+          this.$router.push({ name: 'build', params: { id: page._id }})
+          console.log('page created');
+        } else {
+          await this.$store.dispatch('updatePage', page)
+          this.history.sid = page.sid
+          console.log('page updated');
+        }
+      } catch (e) {
+        alert('Error while trying to save: ' + e.message)
+        console.error(e)
       }
     },
     startWatch(){
@@ -340,32 +345,27 @@ export default {
       console.log('pasted');
     },
     async dupPage(p){
-      p._id = ObjectId()
-      p.content += ' Copy'
-      p.path = NanoSlug()
-      p.host = this.$store.state.host
-      p.url = p.host + '/' + p.path
-      this.stopWatch()
-      this.$store.commit('setNewPage', p)
-      this.startWatch()
-      this.activeCube = p
-      this.$router.push({ name: 'build', params: { id: p._id }})
-      await this.$store.dispatch('addPage', p)
+      try {
+        p._id = ObjectId()
+        p.content += ' Copy'
+        p.path = NanoSlug()
+        p.host = this.$store.state.host
+        p.url = p.host + '/' + p.path
+        this.stopWatch()
+        this.$store.commit('setNewPage', p)
+        this.startWatch()
+        this.activeCube = p
+        this.$router.push({ name: 'build', params: { id: p._id }})
+        await this.$store.dispatch('addPage', p)
+      } catch (e) {
+        alert('Error while trying to save: ' + e.message)
+        console.error(e)
+      }
     },
     async dup(){
       if (this.activeCube == this.page) {
         let p = clone(this.page)
         await this.dupPage(p)
-        // p._id = ObjectId()
-        // p.content += ' Copy'
-        // p.path = NanoSlug()
-        // p.url = p.host + '/' + p.path
-        // this.stopWatch()
-        // this.$store.commit('setNewPage', p)
-        // this.startWatch()
-        // this.activeCube = p
-        // this.$router.push({ name: 'build', params: { id: p._id }})
-        // await this.$store.dispatch('addPage', p)
       }
       else {
         let cube = clone(this.activeCube)
@@ -504,8 +504,13 @@ export default {
       }, {deep: true})
     },
     async saveCube(cube){
-      await this.$store.dispatch('updateCube', cube)
-      console.log('cube updated');
+      try {
+        await this.$store.dispatch('updateCube', cube)
+        console.log('cube updated')
+      } catch (e) {
+        alert('Error while trying to save: ' + e.message)
+        console.error(e)
+      }
     },
     styleChanged: debounce(function(val) {
       this.snapshot(this.page, this.activeCube._id)
@@ -522,8 +527,13 @@ export default {
       }, {deep: true})
     },
     async saveStyle(style){
-      await this.$store.dispatch('updateStyle', style)
-      console.log('style updated');
+      try {
+        await this.$store.dispatch('updateStyle', style)
+        console.log('style updated')
+      } catch (e) {
+        alert('Error while trying to save: ' + e.message)
+        console.error(e)
+      }
     },
   },
   mounted() {
