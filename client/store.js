@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-Vue.use(Vuex)
 import { Page, History } from './data/factory'
 import { setup } from './api'
+Vue.use(Vuex)
 
 export function createStore (context) {
   let api = setup(context.token)
@@ -96,7 +96,7 @@ export function createStore (context) {
         let { page, styles, cubes } = await api.fetchViewData(url)
         state.styles = Object.assign({}, state.styles, styles)
         state.cubes = Object.assign({}, state.cubes, cubes)
-        Vue.$set(state.pages, page._id, page)
+        Vue.set(state.pages, page._id, page)
         state.routes[url] = page._id
         return page._id
       },

@@ -11,7 +11,9 @@ export default context => {
   return new Promise((resolve, reject) => {
     const s = isDev && Date.now()
 
-    context.token = jwt.sign({ id: context.user._id }, process.env.SESSION_SECRET, {
+    let id = context.user ? context.user._id : context.req.sessionID
+
+    context.token = jwt.sign({ id: id }, process.env.SESSION_SECRET, {
       expiresIn: 1440 // expires in 24 hours
     })
 
