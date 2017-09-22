@@ -106,9 +106,7 @@ router.route('/pages')
   .put(async function(req, res) {
     let uid = req.user._id+''
     let page = req.body
-    console.log({'_id': page._id, uid: uid });
     let data = await pages.update({'_id': page._id, uid: uid }, page)
-    console.log(data);
     if (data.nModified == 1)
       res.json({ message: 'Page updated', _id: page._id })
     else
