@@ -93,6 +93,7 @@ module.exports = {
           output: {comments: false}
         }),
         new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin({
           filename: 'common.[contenthash].css',
           allChunks: true

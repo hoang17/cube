@@ -98,6 +98,7 @@ module.exports = {
           compress: { warnings: false },
           output: {comments: false}
         }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css',
           allChunks: true
