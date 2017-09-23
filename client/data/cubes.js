@@ -124,6 +124,7 @@ export const input = {
   name: 'Input',
   content: 'New Input',
   placeholder: 'Enter input...',
+  required: false,
   css: null,
   link: false,
   uid: null,
@@ -143,6 +144,96 @@ export const input = {
   }
 }
 
+export const select = {
+  _id: null,
+  type: 'se',
+  name: 'Select',
+  content: 'New Select',
+  placeholder: 'Select an option...',
+  required: false,
+  options: [
+    {value: 'opt-1', name: 'Option One'},
+    {value: 'opt-2', name: 'Option Two'},
+    {value: 'opt-3', name: 'Option Three'},
+  ],
+  css: null,
+  link: false,
+  uid: null,
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: null,
+    padding: null,
+    margin: null,
+  }
+}
+
+export const check = {
+  _id: null,
+  type: 'ck',
+  name: 'Checkbox',
+  content: 'Check all that apply',
+  required: false,
+  options: [
+    {value: 'opt-1', name: 'Option One'},
+    {value: 'opt-2', name: 'Option Two'},
+    {value: 'opt-3', name: 'Option Three'},
+  ],
+  css: null,
+  link: false,
+  uid: null,
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: null,
+    padding: null,
+    margin: null,
+  }
+}
+
+export const radio = {
+  _id: null,
+  type: 'ra',
+  name: 'Radio',
+  content: 'Select an option',
+  required: false,
+  options: [
+    {value: 'opt-1', name: 'Option One'},
+    {value: 'opt-2', name: 'Option Two'},
+    {value: 'opt-3', name: 'Option Three'},
+  ],
+  css: null,
+  link: false,
+  uid: null,
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: null,
+    padding: null,
+    margin: null,
+  }
+}
 
 // { name: 'Icon', type: 'icon' },
 // { name: 'DataTable', type: 'data-table' },
