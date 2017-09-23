@@ -78,11 +78,11 @@ export default {
       'linkCount'
     ]),
     ...mapState([
+      'user',
       'newId',
       'pages',
       'cubes',
       'activeCube',
-      'user',
     ]),
     dark: {
       get(){
@@ -107,6 +107,7 @@ export default {
     },
     addBaseCube(cube){
       let c = clone(cube)
+      c.uid = this.user._id
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
@@ -119,6 +120,7 @@ export default {
       }
 
       let c = cube.link ? Block(cube) : clone(cube)
+      c.uid = this.user._id
 
       // UPDATE BLOCKS COUNT
       let blocks = getCubeBlocks(c)

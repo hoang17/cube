@@ -55,6 +55,7 @@ export default {
       'styleCount'
     ]),
     ...mapState([
+      'user',
       'styles',
     ]),
     rule(){
@@ -94,6 +95,7 @@ export default {
       if (name) {
         let style = Style(name)
         style.style = this.cube.style
+        style.uid = this.user._id
         await this.$store.dispatch('addStyle', style)
         this.cube.css = style._id
         console.log('style created');

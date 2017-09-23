@@ -80,6 +80,7 @@ export default {
       'pageId',
       'histories',
       'styles',
+      'user',
     ]),
     ...mapState({
       history (state) {
@@ -157,6 +158,7 @@ export default {
         // Create block
         let block = Block(cube)
         cube.link = true
+        cube.uid = this.user._id
         this.$store.dispatch('addCube', cube)
         this.watchCube(cube)
         this.setCube(this.activeCube, block)
@@ -169,6 +171,7 @@ export default {
     createCube(){
       let cube = clone(this.activeCube)
       cube.link = false
+      cube.uid = this.user._id
       this.$store.dispatch('addCube', cube)
     },
     snapshot(page, activeId) {

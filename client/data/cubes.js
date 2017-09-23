@@ -120,6 +120,43 @@ export const container = {
 //   type: 'pt',
 // }
 
+export const form = {
+  _id: null,
+  type: 'fm',
+  name: 'Form',
+  content: 'New Form',
+  icon: 'fa fa-list-alt',
+  css: null,
+  link: false,
+  uid: null,
+  style: {
+    color: null,
+    width: null,
+    height: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: null,
+    padding: null,
+    margin: null,
+    display: null,
+    minWidth: null,
+    minHeight: null,
+    maxWidth: null,
+    maxHeight: null,
+    border: null,
+    borderRadius: null,
+    transform: null,
+    background: null,
+    flex: null,
+    flexFlow: null
+  },
+  cubes: [],
+}
+
 export const input = {
   _id: null,
   type: 'in',
