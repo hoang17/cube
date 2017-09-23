@@ -25,10 +25,10 @@ TODO:
 ✔ Fetch pages by user id @done(2017-09-21 23:41)
 ✔ API authenticate @done(2017-09-21 23:41)
 ✔ Form @done(2017-09-23 20:46)
-☐ Photo
 ☐ Select dropdown for cube props
 ☐ Font selection
 ☐ Local storage
 ☐ Build a blog plugin (cubes are package into plugin)
 ☐ Payment
 ☐ New page suggestion similar to notion.io
+☐ Photo
