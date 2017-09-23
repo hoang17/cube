@@ -20,9 +20,9 @@ Vue.directive('click-outside', ClickOutside)
 Vue.component('infinite-loading', InfiniteLoading)
 
 Vue.component('pg-pane', () => import('./panes/PagePane'))
-Vue.component('block-pane', () => import('./panes/BlockPane'))
+Vue.component('bk-pane', () => import('./panes/BlockPane'))
 
-Vue.component('block', () => import('./components/Block'))
+Vue.component('bk', () => import('./components/Block'))
 Vue.component('bv', () => import('./views/BlockView'))
 
 for (let i in cubes) {

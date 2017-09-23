@@ -202,7 +202,7 @@ export function Style(name){
 export function Block(cube){
   return {
     _id: ObjectId(),
-    type: 'block',
+    type: 'bk',
     name: 'Block',
     content: [cube.content,'Block 📦'].join(' '),
     src: cube._id,

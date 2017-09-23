@@ -8,12 +8,8 @@ const dbcubes = db.get('cubes')
 async function updateCubes(){
 
   var update = function(c){
-    if (c.type == 'lnk')
-      c.type = 'lk'
-    else if (c.type == 'btn')
-      c.type = 'bn'
-    else if (c.type == 'container')
-      c.type = 'cn'
+    if (c.type == 'block')
+      c.type = 'bk'
     if (c.cubes){
       for (let i in c.cubes){
         update(c.cubes[i])

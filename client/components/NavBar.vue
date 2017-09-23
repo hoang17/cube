@@ -41,6 +41,7 @@
 
       v-divider.my-2(dark)
       v-list-tile(:key='i', @click.stop="addCube(cube)", v-for='(cube, i) in cubes')
+        //- v-list-tile-action(v-html="cube.link?'🎁':'📦'")
         v-list-tile-action
           i.fa(:class="cube.link?'fa-cubes':'fa-cube'")
         v-list-tile-content
