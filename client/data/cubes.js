@@ -1,10 +1,9 @@
-// import { ObjectId } from './factory'
-
 export const text = {
   _id: null,
   type: 'tx',
   name: 'Text',
   content: 'New text',
+  icon: 'fa fa-font',
   css: null,
   link: false,
   uid: null,
@@ -26,9 +25,10 @@ export const text = {
 
 export const link = {
   _id: null,
-  type: 'lk', // lnk
+  type: 'lk',
   name: 'Link',
   content: 'Link',
+  icon: 'fa fa-link',
   url: null,
   css: null,
   link: false,
@@ -53,9 +53,10 @@ export const link = {
 
 export const button = {
   _id: null,
-  type: 'bn', // btn
+  type: 'bn',
   name: 'Button',
   content: 'Button',
+  icon: 'icon-button',
   url: null,
   css: null,
   link: false,
@@ -79,9 +80,10 @@ export const button = {
 
 export const container = {
   _id: null,
-  type: 'cn', // container
+  type: 'cn',
   name: 'Container',
   content: 'Container',
+  icon: 'fa fa-th-large',
   css: null,
   link: false,
   uid: null,
@@ -115,7 +117,7 @@ export const container = {
 
 // export const photo = {
 //   name: 'Photo',
-//   type: 'ph',
+//   type: 'pt',
 // }
 
 export const input = {
@@ -126,6 +128,7 @@ export const input = {
   placeholder: 'Enter input...',
   field: 'fieldName',
   required: false,
+  icon: 'icon-text',
   css: null,
   link: false,
   uid: null,
@@ -153,6 +156,7 @@ export const select = {
   placeholder: 'Select an option...',
   field: 'fieldName',
   required: false,
+  icon: 'icon-select',
   options: [
     {value: 'opt-1', name: 'Option One'},
     {value: 'opt-2', name: 'Option Two'},
@@ -184,6 +188,7 @@ export const check = {
   content: 'Check all that apply',
   field: 'fieldName',
   required: false,
+  icon: 'fa fa-check-square-o',
   options: [
     {value: 'opt-1', name: 'Option One'},
     {value: 'opt-2', name: 'Option Two'},
@@ -215,6 +220,7 @@ export const radio = {
   content: 'Select an option',
   field: 'fieldName',
   required: false,
+  icon: 'fa fa-dot-circle-o',
   options: [
     {value: 'opt-1', name: 'Option One'},
     {value: 'opt-2', name: 'Option Two'},

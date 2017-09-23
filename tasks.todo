@@ -24,7 +24,7 @@ TODO:
 ✔ Bug copy paste block: prevent recursively adding block @done(2017-09-21 08:53)
 ✔ Fetch pages by user id @done(2017-09-21 23:41)
 ✔ API authenticate @done(2017-09-21 23:41)
-☐ Form
+✔ Form @done(2017-09-23 20:46)
 ☐ Photo
 ☐ Select dropdown for cube props
 ☐ Font selection

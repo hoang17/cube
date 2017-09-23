@@ -35,7 +35,7 @@
       v-list-tile(:key='i', @click="addBaseCube(cube)", v-for='(cube, i) in baseCubes')
         v-list-tile-action
           //- v-icon add
-          i.fa.fa-sticky-note-o
+          i(:class="cube.icon")
         v-list-tile-content
           v-list-tile-title {{ cube.name }}
 
