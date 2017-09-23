@@ -106,8 +106,7 @@ export default {
       this.$router.push({ name: 'build', params: { id: id }})
     },
     addBaseCube(cube){
-      let c = clone(cube)
-      c.uid = this.user._id
+      let c = clone(cube, this.user._id)
       if (this.activeCube && this.activeCube.cubes){
         this.activeCube.cubes.push(c)
       } else {
@@ -119,8 +118,7 @@ export default {
         return alert('OOPS! Can not add a block to itself')
       }
 
-      let c = cube.link ? Block(cube) : clone(cube)
-      c.uid = this.user._id
+      let c = cube.link ? Block(cube, this.user._id) : clone(cube, this.user._id)
 
       // UPDATE BLOCKS COUNT
       let blocks = getCubeBlocks(c)

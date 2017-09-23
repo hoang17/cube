@@ -11,9 +11,10 @@ export const NanoSlug = (length = 6) => generate('0123456789abcdefABCDEF', lengt
 
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
-export function clone(cube){
+export function clone(cube, uid){
   const id = (c) => {
     c._id = ObjectId()
+    c.uid = uid
     if (c.cubes)
       for (let i in c.cubes)
         id(c.cubes[i])
@@ -199,13 +200,14 @@ export function Style(name){
   }
 }
 
-export function Block(cube){
+export function Block(cube, uid){
   return {
     _id: ObjectId(),
     type: 'bk',
     name: 'Block',
     content: [cube.content,'Block 📦'].join(' '),
     src: cube._id,
+    uid: uid,
     css: null,
     style: {
       color: null,

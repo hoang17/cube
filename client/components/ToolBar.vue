@@ -142,7 +142,7 @@ export default {
       if (this.activeCube.link) return
       if (this.activeCube.name == 'Block'){
         let origin = this.$store.state.cubes[this.activeCube.src]
-        let cube = clone(origin)
+        let cube = clone(origin, this.user._id)
         cube.link = false
         this.setCube(this.activeCube, cube)
 
@@ -154,11 +154,10 @@ export default {
         // END UPDATE
       } else {
         // Create cube
-        let cube = clone(this.activeCube)
+        let cube = clone(this.activeCube, this.user._id)
         // Create block
-        let block = Block(cube)
+        let block = Block(cube, this.user._id)
         cube.link = true
-        cube.uid = this.user._id
         this.$store.dispatch('addCube', cube)
         this.watchCube(cube)
         this.setCube(this.activeCube, block)
@@ -169,9 +168,8 @@ export default {
       }
     },
     createCube(){
-      let cube = clone(this.activeCube)
+      let cube = clone(this.activeCube, this.user._id)
       cube.link = false
-      cube.uid = this.user._id
       this.$store.dispatch('addCube', cube)
     },
     snapshot(page, activeId) {
@@ -324,7 +322,7 @@ export default {
     paste(){
       if (!this.activeCube || !this.clipboard) return
 
-      let c = clone(this.clipboard.cube)
+      let c = clone(this.clipboard.cube, this.user._id)
 
       // UPDATE STYLES COUNT
       let styles = getCubeStyles(c, this.$store.state.cubes)
@@ -367,11 +365,11 @@ export default {
     },
     async dup(){
       if (this.activeCube == this.page) {
-        let p = clone(this.page)
+        let p = clone(this.page, this.user._id)
         await this.dupPage(p)
       }
       else {
-        let cube = clone(this.activeCube)
+        let cube = clone(this.activeCube, this.user._id)
         cube.link = false
         this.cubes.push(cube)
         console.log('duped');
@@ -576,7 +574,7 @@ export default {
         let clipboardData = e.clipboardData || window.clipboardData
         let s = clipboardData.getData('Text')
         let c = JSON.parse(s)
-        let cube = clone(c.cube)
+        let cube = clone(c.cube, this.user._id)
 
         if (c.styles){
           // ADD NEW STYLES TO DB
