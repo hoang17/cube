@@ -26,7 +26,7 @@ export const text = {
 
 export const link = {
   _id: null,
-  type: 'lnk',
+  type: 'lk', // lnk
   name: 'Link',
   content: 'Link',
   url: null,
@@ -53,7 +53,7 @@ export const link = {
 
 export const button = {
   _id: null,
-  type: 'btn',
+  type: 'bn', // btn
   name: 'Button',
   content: 'Button',
   url: null,
@@ -79,7 +79,7 @@ export const button = {
 
 export const container = {
   _id: null,
-  type: 'container',
+  type: 'cn', // container
   name: 'Container',
   content: 'Container',
   css: null,
@@ -124,6 +124,7 @@ export const input = {
   name: 'Input',
   content: 'New Input',
   placeholder: 'Enter input...',
+  field: 'fieldName',
   required: false,
   css: null,
   link: false,
@@ -150,6 +151,7 @@ export const select = {
   name: 'Select',
   content: 'New Select',
   placeholder: 'Select an option...',
+  field: 'fieldName',
   required: false,
   options: [
     {value: 'opt-1', name: 'Option One'},
@@ -180,6 +182,7 @@ export const check = {
   type: 'ck',
   name: 'Checkbox',
   content: 'Check all that apply',
+  field: 'fieldName',
   required: false,
   options: [
     {value: 'opt-1', name: 'Option One'},
@@ -210,6 +213,7 @@ export const radio = {
   type: 'ra',
   name: 'Radio',
   content: 'Select an option',
+  field: 'fieldName',
   required: false,
   options: [
     {value: 'opt-1', name: 'Option One'},
