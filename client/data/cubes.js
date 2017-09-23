@@ -118,6 +118,32 @@ export const container = {
 //   type: 'ph',
 // }
 
+export const input = {
+  _id: null,
+  type: 'in',
+  name: 'Input',
+  content: 'New Input',
+  placeholder: 'Enter input...',
+  css: null,
+  link: false,
+  uid: null,
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: null,
+    padding: null,
+    margin: null,
+  }
+}
+
+
 // { name: 'Icon', type: 'icon' },
 // { name: 'DataTable', type: 'data-table' },
 // { name: 'DataForm', type: 'data-form' },

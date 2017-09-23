@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  props: ['cube','select','deselect','edit'],
+  props: ['cube','select','edit'],
   computed: {
     active(){
       return this.$store.state.activeCube == this.cube

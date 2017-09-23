@@ -9,7 +9,7 @@
 import marked from 'marked'
 
 export default {
-  props: ['cube','select','deselect','edit'],
+  props: ['cube','select','edit'],
   components: {
     // VueMarkdown
   },
