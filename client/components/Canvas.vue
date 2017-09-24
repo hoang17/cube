@@ -7,6 +7,7 @@
       toolbar(:drawer.sync='drawer')
     draggable.canvas(@click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}", :class="'--'+page.css")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
+      i
 </template>
 
 <script>
