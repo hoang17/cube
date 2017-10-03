@@ -6,8 +6,8 @@
         v-card
           v-card-text
             component(:cube="cube", :is="cube.type + '-pane'", @keydown.native.enter.stop="")
-      v-expansion-panel-content(:value="true")
-        div(slot='header') style
+      v-expansion-panel-content(:value="false")
+        div(slot='header') Style
           v-chip(small, outline)  {{ styleName }}
           //- v-chip(small, outline, v-if="style") {{ style.name }}
           //- v-chip(small, outline) inline
@@ -32,9 +32,15 @@
               option(v-for='s in styles', :value="s._id") {{ s.name }} ({{ styleCount(s) }})
 
             style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
+      //- v-expansion-panel-content(:value="true")
+        div(slot='header') Font
+        v-card
+          v-card-text
+            font-select(:item="style", :rule="rule")
 </template>
 <script>
 import StyleBar from './StyleBar'
+import FontSelect from './FontSelect'
 import { bus, Style } from '../data/factory'
 import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
@@ -42,7 +48,7 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   props: ['cube', 'drawer'],
   components: {
-    StyleBar
+    StyleBar, FontSelect
   },
   data () {
     return {
@@ -127,7 +133,8 @@ export default {
   outline none
   user-select none
   text-align center
-  border-left 1px solid rgba(0,0,0,0.12)
+  // border-left 1px solid rgba(0,0,0,0.12)
+  // border-left 1px solid hsla(0,0%,100%,.12)
   // z-index 3
   // pointer-events auto
   // will-change transform
@@ -182,7 +189,7 @@ export default {
     height 20px
     font-size 12px
     padding 0 8px
-    margin 8px 5px 10px 8px
+    margin -3px 5px 0 8px
     color #424242
     border-color #424242
     text-transform none

@@ -144,6 +144,7 @@ export function Page(uid, host){
     path: path,
     url: host + '/' + path,
     uid: uid,
+    fonts: null,
     content: 'New Page ✨',
     css: null,
     sid: NanoId(),
@@ -172,6 +173,7 @@ export function Style(name){
     _id: ObjectId(),
     name: name,
     uid: null,
+    font: null,
     style: {
       color: null,
       width: null,

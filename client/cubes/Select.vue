@@ -77,6 +77,6 @@ select
   //   outline none
 
 .application--light
-  input
+  select
     border 1px solid rgba(0,0,0,.15) !important
 </style>

@@ -1,11 +1,13 @@
 <template lang="pug">
   .page(:style="page.style | styl", :class="'--'+page.css")
+    link(v-for="f in pageFonts", :href='fontUrl(f)', rel='stylesheet')
     div(v-html="rules")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
 
 <script>
-import { getRules } from '../plugins/helpers'
+import { getRules, getFonts } from '../plugins/helpers'
+import { fonts } from '../data/fonts'
 
 export default {
   title(){
@@ -46,8 +48,14 @@ export default {
     rules(){
       return getRules(this.$store.state.styles)
     },
+    pageFonts(state){
+      return getFonts(this.$store.state.styles, this.page)
+    },
   },
   methods: {
+    fontUrl(f) {
+      return '/types/' + fonts[f]
+    },
     map(type){
       return type == 'bk' ? 'bv' : type
     },

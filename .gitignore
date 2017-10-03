@@ -32,3 +32,4 @@ bower_components
 .DS_Store
 Thumbs.db
 uploads
+public/types

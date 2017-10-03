@@ -1,5 +1,6 @@
 <template lang="pug">
   .workspace(:class="{drawer: drawer.left, drawerRight: drawer.right}")
+    link(v-for="f in pageFonts", :href="fontUrl(f)", rel='stylesheet')
     div(v-html="rules")
     .control
       navbar(:drawer.sync='drawer')
@@ -12,8 +13,9 @@
 
 <script>
 import Draggable from 'vuedraggable'
-import { getRules } from '../plugins/helpers'
+import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
+import { fonts } from '../data/fonts'
 
 export default {
   title: 'Build',
@@ -38,6 +40,9 @@ export default {
     ...mapState({
       rules(state){
         return getRules(state.styles)
+      },
+      pageFonts(state){
+        return getFonts(state.styles, this.page)
       },
       user(state){
         return state.user
@@ -75,6 +80,9 @@ export default {
     this.activeCube = this.page
   },
   methods: {
+    fontUrl(f) {
+      return '/types/' + fonts[f]
+    },
     keydown(e){
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
       if (e.keyCode == 8 || e.keyCode == 46 || ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey))

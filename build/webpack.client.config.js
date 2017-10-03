@@ -43,6 +43,11 @@ module.exports = {
         options: vueConfig
       },
       {
+         test: /\.coffee$/,
+         use: ['babel-loader', 'coffee-loader'],
+         exclude: /node_modules/
+      },
+      {
         test: /\.jsx?$/,
         use: ['babel-loader'],
         exclude: /node_modules/

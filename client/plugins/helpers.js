@@ -97,3 +97,15 @@ export function getRules(styles){
   }
   return `<style>${rules}</style>`
 }
+
+export function getFonts(styles, page){
+  let fonts = []
+  for (let i in styles) {
+    let f = styles[i].font
+    if (f) fonts.push(f)
+  }
+  if (page.fonts)
+    for (let f in page.fonts)
+      if (!fonts.includes(f)) fonts.push(f)  
+  return fonts
+}
