@@ -9,7 +9,7 @@
 
 <script>
 // import styled from 'vue-styled-components'
-import styled from '../../../../Lab/vue-styled-components/src'
+import styled from 'vue-styled-components-fork'
 
 // Create a <Wrapper> Vue component that renders a <section> with
 // some padding and a papayawhip background
