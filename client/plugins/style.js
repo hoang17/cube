@@ -8,7 +8,7 @@ const serverStyleMixin = {
   async created () {
     const rules = getRules(this)
     if (rules) {
-      log(rules);
+      // log(rules);
       this.$ssrContext.style += rules
     }
   }
