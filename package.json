@@ -25,6 +25,8 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.1",
     "bootflat": "^2.0.4",
+    "buefy": "^0.5.3",
+    "bulma": "^0.5.3",
     "bunyan": "^2.0.2",
     "chalk": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
