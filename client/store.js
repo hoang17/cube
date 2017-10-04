@@ -94,6 +94,7 @@ export function createStore (context) {
       async fetchView({state, commit}, { url }){
         if (state.routes[url]) return state.routes[url]
         let { page, styles, cubes } = await api.fetchViewData(url)
+        if (!page) return
         state.styles = Object.assign({}, state.styles, styles)
         state.cubes = Object.assign({}, state.cubes, cubes)
         Vue.set(state.pages, page._id, page)

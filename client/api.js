@@ -89,6 +89,7 @@ export function setup(token){
     async fetchViewData(url){
       let res = await api.post('view', {url: url})
       let page = res.data.page
+      if (!page) return { page }
       let styles = key(res.data.styles)
       let cubes = key(res.data.cubes)
       return { page, styles, cubes }

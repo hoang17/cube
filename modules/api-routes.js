@@ -49,6 +49,7 @@ router.route('/view')
   .post(async function(req, res) {
     let data = {}
     data.page = await pages.findOne({url:req.body.url})
+    if (!data.page) return res.json(data)
     let styleIds = Object.keys(data.page.styles)
     let cubeIds = Object.keys(data.page.blocks)
     data.styles = styleIds.length > 0 ? await styles.find({_id: {$in: styleIds }}) : []
