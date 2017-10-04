@@ -30,9 +30,12 @@ for (let i in cubes) {
 
 Vue.config.productionTip = false
 
-// mixin for handling title & style
-Vue.mixin(titleMixin)
-Vue.mixin(styleMixin)
+if (!Vue.mixins){
+  Vue.mixins = true
+  // mixin for handling title & style
+  Vue.mixin(titleMixin)
+  Vue.mixin(styleMixin)
+}
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

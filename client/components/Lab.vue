@@ -1,6 +1,6 @@
 <template lang="pug">
   Wrapper
-    StyledTitle hello
+    StyledTitle(primary) hello
     .toolbar
     .navbar
     .propbar
@@ -8,21 +8,21 @@
 </template>
 
 <script>
-// import styled from 'vue-styled-components'
 import styled from 'vue-styled-components-fork'
 
 // Create a <Wrapper> Vue component that renders a <section> with
 // some padding and a papayawhip background
 const Wrapper = styled.section`
   padding: 4em;
+  text-align: center;
   background: papayawhip;
 `
 // Create a <StyledTitle> Vue component that renders an <h1> which is
 // centered, palevioletred and sized at 1.5em
-const StyledTitle = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
+const StyledTitle = styled('h1', { primary: Boolean })`
+  font-size: ${props => props.primary ? '3em' : '1.5em'};
+  color: ${props => props.primary ? 'palevioletred': 'white'};
+  background: ${props => props.primary ? 'papayawhip': 'palevioletred'};
 `
 
 const StyledInput = styled.input`
