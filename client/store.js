@@ -20,7 +20,7 @@ export function createStore (context) {
       styles: {},
       histories: {},
       routes: {},
-      dark: true,
+      dark: false,
     },
     actions: {
       async addCube({ state, commit }, cube) {

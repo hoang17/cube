@@ -1,7 +1,7 @@
 <template lang="pug">
   .workspace(:class="{drawer: drawer.left, drawerRight: drawer.right}")
     link(v-for="f in pageFonts", :href="fontUrl(f)", rel='stylesheet')
-    div(v-html="rules")
+    style(v-html="rules")
     .control
       navbar(:drawer.sync='drawer')
       propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawer.sync='drawer')

@@ -1,7 +1,7 @@
 <template lang="pug">
   .page(:style="page.style | styl", :class="'--'+page.css")
     link(v-for="f in pageFonts", :href='fontUrl(f)', rel='stylesheet')
-    div(v-html="rules")
+    style(v-html="rules")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
 
@@ -13,6 +13,9 @@ export default {
   title(){
     return this.page.content
   },
+  // rules(){
+  //   return getRules(this.$store.state.styles)
+  // },
   async asyncData ({ store, route, context }) {
     // context.res.status(404).end('404 | Page Not Found')
     let id = await store.dispatch('fetchView', { url: store.state.host + route.path })

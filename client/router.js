@@ -4,7 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const Canvas = () => import('./components/Canvas')
-const Page = () => import('./cubes/Page')
+const Page = () => import('./components/Page')
+const Lab = () => import('./components/Lab')
 
 export function createRouter () {
   let router = new Router({
@@ -14,6 +15,7 @@ export function createRouter () {
       // { path: '/', redirect: 'groups' },
       { path: '/', name: 'home', component: Page },
       { path: '/build/:id?', name: 'build', component: Canvas },
+      { path: '/lab', name: 'lab', component: Lab },
       { path: '*', name: 'catch-all',component: Page },
     ],
     // scrollBehavior (to, from, savedPosition) {

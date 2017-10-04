@@ -1,6 +1,3 @@
-import insertCss from 'insert-css'
-import { genStyle } from './helpers'
-
 function getTitle (vm) {
   const { title } = vm.$options
   if (title)

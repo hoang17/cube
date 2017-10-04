@@ -95,7 +95,7 @@ export function getRules(styles){
     let s = genStyle(e.style)
     rules += `.--${e._id}{${s}}`
   }
-  return `<style>${rules}</style>`
+  return rules
 }
 
 export function getFonts(styles, page){
@@ -106,6 +106,6 @@ export function getFonts(styles, page){
   }
   if (page.fonts)
     for (let f in page.fonts)
-      if (!fonts.includes(f)) fonts.push(f)  
+      if (!fonts.includes(f)) fonts.push(f)
   return fonts
 }

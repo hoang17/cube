@@ -4,6 +4,7 @@ import { createStore } from './store'
 import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
 import titleMixin from './plugins/title'
+import styleMixin from './plugins/style'
 import * as filters from './plugins/filters'
 import InfiniteLoading from './addons/InfiniteLoading'
 import ClickOutside from './directives/ClickOutside'
@@ -29,8 +30,9 @@ for (let i in cubes) {
 
 Vue.config.productionTip = false
 
-// mixin for handling title
+// mixin for handling title & style
 Vue.mixin(titleMixin)
+Vue.mixin(styleMixin)
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
