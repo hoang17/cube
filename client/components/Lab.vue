@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import styled from 'vue-styled-components-fork'
+import styled from '../../node_modules/vue-styled-components-fork/src'
 
 // Create a <Wrapper> Vue component that renders a <section> with
 // some padding and a papayawhip background
