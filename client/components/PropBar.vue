@@ -198,18 +198,20 @@ export default {
     text-transform uppercase
     font-weight 500
     padding-left 18px
+    height 48px
     // box-shadow 1px -1px 1px 1px rgba(0,0,0,.1)
     // box-shadow 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12)
 
   .expansion-panel__body
     border-top 1px solid hsla(0,0%,100%,.12)
-    // border-top 0.1rem solid #d1d1d1
-    // box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
 
 .application--light
   .action
     background-color #fafafa
     box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
+  .expansion-panel__body
+    border-top 0.1rem solid #d1d1d1
+    // box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
 
 .application--dark
   .chip--small

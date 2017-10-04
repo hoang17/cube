@@ -13,6 +13,11 @@ import * as cubes from './data/cubes'
 // require('../node_modules/vuetify/dist/vuetify.min.css')
 // require('./app.styl')
 
+// import Buefy from 'buefy'
+// import 'buefy/lib/buefy.css'
+
+// Vue.use(Buefy)
+
 Vue.use(Vuetify)
 
 Vue.directive('click-outside', ClickOutside)
