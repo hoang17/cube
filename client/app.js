@@ -6,17 +6,9 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './plugins/title'
 import * as filters from './plugins/filters'
 import InfiniteLoading from './addons/InfiniteLoading'
-import Vuetify from 'vuetify'
 import ClickOutside from './directives/ClickOutside'
 import * as cubes from './data/cubes'
-
-// require('../node_modules/vuetify/dist/vuetify.min.css')
-// require('./app.styl')
-
-// import Buefy from 'buefy'
-// import 'buefy/lib/buefy.css'
-
-// Vue.use(Buefy)
+import Vuetify from 'vuetify'
 
 Vue.use(Vuetify)
 
