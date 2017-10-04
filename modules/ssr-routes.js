@@ -2,9 +2,10 @@ const express = require('express')
 const path = require('path')
 const LRU = require('lru-cache')
 const chalk = require('chalk')
-const passportConfig = require('../config/passport')
 const microcache = require('route-cache')
+const compression = require('compression')
 const pug = require('pug')
+// const passportConfig = require('../config/passport')
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -65,11 +66,11 @@ module.exports = function(app) {
   })
 
   // app.use(compression({ threshold: 0 }))
-  // app.use(favicon('./public/logo-48.png'))
-  // app.use('/public', serve('./public', true))
   app.use('/dist', serve('../dist', true))
   app.use('/manifest.json', serve('../manifest.json', true))
   app.use('/service-worker.js', serve('../dist/service-worker.js'))
+  // app.use(favicon('./public/logo-48.png'))
+  // app.use('/public', serve('./public', true))
 
   // let bundle
   // let options

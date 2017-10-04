@@ -77,7 +77,7 @@ app.set('port', port)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 // app.use(helmet())
-app.use(compression())
+app.use(compression({ threshold: 0 }))
 // app.use(expressStatusMonitor())
 // app.use(sass({
 //   src: publicDir,
