@@ -8,33 +8,40 @@
 </template>
 
 <script>
-import styled from '../../node_modules/vue-styled-components-fork/src'
+import styled from '../../../../Lab/vue-styled-components/src'
+// import styled from '../../node_modules/vue-styled-components-fork/src'
 
 // Create a <Wrapper> Vue component that renders a <section> with
 // some padding and a papayawhip background
 const Wrapper = styled.section`
-  padding: 4em;
-  text-align: center;
-  background: papayawhip;
+  padding: 4em
+  text-align: center
+  background: papayawhip
 `
+
 // Create a <StyledTitle> Vue component that renders an <h1> which is
 // centered, palevioletred and sized at 1.5em
 const StyledTitle = styled('h1', { primary: Boolean })`
-  font-size: ${props => props.primary ? '3em' : '1.5em'};
-  color: ${props => props.primary ? 'palevioletred': 'white'};
-  background: ${props => props.primary ? 'papayawhip': 'palevioletred'};
+  font-size: ${props => props.primary ? '3em' : '1.5em'}
+  color: ${props => props.primary ? 'palevioletred': 'white'}
+  background: ${props => props.primary ? 'papayawhip': 'palevioletred'}
+  &:hover {
+    cursor: pointer
+    color: lightblue
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1)
+  }
 `
 
 const StyledInput = styled.input`
-  font-size: 1.25em;
-  padding: 0.5em;
-  margin: 0.5em;
-  color: palevioletred;
-  background: papayawhip;
-  border: none;
-  border-radius: 3px;
+  font-size: 1.25em
+  padding: 0.5em
+  margin: 0.5em
+  color: palevioletred
+  background: papayawhip
+  border: none
+  border-radius: 3px
   &:hover {
-    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1)
   }
 `
 
