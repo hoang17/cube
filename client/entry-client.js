@@ -11,9 +11,9 @@ import { createApp } from './app'
 // Vue.use(VueAutosize)
 
 // global progress bar
-import ProgressBar from './addons/ProgressBar.vue'
-const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
-document.body.appendChild(bar.$el)
+// import ProgressBar from './addons/ProgressBar.vue'
+// const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+// document.body.appendChild(bar.$el)
 
 // a global mixin that calls `asyncData` when a route component's params change
 // Vue.mixin({

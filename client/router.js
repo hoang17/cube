@@ -5,7 +5,7 @@ Vue.use(Router)
 
 const Canvas = () => import('./components/Canvas')
 const Page = () => import('./components/Page')
-const Lab = () => import('./components/Lab')
+const Lab = () => import('./lab/Lab')
 
 export function createRouter () {
   let router = new Router({
