@@ -1,6 +1,6 @@
 <template lang="pug">
-  //- v-app(:dark="dark")
-  #app
+  //- #app
+  v-app(:dark="dark")
     transition(name='fade', mode='out-in')
       router-view
       //-keep-alive(include="groups,likes,pages")
@@ -22,6 +22,6 @@ export default {
 </script>
 
 <style lang="stylus">
-  @require './reset'
-  // @require './app'
+  @require './app'
+  // @require './reset'
 </style>

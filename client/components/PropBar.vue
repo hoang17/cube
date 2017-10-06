@@ -128,7 +128,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .propbar
   outline none
   user-select none

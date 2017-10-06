@@ -101,7 +101,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .application--dark
   .canvas
     // background-color hsl(220, 13%, 18%)
