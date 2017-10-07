@@ -1,11 +1,14 @@
 <template lang="pug">
-  v-btn.cube.button(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="cube.css | css", @mouseover.stop="") {{ cube.content }}
+  v-btn.cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="css", @mouseover.stop="") {{ cube.content }}
 </template>
 
 <script>
 export default {
   props: ['cube','select','edit'],
   computed: {
+    css(){
+      return this.$style.button + (this.cube.css ? ' --' + this.cube.css : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     }
@@ -25,7 +28,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .button
   display inline-block
 

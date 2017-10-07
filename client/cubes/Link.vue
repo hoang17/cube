@@ -1,12 +1,15 @@
 <template lang="pug">
-  a.cube.link(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="cube.css | css", @mouseover.stop="") {{ cube.content }}
-  router-link.cube.link(v-else, :style="cube.style | styl", :to="cube.url?cube.url:''", :class="cube.css | css") {{ cube.content }}
+  a.cube(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="") {{ cube.content }}
+  router-link.cube(v-else, :style="cube.style | styl", :to="cube.url?cube.url:''", :class="css") {{ cube.content }}
 </template>
 
 <script>
 export default {
   props: ['cube','select','edit'],
   computed: {
+    css(){
+      return this.$style.link + (this.cube.css ? ' --' + this.cube.css : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     }
@@ -19,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .link
   display inline-block
 

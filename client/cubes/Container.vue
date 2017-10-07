@@ -1,8 +1,8 @@
 <template lang="pug">
-  draggable.cube.cn(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="css", @mouseover.native.stop="hover=true", @mouseout.native.stop="hover=false")
+  draggable.cube(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="css", @mouseover.native.stop="hover=true", @mouseout.native.stop="hover=false")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
     i
-  .cube.cn(v-else, :style="cube.style | styl", :content="cube.content", :class="cube.css | css")
+  .cube(v-else, :style="cube.style | styl", :content="cube.content", :class="$style.container + ' ' + cube.css | css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="map(c.type)", :key="i", :edit="edit")
 </template>
 
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     css(){
-      return '--' + this.cube.css + (this.hover ? ' hover' : '')
+      return this.$style.container + ' --' + this.cube.css + (this.hover ? ' hover' : '')
     },
     active(){
       return this.$store.state.activeCube == this.cube
@@ -38,8 +38,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.cn
+<style lang="stylus" module>
+.container
   min-height 38px
 
   &:empty:before
@@ -75,8 +75,8 @@ export default {
   &[active]:after
     border 1px dotted rgba(0,0,0,.5) !important
 
-.application--dark
-  .cn
+:global(.application--dark)
+  .container
     &[edit]:after
       border 1px dotted #666 !important
 
@@ -85,5 +85,4 @@ export default {
 
     &[active]:after
       border 1px dotted #4FFBFF !important
-
 </style>

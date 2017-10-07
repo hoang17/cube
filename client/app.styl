@@ -29,9 +29,6 @@ body
   // color #34495e
   // overflow-y scroll
 
-*::selection
-  background rgba(78,188,221,0.15)
-
 // h1,h2,h3,h4,h5,h6
 //   margin auto
 
@@ -45,6 +42,22 @@ a
 
 p
   margin 0
+
+select
+	appearance none
+	background-color transparent
+	border 1px solid #dddfe2
+	border-radius 1px
+	box-sizing inherit
+	padding 8px
+	width 100%
+
+	&:focus
+		// border-color #666
+		outline 0
+
+*::selection
+  background rgba(78,188,221,0.15)
 
 .application
   .list__tile__title
@@ -63,8 +76,10 @@ p
       .input-group__selections__comma
         font-size 13px !important
 
-// .application--light
-//   background-color #fff
+.application--light
+  // background-color #fff
+  .navigation-drawer--right
+    background-color #fafafa
 
 .application--dark
   // background-color hsl(220, 13%, 18%)
@@ -89,7 +104,6 @@ p
 .fade-enter, .fade-leave-active
   opacity 0
 
-
 .cube
   position relative
   text-align center
@@ -107,20 +121,6 @@ p
   .cube
     &[active]:after
       border 1px dotted #4FFBFF !important
-
-
-select
-	appearance none
-	background-color transparent
-	border 1px solid #dddfe2
-	border-radius 1px
-	box-sizing inherit
-	padding 8px
-	width 100%
-
-	&:focus
-		// border-color #666
-		outline 0
 
 $right-pane-width := 28em
 
@@ -168,14 +168,14 @@ $media-breakpoints := {
       height 27px
       margin 4px
 
-@media $media-breakpoints.lg-and-down
-  .canvas
-    margin-left 0
-    margin-right 0
+// @media $media-breakpoints.lg-and-down
+//   .canvas
+//     margin-left 0
+//     margin-right 0
 
-@media $media-breakpoints.lg-and-up
-  .drawer .canvas
-    margin-left 300px
-
-  .drawerRight .canvas
-    margin-right 28em
+// @media $media-breakpoints.lg-and-up
+//   .drawer .canvas
+//     margin-left 300px
+//
+//   .drawerRight .canvas
+//     margin-right 28em

@@ -53,5 +53,5 @@ export function cropTxt(txt, length = 300){
 export const styl = genStyle
 
 export function css(css){
-  return css ? '--' + css : null
+  return css ? '--' + css : ''
 }

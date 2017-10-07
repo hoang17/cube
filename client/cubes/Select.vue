@@ -1,7 +1,7 @@
 <template lang="pug">
-  .cube.select(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="cube.css|css", @mouseover.stop="")
+  .cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
     .flex.xs5
-      label.label(:for="cube._id") {{ cube.content }}
+      label(:class="$style.label", :for="cube._id") {{ cube.content }}
     .flex.xs7
       select(:id="cube._id")
         option(v-for='o in cube.options', :value="o.value") {{ o.name }}
@@ -11,6 +11,9 @@
 export default {
   props: ['cube','select','edit'],
   computed: {
+    css(){
+      return this.$style.select + (this.cube.css ? ' --' + this.cube.css : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     },
@@ -23,7 +26,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .select
   text-align left
   align-items center
@@ -47,36 +50,37 @@ export default {
 
   // &[active]:after
   //   border 1px dashed rgba(0,0,0,.5) !important
-label
-  text-transform uppercase
-  letter-spacing 2px
-  -webkit-font-smoothing antialiased
-  display block
-  padding 8px 0
-  // height 100%
-  // line-height 36px
-  // vertical-align middle
-  // border 1px solid #666
+  label
+    text-transform uppercase
+    letter-spacing 2px
+    -webkit-font-smoothing antialiased
+    display block
+    padding 8px 0
+    // height 100%
+    // line-height 36px
+    // vertical-align middle
+    // border 1px solid #666
 
-select
-  text-align left
-  border 1px solid #666
-  outline none
-  padding 8px
-  width 100%
-  border-radius 0
-
-  &[edit]
-    transition .3s cubic-bezier(.25,.8,.25,1)
-
-  &[edit]:hover
-    border 1px dotted #03a9f4 !important
-
-  // &[active]
-  //   border 1px dotted #4FFBFF !important
-  //   outline none
-
-.application--light
   select
-    border 1px solid rgba(0,0,0,.15) !important
+    text-align left
+    border 1px solid #666
+    outline none
+    padding 8px
+    width 100%
+    border-radius 0
+
+    &[edit]
+      transition .3s cubic-bezier(.25,.8,.25,1)
+
+    &[edit]:hover
+      border 1px dotted #03a9f4 !important
+
+    // &[active]
+    //   border 1px dotted #4FFBFF !important
+    //   outline none
+
+:global(.application--light)
+  .select
+    select
+      border 1px solid rgba(0,0,0,.15) !important
 </style>

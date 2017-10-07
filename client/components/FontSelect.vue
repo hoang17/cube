@@ -1,11 +1,11 @@
 <template lang="pug">
-  .font-select
+  div(:class="$style.fontSelect")
     ul(v-for="type in types")
-      li.header
-        .line
-        .label {{ type.name }}
-        .line
-      li.selectable(v-for="font in type.fonts", :class="{active: rule.fontFamily==font.family}")
+      li(:class="$style.header")
+        div(:class="$style.line")
+        div(:class="$style.label") {{ type.name }}
+        div(:class="$style.line")
+      li(v-for="font in type.fonts", :class="{[$style.active]: rule.fontFamily==font.family}")
         button(@click="selectFont(font)")
           img(:src="'/types/'+font.png", height='30', :alt='font.family')
     //-.toolbar__fontCta
@@ -74,7 +74,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .font-select
   max-height 70vh
   overflow-y scroll
@@ -134,7 +134,7 @@ export default {
       text-align center
       text-transform uppercase
 
-.application--light
+:global(.application--light)
   .font-select
     li
       .active

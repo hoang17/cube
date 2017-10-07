@@ -1,9 +1,9 @@
 <template lang="pug">
-  .cube.radio-group(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="cube.css|css", @mouseover.stop="")
+  .cube.radio-group(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
     .flex.xs5
-      label.label {{ cube.content }}
+      label(:class="$style.label") {{ cube.content }}
     .flex.xs7
-      .radio(v-for='o in cube.options')
+      div(v-for='o in cube.options', :class="$style.radio")
         input(type="radio", :name="cube._id", :id="cube._id + o.value", :value="o.value")
         label(:for="cube._id + o.value") {{ o.name }}
 </template>
@@ -12,6 +12,9 @@
 export default {
   props: ['cube','select','edit'],
   computed: {
+    css(){
+      return this.$style.radioGroup + (this.cube.css ? ' --' + this.cube.css : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     },
@@ -24,7 +27,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .radio-group
   text-align left
   align-items center
@@ -49,33 +52,29 @@ export default {
   // &[active]:after
   //   border 1px dashed rgba(0,0,0,.5) !important
 
-.label
-  text-transform uppercase
-  letter-spacing 2px
-  -webkit-font-smoothing antialiased
-  display inline-block
-  padding 8px 0
-
-.radio
-  label
+  .label
+    text-transform uppercase
+    letter-spacing 2px
     -webkit-font-smoothing antialiased
     display inline-block
-    padding 3px 0 3px 10px
+    padding 8px 0
 
-input
-  display inline-block
+  .radio
+    label
+      -webkit-font-smoothing antialiased
+      display inline-block
+      padding 3px 0 3px 10px
 
-  &[edit]
-    transition .3s cubic-bezier(.25,.8,.25,1)
+    input
+      display inline-block
 
-  &[edit]:hover
-    border 1px dotted #03a9f4 !important
+      &[edit]
+        transition .3s cubic-bezier(.25,.8,.25,1)
 
-  // &[active]
-  //   border 1px dotted #4FFBFF !important
-  //   outline none
+      &[edit]:hover
+        border 1px dotted #03a9f4 !important
 
-.application--light
-  input
-    border 1px solid rgba(0,0,0,.15) !important
+      // &[active]
+      //   border 1px dotted #4FFBFF !important
+      //   outline none
 </style>

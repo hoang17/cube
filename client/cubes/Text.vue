@@ -1,6 +1,6 @@
 <template lang="pug">
-  .cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="cube.css|css", @mouseover.stop="")
-  //-vue-markdown.cube.text(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
+  .cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="css", @mouseover.stop="")
+  //-vue-markdown.cube(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
 <script>
@@ -14,6 +14,9 @@ export default {
     // VueMarkdown
   },
   computed: {
+    css(){
+      return this.$style.text + (this.cube.css ? ' --' + this.cube.css : '')
+    },
     active(){
       return this.$store.state.activeCube == this.cube
     },
@@ -29,9 +32,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .text
-
   &[edit]:after
     transition .3s cubic-bezier(.25,.8,.25,1)
     pointer-events none

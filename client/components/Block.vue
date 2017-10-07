@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.block(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :content="cube.content", :class="css", @mouseover.stop="hover=true", @mouseout.stop="hover=false")
+  .cube(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :content="cube.content", :class="css", @mouseover.stop="hover=true", @mouseout.stop="hover=false")
     component(:cube="source", :is="source.type", :edit="edit", :select="select")
 </template>
 
@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     css(){
-      return '--' + this.cube.css + (this.hover ? ' hover' : '')
+      return this.$style.block + ' --' + this.cube.css + (this.hover ? ' hover' : '')
     },
     active(){
       return this.$store.state.activeCube == this.cube
@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .block
   &[edit]:after
     transition .3s cubic-bezier(.25,.8,.25,1)
@@ -50,7 +50,7 @@ export default {
   &[active]:after
     border 1px dashed rgba(0,0,0,.5) !important
 
-.application--dark
+:gobal(.application--dark)
   .block
     &[edit]:after
       border 1px dashed #666 !important
