@@ -1,9 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const vueConfig = require('./vue-loader.config')
@@ -42,9 +42,9 @@ module.exports = {
         options: vueConfig
       },
       {
-         test: /\.coffee$/,
-         use: ['babel-loader', 'coffee-loader'],
-         exclude: /node_modules/
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.jsx?$/,
@@ -53,23 +53,24 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: 'css-loader?minimize',
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader']
+        use: ['vue-style-loader', 'css-loader']
+        // use: isProd
+        //   ? ExtractTextPlugin.extract({
+        //       use: 'css-loader?minimize',
+        //       fallback: 'vue-style-loader'
+        //     })
+        //   : ['vue-style-loader', 'css-loader']
         // loader: "vue-style-loader!css-loader"
       },
       {
         test: /\.styl$/,
-        // use: [ 'vue-style-loader', 'css-loader', 'stylus-loader' ]
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: ['css-loader', 'stylus-loader'],
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader', 'stylus-loader']
+        use: [ 'vue-style-loader', 'css-loader', 'stylus-loader' ]
+        // use: isProd
+        //   ? ExtractTextPlugin.extract({
+        //       use: ['css-loader', 'stylus-loader'],
+        //       fallback: 'vue-style-loader'
+        //     })
+        //   : ['vue-style-loader', 'css-loader', 'stylus-loader']
         // loader: "vue-style-loader!css-loader!stylus-loader",
       },
       {
@@ -98,22 +99,31 @@ module.exports = {
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
           'process.env.VUE_ENV': '"server"'
         }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
+
         // new webpack.optimize.UglifyJsPlugin({
         //   sourceMap: true,
         //   compress: { warnings: false },
         //   output: {comments: false}
         // }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
+
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css',
           allChunks: true
         }),
+
+        // It will search for CSS assets during the Webpack build and will optimize \ minimize
+        // the CSS (by default it uses cssnano but a custom CSS processor can be specified)
+        // Solves extract-text-webpack-plugin CSS duplication problem:
+        // Since extract-text-webpack-plugin only bundles (merges) text chunks, if its used to bundle CSS,
+        // the bundle might have duplicate entries (chunks can be duplicate free but when merged, duplicate CSS can be created).
         new OptimizeCssAssetsPlugin({
           assetNameRegExp: /\.css$/g,
           cssProcessor: require('cssnano'),
           cssProcessorOptions: { discardComments: {removeAll: true } },
           canPrint: true
         }),
+
         new webpack.LoaderOptionsPlugin({
           minimize: true
         }),

@@ -1,6 +1,7 @@
 const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
-  extractCSS: isProd,
+  // extractCSS: isProd,
+  extractCSS: false,
   preserveWhitespace: false,
   cssModules: {
     modules: true,
@@ -11,7 +12,7 @@ module.exports = {
       ? '[hash:base64:5]'
       : '[local]_[hash:base64:5]',
       // : '[name]-[local]-[hash:base64:5]',
-    minimize: isProd,
+    minimize: true,
   },
   postcss: [
     require('autoprefixer')({

@@ -1,11 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const vueConfig = require('./vue-loader.config')
 
@@ -43,9 +43,9 @@ module.exports = {
         options: vueConfig
       },
       {
-         test: /\.coffee$/,
-         use: ['babel-loader', 'coffee-loader'],
-         exclude: /node_modules/
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.jsx?$/,
@@ -54,23 +54,24 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: 'css-loader?minimize',
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader']
+        use: ['vue-style-loader', 'css-loader']
+        // use: isProd
+        //   ? ExtractTextPlugin.extract({
+        //       use: 'css-loader?minimize',
+        //       fallback: 'vue-style-loader'
+        //     })
+        //   : ['vue-style-loader', 'css-loader']
         // loader: "vue-style-loader!css-loader"
       },
       {
         test: /\.styl$/,
-        // use: [ 'vue-style-loader', 'css-loader', 'stylus-loader' ]
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: ['css-loader', 'stylus-loader'],
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader', 'stylus-loader']
+        use: [ 'vue-style-loader', 'css-loader', 'stylus-loader' ]
+        // use: isProd
+        //   ? ExtractTextPlugin.extract({
+        //       use: ['css-loader', 'stylus-loader'],
+        //       fallback: 'vue-style-loader'
+        //     })
+        //   : ['vue-style-loader', 'css-loader', 'stylus-loader']
         // loader: "vue-style-loader!css-loader!stylus-loader",
       },
       {
@@ -97,18 +98,24 @@ module.exports = {
           compress: { warnings: false },
           output: {comments: false}
         }),
-        new webpack.optimize.AggressiveMergingPlugin(),
-        new webpack.optimize.ModuleConcatenationPlugin(),
+
         new ExtractTextPlugin({
           filename: 'common.[contenthash].css',
           allChunks: true
         }),
+
+        // It will search for CSS assets during the Webpack build and will optimize \ minimize
+        // the CSS (by default it uses cssnano but a custom CSS processor can be specified)
+        // Solves extract-text-webpack-plugin CSS duplication problem:
+        // Since extract-text-webpack-plugin only bundles (merges) text chunks, if its used to bundle CSS,
+        // the bundle might have duplicate entries (chunks can be duplicate free but when merged, duplicate CSS can be created).
         new OptimizeCssAssetsPlugin({
           assetNameRegExp: /\.css$/g,
           cssProcessor: require('cssnano'),
           cssProcessorOptions: { discardComments: {removeAll: true } },
           canPrint: true
         }),
+
         // extract vendor chunks for better caching
         new webpack.optimize.CommonsChunkPlugin({
           name: 'vendor',
@@ -122,8 +129,8 @@ module.exports = {
             )
           }
         }),
-        // extract webpack runtime & manifest to avoid vendor chunk hash changing
-        // on every build.
+        // extract webpack runtime & manifest to avoid
+        // vendor chunk hash changing on every build.
         new webpack.optimize.CommonsChunkPlugin({
           name: 'manifest'
         }),
