@@ -42,22 +42,22 @@ export default {
     left 0
     width 100%
     height 100%
-    border 1px dashed rgba(0,0,0,.2) !important
+    border 1px dotted rgba(0,0,0,.2) !important
 
   &[edit].hover:after
     border 1px dotted #03a9f4 !important
 
   &[active]:after
-    border 1px dashed rgba(0,0,0,.5) !important
+    border 1px dotted rgba(0,0,0,.5) !important
 
-:gobal(.application--dark)
+:global(.application--dark)
   .block
     &[edit]:after
-      border 1px dashed #666 !important
+      border 1px dotted #666 !important
 
     &[edit].hover:after
       border 1px dotted #03a9f4 !important
 
     &[active]:after
-      border 1px dashed #4FFBFF !important
+      border 1px dotted #4FFBFF !important
 </style>
