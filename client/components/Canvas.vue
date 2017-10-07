@@ -1,7 +1,7 @@
 <template lang="pug">
   .workspace(:class="{[$style.drawer]: drawer.left, [$style.drawerRight]: drawer.right}")
     link(v-for="f in pageFonts", :href="fontUrl(f)", rel='stylesheet')
-    style(v-html="rules")
+    div(v-html="rules")
     div(:class="$style.control")
       navbar(:drawer.sync='drawer')
       propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawer.sync='drawer')
@@ -39,7 +39,7 @@ export default {
     ]),
     ...mapState({
       rules(state){
-        return getRules(state.styles)
+        return '<style>'+getRules(state.styles)+'</style>'
       },
       pageFonts(state){
         return getFonts(state.styles, this.page)

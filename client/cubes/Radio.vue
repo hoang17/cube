@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.radio-group(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
+  .cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
     .flex.xs5
       label(:class="$style.label") {{ cube.content }}
     .flex.xs7

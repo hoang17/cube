@@ -32,7 +32,7 @@
               option(v-for='s in styles', :value="s._id") {{ s.name }} ({{ styleCount(s) }})
 
             style-bar(:item="style", :rule="rule", @keydown.native.enter.stop="")
-      v-expansion-panel-content(:value="true")
+      //- v-expansion-panel-content(:value="true")
         div(slot='header') Font
         v-card
           v-card-text

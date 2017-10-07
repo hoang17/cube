@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-toolbar.elevation-1(fixed, dense, :class="$style.toolbar")
+  v-toolbar.elevation-1(fixed, dense)
     v-toolbar-side-icon(@click.stop="drawer.left=!drawer.left")
     v-btn(icon, @click='save', :disabled="saved")
       i.fa.fa-save
@@ -657,7 +657,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" module>
+<style lang="stylus" scoped>
 .toolbar
   z-index 1
   pointer-events auto

@@ -1,7 +1,7 @@
 <template lang="pug">
   .page(:style="page.style | styl", :class="'--'+page.css")
     link(v-for="f in pageFonts", :href='fontUrl(f)', rel='stylesheet')
-    style(v-html="rules")
+    div(v-html="rules")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
 
@@ -49,7 +49,7 @@ export default {
       return this.page.cubes
     },
     rules(){
-      return getRules(this.$store.state.styles)
+      return '<style>'+getRules(this.$store.state.styles)+'</style>'
     },
     pageFonts(state){
       return getFonts(this.$store.state.styles, this.page)
