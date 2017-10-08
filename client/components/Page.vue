@@ -1,5 +1,5 @@
 <template lang="pug">
-  .page(:style="page.style | styl", :class="'--'+page.css")
+  div(:style="page.style | styl", :class="css")
     link(v-for="f in pageFonts", :href='fontUrl(f)', rel='stylesheet')
     div(v-html="rules")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
@@ -36,6 +36,12 @@ export default {
     }
   },
   computed: {
+    css(){
+      return [
+        this.$style.page,
+        this.page.css ? '--' + this.page.css : ''
+      ]
+    },
     path(){
       return this.$route.path
     },
@@ -69,7 +75,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" module>
 .page
   padding-top 10px
 </style>
