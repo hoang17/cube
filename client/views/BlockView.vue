@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube.block(:style="cube.style | styl", :class="css")
+  div(:style="cube.style | styl", :class="css")
     component(:cube="source", :is="source.type")
 </template>
 
@@ -11,6 +11,9 @@ export default {
     }
   },
   computed: {
+    css(){
+      return this.cube.css ? '--' + this.cube.css : ''
+    },
     source(){
       return this.$store.state.cubes[this.cube.src]
     },
@@ -20,5 +23,5 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 </style>
