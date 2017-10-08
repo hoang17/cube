@@ -56,6 +56,27 @@ select
 *::selection
   background rgba(78,188,221,0.15)
 
+// .cube
+//   position relative
+//   text-align center
+//   margin 10px auto
+//   padding 10px
+//   transition .3s cubic-bezier(.25,.8,.25,1)
+//
+//   &[edit].hover:after
+//     border 1px dotted #03a9f4 !important
+//
+//   &[active]:after
+//     border 1px dotted rgba(0,0,0,.5) !important
+
+// .application--dark
+//   .cube
+//     &[edit].hover:after
+//       border 1px dotted #03a9f4 !important
+//
+//     &[active]:after
+//       border 1px dotted #4FFBFF !important
+
 .application
   .list__tile__title
   .theme--light.navigation-drawer
@@ -95,27 +116,6 @@ select
 
 .fade-enter, .fade-leave-active
   opacity 0
-
-.cube
-  position relative
-  text-align center
-  margin 10px auto
-  padding 10px
-  transition .3s cubic-bezier(.25,.8,.25,1)
-
-  &[edit].hover:after
-    border 1px dotted #03a9f4 !important
-
-  &[active]:after
-    border 1px dotted rgba(0,0,0,.5) !important
-
-.application--dark
-  .cube
-    &[edit].hover:after
-      border 1px dotted #03a9f4 !important
-
-    &[active]:after
-      border 1px dotted #4FFBFF !important
 
 $right-pane-width := 28em
 

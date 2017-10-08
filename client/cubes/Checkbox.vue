@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
+  div(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
     .flex.xs5
       label(:class="$style.label") {{ cube.content }}
     .flex.xs7
@@ -29,22 +29,23 @@ export default {
 
 <style lang="stylus" module>
 .checkbox-group
+  composes: cube from "./cube.css"
   text-align left
   align-items center
   display flex
   flex 1 1 auto
   flex-wrap nowrap
 
-  &[edit]:after
-    transition .3s cubic-bezier(.25,.8,.25,1)
-    pointer-events none
-    content ''
-    display block
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
+  // &[edit]:after
+  //   transition .3s cubic-bezier(.25,.8,.25,1)
+  //   pointer-events none
+  //   content ''
+  //   display block
+  //   position absolute
+  //   top 0
+  //   left 0
+  //   width 100%
+  //   height 100%
 
   &[edit]:hover:after
     border 1px dotted #03a9f4 !important
@@ -68,11 +69,11 @@ export default {
     input
       display inline-block
 
-      &[edit]
-        transition .3s cubic-bezier(.25,.8,.25,1)
-
-      &[edit]:hover
-        border 1px dotted #03a9f4 !important
+      // &[edit]
+      //   transition .3s cubic-bezier(.25,.8,.25,1)
+      //
+      // &[edit]:hover
+      //   border 1px dotted #03a9f4 !important
 
       // &[active]
       //   border 1px dotted #4FFBFF !important

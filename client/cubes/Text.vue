@@ -1,5 +1,5 @@
 <template lang="pug">
-  .cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="css", @mouseover.stop="")
+  div(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="css", @mouseover.stop="")
   //-vue-markdown.cube(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
@@ -36,18 +36,21 @@ export default {
 // .className
 //   color green
 //   background red
+
 .text
   // composes className
-  &[edit]:after
-    transition .3s cubic-bezier(.25,.8,.25,1)
-    pointer-events none
-    content ''
-    display block
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
+  composes: cube from "./cube.css"
+
+  // &[edit]:after
+  //   transition .3s cubic-bezier(.25,.8,.25,1)
+  //   pointer-events none
+  //   content ''
+  //   display block
+  //   position absolute
+  //   top 0
+  //   left 0
+  //   width 100%
+  //   height 100%
 
   &[edit]:hover:after
     border 1px dotted #03a9f4 !important

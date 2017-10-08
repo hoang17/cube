@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-btn.cube(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="css", @mouseover.stop="") {{ cube.content }}
+  v-btn(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="css", @mouseover.stop="") {{ cube.content }}
 </template>
 
 <script>
@@ -30,21 +30,22 @@ export default {
 
 <style lang="stylus" module>
 .button
+  composes cube from "./cube.css"
   display inline-block
 
   &[edit]
     cursor pointer
 
-  &[edit]:after
-    transition .3s cubic-bezier(.25,.8,.25,1)
-    pointer-events none
-    content ''
-    display block
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
+  // &[edit]:after
+  //   transition .3s cubic-bezier(.25,.8,.25,1)
+  //   pointer-events none
+  //   content ''
+  //   display block
+  //   position absolute
+  //   top 0
+  //   left 0
+  //   width 100%
+  //   height 100%
 
   &[edit]:hover:after
     border 1px dotted #03a9f4 !important
