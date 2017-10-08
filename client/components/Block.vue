@@ -16,7 +16,7 @@ export default {
       return [
         this.$style.block,
         this.cube.css ? '--' + this.cube.css : '',
-        this.hover ? this.$style.hover : ''
+        this.hover ? 'hover' : ''
       ]
     },
     active(){
@@ -36,13 +36,5 @@ export default {
 
 <style lang="stylus" module>
 .block
-  composes cube container from "../cubes/cube.css"
-
-  .hover:after
-    border 1px dotted #03a9f4 !important
-
-:global(.application--dark)
-  .block
-    .hover:after
-      border 1px dotted #03a9f4 !important
+  composes cube con from "../cubes/cube.css"
 </style>

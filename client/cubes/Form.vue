@@ -24,7 +24,7 @@ export default {
       return [
         this.$style.form,
         this.cube.css ? '--' + this.cube.css : '',
-        this.hover ? this.$style.hover : ''
+        this.hover ? 'hover' : ''
       ]
     },
     active(){
@@ -44,14 +44,6 @@ export default {
 
 <style lang="stylus" module>
 .form
-  composes cube container from "../cubes/cube.css"
+  composes cube con from "../cubes/cube.css"
   min-height 38px
-
-  .hover:after
-    border 1px dotted #03a9f4 !important
-
-:global(.application--dark)
-  .form
-    .hover:after
-      border 1px dotted #03a9f4 !important
 </style>

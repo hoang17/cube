@@ -29,7 +29,4 @@ export default {
 
   &[edit]
     cursor pointer
-
-  &[edit]:hover:after
-    border 1px dotted #03a9f4 !important
 </style>

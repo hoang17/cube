@@ -18,7 +18,11 @@
 	height: 100%;
 }
 
-.container:empty:before {
+.cube[edit]:not(.con):hover:after {
+	border: 1px dotted #03a9f4;
+}
+
+.con:empty:before {
 	content: attr(content);
 	display: block;
 	position: absolute;
@@ -34,19 +38,18 @@
 	color: rgba(144,145,153,0.5);
 }
 
-.container[edit]:after {
-	border: 1px dotted rgba(0,0,0,0.2) !important;
+.con[edit]:after {
+	border: 1px dotted rgba(0,0,0,0.2);
 }
 
-:global(.application--dark) .container[edit]:after {
-	border: 1px dotted #666 !important;
+:global(.application--dark) .con[edit]:after {
+	border: 1px dotted #666;
 }
 
 .cube[active]:after {
-	border: 1px dotted #03a9f4 !important;
-	/*border: 1px dotted rgba(0,0,0,0.5) !important;*/
+	border: 1px dotted #03a9f4;
 }
 
 :global(.application--dark) .cube[active]:after {
-	border: 1px dotted #4ffbff !important;
+	border: 1px dotted #4ffbff;
 }

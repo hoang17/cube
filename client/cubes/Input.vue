@@ -34,9 +34,6 @@ export default {
   flex 1 1 auto
   flex-wrap nowrap
 
-  &[edit]:hover:after
-    border 1px dotted #03a9f4 !important
-
   label
     text-transform uppercase
     letter-spacing 2px
