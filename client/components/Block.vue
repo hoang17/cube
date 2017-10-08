@@ -36,33 +36,13 @@ export default {
 
 <style lang="stylus" module>
 .block
-  composes: cube from "../cubes/cube.css"
-  &[edit]:after
-    // transition .3s cubic-bezier(.25,.8,.25,1)
-    // pointer-events none
-    // content ''
-    // display block
-    // position absolute
-    // top 0
-    // left 0
-    // width 100%
-    // height 100%
-    border 1px dotted rgba(0,0,0,.2) !important
+  composes cube container from "../cubes/cube.css"
 
-  &[edit].hover:after
+  .hover:after
     border 1px dotted #03a9f4 !important
-
-  // &[active]:after
-  //   border 1px dotted rgba(0,0,0,.5) !important
 
 :global(.application--dark)
   .block
-    &[edit]:after
-      border 1px dotted #666 !important
-
-    &[edit].hover:after
+    .hover:after
       border 1px dotted #03a9f4 !important
-
-    // &[active]:after
-    //   border 1px dotted #4FFBFF !important
 </style>

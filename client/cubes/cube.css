@@ -18,8 +18,33 @@
 	height: 100%;
 }
 
+.container:empty:before {
+	content: attr(content);
+	display: block;
+	position: absolute;
+	top: calc(50% - 0.5rem);
+	left: 0;
+	width: 100%;
+	font-size: 1rem;
+	height: 1rem;
+	line-height: 1rem;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 0 2rem;
+	color: rgba(144,145,153,0.5);
+}
+
+.container[edit]:after {
+	border: 1px dotted rgba(0,0,0,0.2) !important;
+}
+
+:global(.application--dark) .container[edit]:after {
+	border: 1px dotted #666 !important;
+}
+
 .cube[active]:after {
-	border: 1px dotted rgba(0,0,0,0.5) !important;
+	border: 1px dotted #03a9f4 !important;
+	/*border: 1px dotted rgba(0,0,0,0.5) !important;*/
 }
 
 :global(.application--dark) .cube[active]:after {

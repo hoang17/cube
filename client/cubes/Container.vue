@@ -44,50 +44,14 @@ export default {
 
 <style lang="stylus" module>
 .container
-  composes: cube from "./cube.css"
+  composes cube container from "./cube.css"
   min-height 38px
 
-  &:empty:before
-    content attr(content)
-    display block
-    position absolute
-    top calc(50% - 0.5rem)
-    left 0
-    width 100%
-    font-size 1rem
-    height 1rem
-    line-height 1rem
-    white-space nowrap
-    text-overflow ellipsis
-    padding 0 2rem
-    color rgba(144,145,153,0.5)
-
-  &[edit]:after
-    // transition .3s cubic-bezier(.25,.8,.25,1)
-    // pointer-events none
-    // content ''
-    // display block
-    // position absolute
-    // top 0
-    // left 0
-    // width 100%
-    // height 100%
-    border 1px dotted rgba(0,0,0,.2) !important
-
-  &[edit].hover:after
+  .hover:after
     border 1px dotted #03a9f4 !important
-
-  // &[active]:after
-  //   border 1px dotted rgba(0,0,0,.5) !important
 
 :global(.application--dark)
   .container
-    &[edit]:after
-      border 1px dotted #666 !important
-
-    &[edit].hover:after
+    .hover:after
       border 1px dotted #03a9f4 !important
-
-    // &[active]:after
-    //   border 1px dotted #4FFBFF !important
 </style>
