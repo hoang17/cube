@@ -100,7 +100,7 @@ module.exports = {
         }),
 
         new ExtractTextPlugin({
-          filename: 'common.[contenthash].css',
+          filename: '[contenthash:20].css',
           allChunks: true
         }),
 
