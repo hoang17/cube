@@ -100,7 +100,9 @@ module.exports = function(app) {
     const context = {
       title: 'Cube', // default title
       style: '',
-      ver: process.env.HEROKU_RELEASE_VERSION ? process.env.HEROKU_RELEASE_VERSION : 'v1',
+      heroku_ver: process.env.HEROKU_RELEASE_VERSION ? process.env.HEROKU_RELEASE_VERSION : 'v1',
+      travis_build: process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : '1',
+      travis_job: process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : '1',
       host: req.headers.host,
       url: req.url,
       user: req.user,

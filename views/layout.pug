@@ -28,7 +28,7 @@ html
     
     link(href='https://fonts.googleapis.com/css?family=Material+Icons', rel='stylesheet')
     link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
-    link(href='/css/font.css?v={{ver}}', rel='stylesheet')
+    link(href='/css/font.css', rel='stylesheet')
     style {{ style }}
   body
     //- include partials/header
@@ -40,6 +40,8 @@ html
         
     //- script(src='/js/lib/jquery-3.1.1.min.js')
     //- script(src='/js/lib/bootstrap.min.js')
+    
+    //{{ heroku_ver }} - {{ travis_job }}
     
     //- Google Analytics: change UA-XXXXX-X to be your site's ID
     script.
