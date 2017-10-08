@@ -3,6 +3,7 @@ node_js:
   - 8
 script:
   - yarn test
+  - heroku config:set TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER -a dayflow
 after_success:
   - yarn build
 deploy:
