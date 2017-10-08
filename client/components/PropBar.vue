@@ -179,6 +179,10 @@ export default {
     label
       transform translate3d(0,-18px,0) scale(.90)
 
+  .input-group--select
+    .input-group__selections__comma
+      font-size 13px !important
+
   .icon
     font-size 20px
 
@@ -205,19 +209,22 @@ export default {
   .expansion-panel__body
     border-top 1px solid hsla(0,0%,100%,.12)
 
+
 .application--light
-  .action
-    background-color #fafafa
-    box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
-  .expansion-panel__body
-    border-top 0.1rem solid #d1d1d1
-    // box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
+  .propbar
+    .action
+      background-color #fafafa
+      box-shadow inset 0 -10px 5px -10px rgba(0,0,0,.1)
+    .expansion-panel__body
+      border-top 0.1rem solid #d1d1d1
+      // box-shadow inset 1px 1px 2px rgba(0,0,0,.1)
 
 .application--dark
-  .chip--small
-    color #ddd
-    border-color #ddd
-  .action
-    background-color #333
-    box-shadow inset 0 -10px 5px -10px #999
+  .propbar
+    .chip--small
+      color #ddd
+      border-color #ddd
+    .action
+      background-color #333
+      box-shadow inset 0 -10px 5px -10px #999
 </style>

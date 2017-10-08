@@ -111,32 +111,6 @@ export default {
   transition margin .3s cubic-bezier(.25,.8,.5,1)
   will-change margin-left
 
-  .card
-    margin 20px auto
-
-  .cube
-    user-select none
-
-    &[edit]
-      cursor pointer
-
-    &[edit]:after
-      transition .3s cubic-bezier(.25,.8,.25,1)
-      pointer-events none
-      content ''
-      display block
-      position absolute
-      top 0
-      left 0
-      width 100%
-      height 100%
-
-    // &[edit]:hover:after
-    //   border 1px dotted #03a9f4 !important
-
-    // &[active]:after
-    //   border 1px dashed rgba(0,0,0,.5) !important
-
 .drawer .canvas
   margin-left 300px
 

@@ -33,7 +33,11 @@ export default {
 </script>
 
 <style lang="stylus" module>
+// .className
+//   color green
+//   background red
 .text
+  // composes className
   &[edit]:after
     transition .3s cubic-bezier(.25,.8,.25,1)
     pointer-events none
