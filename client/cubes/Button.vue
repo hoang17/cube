@@ -32,7 +32,6 @@ export default {
 .button
   composes cube from "./cube.css"
   display inline-block
-
   &[edit]
     cursor pointer
 </style>
