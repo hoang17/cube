@@ -7,10 +7,9 @@
 }
 
 .cube[edit]:after {
-	transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-	pointer-events: none;
 	content: '';
 	display: block;
+	pointer-events: none;
 	position: absolute;
 	top: 0;
 	left: 0;

@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
-  // extractCSS: isProd,
-  extractCSS: false,
+  extractCSS: isProd,
+  // extractCSS: false,
   preserveWhitespace: false,
   cssModules: {
     modules: true,

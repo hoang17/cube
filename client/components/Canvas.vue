@@ -108,8 +108,8 @@ export default {
   min-height 100vh
   height 100%
   outline none
-  transition margin .3s cubic-bezier(.25,.8,.5,1)
-  will-change margin-left
+  // will-change margin-left
+  // transition margin .3s cubic-bezier(.25,.8,.5,1)
 
 .drawer .canvas
   margin-left 300px
