@@ -10,6 +10,7 @@ deploy:
   provider: heroku
   api_key:
     secure: uWWPG9E0pTHgXXRiQK5CAQbniel0G2T4mEHzITKn22hugDLI2GiDYPdhn+M8QsxYSoe1PMV4F841HduNrKPL99i9dou3DZUaS+UaE9Wth38QA9IXnGXzi/C51V0F/qTSbwuKyLA1MvQW5susnXnGcm8usyh6bIWmbBHHeRs+2hxd+nbCzIYU44a6Om/QDy0UNKEzh9E7mfZ+9KtUm9wpM6dr7tZbW2vOc/JX6Ft4VEUrlyHH/KXQm/qi65E1q+lGHq6A7KS8VaK4O/M5dL/S/BJeJMeeCkp6InT8YmsvL0YjkskO6Xj5AA9aisxIjoM92Da9ESZa3rjLs8vs8tFwq//VA4nk9XbJeUJnLeNtaI8b5ycwMoPBxSP2guAfQLGGpzIFG8HNDW/wvmW+C0kSjYSAfUX/1InSatIr2gUCTuVe3L0i7SD6NmNjWERDR6Q1cfDTxBxdZ3FmBrLsZHoeNbLeC7rHEAuvasYSyfDbpweI80OWy1aqPsj5jP42Xrtb92xXFOjkSxYemNkmWletGYPqhtYn32d6HNRAOXtP68iN8VMqDYE3M7iYKp5jxzihYpe5+IxvBbBl9dK8K8nd/X1YZYfSiwNAOSYYPh/DRp9NYOv6HCwIO9nGeMLaoT/nSyfqpP6ma7rFPgmoBCxDwSRrhGYWeu2ZaZZoboC87Qw=
-  app: cube
+  app:
+    master: dayflow
   on:
     repo: hoang17/cube
