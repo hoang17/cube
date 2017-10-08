@@ -12,7 +12,7 @@ export default {
   props: ['cube','select','edit'],
   computed: {
     css(){
-      return this.$style.select + (this.cube.css ? ' --' + this.cube.css : '')
+      return [this.$style.select, this.cube.css ? '--' + this.cube.css : '']
     },
     active(){
       return this.$store.state.activeCube == this.cube
@@ -34,7 +34,7 @@ export default {
   display flex
   flex 1 1 auto
   flex-wrap nowrap
-  
+
   label
     text-transform uppercase
     letter-spacing 2px

@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     css(){
-      return this.$style.text + (this.cube.css ? ' --' + this.cube.css : '')
+      return [this.$style.text, this.cube.css ? '--' + this.cube.css : '']
     },
     active(){
       return this.$store.state.activeCube == this.cube

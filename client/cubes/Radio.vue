@@ -13,7 +13,7 @@ export default {
   props: ['cube','select','edit'],
   computed: {
     css(){
-      return this.$style.radioGroup + (this.cube.css ? ' --' + this.cube.css : '')
+      return [this.$style.radioGroup, this.cube.css ? '--' + this.cube.css : '']
     },
     active(){
       return this.$store.state.activeCube == this.cube

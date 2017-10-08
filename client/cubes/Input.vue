@@ -11,7 +11,7 @@ export default {
   props: ['cube','select','edit'],
   computed: {
     css(){
-      return this.$style.textfield + (this.cube.css ? ' --' + this.cube.css : '')
+      return [this.$style.textfield, this.cube.css ? '--' + this.cube.css : '']
     },
     active(){
       return this.$store.state.activeCube == this.cube
