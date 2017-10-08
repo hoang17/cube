@@ -2,7 +2,7 @@
   draggable(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :content="cube.content", v-model='cube.cubes', :options="{group:'cubes'}", :class="css", @mouseover.native.stop="hover=true", @mouseout.native.stop="hover=false")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
     i
-  div(v-else, :style="cube.style | styl", :content="cube.content", :class="$style.form + ' ' + cube.css | css")
+  div(v-else, :style="cube.style | styl", :content="cube.content", :class="css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="map(c.type)", :key="i", :edit="edit")
 </template>
 

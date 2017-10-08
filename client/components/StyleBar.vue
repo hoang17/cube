@@ -20,6 +20,11 @@
       v-text-field(label='Min Height', v-model='rule.minHeight')
       v-text-field(label='Max Width', v-model='rule.maxWidth')
       v-text-field(label='Max Height', v-model='rule.maxHeight')
+      v-text-field(label='Position', v-model='rule.position')
+      v-text-field(label='Top', v-model='rule.top')
+      v-text-field(label='Bottom', v-model='rule.bottom')
+      v-text-field(label='Left', v-model='rule.left')
+      v-text-field(label='Right', v-model='rule.right')
 </template>
 
 <script>
