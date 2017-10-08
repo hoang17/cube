@@ -49,6 +49,7 @@
     "github": "^11.0.0",
     "gm": "^1.23.0",
     "helmet": "^3.8.2",
+    "heroku-client": "^3.0.3",
     "insert-css": "^2.0.0",
     "instagram-node": "^0.5.8",
     "jsonwebtoken": "^8.0.1",

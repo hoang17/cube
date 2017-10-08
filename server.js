@@ -36,6 +36,17 @@ const expressValidator = require('express-validator')
  */
 dotenv.load({ path: '.env' })
 
+// var _ = require('lodash'),
+//     Heroku = require('heroku-client'),
+//     heroku = new Heroku({ token: process.env.HEROKU_API_KEY })
+//
+// var app = heroku.apps(process.env.HEROKU_APP_NAME)
+// app.releases().list(function(err, releases) {
+//     var version = _.max(_.pluck(releases, 'version'))
+//     console.log("HEROKU_APP_VERSION: " + version)
+//     process.env.HEROKU_APP_VERSION = version;
+// })
+
 /**
  * Controllers (route handlers).
  */
