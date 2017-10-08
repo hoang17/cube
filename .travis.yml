@@ -4,6 +4,7 @@ node_js:
 script:
   - yarn test
 after_success:
+  - heroku config:set TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER -a dayflow
   - yarn build
 deploy:
   provider: heroku
@@ -18,7 +19,6 @@ after_deploy:
   - heroku config:set TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER -a dayflow
 env:
   global:
-    - secure: OKWCBZ9WzvxBZpGDrSA4t0HD3dF5zNaN/EaF84OgtCDWO61fUXeiK5vM+m0uLs/66UJeMRyYwPEMxQhnPccNYhIU4iGD3hWqaj2JF774EgOvl2OD7aoBJYIvfAG6zCz/Bfw8uEeXgtrecFlon/Vu4w0IKW6Wn2L26EvmDqeErlfloec0ZZXGsOTh2tR/q64y7EaYVR+uGYAPhmIOUqRgg/FxqdpOp6hZAAT+4mjHaYY5QBGUOYgVa82NVdfoBbN2GGMnC52BQDqmvo57FATvBJ9nTjGhoTpF0NgOrCO1n6k0DXJ5tbDpRHcmFvpjmnFU9xpjYmWKchl6mnzna1Z84RcyRbfAgCI2sCFK5d5Wv1CZD+hhpfFSX2GF5f33h5Gp74wnl7KbZxg8ugSUwGQpYclCn4KKo19lI105Qhvt9z3cxcS0BHiubPkTkoZjxZfxXtqYZOi9WFhzfz/nXb616SFc378MsDuoOW0qPZD0ZiSn8z0hlxgwhCKvmZptpTu7aeESxgqMZnWutLJEjxsFfPJRWLF+UDS+GC2eVTibsLWpHYelgA8MOgx8Yfdp16Zl0dlxZx2/vw83rILVCoqt6XZsfdJOSgkoqoXm8agO5POkupCPEvcmpZhv/zaDNXBtNeRlzYuzJHmRxrWvdB6X2ZxSTrQz8M3b47WR69ey1Hk=
     - MONGODB_URI=mongodb://heroku_tr4w0c1r:bba2v931cuioerqbc91ush2k1v@ds153501.mlab.com:53501/heroku_tr4w0c1r
     - MONGOLAB_URI=mongodb://heroku_tr4w0c1r:bba2v931cuioerqbc91ush2k1v@ds153501.mlab.com:53501/heroku_tr4w0c1r
     - SESSION_SECRET=vhXn4fv3pzNDMXPvyina

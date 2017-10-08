@@ -102,7 +102,7 @@ module.exports = function(app) {
       style: '',
       heroku_ver: process.env.HEROKU_RELEASE_VERSION ? process.env.HEROKU_RELEASE_VERSION : 'v1',
       travis_build: process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : '1',
-      travis_job: process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : '1',
+      travis_job: process.env.TRAVIS_JOB_NUMBER ? process.env.TRAVIS_JOB_NUMBER : '1',
       host: req.headers.host,
       url: req.url,
       user: req.user,
