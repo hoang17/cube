@@ -418,3 +418,70 @@ Hoangs-MacBook-Pro-2:dayflow hoangle$ now alias dayflow-refvipbnop.now.sh active
   https://dayflow-eptnowfsph.now.sh   https://kid.now.sh             18d
   https://dayflow-refvipbnop.now.sh   https://business.now.sh        18d
   https://dayflow-refvipbnop.now.sh   https://biz.now.sh             18d
+
+
+  > 47 aliases found [833ms] under hoang
+
+    source                              url                            age
+    dayflow-xmogpuzrng.now.sh           look.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           mac.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           eat.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           reach.now.sh                   25m
+    dayflow-xmogpuzrng.now.sh           listing.now.sh                 25m
+    dayflow-xmogpuzrng.now.sh           advertise.now.sh               25m
+    dayflow-xmogpuzrng.now.sh           notify.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           advertising.now.sh             25m
+    dayflow-xmogpuzrng.now.sh           search.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           free.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           marketing.now.sh               25m
+    dayflow-xmogpuzrng.now.sh           fly.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           group.now.sh                   25m
+    dayflow-xmogpuzrng.now.sh           book.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           pay.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           net.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           ebay.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           bin.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           ship.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           paypal.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           red.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           live.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           job.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           sup.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           byte.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           deal.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           office.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           stores.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           box.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           sub.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           bing.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           hot.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           new.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           dance.now.sh                   25m
+    dayflow-xmogpuzrng.now.sh           hit.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           active.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           mail.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           trendy.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           sell.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           you.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           hub.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           travel.now.sh                  25m
+    dayflow-xmogpuzrng.now.sh           pop.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           eco.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           bank.now.sh                    25m
+    dayflow-xmogpuzrng.now.sh           top.now.sh                     25m
+    dayflow-xmogpuzrng.now.sh           bit.now.sh                     25m
+
+    > 11 aliases found [837ms] under flow
+
+      source                              url                          age
+      dayflow-utcqyutqbr.now.sh           mic.now.sh                   27m
+      dayflow-utcqyutqbr.now.sh           file.now.sh                  27m
+      dayflow-utcqyutqbr.now.sh           pin.now.sh                   27m
+      dayflow-utcqyutqbr.now.sh           offer.now.sh                 27m
+      dayflow-utcqyutqbr.now.sh           shops.now.sh                 27m
+      dayflow-utcqyutqbr.now.sh           fire.now.sh                  27m
+      dayflow-utcqyutqbr.now.sh           market.now.sh                27m
+      dayflow-utcqyutqbr.now.sh           face.now.sh                  27m
+      dayflow-utcqyutqbr.now.sh           kiss.now.sh                  27m
+      dayflow-utcqyutqbr.now.sh           broadcast.now.sh             27m
+      dayflow-utcqyutqbr.now.sh           follow.now.sh                27m
