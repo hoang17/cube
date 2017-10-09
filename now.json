@@ -6,10 +6,6 @@
    "engines": {
      "node": ">= 8.6.0"
    },
-   "env": {
-     "MONGOLAB_URI": "@dayflow-mongo-lab-url",
-     "SESSION_SECRET": "@dayflow-session-secret"
-   },
    "alias": [
     "active.now.sh",
     "advertise.now.sh",
