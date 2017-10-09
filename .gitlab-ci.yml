@@ -60,25 +60,25 @@ build:
 deploy:
   stage: deploy
   script:
-    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
-    - git push heroku master
+    - yarn global add now
+    - now deploy --public --token=$NOW_API_KEY
+    - now alias --token=$NOW_API_KEY || true
+    - now rm dayflow --yes --safe --token=$NOW_API_KEY || true
     - echo "Code deployed to staging server"
   environment:
     name: staging
-    url: https://yah.vn
+    url: https://live.now.sh
   only:
     - master
 
 production:
   stage: production
   script:
-    - yarn global add now
-    - now deploy --public --token=$NOW_API_KEY
-    - now alias top.now.sh --token=$NOW_API_KEY
-    - now rm dayflow --yes --safe --token=$NOW_API_KEY || true
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
+    - git push heroku master
     - echo "Code deployed to production server"
   environment:
     name: production
-    url: https://live.now.sh
+    url: https://yah.vn
   only:
     - master
