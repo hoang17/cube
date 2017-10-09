@@ -17,6 +17,7 @@ pipelines:
       - now deploy --public --token=$NOW_API_KEY  --team=flow
       - now alias live --token=$NOW_API_KEY --team=flow
       - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=flow || true
+      - echo "Code deployed to now server"
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
       - git push heroku master
-      - echo "Code deployed to staging server"
+      - echo "Code deployed to heroku server"

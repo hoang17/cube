@@ -1,9 +1,7 @@
 language: node_js
 node_js:
-  - 8
+  - stable
 script:
-  - yarn test
-after_success:
   - yarn build
   - yarn global add now
   - now deploy --public --token=$NOW_API_KEY --team=com
@@ -13,61 +11,8 @@ after_success:
   - now alias jiro --token=$NOW_API_KEY --team=com
   - now alias ono --token=$NOW_API_KEY --team=com
   - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=com || true
-  - echo "Code deployed to staging server"
-deploy:
-  provider: heroku
-  strategy: git
-  api_key:
-    secure: wmLYfmd9CahV1TwilWk8D71CRsyLs/4RmiUD84vzDnvCgmJcX4r/XH3rp6M9vKCVviT56MNve5Sth0t1IfiBHzqmzAod3HD4jSm+TKiDgRkePHrkqdYaNUKi4brtmoiLjOdsvQbfv8l0cOAWwn9mMExhLvuWB0u5p8WanlKwl9ol3P8/RQNzdptO9EWzfPIm7PW3CXQrRfP63Syobz7M1rhQUJM9Gcho4H9aR1TCMA/j0m3V4hqCcWuxVz2z0m1Y66NaV0Bma1wrMEa9VXtvER1qiYENmP0tlg4lw+PTDXuGQSU4him0iAzsE0EYBbKjb/rPev6haOVSaKpxLxqo9LbY7/rUUbIL5EizQG4c/DkN1s36v7bTSM5mQdzxYNuyoQM/EmxC6EYLOpPsbRV6fj9yemcsf1tIsfth+YvVuHUcsV3J6W8cjLTcj2TDekNVFa3y44JYIM4ofQ7hbOt08OFcpF/sBzH9XN3i1vcNhu18oUKxkGQCSkVqXGNzNoJMhWMnGof+e8SmmP8ggtylJPgIOdfzfGDHLbEygITGd/JPYZ7VB/yRmCCfG0g+nrfeVh35+ze+P5QTC7iYVpVyG1D26uvcOS1+nVXzFll/SAG5uKlh2T2P3AFhU+mG4ZAJzh9bfFj8Z8sIMMTrFqVGYyt5jmuPb9FOJGRPrDSkQZo=
-  app:
-    master: dayflow
-  on:
-    repo: hoang17/cube
-after_deploy:
+  - echo "Code deployed to now server"
+  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/tezuka.git
+  - git push heroku master
+  - echo "Code deployed to heroku server"
   - heroku config:set TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER -a dayflow
-env:
-  global:
-    - secure: OKWCBZ9WzvxBZpGDrSA4t0HD3dF5zNaN/EaF84OgtCDWO61fUXeiK5vM+m0uLs/66UJeMRyYwPEMxQhnPccNYhIU4iGD3hWqaj2JF774EgOvl2OD7aoBJYIvfAG6zCz/Bfw8uEeXgtrecFlon/Vu4w0IKW6Wn2L26EvmDqeErlfloec0ZZXGsOTh2tR/q64y7EaYVR+uGYAPhmIOUqRgg/FxqdpOp6hZAAT+4mjHaYY5QBGUOYgVa82NVdfoBbN2GGMnC52BQDqmvo57FATvBJ9nTjGhoTpF0NgOrCO1n6k0DXJ5tbDpRHcmFvpjmnFU9xpjYmWKchl6mnzna1Z84RcyRbfAgCI2sCFK5d5Wv1CZD+hhpfFSX2GF5f33h5Gp74wnl7KbZxg8ugSUwGQpYclCn4KKo19lI105Qhvt9z3cxcS0BHiubPkTkoZjxZfxXtqYZOi9WFhzfz/nXb616SFc378MsDuoOW0qPZD0ZiSn8z0hlxgwhCKvmZptpTu7aeESxgqMZnWutLJEjxsFfPJRWLF+UDS+GC2eVTibsLWpHYelgA8MOgx8Yfdp16Zl0dlxZx2/vw83rILVCoqt6XZsfdJOSgkoqoXm8agO5POkupCPEvcmpZhv/zaDNXBtNeRlzYuzJHmRxrWvdB6X2ZxSTrQz8M3b47WR69ey1Hk=
-    - MONGODB_URI=mongodb://heroku_tr4w0c1r:bba2v931cuioerqbc91ush2k1v@ds153501.mlab.com:53501/heroku_tr4w0c1r
-    - MONGOLAB_URI=mongodb://heroku_tr4w0c1r:bba2v931cuioerqbc91ush2k1v@ds153501.mlab.com:53501/heroku_tr4w0c1r
-    - SESSION_SECRET=vhXn4fv3pzNDMXPvyina
-    - MAILGUN_USER=postmaster@sandbox697fcddc09814c6b83718b9fd5d4e5dc.mailgun.org
-    - MAILGUN_PASSWORD=29eldds1uri6
-    - SENDGRID_USER=hslogin
-    - SENDGRID_PASSWORD=hspassword00
-    - SENDGRID_API_KEY=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
-    - NYT_KEY=9548be6f3a64163d23e1539f067fcabd:5:68537648
-    - LASTFM_KEY=c8c0ea1c4a6b199b3429722512fbd17f
-    - LASTFM_SECRET=is cb7857b8fba83f819ea46ca13681fe71
-    - FACEBOOK_ID=162469620476517
-    - FACEBOOK_SECRET=741e4c093bc7aaa7387ee06d6d273d57
-    - INSTAGRAM_ID=9f13482b65434e4ab9125f203e1ea6cd
-    - INSTAGRAM_SECRET=f478273bd7f44f42bcde5c5ce88f1cfb
-    - GITHUB_ID=cb448b1d4f0c743a1e36
-    - GITHUB_SECRET=815aa4606f476444691c5f1c16b9c70da6714dc6
-    - TWITTER_KEY=6NNBDyJ2TavL407A3lWxPFKBI
-    - TWITTER_SECRET=ZHaYyK3DQCqv49Z9ofsYdqiUgeoICyh6uoBgFfu7OeYC7wTQKa
-    - GOOGLE_ID=828110519058.apps.googleusercontent.com
-    - GOOGLE_SECRET=JdZsIaWhUFIchmC1a_IZzOHb
-    - LINKEDIN_ID=77chexmowru601
-    - LINKEDIN_SECRET=szdC8lN2s2SuMSy8
-    - LINKEDIN_CALLBACK_URL=http://localhost:3000/auth/linkedin/callback
-    - STEAM_KEY=D1240DEF4D41D416FD291D0075B6ED3F
-    - TWILIO_SID=AC6f0edc4c47becc6d0a952536fc9a6025
-    - TWILIO_TOKEN=a67170ff7afa2df3f4c7d97cd240d0f3
-    - CLOCKWORK_KEY=9ffb267f88df55762f74ba2f517a66dc8bedac5a
-    - STRIPE_SKEY=sk_test_BQokikJOvBiI2HlWgH4olfQ2
-    - STRIPE_PKEY=pk_test_6pRNASCoBOKtIshFeQd4XMUh
-    - TUMBLR_KEY=FaXbGf5gkhswzDqSMYI42QCPYoHsu5MIDciAhTyYjehotQpJvM
-    - TUMBLR_SECRET=QpCTs5IMMCsCImwdvFiqyGtIZwowF5o3UXonjPoNp4HVtJAL4o
-    - FOURSQUARE_ID=2STROLSFBMZLAHG3IBA141EM2HGRF0IRIBB4KXMOGA2EH3JG
-    - FOURSQUARE_SECRET=UAABFAWTIHIUFBL0PDC3TDMSXJF2GTGWLD3BES1QHXKAIYQB
-    - FOURSQUARE_REDIRECT_URL=http://localhost:3000/auth/foursquare/callback
-    - PAYPAL_ID=AdGE8hDyixVoHmbhASqAThfbBcrbcgiJPBwlAM7u7Kfq3YU-iPGc6BXaTppt
-    - PAYPAL_SECRET=EPN0WxB5PaRaumTB1ZpCuuTqLqIlF6_EWUcAbZV99Eu86YeNBVm9KVsw_Ez5
-    - PAYPAL_RETURN_URL=http://localhost:3000/api/paypal/success
-    - PAYPAL_CANCEL_URL=http://localhost:3000/api/paypal/cancel
-    - LOB_KEY=test_814e892b199d65ef6dbb3e4ad24689559ca
-    - PINTEREST_ID=4819282851912494691
-    - PINTEREST_SECRET=b32f578ad83d94c058c6682329220feda7e5817e043a1cc4a5a1e28f51c70301
-    - PINTEREST_REDIRECT_URL=https://localhost:3000/auth/pinterest/callback
