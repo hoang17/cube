@@ -7,7 +7,7 @@
      "node": ">= 8.6.0"
    },
    "env": {
-     "MONGO_URL": "@dayflow-mongo-lab-url",
+     "MONGOLAB_URI": "@dayflow-mongo-lab-url",
      "SESSION_SECRET": "@dayflow-session-secret"
    },
    "alias": [
