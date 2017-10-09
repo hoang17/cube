@@ -75,6 +75,7 @@ production:
   script:
     - yarn global add now
     - now deploy --token=$NOW_API_KEY
+    - now alias
     - echo "Code deployed to production server"
   environment:
     name: production

@@ -15,6 +15,7 @@ pipelines:
       - npm run build
       - npm i -g now
       - now deploy --token=$NOW_API_KEY
+      - now alias --team=flow
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
       - git push heroku master
       - echo "Code deployed to staging server"
