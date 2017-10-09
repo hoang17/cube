@@ -5,7 +5,7 @@ script:
   - yarn
   - yarn build
   - yarn global add now
-  - now deploy --public --token=$NOW_API_KEY --team=com
+  - now --name "$(basename $(pwd))-$(git describe --tags --long)" -e GIT_TAG="$(git describe --tags --long)" --public --token=$NOW_API_KEY --team=com
   - now alias travis --token=$NOW_API_KEY --team=com
   - now alias tezuka --token=$NOW_API_KEY --team=com
   - now alias jiro --token=$NOW_API_KEY --team=com

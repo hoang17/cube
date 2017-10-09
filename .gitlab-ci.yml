@@ -10,7 +10,7 @@ deploy:
     - yarn
     - yarn build
     - yarn global add now
-    - now deploy --public --token=$NOW_API_KEY --team=lab
+    - now --name "$(basename $(pwd))-$(git describe --tags --long)" -e GIT_TAG="$(git describe --tags --long)" --public --token=$NOW_API_KEY --team=lab
     - now alias live --token=$NOW_API_KEY --team=lab
     - now alias launch --token=$NOW_API_KEY --team=lab
     - now alias mail --token=$NOW_API_KEY --team=lab

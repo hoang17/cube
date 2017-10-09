@@ -36,6 +36,10 @@ const expressValidator = require('express-validator')
  */
 dotenv.load({ path: '.env' })
 
+try {
+  if (!process.env.GIT_TAG) process.env.GIT_TAG = require('child_process').execSync('git describe --tags --long').toString().trim()
+} catch(e){}
+
 // var _ = require('lodash'),
 //     Heroku = require('heroku-client'),
 //     heroku = new Heroku({ token: process.env.HEROKU_API_KEY })

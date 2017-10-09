@@ -20,6 +20,7 @@ import { fonts } from '../data/fonts'
 export default {
   title: 'Build',
   async asyncData ({ store, route, context }) {
+    store.state.e = context.e
     store.state.env = context.env
     return store.dispatch('fetchBuild', route.params.id)
   },
@@ -78,6 +79,9 @@ export default {
     },
   },
   mounted() {
+    var { git_tag, now_url, now_region, now_plan } = this.$store.state.e
+    git_tag && console.log(git_tag)
+    now_url && console.log(now_url, now_region, now_plan)
     console.log(this.$store.state.env);
     this.activeCube = this.page
   },

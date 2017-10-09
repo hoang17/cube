@@ -106,13 +106,12 @@ module.exports = function(app) {
       req: req,
       res: res,
       env: process.env,
-      heroku_ver:   process.env.HEROKU_RELEASE_VERSION ? process.env.HEROKU_RELEASE_VERSION : 'v0',
-      travis_build: process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : '0',
-      travis_job:   process.env.TRAVIS_JOB_NUMBER ? process.env.TRAVIS_JOB_NUMBER : '0',
-      now_id:       process.env.DEPLOYMENT_ID ? process.env.DEPLOYMENT_ID : '0',
-      now_url:      process.env.NOW_URL ? process.env.NOW_URL : '',
-      now_region:   process.env.NOW_REGION ? process.env.NOW_REGION : '',
-      now_plan:     process.env.NOW_PLAN ? process.env.NOW_PLAN : '',
+      e: {
+        git_tag: process.env.GIT_TAG,
+        now_url: process.env.NOW_URL,
+        now_region: process.env.NOW_REGION,
+        now_plan: process.env.NOW_PLAN,
+      }
     }
 
     renderer.renderToString(context, (err, html) => {
