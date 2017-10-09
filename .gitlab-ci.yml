@@ -74,7 +74,7 @@ production:
   stage: production
   script:
     - yarn global add now
-    - now deploy --token=$NOW_API_KEY
+    - now deploy --token=$NOW_API_KEY --public
     - now alias
     - echo "Code deployed to production server"
   environment:
