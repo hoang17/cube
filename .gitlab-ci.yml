@@ -61,9 +61,9 @@ deploy:
   stage: deploy
   script:
     - yarn global add now
-    - now deploy --public --token=$NOW_API_KEY
-    - now alias --token=$NOW_API_KEY || true
-    - now rm dayflow --yes --safe --token=$NOW_API_KEY || true
+    - now deploy --public --token=$NOW_API_KEY --team=lab
+    - now alias --token=$NOW_API_KEY || true --team=lab
+    - now rm dayflow --yes --safe --token=$NOW_API_KEY || true --team=lab
     - echo "Code deployed to staging server"
   environment:
     name: staging

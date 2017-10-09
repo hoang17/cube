@@ -9,7 +9,7 @@ after_success:
   - now deploy --public --token=$NOW_API_KEY --team=com
   - now alias labs --token=$NOW_API_KEY --team=com || true
   - now alias travis --token=$NOW_API_KEY --team=com || true
-  - now alias jarvis --token=$NOW_API_KEY --team=com || true
+  - now alias tezuka --token=$NOW_API_KEY --team=com || true
   - now alias jiro --token=$NOW_API_KEY --team=com || true
   - now alias ono --token=$NOW_API_KEY --team=com || true
   - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=com || true
