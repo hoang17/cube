@@ -13,7 +13,8 @@ pipelines:
       script: # Modify the commands below to build your repository.
       - npm i
       - npm run build
-      - npm i -g now
+      # - npm i -g now
+      - npm i -g --unsafe-perm now
       - now deploy --token=$NOW_API_KEY
       - now alias --team=flow
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
