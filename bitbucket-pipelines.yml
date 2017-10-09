@@ -15,7 +15,7 @@ pipelines:
       - npm run build
       - npm i -g --unsafe-perm now
       - now deploy --public --token=$NOW_API_KEY --team=flow
-      - now alias oju --token=$NOW_API_KEY --team=flow
+      - now alias live --token=$NOW_API_KEY --team=flow
       - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=flow || true
       - echo "Code deployed to now server"
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
