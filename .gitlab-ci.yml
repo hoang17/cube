@@ -67,7 +67,7 @@ deploy:
     - echo "Code deployed to staging server"
   environment:
     name: staging
-    url: https://live.now.sh
+    url: https://bin.now.sh
   only:
     - master
 
