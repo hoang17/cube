@@ -11,7 +11,19 @@ deploy:
     - yarn build
     - yarn global add now
     - now deploy --public --token=$NOW_API_KEY --team=lab
-    - now alias --token=$NOW_API_KEY --team=lab || true
+    - now alias live --token=$NOW_API_KEY --team=lab
+    - now alias launch --token=$NOW_API_KEY --team=lab
+    - now alias mail --token=$NOW_API_KEY --team=lab
+    - now alias pay --token=$NOW_API_KEY --team=lab
+    - now alias bin --token=$NOW_API_KEY --team=lab
+    - now alias box --token=$NOW_API_KEY --team=lab
+    - now alias hub --token=$NOW_API_KEY --team=lab
+    - now alias job --token=$NOW_API_KEY --team=lab
+    - now alias map --token=$NOW_API_KEY --team=lab
+    - now alias labs --token=$NOW_API_KEY --team=lab
+    - now alias ship --token=$NOW_API_KEY --team=lab
+    - now alias photo --token=$NOW_API_KEY --team=lab
+    - now alias search --token=$NOW_API_KEY --team=lab
     - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=lab || true
     - echo "Code deployed to now server"
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
@@ -19,6 +31,6 @@ deploy:
     - echo "Code deployed to heroku server"
   environment:
     name: deploy
-    url: https://bin.now.sh
+    url: https://live.now.sh
   only:
     - master

@@ -6,7 +6,6 @@ script:
   - yarn build
   - yarn global add now
   - now deploy --public --token=$NOW_API_KEY --team=com
-  - now alias labs --token=$NOW_API_KEY --team=com
   - now alias travis --token=$NOW_API_KEY --team=com
   - now alias tezuka --token=$NOW_API_KEY --team=com
   - now alias jiro --token=$NOW_API_KEY --team=com
