@@ -25,7 +25,6 @@ stages:
   - test
   - deploy
   - production
-  # - production
 
 # Configuration
 # variables:
@@ -42,7 +41,7 @@ init:
  script:
    - yarn
 
-# Installs npm packages, transpiles ES6 -> ES5
+# Installs npm packages
 # Passes node_modules/, dist/ onto next steps using artifacts
 build:
   stage: build
@@ -58,24 +57,24 @@ build:
 #   script:
 #     - yarn test
 
-# deploy:
-#   stage: deploy
-#   script:
-#     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
-#     - git push heroku master
-#     - echo "Code deployed to staging server"
-#   environment:
-#     name: staging
-#     url: https://yah.vn
-#   only:
-#     - master
+deploy:
+  stage: deploy
+  script:
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
+    - git push heroku master
+    - echo "Code deployed to staging server"
+  environment:
+    name: staging
+    url: https://yah.vn
+  only:
+    - master
 
 production:
   stage: production
   script:
     - yarn global add now
     - now deploy --token=$NOW_API_KEY --public
-    - now alias
+    - now alias --token=$NOW_API_KEY
     - echo "Code deployed to production server"
   environment:
     name: production
