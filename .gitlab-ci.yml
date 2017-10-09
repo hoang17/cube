@@ -24,6 +24,7 @@ stages:
   - build
   - test
   - deploy
+  - production
   # - production
 
 # Configuration
@@ -57,14 +58,26 @@ build:
 #   script:
 #     - yarn test
 
-deploy:
-  stage: deploy
+# deploy:
+#   stage: deploy
+#   script:
+#     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
+#     - git push heroku master
+#     - echo "Code deployed to staging server"
+#   environment:
+#     name: staging
+#     url: https://yah.vn
+#   only:
+#     - master
+
+production:
+  stage: production
   script:
-    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
-    - git push heroku master
-    - echo "Code deployed to staging server"
+    - yarn global add now
+    - now deploy --token=$NOW_API_KEY
+    - echo "Code deployed to production server"
   environment:
-    name: staging
-    url: https://yah.vn
+    name: production
+    url: https://live.now.sh
   only:
     - master

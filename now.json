@@ -4,7 +4,11 @@
    "public": true,
    "dotenv": ".env.prod",
    "engines": {
-     "node": ">= 7.10.0"
+     "node": ">= 8.6.0"
+   },
+   "env": {
+     "MONGO_URL": "@dayflow-mongo-lab-url",
+     "SESSION_SECRET": "@dayflow-session-secret"
    },
    "alias": [
      "active.now.sh",
