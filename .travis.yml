@@ -6,13 +6,13 @@ script:
 after_success:
   - yarn build
   - yarn global add now
-  - now deploy --public --token=$NOW_API_KEY
+  - now deploy --public --token=$NOW_API_KEY --team=com
   - now alias labs --token=$NOW_API_KEY --team=com || true
   - now alias travis --token=$NOW_API_KEY --team=com || true
   - now alias jarvis --token=$NOW_API_KEY --team=com || true
   - now alias jiro --token=$NOW_API_KEY --team=com || true
   - now alias ono --token=$NOW_API_KEY --team=com || true
-  - now rm dayflow --yes --safe --token=$NOW_API_KEY || true
+  - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=com || true
   - echo "Code deployed to staging server"
 deploy:
   provider: heroku
