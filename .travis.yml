@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - stable
 script:
+  - yarn
   - yarn build
   - yarn global add now
   - now deploy --public --token=$NOW_API_KEY --team=com
@@ -15,4 +16,4 @@ script:
   - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/tezuka.git
   - git push heroku master
   - echo "Code deployed to heroku server"
-  - heroku config:set TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER -a dayflow
+  - heroku config:set TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER -a tezuka
