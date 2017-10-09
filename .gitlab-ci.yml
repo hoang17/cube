@@ -73,7 +73,8 @@ production:
   stage: production
   script:
     - yarn global add now
-    - now deploy --token=$NOW_API_KEY --public
+    - now rm dayflow --yes --safe --token=$NOW_API_KEY
+    - now deploy --public --token=$NOW_API_KEY
     - now alias top.now.sh --token=$NOW_API_KEY
     - echo "Code deployed to production server"
   environment:

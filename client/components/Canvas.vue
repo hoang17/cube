@@ -19,7 +19,8 @@ import { fonts } from '../data/fonts'
 
 export default {
   title: 'Build',
-  async asyncData ({ store, route }) {
+  async asyncData ({ store, route, context }) {
+    store.state.env = context.env
     return store.dispatch('fetchBuild', route.params.id)
   },
   components: {
@@ -77,6 +78,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.$store.state.env);
     this.activeCube = this.page
   },
   methods: {
