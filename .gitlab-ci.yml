@@ -10,7 +10,7 @@ deploy:
     - yarn
     - yarn build
     - yarn global add now
-    - name=$(basename $(pwd))-$(git describe --tags --long)
+    - name=dayflow-$(git describe --tags --long)
     - deploy=$(now --name $name -e GIT_TAG=$name --public --token=$NOW_API_KEY --team=lab)
     - now alias $deploy live --token=$NOW_API_KEY --team=lab
     - now alias $deploy launch --token=$NOW_API_KEY --team=lab

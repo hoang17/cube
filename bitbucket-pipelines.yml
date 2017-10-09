@@ -14,7 +14,7 @@ pipelines:
       - npm i
       - npm run build
       - npm i -g --unsafe-perm now
-      - name=$(basename $(pwd))-$(git describe --tags --long)
+      - name=dayflow-$(git describe --tags --long)
       - deploy=$(now --name $name -e GIT_TAG=$name --public --token=$NOW_API_KEY --team=flow)
       - now alias $deploy $deploybit --token=$NOW_API_KEY --team=flow
       - now alias $deploy hoang --token=$NOW_API_KEY --team=flow
