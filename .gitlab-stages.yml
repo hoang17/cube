@@ -1,0 +1,84 @@
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+# This folder is cached between builds
+cache:
+  paths:
+    - node_modules/
+
+# before_script:
+#   - apt-get -qq update
+#   - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
+#   - "echo -e \"export default {CLIENT_ID: '$CLIENT_ID'}\" > app/scripts/settings.js"
+#   - yarn --silent
+
+# services:
+#   - mysql:latest
+#   - redis:latest
+#   - postgres:latest
+#   - mongodb:latest
+
+stages:
+  - init
+  - build
+  - test
+  - deploy
+  - production
+
+# Configuration
+# variables:
+#   AWS_ACCESS_KEY_ID: "" # Should have access to both S3/EB
+#   AWS_SECRET_ACCESS_KEY: ""
+#   AWS_DEFAULT_REGION: "us-east-1" # Or, wherever you are
+#   EB_APP_NAME: "" # ElasticBeanstalk Application Name
+#   EB_APP_ENV: "" # ElasticBeanstalk Application Environment
+#   S3_BUCKET: "" # S3 bucket for ElasticBeanstalk
+#   S3_KEY: "" # S3 folder to upload built app
+
+init:
+ stage: init
+ script:
+   - yarn
+
+# Installs npm packages
+# Passes node_modules/, dist/ onto next steps using artifacts
+build:
+  stage: build
+  script:
+    - yarn build
+  artifacts:
+    paths:
+      - node_modules/
+      - dist/
+
+# test:
+#   stage: test
+#   script:
+#     - yarn test
+
+deploy:
+  stage: deploy
+  script:
+    - yarn global add now
+    - now deploy --public --token=$NOW_API_KEY --team=lab
+    - now alias --token=$NOW_API_KEY || true --team=lab
+    - now rm dayflow --yes --safe --token=$NOW_API_KEY || true --team=lab
+    - echo "Code deployed to staging server"
+  environment:
+    name: staging
+    url: https://bin.now.sh
+  only:
+    - master
+
+production:
+  stage: production
+  script:
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
+    - git push heroku master
+    - echo "Code deployed to production server"
+  environment:
+    name: production
+    url: https://yah.vn
+  only:
+    - master
