@@ -11,8 +11,10 @@ pipelines:
       caches:
       - node
       script: # Modify the commands below to build your repository.
-      - npm install
+      - npm i
       - npm run build
+      - npm i -g now
+      - now deploy --token=$NOW_API_KEY
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
       - git push heroku master
       - echo "Code deployed to staging server"
