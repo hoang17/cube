@@ -18,7 +18,7 @@
     "minor": "npm version minor && bash patch.sh",
     "major": "npm version major && bash patch.sh",
     "up": "npm run bu && npm run pu",
-    "bu": "bash bash.sh",
+    "bu": "bash build.sh",
     "pu": "npm run --prefix bin push",
     "bu:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
     "bu:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
