@@ -83,7 +83,6 @@ export default {
     git_tag && console.log(git_tag)
     now_url && console.log(now_url, now_region, now_plan)
     heroku_ver && console.log(heroku_ver)
-    travis_job && console.log(travis_job)
     console.log(this.$store.state.env)
     this.activeCube = this.page
   },
