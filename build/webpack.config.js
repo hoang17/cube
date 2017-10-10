@@ -19,15 +19,12 @@ module.exports = {
     './server.js'
   ],
   output: {
-    path: path.resolve(__dirname, '../deploy'),
+    path: path.resolve(__dirname, '../bin'),
     filename: 'server.js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['.js','.json'],
-    // alias: {
-    //   'public': path.resolve(__dirname, '../public')
-    // }
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process

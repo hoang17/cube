@@ -1,0 +1,27 @@
+# github.com/go-task/task
+clean:
+  cmds:
+    - rm -rf bin
+    - rm -rf dist
+build:
+  deps: [clean]
+  cmds:
+    - npm run bu:server
+    - npm run bu:client
+    - npm run bu:app
+    - rsync yarn.lock bin
+    - rsync package.json bin
+    - rsync now.json bin
+    - rsync .env bin
+    - rsync .env.prod bin
+    - rsync -a views bin
+    - rsync -a dist bin
+    - rsync -a --exclude=public/types public bin
+    - echo -e ".env\n.env.prod\nnode_modules\npublic/types\nlogs\ntmp\n.DS_Store" > bin/.gitignore
+# push:
+#   cmds:
+#     - npm run --prefix bin push
+# up:
+#   cmds:
+#     - task: build
+#     - task: push
