@@ -8,12 +8,9 @@ deploy:
   stage: deploy
   script:
     - yarn
-    - yarn build
+    - yarn bu
+    - cd bin
     - yarn global add now
-    # - name=dayflow-$(git describe --tags --long)
-    # - deploy=$(now --name $name -e GIT_TAG=$name --public --token=$NOW_API_KEY --team=lab)
-    # - now alias $deploy live --token=$NOW_API_KEY --team=lab
-    # - now rm $name --yes --safe --token=$NOW_API_KEY --team=lab || true
     - now --public --token=$NOW_API_KEY --team=lab
     - now alias live --token=$NOW_API_KEY --team=lab
     - now alias launch --token=$NOW_API_KEY --team=lab
@@ -30,8 +27,11 @@ deploy:
     - now alias search --token=$NOW_API_KEY --team=lab
     - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=lab || true
     - echo "Code deployed to now server"
+    - git init
+    - git add .
+    - git commit -am 'new deployment'
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
-    - git push heroku master
+    - git push heroku master --force
     - echo "Code deployed to heroku server"
   environment:
     name: deploy
