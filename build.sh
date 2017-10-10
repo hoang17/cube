@@ -13,12 +13,12 @@ npm run bu:client
 npm run bu:app
 
 # copy files to ./bin
-rsync yarn.lock bin
-rsync package.json bin
-rsync now.json bin
-rsync .env bin
-rsync .env.prod bin
-rsync -a views bin
-rsync -a dist bin
-rsync -a --exclude=public/types public bin
-echo -e ".env\n.env.prod\nnode_modules\npublic/types\nlogs\ntmp\n.DS_Store" > bin/.gitignore
+cp yarn.lock bin
+cp package.json bin
+cp now.json bin
+cp .env bin
+cp .env.prod bin
+cp -r views bin
+cp -r dist bin
+rsync -a --exclude=public/types public bin || cp -r public bin
+echo -e ".env\n.env.prod\nnode_modules\npublic/types\nlogs\ntmp\netc\n.DS_Store" > bin/.gitignore
