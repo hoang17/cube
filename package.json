@@ -17,6 +17,7 @@
     "patch": "npm version patch && bash patch.sh",
     "minor": "npm version minor && bash patch.sh",
     "major": "npm version major && bash patch.sh",
+    "gp": "bash gitpush.sh",
     "up": "npm run bu && npm run pu",
     "bu": "bash build.sh",
     "pu": "npm run --prefix bin push",
