@@ -28,6 +28,8 @@ deploy:
     - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=lab || true
     - echo "Code deployed to now server"
     - git init
+    - git config --global user.email "gitlab-ci@yah.vn"
+    - git config --global user.name "GitLab CI"
     - git add .
     - git commit -am 'new deployment'
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git

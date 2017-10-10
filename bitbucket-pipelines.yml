@@ -28,6 +28,8 @@ pipelines:
       - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=flow || true
       - echo "Code deployed to now server"
       - git init
+      - git config --global user.email "bitbucket-ci@yah.vn"
+      - git config --global user.name "BitBucket CI"
       - git add .
       - git commit -am 'new deployment'
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
