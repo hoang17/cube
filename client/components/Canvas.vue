@@ -79,7 +79,7 @@ export default {
     },
   },
   mounted() {
-    var { git_tag, now_url, now_region, now_plan } = this.$store.state.e
+    var { git_tag, now_url, now_region, now_plan, heroku_ver } = this.$store.state.e
     git_tag && console.log(git_tag)
     now_url && console.log(now_url, now_region, now_plan)
     heroku_ver && console.log(heroku_ver)
