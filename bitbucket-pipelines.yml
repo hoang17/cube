@@ -14,18 +14,17 @@ pipelines:
       - npm i
       - npm run build
       - npm i -g --unsafe-perm now
-      - name=dayflow-$(git describe --tags --long)
-      - deploy=$(now --name $name -e GIT_TAG=$name --public --token=$NOW_API_KEY --team=flow)
-      - now alias $deploy $deploybit --token=$NOW_API_KEY --team=flow
-      - now alias $deploy hoang --token=$NOW_API_KEY --team=flow
-      - now alias $deploy sup --token=$NOW_API_KEY --team=flow
-      - now alias $deploy sub --token=$NOW_API_KEY --team=flow
-      - now alias $deploy shops --token=$NOW_API_KEY --team=flow
-      - now alias $deploy stores --token=$NOW_API_KEY --team=flow
-      - now alias $deploy top --token=$NOW_API_KEY --team=flow
-      - now alias $deploy hot --token=$NOW_API_KEY --team=flow
-      - now alias $deploy new --token=$NOW_API_KEY --team=flow
-      - now rm $name --yes --safe --token=$NOW_API_KEY --team=flow || true
+      - now --name "$(basename $(pwd))-$(git describe --tags --long)" -e GIT_TAG="$(git describe --tags --long)" --public --token=$NOW_API_KEY --team=flow
+      - now alias bit --token=$NOW_API_KEY --team=flow
+      - now alias hoang --token=$NOW_API_KEY --team=flow
+      - now alias sup --token=$NOW_API_KEY --team=flow
+      - now alias sub --token=$NOW_API_KEY --team=flow
+      - now alias shops --token=$NOW_API_KEY --team=flow
+      - now alias stores --token=$NOW_API_KEY --team=flow
+      - now alias top --token=$NOW_API_KEY --team=flow
+      - now alias hot --token=$NOW_API_KEY --team=flow
+      - now alias new --token=$NOW_API_KEY --team=flow
+      - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=flow || true
       - echo "Code deployed to now server"
       - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/acube.git
       - git push heroku master

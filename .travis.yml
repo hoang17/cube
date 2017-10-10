@@ -5,13 +5,12 @@ script:
   - yarn
   - yarn build
   - yarn global add now
-  - name=dayflow-$(git describe --tags --long)
-  - deploy=$(now --name $name -e GIT_TAG=$name --public --token=$NOW_API_KEY --team=com)
-  - now alias $deploy travis --token=$NOW_API_KEY --team=com
-  - now alias $deploy tezuka --token=$NOW_API_KEY --team=com
-  - now alias $deploy jiro --token=$NOW_API_KEY --team=com
-  - now alias $deploy ono --token=$NOW_API_KEY --team=com
-  - now rm $name --yes --safe --token=$NOW_API_KEY --team=com || true
+  - now --public --token=$NOW_API_KEY --team=com
+  - now alias travis --token=$NOW_API_KEY --team=com
+  - now alias tezuka --token=$NOW_API_KEY --team=com
+  - now alias jiro --token=$NOW_API_KEY --team=com
+  - now alias ono --token=$NOW_API_KEY --team=com
+  - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=com || true
   - echo "Code deployed to now server"
   - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/tezuka.git
   - git push heroku master
