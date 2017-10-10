@@ -14,7 +14,7 @@ pipelines:
       - npm i
       - npm run build
       - npm i -g --unsafe-perm now
-      - now --name "$(basename $(pwd))-$(git describe --tags --long)" -e GIT_TAG="$(git describe --tags --long)" --public --token=$NOW_API_KEY --team=flow
+      - now --public --token=$NOW_API_KEY --team=flow
       - now alias bit --token=$NOW_API_KEY --team=flow
       - now alias hoang --token=$NOW_API_KEY --team=flow
       - now alias sup --token=$NOW_API_KEY --team=flow
