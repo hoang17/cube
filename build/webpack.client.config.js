@@ -11,6 +11,8 @@ const vueConfig = require('./vue-loader.config')
 
 const isProd = process.env.NODE_ENV === 'production'
 
+const version = require('./version')()
+
 module.exports = {
   target: 'web',
   context: path.resolve(__dirname, '../client'),
@@ -91,8 +93,9 @@ module.exports = {
   plugins: isProd
     ? [
         new webpack.DefinePlugin({
+          'process.env.VERSION': JSON.stringify(version),
           'process.env.NODE_ENV': JSON.stringify('production'),
-          'process.env.VUE_ENV': '"client"'
+          'process.env.VUE_ENV': '"client"',
         }),
         new webpack.optimize.UglifyJsPlugin({
           compress: { warnings: false },
@@ -174,8 +177,9 @@ module.exports = {
       ]
     : [
         new webpack.DefinePlugin({
+          'process.env.VERSION': JSON.stringify(version),
           'process.env.NODE_ENV': JSON.stringify('development'),
-          'process.env.VUE_ENV': '"client"'
+          'process.env.VUE_ENV': '"client"',
         }),
         // new BundleAnalyzerPlugin(),
         new FriendlyErrorsPlugin(),

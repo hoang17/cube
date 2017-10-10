@@ -10,6 +10,8 @@ const vueConfig = require('./vue-loader.config')
 
 const isProd = process.env.NODE_ENV === 'production'
 
+const version = require('./version')()
+
 module.exports = {
   target: 'node',
   context: path.resolve(__dirname, '../client'),
@@ -96,8 +98,9 @@ module.exports = {
     isProd
     ? [
         new webpack.DefinePlugin({
+          'process.env.VERSION': JSON.stringify(version),
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-          'process.env.VUE_ENV': '"server"'
+          'process.env.VUE_ENV': '"server"',
         }),
         new webpack.optimize.ModuleConcatenationPlugin(),
 
@@ -131,8 +134,9 @@ module.exports = {
       ]
     : [
       new webpack.DefinePlugin({
+        'process.env.VERSION': JSON.stringify(version),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-        'process.env.VUE_ENV': '"server"'
+        'process.env.VUE_ENV': '"server"',
       }),
       new FriendlyErrorsPlugin(),
       new VueSSRServerPlugin()
