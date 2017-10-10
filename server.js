@@ -35,6 +35,8 @@ const expressValidator = require('express-validator')
  */
 dotenv.load({ path: '.env' })
 
+console.log(process.env.VERSION);
+
 // var _ = require('lodash'),
 //     Heroku = require('heroku-client'),
 //     heroku = new Heroku({ token: process.env.HEROKU_API_KEY })

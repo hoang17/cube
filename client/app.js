@@ -11,6 +11,8 @@ import ClickOutside from './directives/ClickOutside'
 import * as cubes from './data/cubes'
 import Vuetify from 'vuetify'
 
+console.log(process.env.VERSION);
+
 Vue.use(Vuetify)
 
 Vue.directive('click-outside', ClickOutside)
@@ -45,8 +47,6 @@ Object.keys(filters).forEach(key => {
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp (context) {
-
-  console.log(process.env.VERSION);
 
   // create store and router instances
   const store = createStore(context)

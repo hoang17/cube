@@ -19,7 +19,7 @@ module.exports = {
     './server.js'
   ],
   output: {
-    path: path.resolve(__dirname, '../../deploy'),
+    path: path.resolve(__dirname, '../deploy'),
     filename: 'server.js',
     libraryTarget: 'commonjs2'
   },
