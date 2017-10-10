@@ -15,11 +15,13 @@
     "test:cover": "nyc --reporter=html --reporter=text mocha",
     "dev": "nodemon --ignore client/ --ignore dist/ server.js",
     "start": "cross-env NODE_ENV=production node server",
-    "build": "rimraf dist && npm run build:server && npm run build:client",
+    "build": "rimraf dist && npm run build:server && npm run build:client && npm run build:app",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
     "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
-    "now": "yarn build && now --public --force && now alias us && open https://us.now.sh/build",
-    "heroku-postbuild": "yarn build",
+    "build:app": "cross-env NODE_ENV=production webpack --config build/webpack.config.js --progress --hide-modules",
+    "now": "npm run build && now --public --force && now alias us && open https://us.now.sh/build",
+    "heroku": "git push heroku master",
+    "heroku-postbuild": "npm run build",
     "now-build": "echo hello"
   },
   "dependencies": {

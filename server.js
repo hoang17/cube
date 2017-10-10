@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-const logging = require('./modules/logging')
+// const logging = require('./modules/logging')
 const express = require('express')
 const compression = require('compression')
 const session = require('express-session')
@@ -18,7 +18,6 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const expressValidator = require('express-validator')
 // const expressStatusMonitor = require('express-status-monitor')
-
 
 // const sass = require('node-sass-middleware');
 // var helmet = require('helmet')
@@ -254,10 +253,10 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 
 
 // Setup API routes
-app.use('/api', require('./modules/api-routes.js'))
+app.use('/api', require('./api-routes.js'))
 
 // Setup SSR
-require('./modules/ssr-routes')(app)
+require('./ssr-routes')(app)
 
 /**
  * Error Handler.

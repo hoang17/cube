@@ -132,7 +132,7 @@ router.route('/pages/:id')
 router.route('/routes')
   .post(async function(req, res) {
     let url = req.body.url
-    log(url)
+    // log(url)
     let page = await pages.findOne({url: url})
     let id = page ? page._id : null
     res.send(id)

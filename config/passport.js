@@ -95,7 +95,7 @@ passport.use(new FacebookStrategy({
       if (existingUser) {
         return done(null, existingUser);
       }
-      log(profile.id)
+      // log(profile.id)
       User.findOne({ email: profile._json.email }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (existingEmailUser) {
