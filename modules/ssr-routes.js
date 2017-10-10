@@ -110,7 +110,9 @@ module.exports = function(app) {
         now_url: process.env.NOW_URL,
         now_region: process.env.NOW_REGION,
         now_plan: process.env.NOW_PLAN,
+        heroku_app: process.env.HEROKU_APP_NAME,
         heroku_ver: process.env.HEROKU_RELEASE_VERSION,
+        heroku_des: process.env.HEROKU_SLUG_DESCRIPTION,
       }
     }
 

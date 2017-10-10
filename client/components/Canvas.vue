@@ -79,10 +79,10 @@ export default {
     },
   },
   mounted() {
-    var { git_tag, now_url, now_region, now_plan, heroku_ver } = this.$store.state.e
+    var { git_tag, now_url, now_region, now_plan, heroku_app, heroku_ver, heroku_des } = this.$store.state.e
     git_tag && console.log(git_tag)
     now_url && console.log(now_url, now_region, now_plan)
-    heroku_ver && console.log(heroku_ver)
+    heroku_app && console.log(heroku_app, heroku_ver, heroku_des)
     console.log(this.$store.state.env)
     this.activeCube = this.page
   },
