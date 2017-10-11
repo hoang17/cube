@@ -1,6 +1,6 @@
 {
   "name": "dayflow",
-  "version": "5.0.7",
+  "version": "5.0.8",
   "description": "A boilerplate for Node.js web applications",
   "engines": {
     "node": "^8.5.0",
