@@ -105,7 +105,7 @@ module.exports = function(app) {
       user: req.user,
       req: req,
       res: res,
-      env: process.env,
+      // env: process.env,
       e: {
         now_url: process.env.NOW_URL,
         now_region: process.env.NOW_REGION,

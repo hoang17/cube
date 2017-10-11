@@ -21,7 +21,7 @@ export default {
   title: 'Build',
   async asyncData ({ store, route, context }) {
     store.state.e = context.e
-    store.state.env = context.env
+    // store.state.env = context.env
     return store.dispatch('fetchBuild', route.params.id)
   },
   components: {
@@ -83,7 +83,7 @@ export default {
     git_tag && console.log(git_tag)
     now_url && console.log(now_url, now_region, now_plan)
     heroku_app && console.log(heroku_app, heroku_ver, heroku_des)
-    console.log(this.$store.state.env)
+    // console.log(this.$store.state.env)
     this.activeCube = this.page
   },
   methods: {
