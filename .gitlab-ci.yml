@@ -25,6 +25,9 @@ deploy:
     - now alias ship --token=$NOW_API_KEY --team=lab
     - now alias photo --token=$NOW_API_KEY --team=lab
     - now alias search --token=$NOW_API_KEY --team=lab
+    - now alias tezuka --token=$NOW_API_KEY --team=lab
+    - now alias jiro --token=$NOW_API_KEY --team=lab
+    - now alias ono --token=$NOW_API_KEY --team=lab
     - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=lab || true
     - echo "Code deployed to now server"
     - git init
@@ -32,7 +35,8 @@ deploy:
     - git config --global user.name "GitLab CI"
     - git add .
     - git commit -am 'new deployment'
-    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
+    # - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dayflow.git
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/tezuka.git
     - git push heroku master --force
     - echo "Code deployed to heroku server"
   environment:

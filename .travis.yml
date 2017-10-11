@@ -8,14 +8,13 @@ script:
   - yarn global add now
   - now --public --force --token=$NOW_API_KEY --team=com
   - now alias travis --token=$NOW_API_KEY --team=com
-  - now alias tezuka --token=$NOW_API_KEY --team=com
-  - now alias jiro --token=$NOW_API_KEY --team=com
-  - now alias ono --token=$NOW_API_KEY --team=com
+  - now alias araki --token=$NOW_API_KEY --team=com
+  - now alias chef --token=$NOW_API_KEY --team=com
   - now rm dayflow --yes --safe --token=$NOW_API_KEY --team=com || true
   - echo "Code deployed to now server"
   - git init
   - git add .
   - git commit -am 'new deployment'
-  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/tezuka.git
+  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/araki.git
   - git push heroku master --force
   - echo "Code deployed to heroku server"
