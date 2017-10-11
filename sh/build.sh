@@ -23,4 +23,4 @@ cp sh/heroku.sh bin
 cp -r views bin
 cp -r dist bin
 rsync -a --exclude=public/types public bin || cp -r public bin
-echo -e "*.sh\n.env\n.env.prod\nnode_modules\npublic/types\nlogs\ntmp\netc\n.DS_Store" > bin/.gitignore
+echo -e "*.sh\n.env\n.env.prod\nnow.json\nnode_modules\npublic/types\nlogs\ntmp\netc\n.DS_Store" > bin/.gitignore
