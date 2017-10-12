@@ -1,4 +1,5 @@
 <template lang="pug">
+  div Hello
   //- Wrapper
     ToolBarLab(:pr="sideWidth")
     NavBarLab
@@ -70,7 +71,6 @@ export default {
   },
   data(){
     return {
-      sideWidth
     }
   }
 }
