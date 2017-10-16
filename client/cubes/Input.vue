@@ -1,5 +1,11 @@
 <template lang="pug">
-  div(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
+  div(
+    :edit="edit",
+    :class="css",
+    :active="active",
+    :style="cube.style | styl",
+    @click.stop="edit && focus()",
+    @mouseover.stop="")
     .flex.xs5
       label(:for="cube._id", :class="$style.label") {{ cube.content }}
     .flex.xs7
