@@ -5,6 +5,12 @@ cmd-shift-a: move all completed tasks to the archive section
 ctrl-c: cancel the selected tasks
 ctrl-s: add/update timestamp for current task
 
-COST:
+Food:
 ☐ 25 @timestamp(2017-10-11 13:40)
 ☐ 15 @timestamp(2017-10-16 19:49)
+
+Util:
+☐ 10 @timestamp(2017-10-17 10:06)
+
+Transport:
+  ☐ 10 @timestamp(2017-10-17 10:07)
