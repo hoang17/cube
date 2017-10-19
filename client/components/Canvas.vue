@@ -1,17 +1,20 @@
 <template lang="pug">
-  .workspace(:class="{[$style.drawer]: drawer.left, [$style.drawerRight]: drawer.right}")
+  .build(:class="{[$style.drawer]: drawer.left, [$style.drawerRight]: drawer.right}")
     link(v-for="f in pageFonts", :href="fontUrl(f)", rel='stylesheet')
     div(v-html="rules")
     div(:class="$style.control")
-      navbar(:drawer.sync='drawer')
-      propbar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawer.sync='drawer')
-      toolbar(:drawer.sync='drawer')
+      Navbar(:drawer.sync='drawer')
+      Sidebar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawer.sync='drawer')
+      Toolbar(:drawer.sync='drawer')
     draggable(:class="$style.canvas + ' --'+page.css", @click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
       i
 </template>
 
 <script>
+import Toolbar from './ToolBar'
+import Navbar from './NavBar'
+import Sidebar from './PropBar'
 import Draggable from 'vuedraggable'
 import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
@@ -25,10 +28,10 @@ export default {
     return store.dispatch('fetchBuild', route.params.id)
   },
   components: {
+    Toolbar,
+    Navbar,
+    Sidebar,
     Draggable,
-    'navbar': () => import('./NavBar'),
-    'propbar': () => import('./PropBar'),
-    'toolbar': () => import('./ToolBar'),
   },
   data() {
     return {
