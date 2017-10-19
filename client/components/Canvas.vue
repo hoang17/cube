@@ -114,7 +114,7 @@ export default {
 <style lang="stylus" module>
 .canvas
   margin 0
-  padding 48px 10px 20px 10px
+  padding 48px 0 0
   min-height 100vh
   height 100%
   outline none
@@ -122,10 +122,10 @@ export default {
   // transition margin .3s cubic-bezier(.25,.8,.5,1)
 
 .drawer .canvas
-  margin-left 300px
+  padding-left 300px
 
 .drawerRight .canvas
-  margin-right 28em
+  padding-right 28em
 
 .control
   position fixed
