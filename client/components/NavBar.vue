@@ -1,77 +1,72 @@
 <template lang="pug">
-  v-navigation-drawer(persistent, absolute, :mini-variant.sync='mini', v-model='drawer.left', overflow, enable-resize-watcher)
-    v-toolbar.transparent(flat,dense)
-      v-list.pa-0(dense)
-        v-list-tile(avatar)
-          v-list-tile-avatar
+  div(:class="$style.navbar")
+    Expansion
+      Expand(:title="page.content" expand inner)
+        MenuButton(
+          icon="fa fa-plus"
+          lb="Add New Page"
+          :active="page._id == newId"
+          :badge="showBadge(pages[newId])"
+          @click.native.stop="selectPage()")
+        MenuButton(
+          v-for='(p, i) in pages'
+          v-if="p._id != newId"
+          icon="fa fa-file-o"
+          :lb="p.content", :key='i'
+          :meta="p.host"
+          :active="page._id == p._id"
+          :badge="showBadge(page)"
+          @click.native.stop="selectPage(p)")
+      Expand(title="Basic Cube" expand inner)
+        MenuButton(
+          :key='i',
+          v-for='(cube, i) in baseCubes'
+          :icon="cube.icon"
+          :lb="cube.name"
+          @click.native="addBaseCube(cube)")
+      Expand(title="Custom Cube" expand inner)
+        MenuButton(
+          v-for='(cube, i) in cubes'
+          :icon="cube.link?'fa fa-cubes':'fa fa-cube'"
+          :lb="cube.content", :key='i'
+          :meta="cube.link ? `${linkCount(cube)} cubes` : ''"
+          @click.native.stop="addCube(cube)"
+          @trash="trash(cube)")
+      //-.v-list.pa-0(dense)
+        .v-list-tile(avatar)
+          .v-list-tile-avatar
             img(:src='user.profile.picture')
-          v-list-tile-content
-            v-list-tile-title {{ user.profile.name }}
-          v-list-tile-action
-            //- v-btn(icon, @click.native.stop='')
+          .v-list-tile-content
+            .v-list-tile-title {{ user.profile.name }}
+          .v-list-tile-action
+            //- button(icon, @click.native.stop='')
               i.fa.fa-cog
-            //- v-btn(icon, @click.native.stop='mini = !mini')
-              v-icon chevron_left
-    v-list.pt-0(dense)
-      v-divider
-      v-list-tile(@click="selectPage()", :class="{active: page._id == newId }")
-        v-list-tile-action
-          i.fa.fa-plus
-        v-list-tile-content(v-badge="{value:'',visible:showBadge(pages[newId])}")
-          v-list-tile-title Add New Page
-
-      v-list-tile(:key='i', @click.stop="selectPage(p)", v-for='(p, i) in pages', :class="{active: page._id == p._id}", v-if="p._id != newId")
-        v-list-tile-action
-          //- v-icon web_asset
-          i.fa.fa-file-o
-        v-list-tile-content(v-badge="{value:'',visible:showBadge(p)}")
-          v-list-tile-title {{ p.content }}
-          .meta  {{ p.host }}
-        //- v-list-tile-action
-          v-btn(icon, @click.stop="trashPage(p)")
-            i.fa.fa-trash
-
-      v-divider.my-2(dark)
-      v-list-tile(:key='i', @click="addBaseCube(cube)", v-for='(cube, i) in baseCubes')
-        v-list-tile-action
-          //- v-icon add
-          i(:class="cube.icon")
-        v-list-tile-content
-          v-list-tile-title {{ cube.name }}
-
-      v-divider.my-2(dark)
-      v-list-tile(:key='i', @click.stop="addCube(cube)", v-for='(cube, i) in cubes')
-        //- v-list-tile-action(v-html="cube.link?'🎁':'📦'")
-        v-list-tile-action
-          i.fa(:class="cube.link?'fa-cubes':'fa-cube'")
-        v-list-tile-content
-          v-list-tile-title {{ cube.content }}
-          span.meta  {{ cube.link ? `${linkCount(cube)} cubes` : '' }}
-        v-list-tile-action
-          v-btn(icon, @click.stop="trash(cube)")
-            i.fa.fa-trash-o
-
-      v-divider.my-2(dark)
-
-    v-toolbar.transparent(flat,dense)
-      v-list
-        v-list-tile
-          v-list-tile-action
-            v-btn(icon, @click="dark=!dark")
-              i.fa.fa-moon-o
-          v-list-tile-content
-            v-list-tile-title Dark mode
-          v-list-tile-action.switch
-            v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='dark')
+            //- button(icon, @click.native.stop='mini = !mini')
+              .v-icon chevron_left
+      //-.v-toolbar.transparent(flat,dense)
+        .v-list
+          .v-list-tile
+            .v-list-tile-action
+              .button(icon, @click="dark=!dark")
+                i.fa.fa-moon-o
+            .v-list-tile-content
+              .v-list-tile-title Dark mode
+            .v-list-tile-action.switch
+              .v-switch(v-bind:label="dark ? 'On' : 'Off'", v-model='dark')
 </template>
 
 <script>
 import { clone, getCubeStyles, getCubeBlocks, Block } from '../data/factory'
 import * as baseCubes from '../data/cubes'
 import { mapState, mapGetters } from 'vuex'
+import Expansion from './Expansion'
+import Expand from './Expand'
+import MenuButton from './MenuButton'
 
 export default {
-  props: ['drawer'],
+  components: {
+    Expansion, Expand, MenuButton
+  },
   computed: {
     ...mapGetters([
       'page',
@@ -94,7 +89,6 @@ export default {
     }
   },
   data: () => ({
-    mini: false,
     baseCubes: baseCubes,
   }),
   methods: {
@@ -153,44 +147,26 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.navigation-drawer
-  z-index 5
+<style lang="stylus" module>
+.navbar
+  position fixed
+  top 0
+  left 0
+  z-index 3
+  height 100%
+  overflow-y auto
   user-select none
+  padding-bottom: 100px
+  will-change transform
+  background-color #f5f5f5
+  border-right 1px solid #d1d1d1
+  transition .3s cubic-bezier(.25,.8,.5,1)
 
-  .active
-    background-color rgba(0, 0, 0, 0.18)
-    .list__tile__title
-      font-weight bold
-
-  .badge:after
-    background #4caf50!important
-    font-size 8px
-    width 10px
-    height 10px
-    top 15px
-    right 0
-
-  v-card
-    a
-      text-decoration none
-
-  .list__tile--avatar .avatar .icon
-  .list__tile--avatar .avatar img
-    width 30px
-    height 30px
-
-  .list__tile__action
-    min-width 36px
-
-  .list__tile__action.switch
-    min-width 73px
-
-  .meta
-    color #999
-    font-size 10px
-    font-weight 100
-
-.navigation-drawer--mini-variant
-  margin-top 48px
+.badge:after
+  background #4caf50!important
+  font-size 8px
+  width 10px
+  height 10px
+  top 15px
+  right 0
 </style>

@@ -3,17 +3,22 @@
     div(:class="$style.header", @click="open = !open")
       label(:class="$style.label") {{ title }}
       i(:class="[$style.icon, 'material-icons']", :style="open && 'transform: rotate(-180deg)'") keyboard_arrow_down
-    div(:class="$style.body", :style="expand ? null : {height:0, display:'none'}", ref="body")
-      div(:class="$style.inner")
-        slot
+    div(:class="[$style.body, ins]", :style="expand ? null : {height:0, display:'none'}", ref="body")
+      slot
 </template>
 <script>
 export default {
-  props:['expand', 'title'],
+  props:['expand', 'title', 'inner'],
   data() {
     return {
       open: this.expand,
-      height: 'auto'
+      height: 'auto',
+    }
+  },
+  computed: {
+    ins(){
+      if (this.inner) return this.inner
+      else return this.$style.inner
     }
   },
   watch: {
@@ -46,6 +51,7 @@ export default {
 </script>
 <style lang="stylus" module>
 .pane
+  width 100%
   outline none
   flex 1 1 100%
   color rgba(0,0,0,.87)
@@ -77,6 +83,7 @@ export default {
   background-color #eee
   border-top 1px solid #d1d1d1
   transition .3s cubic-bezier(.25,.8,.5,1)
-  .inner
-    padding:12px 10px
+
+.inner
+  padding:12px 10px
 </style>

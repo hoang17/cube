@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.sidebar")
     Expansion
-      Expand(title="Text", expand="true")
+      Expand(title="Text", expand)
         FieldSet
           Field(:w="2/3", lb="Font Family")
           Field(:w="1/3", lb="Font Size")
