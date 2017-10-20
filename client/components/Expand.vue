@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.pane")
     div(:class="$style.header", @click="open = !open")
-      label(:class="$style.label") {{ title }}
+      div(:class="$style.label") {{ title }}
       i(:class="[$style.icon, 'material-icons']", :style="open && 'transform: rotate(-180deg)'") keyboard_arrow_down
     div(:class="[$style.body, ins]", :style="expand ? null : {height:0, display:'none'}", ref="body")
       slot
@@ -72,7 +72,6 @@ export default {
   font-weight 500
   height 32px
   display flex
-  cursor pointer
   align-items center
   position relative
   padding 10px 24px 10px 15px

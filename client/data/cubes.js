@@ -115,11 +115,6 @@ export const container = {
   cubes: []
 }
 
-// export const photo = {
-//   name: 'Photo',
-//   type: 'pt',
-// }
-
 export const form = {
   _id: null,
   type: 'fm',
@@ -279,6 +274,33 @@ export const radio = {
     textAlign: null,
     padding: null,
     margin: null,
+  }
+}
+
+export const photo = {
+  _id: null,
+  type: 'pt',
+  name: 'Photo',
+  content: 'Photo',
+  icon: 'fa fa-photo',
+  url: null,
+  css: null,
+  uid: null,
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    padding: null,
+    margin: null,
+    border: null,
+    borderRadius: null,
   }
 }
 

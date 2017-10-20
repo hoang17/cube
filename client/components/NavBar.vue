@@ -15,20 +15,20 @@
           :lb="p.content", :key='i'
           :meta="p.host"
           :active="page._id == p._id"
-          :badge="showBadge(page)"
+          :badge="showBadge(p)"
           @click.native.stop="selectPage(p)")
-      Expand(title="Basic Cube" expand inner)
+      Expand(title="Basic Cubes" expand :inner="$style.inner")
         MenuButton(
-          :key='i',
           v-for='(cube, i) in baseCubes'
+          :w="1/2"
           :icon="cube.icon"
-          :lb="cube.name"
+          :lb="cube.name", :key='i'
           @click.native="addBaseCube(cube)")
-      Expand(title="Custom Cube" expand inner)
+      Expand(title="Custom Cubes" expand inner)
         MenuButton(
           v-for='(cube, i) in cubes'
           :icon="cube.link?'fa fa-cubes':'fa fa-cube'"
-          :lb="cube.content", :key='i'
+          :lb="cube.content", :key='i', trash
           :meta="cube.link ? `${linkCount(cube)} cubes` : ''"
           @click.native.stop="addCube(cube)"
           @trash="trash(cube)")
@@ -162,11 +162,7 @@ export default {
   border-right 1px solid #d1d1d1
   transition .3s cubic-bezier(.25,.8,.5,1)
 
-.badge:after
-  background #4caf50!important
-  font-size 8px
-  width 10px
-  height 10px
-  top 15px
-  right 0
+.inner
+  display flex
+  flex-wrap wrap
 </style>
