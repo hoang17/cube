@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import Toolbar from './Toolbar'
+// import Toolbar from './Toolbar'
 import Navbar from '../components/NavBar'
 import Sidebar from '../components/Sidebar'
 
 export default {
   components: {
-    Toolbar,
+    // Toolbar,
     Navbar,
     Sidebar,
   },
