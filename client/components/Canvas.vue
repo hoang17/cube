@@ -1,11 +1,10 @@
 <template lang="pug">
-  .build(:class="{[$style.drawer]: drawer.left, [$style.drawerRight]: drawer.right}")
+  .build(:class="{[$style.left]:left,[$style.right]:right}")
     link(v-for="f in pageFonts", :href="fontUrl(f)", rel='stylesheet')
     div(v-html="rules")
-    div(:class="$style.control")
-      Navbar(:drawer.sync='drawer')
-      Sidebar(v-if="activeCube", :cube='activeCube', tabindex="1", @keydown.native="keydown", :drawer.sync='drawer')
-      Toolbar(:drawer.sync='drawer')
+    Toolbar(:class="$style.toolbar", @leftClick="left = !left", @rightClick="right = !right")
+    Navbar(:class="$style.navbar")
+    Sidebar(:cube='activeCube', tabindex="1", @keydown.native="keydown", :class="$style.sidebar")
     draggable(:class="$style.canvas + ' --'+page.css", @click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}")
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
       i
@@ -14,7 +13,7 @@
 <script>
 import Toolbar from './ToolBar'
 import Navbar from './NavBar'
-import Sidebar from './PropBar'
+import Sidebar from './Sidebar'
 import Draggable from 'vuedraggable'
 import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
@@ -35,7 +34,8 @@ export default {
   },
   data() {
     return {
-      drawer: {left: true, right: true},
+      left: true,
+      right: true,
     }
   },
   computed: {
@@ -112,37 +112,36 @@ export default {
 </script>
 
 <style lang="stylus" module>
+$left := 300px
+$right := 28em
+
+.left
+  .toolbar
+  .canvas
+    padding-left $left
+  .navbar
+    transform none
+
+.right
+  .toolbar
+  .canvas
+    padding-right $right
+  .sidebar
+    transform none
+
+.navbar
+  width $left
+  transform translate3d(-100%, 0, 0)
+
+.sidebar
+  width $right
+  transform translate3d(100%, 0, 0)
+
 .canvas
   margin 0
   padding 48px 0 0
   min-height 100vh
   height 100%
   outline none
-  // will-change margin-left
-  // transition margin .3s cubic-bezier(.25,.8,.5,1)
-
-.drawer .canvas
-  padding-left 300px
-
-.drawerRight .canvas
-  padding-right 28em
-
-.control
-  position fixed
-  pointer-events none
-  left 0
-  top 0
-  width 100%
-  height 100%
-  z-index 5
-  outline 0
-
-:global(.application--dark)
-  .canvas
-    // background-color hsl(220, 13%, 18%)
-    color hsl(220, 14%, 71%)
-
-:global(.application--light)
-  .canvas
-    background-color #fff
+  transition padding .3s cubic-bezier(.25,.8,.5,1)
 </style>

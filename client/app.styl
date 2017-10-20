@@ -13,7 +13,7 @@
 // $font-size-root := 14px
 
 // @require '../node_modules/vuetify/src/stylus/main'
-@require '../node_modules/vuetify/dist/vuetify.min.css'
+// @require '../node_modules/vuetify/dist/vuetify.min.css'
 @require './app.css'
 
 body
@@ -102,17 +102,6 @@ select
 
 .fade-enter, .fade-leave-active
   opacity 0
-
-$right-pane-width := 28em
-
-.navigation-drawer--right
-  width $right-pane-width
-
-.navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open.navigation-drawer--right:not(.navigation-drawer--clipped):not(.navigation-drawer--floating)+.toolbar
-  padding-right $right-pane-width
-
-.navigation-drawer--close:not(.navigation--permanent).navigation-drawer--right
-  transform: translate3d($right-pane-width,0,0)
 
 // * -16px on Desktop
 // phone     Extra small	 xs	 small to large handset	   < 600px

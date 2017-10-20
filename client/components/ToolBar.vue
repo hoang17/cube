@@ -1,45 +1,18 @@
 <template lang="pug">
-  v-toolbar.elevation-1(fixed, dense)
-    v-toolbar-side-icon(@click.stop="drawer.left=!drawer.left")
-    v-btn(icon, @click='save', :disabled="saved")
-      i.fa.fa-save
-    v-btn(icon, @click='copy', :disabled="!canCopy")
-      i.fa.fa-copy
-    v-btn(icon, @click='cut', :disabled="!canCut")
-      i.fa.fa-cut
-    v-btn(icon, @click='paste', :disabled="!canPaste")
-      v-icon content_paste
-      //- i.fa.fa-paste
-    v-btn(icon, @click="dup")
-      i.fa.fa-clone
-    v-btn(icon, @click='trash', :disabled="!canTrash")
-      //- v-icon delete
-      i.fa.fa-trash-o
-    v-btn(icon, @click="undo", :disabled="!canUndo")
-      v-icon.undo undo
-    v-btn(icon, @click="redo", :disabled="!canRedo")
-      v-icon.redo redo
-    a(:href="url", target='_blank', rel='noopener', v-show="page._id!=newId")
-      v-btn(icon)
-        v-icon visibility
-    v-btn(icon, @click="createCube", :disabled="!canCreateCube")
-      i.fa.fa-cube
-    v-btn(icon, @click="toggleBlock", :disabled="!canToggleBlock")
-      i.fa.fa-cubes
-      //- v-icon.link link
-    v-spacer
-    v-toolbar-side-icon(@click.stop="drawer.right=!drawer.right")
-    //-.text-format(v-if="cube")
-      v-btn-toggle(v-bind:items='toggle_options', v-model='toggle_exclusive')
-      v-btn-toggle(v-bind:items='toggle_options_multiple', multiple, v-model='toggle_multiple')
-    //-v-btn(icon)
-      v-icon help
-    //-v-btn(icon)
-      v-icon refresh
-    //-v-btn(icon)
-      v-icon schedule
-    //-v-btn(icon)
-      v-icon search
+  div(:class="$style.toolbar")
+    Button(ma="menu" @click.native="$emit('leftClick')")
+    Button(fa="save" @click='save', :disabled="saved")
+    Button(fa="copy" @click='copy', :disabled="!canCopy")
+    Button(fa="cut" @click='cut', :disabled="!canCut")
+    Button(ma="content_paste" @click='paste', :disabled="!canPaste")
+    Button(fa="clone" @click="dup")
+    Button(fa="trash-o" @click='trash', :disabled="!canTrash")
+    Button(ma="undo" @click="undo", :disabled="!canUndo")
+    Button(ma="redo" @click="redo", :disabled="!canRedo")
+    LinkIcon(ma="visibility" target="_blank" rel="noopener" v-show="page._id!=newId", :href="url")
+    Button(fa="cube" @click="createCube", :disabled="!canCreateCube")
+    Button(fa="cubes" @click="toggleBlock", :disabled="!canToggleBlock")
+    Button(ma="menu" @click.native="$emit('rightClick')" right)
 </template>
 
 <script>
@@ -48,9 +21,12 @@ import cloneDeep  from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
 import { mapState, mapGetters } from 'vuex'
+import Button from './ButtonToolbar'
 
 export default {
-  props: ['drawer'],
+  components: {
+    Button
+  },
   data() {
     return {
       stopWatchHandler: null,
@@ -657,27 +633,15 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" module>
 .toolbar
-  z-index 1
-  pointer-events auto
-  // box-shadow inset 0 -10px 5px -10px #666
-
-  .btn
-  .btn__content
-  .icon
-    transition none
-
-  i
-    font-size 18px
-    &.fa-clone
-    &.fa-copy
-      font-size 16px
-    &.undo
-    &.redo
-    &.link
-      font-size 20px
-
-  .btn-toggle--selected
-    box-shadow none
+  width 100%
+  height 48px
+  position fixed
+  z-index 3
+  color rgba(0,0,0,.87)
+  background-color #f5f5f5
+  will-change padding-left, padding-right
+  transition .3s cubic-bezier(.25,.8,.5,1)
+  box-shadow 0 1px 3px rgba(0,0,0,.2),0 1px 1px rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12)
 </style>

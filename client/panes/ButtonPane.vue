@@ -1,19 +1,19 @@
 <template lang="pug">
   div
-    v-text-field(label='Name', v-model='cube.content')
-    v-text-field(label='URL', v-model='cube.url')
-    //- v-text-field(label='Font', v-model='cube.style.fontFamily')
-    //- v-text-field(label='Color', v-model='cube.style.color')
-    //- v-text-field(label='Size', v-model='cube.style.fontSize')
-    //- v-text-field(label='Weight', v-model='cube.style.fontWeight')
-    //- v-text-field(label='Line Height', v-model='cube.style.lineHeight')
-    //- v-text-field(label='Letter Spacing', v-model='cube.style.letterSpacing')
-    //- v-text-field(label='Text Alignment', v-model='cube.style.textAlign')
-    //- v-text-field(label='Text Transform', v-model='cube.style.textTransform')
-    //- v-text-field(label='Margin', v-model='cube.style.margin')
-    //- v-text-field(label='Width', v-model='cube.style.width')
-    //- v-text-field(label='Height', v-model='cube.style.height')
-    //- v-text-field(label='Display', v-model='cube.style.display')
+    input(label='Name', v-model='cube.content')
+    input(label='URL', v-model='cube.url')
+    //- input(label='Font', v-model='cube.style.fontFamily')
+    //- input(label='Color', v-model='cube.style.color')
+    //- input(label='Size', v-model='cube.style.fontSize')
+    //- input(label='Weight', v-model='cube.style.fontWeight')
+    //- input(label='Line Height', v-model='cube.style.lineHeight')
+    //- input(label='Letter Spacing', v-model='cube.style.letterSpacing')
+    //- input(label='Text Alignment', v-model='cube.style.textAlign')
+    //- input(label='Text Transform', v-model='cube.style.textTransform')
+    //- input(label='Margin', v-model='cube.style.margin')
+    //- input(label='Width', v-model='cube.style.width')
+    //- input(label='Height', v-model='cube.style.height')
+    //- input(label='Display', v-model='cube.style.display')
 </template>
 
 <script>
