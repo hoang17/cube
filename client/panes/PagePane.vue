@@ -12,11 +12,12 @@
 <script>
 import FieldSet from '../components/FieldSet'
 import Field from '../components/Field'
+import Input from '../components/Input'
 
 export default {
   props: ['cube'],
   components: {
-    FieldSet, Field
+    FieldSet, Field, Input
   },
   computed: {
     url(){

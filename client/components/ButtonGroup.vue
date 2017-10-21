@@ -1,6 +1,6 @@
 <template lang="pug">
   Box(:w='w')
-    Label {{ lb }}
+    Label(top) {{ lb }}
     div(:class="$style.group")
       slot
 </template>

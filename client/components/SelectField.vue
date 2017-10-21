@@ -1,6 +1,6 @@
 <template lang="pug">
   Box(:w='w')
-    Label {{ lb }}
+    Label(top) {{ lb }}
     Select
       slot
 </template>

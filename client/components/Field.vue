@@ -1,7 +1,7 @@
 <template lang="pug">
   Box(:w='w')
-    Label {{ lb }}
-    Input(:placeholder="ph || lb" type="text", :value="value", :readonly="readonly")
+    Label(top) {{ lb }}
+    Input(:placeholder="ph || lb" type="text", :readonly="readonly", :value="value" @input="val => $emit('input', val)")
 </template>
 
 <script>

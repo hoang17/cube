@@ -1,61 +1,61 @@
 <template lang="pug">
   div(:class="$style.sidebar")
     Expansion
-      Expand(title="Properties" expand)
+      Expand(:title="cube.name" expand)
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
-      Expand(title="Text" expand)
+      Expand(title="Font" expand)
         FieldSet
-          Field(:w="2/3" lb="Font Family")
-          Field(:w="1/3" lb="Font Size")
+          Field(:w="2/3" lb="Font Family" v-model="rule.fontFamily")
+          Field(:w="1/3" lb="Font Size" v-model='rule.fontSize')
         FieldSet
-          SelectField(:w="1/3" lb="Weight")
-            option Light
-            option Thin
-            option Normal
-            option Bold
-            option Heavy
-          Field(:w="1/3" lb="Line Height" ph="20px")
-          Field(:w="1/3" lb="Spacing" ph="normal")
+          SelectField(:w="1/3" lb="Weight" v-model='rule.fontWeight')
+            option(value="200") Light
+            option(value="300") Thin
+            option(value="400") Normal
+            option(value="500") Bold
+            option(value="600") Heavy
+          Field(:w="1/3" lb="Line Height" v-model='rule.lineHeight')
+          Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
         FieldSet
-          Field(:w="2/3" lb="Color")
-          ButtonGroup(:w="1/3", lb="Transform")
+          Field(:w="2/3" lb="Color" v-model='rule.color')
+          ButtonGroup(:w="1/3", lb="Transform" v-model='rule.textTransform')
             Button AA
             Button Aa
             Button aa
         FieldSet
-          ButtonGroup(lb="Style")
+          ButtonGroup(lb="Style" v-model='rule.textStyle')
             ButtonIcon(fa="bold")
             ButtonIcon(fa="italic")
             ButtonIcon(fa="underline")
             ButtonIcon(fa="strikethrough")
         FieldSet
-          ButtonGroup(lb="Alignment")
+          ButtonGroup(lb="Alignment" v-model='rule.textAlign')
             ButtonIcon(fa="align-left")
             ButtonIcon(fa="align-center")
             ButtonIcon(fa="align-right")
             ButtonIcon(fa="align-justify")
       Expand(title="Background")
         FieldSet
-          Field(:w="1/2" lb="Color")
+          Field(:w="1/2" lb="Color" v-model='rule.backgroundColor')
           Field(:w="1/2" lb="Gradient")
         FieldSet
-          SelectField(lb="Select Image")
+          SelectField(lb="Select Image" v-model='rule.backgroundImg')
             option Light
             option Thin
             option Normal
             option Bold
             option Heavy
         FieldSet
-          SelectField(:w="1/3" lb="Position")
+          SelectField(:w="1/3" lb="Position" v-model='rule.backgroundPosition')
             option Position
-          SelectField(:w="1/3" lb="Repeat")
+          SelectField(:w="1/3" lb="Repeat" v-model='rule.backgroundRepeat')
             option Repeat
-          SelectField(:w="1/3" lb="Size")
+          SelectField(:w="1/3" lb="Size" v-model='rule.backgroundSize')
             option Size
       Expand(title="Layout")
         FieldSet
-          Label(:w="2/8" css="margin:0") Display
-          Select(:w="6/8" lb="Display")
+          Label(:w="2/8") Display
+          Select(:w="6/8" lb="Display" v-model='rule.display')
             option --
             option Block
             option Inline
@@ -63,48 +63,48 @@
             option Flex
             option Inline Flex
         FieldSet
-          Label(:w="2/8" css="margin:0") Dimensions
-          Input(:w="3/8" ph="Width")
-          Input(:w="3/8" ph="Height")
+          Label(:w="2/8") Dimensions
+          Input(:w="3/8" ph="Width" v-model='rule.width')
+          Input(:w="3/8" ph="Height" v-model='rule.height')
         FieldSet
-          Label(:w="2/8" css="margin:0") Magin
-          Input(:w="6/8" ph="Margin")
+          Label(:w="2/8") Magin
+          Input(:w="6/8" ph="Margin" v-model='rule.margin')
         FieldSet
-          Label(:w="2/8" css="margin:0") Padding
-          Input(:w="6/8" ph="Padding")
+          Label(:w="2/8") Padding
+          Input(:w="6/8" ph="Padding" v-model='rule.padding')
         FieldSet
-          Label(:w="2/8" css="margin:0") Transform
-          Input(:w="6/8" ph="Transform")
+          Label(:w="2/8") Transform
+          Input(:w="6/8" ph="Transform" v-model='rule.transform')
       Expand(title="Border")
         FieldSet
-          ButtonGroup(lb="Style")
+          ButtonGroup(lb="Style" v-model='rule.borderStyle')
             Button Solid
             Button Dotted
             Button Dashed
         FieldSet
-          ButtonGroup(lb="Sides")
+          ButtonGroup(lb="Sides" v-model='rule.borderSides')
             Button Top
             Button Right
             Button Bottom
             Button Left
         FieldSet
-          Field(:w="1/3" lb="Width")
-          Field(:w="1/3" lb="Color")
-          Field(:w="1/3" lb="Radius")
+          Field(:w="1/3" lb="Width" v-model='rule.borderWidth')
+          Field(:w="1/3" lb="Color" v-model='rule.borderColor')
+          Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
       Expand(title="Position")
         FieldSet
-          Label(:w="2/8" css="margin:0") Position
-          Select(:w="6/8" lb="Position")
+          Label(:w="2/8") Position
+          Select(:w="6/8" lb="Position" v-model='rule.position')
             option Static
             option Absolute
             option Relative
             option Fixed
             option Sticky
         FieldSet
-          Field(:w="1/4" lb="Top")
-          Field(:w="1/4" lb="Bottom")
-          Field(:w="1/4" lb="Left")
-          Field(:w="1/4" lb="Right")
+          Field(:w="1/4" lb="Top" v-model='rule.top')
+          Field(:w="1/4" lb="Bottom" v-model='rule.bottom')
+          Field(:w="1/4" lb="Left" v-model='rule.left')
+          Field(:w="1/4" lb="Right" v-model='rule.right')
 </template>
 
 <script>
