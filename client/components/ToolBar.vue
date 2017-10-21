@@ -9,7 +9,7 @@
     Button(fa="trash-o" @click.native='trash', :disabled="!canTrash")
     Button(ma="undo" @click.native="undo", :disabled="!canUndo")
     Button(ma="redo" @click.native="redo", :disabled="!canRedo")
-    LinkIcon(ma="visibility" target="_blank" rel="noopener" v-show="page._id!=newId", :href="url")
+    LinkIcon(ma="visibility" v-show="page._id!=newId" target="_blank" rel="noopener", :href="url")
     Button(fa="cube" @click.native="createCube", :disabled="!canCreateCube")
     Button(fa="cubes" @click.native="toggleBlock", :disabled="!canToggleBlock")
     Button(ma="menu" @click.native="$emit('rightClick')" right)
@@ -22,10 +22,11 @@ import debounce from 'lodash/debounce'
 import isEqual from 'lodash/isEqual'
 import { mapState, mapGetters } from 'vuex'
 import Button from './ButtonToolbar'
+import LinkIcon from './LinkIcon'
 
 export default {
   components: {
-    Button
+    Button, LinkIcon
   },
   data() {
     return {
