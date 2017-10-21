@@ -1,15 +1,13 @@
 <template lang="pug">
   div(
-    :edit="edit",
-    :class="css",
-    :active="active",
-    :style="cube.style | styl",
-    @click.stop="edit && focus()",
+    :edit="edit"
+    :class="css"
+    :active="active"
+    :style="cube.style | styl"
+    @click.stop="edit && focus()"
     @mouseover.stop="")
-    .flex.xs5
-      label(:for="cube._id", :class="$style.label") {{ cube.content }}
-    .flex.xs7
-      input(:id="cube._id", :class="$style.input", :placeholder="cube.placeholder")
+    label(:for="cube._id", :class="$style.label") {{ cube.content }}
+    input(:id="cube._id", :class="$style.input", :placeholder="cube.placeholder")
 </template>
 
 <script>
@@ -46,6 +44,7 @@ export default {
     -webkit-font-smoothing antialiased
     display block
     padding 8px 0
+    flex 1 1 40%
     // height 100%
     // line-height 36px
     // vertical-align middle
@@ -53,10 +52,11 @@ export default {
 
   input
     text-align left
-    border 1px solid #666
     outline none
     padding 8px
     width 100%
+    border 1px solid rgba(0,0,0,.15)
+    flex 1 1 60%
     // border-radius 2px
 
 :global(.application--light)

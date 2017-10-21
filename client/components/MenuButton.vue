@@ -4,7 +4,7 @@
       i(:class="icon")
     div(:class="[$style.content, badge && $style.badge]")
       div(:class="$style.label") {{ lb }}
-      div(:class="$style.meta") {{ meta }}
+      div(v-if="meta", :class="$style.meta") {{ meta }}
     div(v-if="trash", :class="$style.trash" @click.stop="$emit('trash')")
       i(class="fa fa-trash-o")
 </template>

@@ -1,10 +1,8 @@
 <template lang="pug">
   div(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
-    .flex.xs5
-      label(:class="$style.label", :for="cube._id") {{ cube.content }}
-    .flex.xs7
-      select(:id="cube._id")
-        option(v-for='o in cube.options', :value="o.value") {{ o.name }}
+    label(:class="$style.label", :for="cube._id") {{ cube.content }}
+    select(:id="cube._id")
+      option(v-for='o in cube.options', :value="o.value") {{ o.name }}
 </template>
 
 <script>
@@ -41,18 +39,22 @@ export default {
     -webkit-font-smoothing antialiased
     display block
     padding 8px 0
+    flex 1 1 40%
     // height 100%
     // line-height 36px
     // vertical-align middle
     // border 1px solid #666
 
   select
+    -webkit-font-smoothing antialiased
     text-align left
     border 1px solid #666
     outline none
     padding 8px
     width 100%
     border-radius 0
+    flex 1 1 60%
+    border 1px solid rgba(0,0,0,.15)
 
 :global(.application--light)
   .select

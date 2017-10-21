@@ -9,11 +9,8 @@ import * as filters from './plugins/filters'
 import InfiniteLoading from './addons/InfiniteLoading'
 import ClickOutside from './directives/ClickOutside'
 import * as cubes from './data/cubes'
-// import Vuetify from 'vuetify'
 
 console.log(process.env.VERSION)
-
-// Vue.use(Vuetify)
 
 Vue.directive('click-outside', ClickOutside)
 

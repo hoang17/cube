@@ -1,13 +1,13 @@
 <template lang="pug">
   div(
-    v-if="edit",
-    :edit="edit",
-    :class="css",
-    :active="active",
-    :style="cube.style | styl",
-    :content="cube.content",
-    @click.stop="edit && focus()",
-    @mouseover.stop="hover=true",
+    v-if="edit"
+    :edit="edit"
+    :class="css"
+    :active="active"
+    :style="cube.style | styl"
+    :content="cube.content"
+    @click.stop="edit && focus()"
+    @mouseover.stop="hover=true"
     @mouseout.stop="hover=false")
     component(:cube="source", :is="source.type", :edit="edit", :select="select")
 </template>

@@ -1,6 +1,6 @@
 <template lang="pug">
   Button(:class="[$style.button]")
-    i(:class="classes") {{ ma }}
+    i(:class="css") {{ ma }}
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     Button
   },
   computed: {
-    classes() {
+    css() {
       return [
         this.$style.icon,
         this.fa && `fa fa-${this.fa}`,

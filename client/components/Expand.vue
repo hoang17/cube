@@ -1,14 +1,14 @@
 <template lang="pug">
   div(:class="$style.pane")
     div(:class="$style.header", @click="open = !open")
-      div(:class="$style.label") {{ title }}
+      div(:class="[$style.label, badge && $style.badge]") {{ title }}
       i(:class="[$style.icon, 'material-icons']", :style="open && 'transform: rotate(-180deg)'") keyboard_arrow_down
     div(:class="[$style.body, ins]", :style="expand ? null : {height:0, display:'none'}", ref="body")
       slot
 </template>
 <script>
 export default {
-  props:['expand', 'title', 'inner'],
+  props:['expand', 'title', 'inner', 'badge'],
   data() {
     return {
       open: this.expand,
@@ -61,6 +61,7 @@ export default {
 .label
   font-size 12px
   flex 1 1 auto
+  position relative
 
 .icon
   font-size 20px !important
@@ -85,4 +86,21 @@ export default {
 
 .inner
   padding:12px 10px
+
+.badge:after
+  background #4caf50!important
+  width 10px
+  height 10px
+  top 4px
+  right 10px
+  color: #fff
+  content: attr(data-badge)
+  display: flex
+  position: absolute
+  background-color: #1976d2
+  border-radius: 50%
+  justify-content: center
+  align-items: center
+  flex-direction: row
+  flex-wrap: wrap
 </style>

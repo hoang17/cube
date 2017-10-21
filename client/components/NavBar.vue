@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.navbar")
     Expansion
-      Expand(:title="page.content" expand inner)
+      Expand(:title="page.content" expand inner :badge="showBadge(page)")
         MenuButton(
           icon="fa fa-plus"
           lb="Add New Page"

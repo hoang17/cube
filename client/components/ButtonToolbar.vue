@@ -1,13 +1,13 @@
 <template lang="pug">
   button(:class="[$style.button, right && $style.right]")
-    i(:class="classes") {{ ma }}
+    i(:class="css") {{ ma }}
 </template>
 
 <script>
 export default {
   props: ['fa','ma', 'right'],
   computed: {
-    classes() {
+    css() {
       return [
         this.$style.icon,
         this.fa && `fa fa-${this.fa}`,

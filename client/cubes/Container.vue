@@ -1,15 +1,15 @@
 <template lang="pug">
   draggable(
     v-if="edit",
-    v-model='cube.cubes',
-    :edit="edit",
-    :class="css",
-    :active="active",
-    :content="cube.content",
-    :style="cube.style | styl",
-    :options="{group:'cubes'}",
-    @click.native.stop="edit && focus()",
-    @mouseover.native.stop="hover=true",
+    v-model='cube.cubes'
+    :edit="edit"
+    :class="css"
+    :active="active"
+    :content="cube.content"
+    :style="cube.style | styl"
+    :options="{group:'cubes'}"
+    @click.native.stop="edit && focus()"
+    @mouseover.native.stop="hover=true"
     @mouseout.native.stop="hover=false")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
     i
