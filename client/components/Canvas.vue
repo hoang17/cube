@@ -1,11 +1,17 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
-    link(v-for="f in pageFonts", :href="fontUrl(f)", rel='stylesheet')
+    link(v-for="f in pageFonts", :href="fontUrl(f)" rel='stylesheet')
     div(v-html="rules")
-    Toolbar(:class="$style.toolbar", @leftClick="left = !left", @rightClick="right = !right")
+    Toolbar(:class="$style.toolbar" @leftClick="left = !left" @rightClick="right = !right")
     Navbar(:class="$style.navbar")
-    Sidebar(:cube='activeCube', tabindex="1", @keydown.native="keydown", :class="$style.sidebar")
-    draggable(:class="$style.canvas + ' --'+page.css", @click.native.stop="selectPage", :style="page.style | styl", v-model='cubes', :options="{group:'cubes'}")
+    Sidebar(v-if="activeCube", :cube='activeCube', :class="$style.sidebar" @keydown.native="keydown" tabindex="1")
+    draggable(
+      v-model='cubes'
+      :style="page.style | styl"
+      :options="{group:'cubes'}"
+      :class="$style.canvas + ' --'+page.css"
+      @click.native.stop="selectPage"
+    )
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
       i
 </template>
