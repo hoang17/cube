@@ -14,12 +14,12 @@ export default {
 </script>
 <style lang="stylus" module>
 .label
-  color: #363636
-  display: block
-  font-size: 11px
-  font-weight: 600
-  margin-bottom: 0.4em
-  text-transform: uppercase
+  color #363636
+  display block
+  font-size 11px
+  font-weight 600
+  margin-bottom 0.4em
+  text-transform uppercase
   &:not(:last-child)
-    margin-right: 0px
+    margin-right 0
 </style>

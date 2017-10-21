@@ -1,10 +1,10 @@
 <template lang="pug">
-  input(:class="$style.input", :style="styles")
+  input(:class="$style.input", :style="styles", :readonly="readonly")
 </template>
 
 <script>
 export default {
-  props: ['w'],
+  props: ['w','readonly'],
   computed: {
     styles(){
       return this.w && 'flex: 1 1 ' + this.w*100 + '%'

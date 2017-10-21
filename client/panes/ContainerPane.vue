@@ -1,35 +1,15 @@
 <template lang="pug">
   div
-    input(label='Name', v-model='cube.content')
-    //- input(label='Font', v-model='cube.style.fontFamily')
-    //- input(label='Color', v-model='cube.style.color')
-    //- input(label='Size', v-model='cube.style.fontSize')
-    //- input(label='Weight', v-model='cube.style.fontWeight')
-    //- input(label='Line Height', v-model='cube.style.lineHeight')
-    //- input(label='Letter Spacing', v-model='cube.style.letterSpacing')
-    //- input(label='Text Alignment', v-model='cube.style.textAlign')
-    //- input(label='Text Transform', v-model='cube.style.textTransform')
-    //- input(label='Display', v-model='cube.style.display')
-    //- input(label='Width', v-model='cube.style.width')
-    //- input(label='Height', v-model='cube.style.height')
-    //- input(label='Margin', v-model='cube.style.margin')
-    //- input(label='Padding', v-model='cube.style.padding')
-    //- input(label='Min Width', v-model='cube.style.minWidth')
-    //- input(label='Min Height', v-model='cube.style.minHeight')
-    //- input(label='Max Width', v-model='cube.style.maxWidth')
-    //- input(label='Max Height', v-model='cube.style.maxHeight')
-    //- input(label='Border', v-model='cube.style.border')
-    //- input(label='Border Radius', v-model='cube.style.borderRadius')
-    //- input(label='Flex', v-model='cube.style.flex')
-    //- input(label='Flex Flow', v-model='cube.style.flexFlow')
+    Field(lb='Name' v-model='cube.content')
 </template>
 
 <script>
-
+import Field from '../components/Field'
 export default {
   props: ['cube'],
-  methods: {
-  },
+  components: {
+    Field
+  }
 }
 </script>
 

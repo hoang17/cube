@@ -1,11 +1,12 @@
 <template lang="pug">
   div
     FieldSet
-      Field(:w="2/3" lb="Title" v-model='cube.content')
-      Field(:w="1/3" lb="Host" v-model='cube.host')
+      Field(lb="Title" v-model='cube.content')
     FieldSet
-      Field(:w="1/3" lb="Path" v-model='cube.path', prefix="/")
-      Field(:w="2/3" lb="URL" v-model='cube.url' readonly)
+      Field(:w="1/2" lb="Host" v-model='cube.host')
+      Field(:w="1/2" lb="Path" v-model='cube.path', prefix="/")
+    FieldSet
+      Field(lb="URL" v-model='cube.url' readonly)
 </template>
 
 <script>
