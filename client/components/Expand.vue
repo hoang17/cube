@@ -3,8 +3,9 @@
     div(:class="$style.header", @click="open = !open")
       div(:class="[$style.label, badge && $style.badge]") {{ title }}
       i(:class="[$style.icon, 'material-icons']", :style="open && 'transform: rotate(-180deg)'") keyboard_arrow_down
-    div(:class="[$style.body, ins]", :style="expand ? null : {height:0, display:'none'}", ref="body")
-      slot
+    div(:class="$style.body", :style="expand ? null : {height:0, display:'none'}", ref="body")
+      div(:class="instyle")
+        slot
 </template>
 <script>
 export default {
@@ -12,13 +13,11 @@ export default {
   data() {
     return {
       open: this.expand,
-      height: 'auto',
     }
   },
   computed: {
-    ins(){
-      if (this.inner) return this.inner
-      else return this.$style.inner
+    instyle(){
+      return this.inner ? this.inner : this.$style.inner
     }
   },
   watch: {
@@ -26,22 +25,17 @@ export default {
       this.toggle()
     }
   },
-  mounted() {
-    let e = this.$refs.body
-    e.style = ''
-    this.height = e.clientHeight + 1 + 'px'
-    if (!this.expand) e.style.display = 'none'
-  },
   methods: {
     toggle() {
       let e = this.$refs.body
       if (this.open){
-        e.style.display = ''
+        e.style = ''
+        const height = e.clientHeight + 1 + 'px'
         e.style.height = 0
-        setTimeout(() => e.style.height = this.height, 10)
+        setTimeout(() => e.style.height = height, 10)
         setTimeout(() => e.style = '', 300)
       } else {
-        e.style.height = this.height
+        e.style.height = e.clientHeight + 1 + 'px'
         setTimeout(() => e.style.height = 0, 10)
         setTimeout(() => e.style.display = 'none', 300)
       }
