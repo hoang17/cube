@@ -26,8 +26,16 @@
           @click.native="addBaseCube(cube)")
       Expand(title="Custom Cubes" expand inner)
         MenuButton(
-          v-for='(cube, i) in cubes'
-          :icon="cube.block ? 'fa fa-cubes' : cube.icon"
+          v-for='(cube, i) in customCubes'
+          :icon="cube.icon"
+          :lb="cube.content", :key='i', trash
+          :meta="blockCount(cube) + ' cubes'"
+          @click.native.stop="addCube(cube)"
+          @trash="trash(cube)")
+      Expand(title="Cube Blocks" expand inner)
+        MenuButton(
+          v-for='(cube, i) in blocks'
+          icon="fa fa-cubes"
           :lb="cube.content", :key='i', trash
           :meta="blockCount(cube) + ' cubes'"
           @click.native.stop="addCube(cube)"
@@ -86,6 +94,12 @@ export default {
       set(dark){
         this.$store.state.dark = dark
       }
+    },
+    customCubes(){
+      return Object.values(this.cubes).filter(e => !e.block)
+    },
+    blocks(){
+      return Object.values(this.cubes).filter(e => e.block)
     }
   },
   data: () => ({
