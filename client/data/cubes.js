@@ -6,6 +6,7 @@ export const text = {
   icon: 'fa fa-font',
   uid: null,
   src: null,
+  order: 1,
   style: {
     color: null,
     display: null,
@@ -31,6 +32,7 @@ export const link = {
   url: null,
   uid: null,
   src: null,
+  order: 2,
   style: {
     color: null,
     display: null,
@@ -58,6 +60,7 @@ export const button = {
   url: null,
   uid: null,
   src: null,
+  order: 3,
   style: {
     color: null,
     display: null,
@@ -83,6 +86,7 @@ export const container = {
   icon: 'fa fa-th-large',
   uid: null,
   src: null,
+  order: 4,
   style: {
     color: null,
     width: null,
@@ -119,6 +123,7 @@ export const form = {
   icon: 'fa fa-list-alt',
   uid: null,
   src: null,
+  order: 5,
   style: {
     color: null,
     width: null,
@@ -158,6 +163,7 @@ export const input = {
   icon: 'icon-text',
   uid: null,
   src: null,
+  order: 6,
   style: {
     color: null,
     display: null,
@@ -190,6 +196,7 @@ export const select = {
   ],
   uid: null,
   src: null,
+  order: 7,
   style: {
     color: null,
     display: null,
@@ -221,6 +228,7 @@ export const check = {
   ],
   uid: null,
   src: null,
+  order: 8,
   style: {
     color: null,
     display: null,
@@ -252,6 +260,7 @@ export const radio = {
   ],
   uid: null,
   src: null,
+  order: 9,
   style: {
     color: null,
     display: null,
@@ -277,6 +286,7 @@ export const photo = {
   url: null,
   uid: null,
   src: null,
+  order: 10,
   style: {
     color: null,
     display: null,

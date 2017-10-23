@@ -105,7 +105,7 @@ router.route('/routes')
 router.route('/cubes')
   .get(async function(req, res) {
     let uid = req.decoded.id
-    let data = await cubes.find({ uid:uid },{sort : { block : 1 }})
+    let data = await cubes.find({ uid:uid },{sort : { order : 1 }})
     res.json(data)
   })
   .post(async function(req, res) {

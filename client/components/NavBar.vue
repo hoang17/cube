@@ -156,7 +156,7 @@ export default {
     },
     trash(cube){
       let count = this.blockCount(cube)
-      if (cube.src && count > 0){
+      if (count > 0){
         alert(`Can not delete this block because ${count} cubes connected to it`)
       } else if (confirm("Do you want to delete this cube?")){
         this.$store.dispatch('removeCube', cube)
