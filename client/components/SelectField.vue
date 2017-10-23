@@ -1,7 +1,7 @@
 <template lang="pug">
   Box(:w='w')
     Label(top) {{ lb }}
-    Select
+    Select(:value="value" @input="val => $emit('input', val)")
       slot
 </template>
 
@@ -10,7 +10,7 @@ import Box from './Box'
 import Select from './Select'
 import Label from './Label'
 export default {
-  props: ['w','lb','ph'],
+  props: ['w','lb','ph','value'],
   components: {
     Box, Select, Label
   },

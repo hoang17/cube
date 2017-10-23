@@ -9,31 +9,33 @@
           Field(:w="1/3" lb="Font Size" ph="14px" v-model='rule.fontSize')
         FieldSet
           SelectField(:w="1/3" lb="Weight" v-model='rule.fontWeight')
+            option(value="") inherit
             option(value="200") Light
             option(value="300") Thin
             option(value="400") Normal
-            option(value="500") Bold
+            option(value="500") Thick
             option(value="600") Heavy
+            option(value="bold") Bold
           Field(:w="1/3" lb="Line Height" ph="1.5" v-model='rule.lineHeight')
           Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
         FieldSet
           Field(:w="2/3" lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
-          ButtonGroup(:w="1/3", lb="Transform" v-model='rule.textTransform')
-            Button AA
-            Button Aa
-            Button aa
+          ButtonList(:w="1/3"
+            lb="Transform"
+            v-model='rule.textTransform'
+            :list="{'uppercase':'AA', 'capitalize':'Aa', 'lowercase':'aa'}")
         FieldSet
-          ButtonGroup(lb="Style" v-model='rule.textStyle')
-            ButtonIcon(fa="bold")
-            ButtonIcon(fa="italic")
-            ButtonIcon(fa="underline")
-            ButtonIcon(fa="strikethrough")
+          ButtonGroup(lb="Style")
+            ButtonIcon(fa="bold" value="bold" v-model='rule.fontWeight')
+            ButtonIcon(fa="italic" value="italic" v-model='rule.fontStyle')
+            ButtonIcon(fa="underline" value="underline" v-model='rule.textDecoration')
+            ButtonIcon(fa="strikethrough" value="line-through" v-model='rule.textDecoration')
         FieldSet
-          ButtonGroup(lb="Alignment" v-model='rule.textAlign')
-            ButtonIcon(fa="align-left")
-            ButtonIcon(fa="align-center")
-            ButtonIcon(fa="align-right")
-            ButtonIcon(fa="align-justify")
+          ButtonGroup(lb="Alignment" )
+            ButtonIcon(fa="align-left" value="left" v-model='rule.textAlign')
+            ButtonIcon(fa="align-center" value="center" v-model='rule.textAlign')
+            ButtonIcon(fa="align-right" value="right" v-model='rule.textAlign')
+            ButtonIcon(fa="align-justify" value="justify" v-model='rule.textAlign')
       Expand(title="Background")
         FieldSet
           Field(:w="1/2" lb="Color" v-model='rule.backgroundColor')
@@ -76,17 +78,10 @@
           Label(:w="2/8") Transform
           Input(:w="6/8" ph="Transform" v-model='rule.transform')
       Expand(title="Border")
-        FieldSet
-          ButtonGroup(lb="Style" v-model='rule.borderStyle')
-            Button Solid
-            Button Dotted
-            Button Dashed
-        FieldSet
-          ButtonGroup(lb="Sides" v-model='rule.borderSides')
-            Button Top
-            Button Right
-            Button Bottom
-            Button Left
+        //-FieldSet
+          ButtonGroup(lb="Style" v-model='rule.borderStyle', :list="{'Solid', 'Dotted', 'Dashed'}")
+        //-FieldSet
+          ButtonGroup(lb="Sides" v-model='rule.borderSides', :list="{'Top', 'Right', 'Bottom','Left'}")
         FieldSet
           Field(:w="1/3" lb="Width" v-model='rule.borderWidth')
           Field(:w="1/3" lb="Color" v-model='rule.borderColor')
@@ -120,6 +115,7 @@ import Field from './Field'
 import Select from './Select'
 import SelectField from './SelectField'
 import ButtonGroup from './ButtonGroup'
+import ButtonList from './ButtonList'
 import ButtonIcon from './ButtonIcon'
 import Button from './Button'
 import Input from './Input'
@@ -137,6 +133,7 @@ export default {
     SelectField,
     Select,
     ButtonGroup,
+    ButtonList,
     ButtonIcon,
     Button,
     Input,

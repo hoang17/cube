@@ -1,9 +1,10 @@
 <template lang="pug">
-  button(:class="$style.button")
+  button(:class="[$style.button, active && $style.active]")
     slot
 </template>
 <script>
 export default {
+  props:['active']
 }
 </script>
 <style lang="stylus" module>
@@ -20,28 +21,25 @@ export default {
   outline: 0
   background-color: white;
   border-radius: 2px
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0,0,0,.15)
   position: relative
   vertical-align: middle
   user-select: none
   font-weight: 500
   margin-right: -1px
   color: rgba(0,0,0,.64)
-  &:not(:first-child):not(:last-child) {
+  &:not(:first-child):not(:last-child)
     border-radius: 0
-  }
-  &:first-child:not(:last-child) {
+  &:first-child:not(:last-child)
     border-bottom-right-radius: 0
     border-top-right-radius: 0
-  }
-  &:last-child:not(:first-child) {
+  &:last-child:not(:first-child)
     border-bottom-left-radius: 0
     border-top-left-radius: 0
-  }
-  &:hover{
+  &.active
+  &:hover
     z-index: 2
     border-color: #b5b5b5;
     color: #363636;
     background-color: #e6e6e6;
-  }
 </style>

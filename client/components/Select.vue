@@ -1,11 +1,11 @@
 <template lang="pug">
-  select(:class="$style.select", :style="styles")
+  select(:class="$style.select", :style="styles", :value="value" @input="e => $emit('input', e.target.value)")
     slot
 </template>
 
 <script>
 export default {
-  props: ['w'],
+  props: ['w','value'],
   computed: {
     styles(){
       return this.w && 'flex: 1 1 ' + this.w * 100 + '%'

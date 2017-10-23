@@ -1,14 +1,27 @@
 <template lang="pug">
-  Button(:class="[$style.button]")
+  Button(:class="[$style.button]", :active="checked == value" @click.native="check")
     i(:class="css") {{ ma }}
 </template>
 
 <script>
 import Button from './Button'
 export default {
-  props: ['fa','ma'],
+  props: ['fa','ma','value','checked'],
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
   components: {
     Button
+  },
+  methods: {
+    check() {
+      if (this.checked == this.value)
+        this.checked = null
+      else
+        this.checked = this.value
+      this.$emit('change', this.checked)
+    }
   },
   computed: {
     css() {
