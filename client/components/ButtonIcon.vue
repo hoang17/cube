@@ -1,6 +1,7 @@
 <template lang="pug">
   Button(:class="[$style.button]", :active="checked == value" @click.native="check")
-    i(:class="css") {{ ma }}
+    i(:class="css" v-if="fa || ma") {{ ma }}
+    slot(v-else)
 </template>
 
 <script>

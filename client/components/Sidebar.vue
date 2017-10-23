@@ -20,10 +20,10 @@
           Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
         FieldSet
           Field(:w="2/3" lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
-          ButtonList(:w="1/3"
-            lb="Transform"
-            v-model='rule.textTransform'
-            :list="{'uppercase':'AA', 'capitalize':'Aa', 'lowercase':'aa'}")
+          ButtonGroup(:w="1/3", lb="Transform")
+            ButtonIcon(value="uppercase" v-model='rule.textTransform') AA
+            ButtonIcon(value="capitalize" v-model='rule.textTransform') Aa
+            ButtonIcon(value="lowercase" v-model='rule.textTransform') aa
         FieldSet
           ButtonGroup(lb="Style")
             ButtonIcon(fa="bold" value="bold" v-model='rule.fontWeight')
@@ -56,45 +56,108 @@
             option Size
       Expand(title="Layout")
         FieldSet
-          Label(:w="2/8") Display
-          Select(:w="6/8" lb="Display" v-model='rule.display')
-            option --
-            option Block
-            option Inline
-            option Inline Block
-            option Flex
-            option Inline Flex
+          Label(:w="1/3") Display
+          Select(:w="2/3" v-model='rule.display')
+            option(value="") --
+            option(value="block") Block
+            option(value="inline") Inline
+            option(value="inline-block") Inline Block
+            option(value="flex") Flex
+            option(value="inline-flex") Inline Flex
         FieldSet
-          Label(:w="2/8") Dimensions
-          Input(:w="3/8" ph="Width" v-model='rule.width')
-          Input(:w="3/8" ph="Height" v-model='rule.height')
+          Label(:w="1/3") Dimensions
+          Input(:w="1/3" ph="Width" v-model='rule.width')
+          Input(:w="1/3" ph="Height" v-model='rule.height')
         FieldSet
-          Label(:w="2/8") Magin
-          Input(:w="6/8" ph="Margin" v-model='rule.margin')
+          Label(:w="1/3") Magin
+          Input(:w="2/3" ph="Margin" v-model='rule.margin')
         FieldSet
-          Label(:w="2/8") Padding
-          Input(:w="6/8" ph="Padding" v-model='rule.padding')
+          Label(:w="1/3") Padding
+          Input(:w="2/3" ph="Padding" v-model='rule.padding')
         FieldSet
-          Label(:w="2/8") Transform
-          Input(:w="6/8" ph="Transform" v-model='rule.transform')
+          Label(:w="1/3") Transform
+          Input(:w="2/3" ph="Transform" v-model='rule.transform')
+      Expand(title="Flex Box Container")
+        FieldSet
+          Label(:w="1/3") Flex Direction
+          Select(:w="2/3" v-model='rule.flexDirection')
+            option(value="row") Row
+            option(value="row-reverse") Row Reverse
+            option(value="column") Column
+            option(value="column-reverse") Column Reverse
+        FieldSet
+          Label(:w="1/3") Flex Wrap
+          Select(:w="2/3" v-model='rule.flexWrap')
+            option(value="nowrap") No Wrap
+            option(value="wrap") Wrap
+            option(value="wrap-reverse") Wrap Reverse
+        FieldSet
+          Label(:w="1/3") Justify Content
+          Select(:w="2/3" v-model='rule.justifyContent')
+            option(value="flex-start") Flex Start
+            option(value="flex-end") Flex End
+            option(value="center") Center
+            option(value="space-between") Space Between
+            option(value="space-around") Space Around
+        FieldSet
+          Label(:w="1/3") Align Items
+          Select(:w="2/3" v-model='rule.alignItems')
+            option(value="flex-start") Flex Start
+            option(value="flex-end") Flex End
+            option(value="center") Center
+            option(value="baseline") Baseline
+            option(value="stretch") Stretch
+        FieldSet
+          Label(:w="1/3") Align Content
+          Select(:w="2/3" v-model='rule.alignContent')
+            option(value="flex-start") Flex Start
+            option(value="flex-end") Flex End
+            option(value="center") Center
+            option(value="space-between") Space Between
+            option(value="space-around") Space Around
+            option(value="stretch") Stretch
+      Expand(title="Flex Box Item")
+        FieldSet
+          Label(:w="1/3") Order
+          Input(:w="2/3" ph="Order" v-model='rule.order')
+        FieldSet
+          Label(:w="1/3") Flex
+          Input(:w="2/3" ph="Flex" v-model='rule.flex')
+        FieldSet
+          Label(:w="1/3") Align Self
+          Select(:w="2/3" v-model='rule.alignSelf')
+            option(value="auto") Auto
+            option(value="flex-start") Flex Start
+            option(value="flex-end") Flex End
+            option(value="center") Center
+            option(value="baseline") Baseline
+            option(value="stretch") Stretch
       Expand(title="Border")
+        FieldSet
+          ButtonGroup(lb="Style")
+            ButtonIcon(value="solid" v-model='rule.borderStyle') Solid
+            ButtonIcon(value="dotted" v-model='rule.borderStyle') Dotted
+            ButtonIcon(value="dashed" v-model='rule.borderStyle') Dashed
         //-FieldSet
-          ButtonGroup(lb="Style" v-model='rule.borderStyle', :list="{'Solid', 'Dotted', 'Dashed'}")
-        //-FieldSet
-          ButtonGroup(lb="Sides" v-model='rule.borderSides', :list="{'Top', 'Right', 'Bottom','Left'}")
+          ButtonGroup(lb="Sides" v-model='rule.borderSides')
+            ButtonIcon Top
+            ButtonIcon Right
+            ButtonIcon Bottom
+            ButtonIcon Left
         FieldSet
           Field(:w="1/3" lb="Width" v-model='rule.borderWidth')
           Field(:w="1/3" lb="Color" v-model='rule.borderColor')
           Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
       Expand(title="Position")
         FieldSet
-          Label(:w="2/8") Position
-          Select(:w="6/8" lb="Position" v-model='rule.position')
-            option Static
-            option Absolute
-            option Relative
-            option Fixed
-            option Sticky
+          Label(:w="1/3") Position
+          Select(:w="2/3" lb="Position" v-model='rule.position')
+            option(value="") --
+            option(value="static") Static
+            option(value="absolute") Absolute
+            option(value="relative") Relative
+            option(value="fixed") Fixed
+            option(value="sticky") Sticky
         FieldSet
           Field(:w="1/4" lb="Top" v-model='rule.top')
           Field(:w="1/4" lb="Bottom" v-model='rule.bottom')
@@ -115,9 +178,7 @@ import Field from './Field'
 import Select from './Select'
 import SelectField from './SelectField'
 import ButtonGroup from './ButtonGroup'
-import ButtonList from './ButtonList'
 import ButtonIcon from './ButtonIcon'
-import Button from './Button'
 import Input from './Input'
 import Label from './Label'
 
@@ -133,9 +194,7 @@ export default {
     SelectField,
     Select,
     ButtonGroup,
-    ButtonList,
     ButtonIcon,
-    Button,
     Input,
     Label,
   },
