@@ -27,9 +27,9 @@
       Expand(title="Custom Cubes" expand inner)
         MenuButton(
           v-for='(cube, i) in cubes'
-          :icon="cube.link?'fa fa-cubes':'fa fa-cube'"
+          :icon="cube.block ? 'fa fa-cubes' : cube.icon"
           :lb="cube.content", :key='i', trash
-          :meta="cube.link ? `${linkCount(cube)} cubes` : ''"
+          :meta="blockCount(cube) + ' cubes'"
           @click.native.stop="addCube(cube)"
           @trash="trash(cube)")
       //-.v-list.pa-0(dense)
@@ -70,7 +70,7 @@ export default {
   computed: {
     ...mapGetters([
       'page',
-      'linkCount'
+      'blockCount'
     ]),
     ...mapState([
       'user',
@@ -108,11 +108,16 @@ export default {
       }
     },
     addCube(cube){
-      if (this.activeCube && this.activeCube.link && cube.link && cube._id == this.activeCube._id){
+      if (this.activeCube && this.activeCube.block && cube.block && cube._id == this.activeCube._id){
         return alert('OOPS! Can not add a block to itself')
       }
 
-      let c = cube.link ? Block(cube, this.user._id) : clone(cube, this.user._id)
+      let c = cube.block ? Block(cube, this.user._id) : clone(cube, this.user._id)
+
+      if (!cube.block){
+        c.src = cube._id
+        delete c.style
+      }
 
       // UPDATE BLOCKS COUNT
       let blocks = getCubeBlocks(c)
@@ -121,11 +126,11 @@ export default {
         this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
       }
       // UPDATE STYLES COUNT
-      let styles = getCubeStyles(cube, this.$store.state.cubes)
-      for (let i in styles){
-        let count = this.page.styles[i]
-        this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
-      }
+      // let styles = getCubeStyles(cube, this.$store.state.cubes)
+      // for (let i in styles){
+      //   let count = this.page.styles[i]
+      //   this.$set(this.page.styles, i, count ? count+styles[i] : styles[i])
+      // }
       // END UPDATE
 
       if (this.activeCube && this.activeCube.cubes){
@@ -136,9 +141,9 @@ export default {
       // this.$store.commit('setActiveCube', c)
     },
     trash(cube){
-      let count = this.linkCount(cube)
-      if (cube.link && count > 0){
-        alert(`Can not delete this block because ${count} cubes linked to it`)
+      let count = this.blockCount(cube)
+      if (cube.src && count > 0){
+        alert(`Can not delete this block because ${count} cubes connected to it`)
       } else if (confirm("Do you want to delete this cube?")){
         this.$store.dispatch('removeCube', cube)
       }

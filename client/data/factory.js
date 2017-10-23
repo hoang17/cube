@@ -12,7 +12,7 @@ export const NanoSlug = (length = 6) => generate('0123456789abcdefABCDEF', lengt
 export const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
 
 export function clone(cube, uid){
-  const id = (c) => {
+  const id = c => {
     c._id = ObjectId()
     c.uid = uid
     if (c.cubes)
@@ -41,66 +41,25 @@ export function indexCubes(pages){
   }, {})
 }
 
-export function Clipboard(cube, styles = null, cubes = null){
-  return { cube, styles, cubes, timestamp: Date.now() }
+export function Clipboard(cube, cubes = null){
+  return { cube, cubes, timestamp: Date.now() }
 }
 
 export function getPageCubes(page, state){
+  let blocks = getCubeBlocks(page)
   let cubes = {}
-  for (let i in page.blocks){
+  for (let i in blocks){
     if (state.cubes[i])
       cubes[i] = cloneDeep(state.cubes[i])
   }
   return cubes
-}
 
-export function getPageStyles(page, state){
-  let styles = {}
-  for (let i in page.styles){
-    if (state.styles[i])
-      styles[i] = cloneDeep(state.styles[i])
-  }
-  return styles
-}
-
-// GET ALL STYLES FROM A CUBE
-export function getCubeStyles(cube, blocks){
-  let styles = {}
-
-  var getStyles = cubes => {
-    if (!cubes) return
-    for (let i in cubes){
-      let c = cubes[i]
-      let j = c.css
-      if (j){
-        styles[j] = styles[j] ? styles[j]+1 : 1
-      }
-      if (c.src){
-        let s = blocks[c.src]
-        let e = s.css
-        if (e){
-          styles[e] = styles[e] ? styles[e]+1 : 1
-        }
-        if (s.cubes) getStyles(s.cubes)
-      }
-      else if (c.cubes) getStyles(c.cubes)
-    }
-  }
-
-  if (cube.css)
-    styles[cube.css] = 1
-
-  if (cube.src){
-    let o = blocks[cube.src]
-    let i = o.css
-    if (i){
-      styles[i] = styles[i] ? styles[i]+1 : 1
-    }
-    if (o.cubes) getStyles(o.cubes)
-  }
-  else if (cube.cubes) getStyles(cube.cubes)
-
-  return styles
+  // let cubes = {}
+  // for (let i in page.blocks){
+  //   if (state.cubes[i])
+  //     cubes[i] = cloneDeep(state.cubes[i])
+  // }
+  // return cubes
 }
 
 // GET ALL BLOCKS FROM A CUBE
@@ -126,10 +85,9 @@ export function getCubeBlocks(cube){
 
 export function History(page, state){
   let cubes = getPageCubes(page, state)
-  let styles = getPageStyles(page, state)
   return {
     index: 0,
-    stack:[{ page: cloneDeep(page), activeId: page._id, cubes, styles }],
+    stack:[{ page: cloneDeep(page), activeId: page._id, cubes }],
     sid: page.sid,
   }
 }
@@ -146,10 +104,8 @@ export function Page(uid, host){
     uid: uid,
     fonts: null,
     content: 'New Page ✨',
-    css: null,
     sid: NanoId(),
     blocks: {},
-    styles: {},
     style: {
       color: null,
       display: null,
@@ -161,44 +117,8 @@ export function Page(uid, host){
       letterSpacing: null,
       textTransform: null,
       textAlign: 'center',
-      // flex: null,
-      // flexFlow: null
     },
     cubes: []
-  }
-}
-
-export function Style(name){
-  return {
-    _id: ObjectId(),
-    name: name,
-    uid: null,
-    font: null,
-    style: {
-      color: null,
-      width: null,
-      height: null,
-      fontFamily: null,
-      fontSize: null,
-      fontWeight: null,
-      lineHeight: null,
-      letterSpacing: null,
-      textTransform: null,
-      textAlign: null,
-      padding: null,
-      margin: null,
-      display: null,
-      minWidth: null,
-      minHeight: null,
-      maxWidth: null,
-      maxHeight: null,
-      border: null,
-      borderRadius: null,
-      transform: null,
-      background: null,
-      flex: null,
-      flexFlow: null
-    },
   }
 }
 
@@ -207,10 +127,9 @@ export function Block(cube, uid){
     _id: ObjectId(),
     type: 'bk',
     name: 'Block',
-    content: [cube.content,'Block 📦'].join(' '),
+    content: cube.content + ' Block 📦',
     src: cube._id,
     uid: uid,
-    css: null,
     style: {
       color: null,
       display: 'block',

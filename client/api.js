@@ -69,30 +69,29 @@ export function setup(token){
       let res = await api.post('routes', { url })
       return res.data
     },
-    async addStyle(style){
-      let res = await api.post('styles', style)
-      return res.data
-    },
-    async updateStyle(style){
-      let res = await api.put('styles', style)
-      return res.data
-    },
-    async deleteStyle(id){
-      let res = await api.delete(`styles/${id}`)
-      return res.data
-    },
-    async fetchStyles(){
-      let res = await api.get('styles')
-      return key(res.data)
-      return res.data
-    },
+    // async addStyle(style){
+    //   let res = await api.post('styles', style)
+    //   return res.data
+    // },
+    // async updateStyle(style){
+    //   let res = await api.put('styles', style)
+    //   return res.data
+    // },
+    // async deleteStyle(id){
+    //   let res = await api.delete(`styles/${id}`)
+    //   return res.data
+    // },
+    // async fetchStyles(){
+    //   let res = await api.get('styles')
+    //   return key(res.data)
+    // },
     async fetchViewData(url){
       let res = await api.post('view', {url: url})
       let page = res.data.page
       if (!page) return { page }
-      let styles = key(res.data.styles)
+      // let styles = key(res.data.styles)
       let cubes = key(res.data.cubes)
-      return { page, styles, cubes }
+      return { page, cubes }
     },
   }
 }

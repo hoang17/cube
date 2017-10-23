@@ -9,7 +9,7 @@
       v-model='cubes'
       :style="page.style | styl"
       :options="{group:'cubes'}"
-      :class="$style.canvas + ' --'+page.css"
+      :class="$style.canvas + ' --'+page.src"
       @click.native.stop="selectPage"
     )
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
@@ -50,10 +50,10 @@ export default {
     ]),
     ...mapState({
       rules(state){
-        return '<style>'+getRules(state.styles)+'</style>'
+        return '<style>'+getRules(state.cubes)+'</style>'
       },
       pageFonts(state){
-        return getFonts(state.styles, this.page)
+        return getFonts(state.cubes, this.page)
       },
       user(state){
         return state.user

@@ -34,7 +34,7 @@ export default {
     css(){
       return [
         this.$style.form,
-        this.cube.css ? '--' + this.cube.css : '',
+        this.cube.src ? '--' + this.cube.src : '',
         this.hover ? 'hover' : ''
       ]
     },

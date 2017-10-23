@@ -8,14 +8,14 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI)
 const pagesCo = db.get('pages')
 const cubesCo = db.get('cubes')
 
+const cubes = require('../client/data/cubes')
+
 async function resetPages(){
 
   var updateCss = function(c){
-    if (c.css && !c.src){
-      c.src = c.css
-      delete c.style
+    if (!c.icon && cubes[c.name.toLowerCase()]){
+      c.icon = cubes[c.name.toLowerCase()].icon
     }
-    delete c.css
     if (c.cubes){
       for (let i in c.cubes){
         updateCss(c.cubes[i])
@@ -26,7 +26,6 @@ async function resetPages(){
   let pp = await pagesCo.find()
   for (let i in pp){
     let p = pp[i]
-    delete p.styles
     updateCss(p)
     await pagesCo.update({'_id': p._id }, p)
   }

@@ -24,7 +24,6 @@ export default {
     css(){
       return [
         this.$style.block,
-        this.cube.css ? '--' + this.cube.css : '',
         this.hover ? 'hover' : ''
       ]
     },

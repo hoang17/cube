@@ -4,6 +4,9 @@ import { Page, History } from './data/factory'
 import { setup } from './api'
 Vue.use(Vuex)
 
+import * as cubes from './data/cubes'
+import { clone } from './data/factory'
+
 export function createStore (context) {
   let api = setup(context.token)
   return new Vuex.Store({
@@ -17,7 +20,7 @@ export function createStore (context) {
       tokenFB: null,
       pages: {},
       cubes: {},
-      styles: {},
+      // styles: {},
       histories: {},
       routes: {},
       dark: false,
@@ -34,20 +37,20 @@ export function createStore (context) {
       async updateCube({ state, commit }, cube) {
         return await api.updateCube(cube)
       },
-      async updateStyle({ state, commit }, style) {
-        return await api.updateStyle(style)
-      },
-      async addStyle({ state, commit }, style) {
-        Vue.set(state.styles, style._id, style)
-        return await api.addStyle(style)
-      },
-      async addStyles({ state, commit }, styles) {
-        for (let i in styles){
-          if (state.styles[i]) continue
-          Vue.set(state.styles, i, styles[i])
-          api.addStyle(styles[i])
-        }
-      },
+      // async updateStyle({ state, commit }, style) {
+      //   return await api.updateStyle(style)
+      // },
+      // async addStyle({ state, commit }, style) {
+      //   Vue.set(state.styles, style._id, style)
+      //   return await api.addStyle(style)
+      // },
+      // async addStyles({ state, commit }, styles) {
+      //   for (let i in styles){
+      //     if (state.styles[i]) continue
+      //     Vue.set(state.styles, i, styles[i])
+      //     api.addStyle(styles[i])
+      //   }
+      // },
       async addCubes({ state, commit }, cubes) {
         for (let i in cubes){
           if (state.cubes[i]) continue
@@ -55,10 +58,10 @@ export function createStore (context) {
           api.addCube(cubes[i])
         }
       },
-      async removeStyle({ state, commit }, style) {
-        await api.deleteStyle(style._id)
-        Vue.delete(state.styles, style._id)
-      },
+      // async removeStyle({ state, commit }, style) {
+      //   await api.deleteStyle(style._id)
+      //   Vue.delete(state.styles, style._id)
+      // },
       async fetchRoute({ state, commit }, { url }){
         return state.routes[url]
       },
@@ -77,10 +80,32 @@ export function createStore (context) {
       async fetchPages({ state, commit }) {
         state.pages = await api.fetchPages()
       },
-      async fetchBuild({state, commit}, id){
-        state.styles = await api.fetchStyles()
+      async fetchBuild({state, commit, dispatch}, id){
+        // state.styles = await api.fetchStyles()
         state.pages = await api.fetchPages()
         state.cubes = await api.fetchCubes()
+
+        // for (let i in state.styles) {
+        //   let e = state.styles[i]
+        //   let c
+        //   if (e.name == 'header' || e.name == 'text' || e.name == 'sub text'){
+        //     c = clone(cubes.text, state.user._id)
+        //   }
+        //   else if (e.name == 'link'){
+        //     c = clone(cubes.link, state.user._id)
+        //   }
+        //   else if (e.name == 'button' || e.name == 'fire'){
+        //     c = clone(cubes.button, state.user._id)
+        //   }
+        //   else if (e.name == 'wrapper'){
+        //     c = clone(cubes.container, state.user._id)
+        //   }
+        //   c._id = e._id
+        //   c.style = e.style
+        //   c.content = e.name
+        //   dispatch('addCube', c)
+        // }
+
         // build routes & histories
         for (let i in state.pages){
           let p = state.pages[i]
@@ -93,9 +118,9 @@ export function createStore (context) {
       },
       async fetchView({state, commit}, { url }){
         if (state.routes[url]) return state.routes[url]
-        let { page, styles, cubes } = await api.fetchViewData(url)
+        let { page, cubes } = await api.fetchViewData(url)
         if (!page) return
-        state.styles = Object.assign({}, state.styles, styles)
+        // state.styles = Object.assign({}, state.styles, styles)
         state.cubes = Object.assign({}, state.cubes, cubes)
         Vue.set(state.pages, page._id, page)
         state.routes[url] = page._id
@@ -119,9 +144,9 @@ export function createStore (context) {
       setCube(state, cube) {
         Vue.set(state.cubes, cube._id, cube)
       },
-      setStyle(state, style) {
-        Vue.set(state.styles, style._id, style)
-      },
+      // setStyle(state, style) {
+      //   Vue.set(state.styles, style._id, style)
+      // },
       setNewPage(state, page){
         state.pageId = page._id
         Vue.set(state.pages, state.pageId, page)
@@ -136,7 +161,7 @@ export function createStore (context) {
     },
     getters: {
       page: state => state.pages[state.pageId],
-      linkCount: state => cube => {
+      blockCount: state => cube => {
         let count = 0
         for (let i in state.pages){
           let p = state.pages[i]
@@ -145,16 +170,16 @@ export function createStore (context) {
         }
         return count
       },
-      styleCount: state => style => {
-        if (!style) return 0
-        let count = 0
-        for (let i in state.pages){
-          let p = state.pages[i]
-          if (p.styles[style._id])
-            count+=p.styles[style._id]
-        }
-        return count
-      },
+      // styleCount: state => style => {
+      //   if (!style) return 0
+      //   let count = 0
+      //   for (let i in state.pages){
+      //     let p = state.pages[i]
+      //     if (p.styles[style._id])
+      //       count+=p.styles[style._id]
+      //   }
+      //   return count
+      // },
     }
   })
 }

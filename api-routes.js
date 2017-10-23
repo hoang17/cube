@@ -6,14 +6,14 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, 
 
 const cubes = db.get('cubes')
 const pages = db.get('pages')
-const styles = db.get('styles')
+// const styles = db.get('styles')
 
 try {
   cubes.createIndex('uid')
-  styles.createIndex('uid')
+  // styles.createIndex('uid')
 
   cubes.createIndex(['_id', 'uid'])
-  styles.createIndex(['_id', 'uid'])
+  // styles.createIndex(['_id', 'uid'])
   pages.createIndex(['_id', 'uid'])
 
   pages.createIndex('uid')
@@ -50,47 +50,11 @@ router.route('/view')
     let data = {}
     data.page = await pages.findOne({url:req.body.url})
     if (!data.page) return res.json(data)
-    let styleIds = Object.keys(data.page.styles)
+    // let styleIds = Object.keys(data.page.styles)
+    // data.styles = styleIds.length > 0 ? await styles.find({_id: {$in: styleIds }}) : []
     let cubeIds = Object.keys(data.page.blocks)
-    data.styles = styleIds.length > 0 ? await styles.find({_id: {$in: styleIds }}) : []
     data.cubes = cubeIds.length > 0 ? await cubes.find({_id: {$in: cubeIds }}) : []
     res.json(data)
-  })
-
-router.route('/styles')
-  .get(async function(req, res) {
-    let uid = req.decoded.id
-    let data = await styles.find({ uid:uid })
-    res.json(data)
-  })
-  .post(async function(req, res) {
-    let style = await styles.insert(req.body)
-    res.json({ message: 'Style created', _id: style._id })
-  })
-  .put(async function(req, res) {
-    let uid = req.user._id+''
-    let style = req.body
-    let data = await styles.update({'_id': style._id, uid: uid }, style)
-    if (data.nModified == 1)
-      res.json({ message: 'Style updated', _id: style._id })
-    else
-      res.status(403).send({ message: 'Update failed' })
-  })
-
-router.route('/styles/:id')
-  .get(async function(req, res) {
-    let id = req.params.id
-    let style = await styles.findOne({_id: id})
-    res.json(style)
-  })
-  .delete(async function(req, res) {
-    let uid = req.user._id+''
-    let id = req.params.id
-    let data = await styles.remove({ _id: id, uid: uid })
-    if (data.deletedCount == 1)
-      res.json({ message: 'Style deleted', _id: id })
-    else
-      res.status(403).send({ message: 'Deletion failed' })
   })
 
 router.route('/pages')
@@ -141,7 +105,7 @@ router.route('/routes')
 router.route('/cubes')
   .get(async function(req, res) {
     let uid = req.decoded.id
-    let data = await cubes.find({ uid:uid },{sort : { link : 1 }})
+    let data = await cubes.find({ uid:uid },{sort : { block : 1 }})
     res.json(data)
   })
   .post(async function(req, res) {

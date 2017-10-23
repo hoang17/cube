@@ -39,7 +39,7 @@ export default {
     css(){
       return [
         this.$style.page,
-        this.page.css ? '--' + this.page.css : ''
+        this.page.src ? '--' + this.page.src : ''
       ]
     },
     path(){
@@ -55,10 +55,10 @@ export default {
       return this.page.cubes
     },
     rules(){
-      return '<style>'+getRules(this.$store.state.styles)+'</style>'
+      return '<style>'+getRules(this.$store.state.cubes)+'</style>'
     },
     pageFonts(state){
-      return getFonts(this.$store.state.styles, this.page)
+      return getFonts(this.$store.state.cubes, this.page)
     },
   },
   methods: {

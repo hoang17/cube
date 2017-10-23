@@ -5,8 +5,8 @@
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
       Expand(title="Font" expand)
         FieldSet
-          Field(:w="2/3" lb="Font Family" v-model="rule.fontFamily")
-          Field(:w="1/3" lb="Font Size" v-model='rule.fontSize')
+          Field(:w="2/3" lb="Font Family" ph="inherit" v-model="rule.fontFamily")
+          Field(:w="1/3" lb="Font Size" ph="14px" v-model='rule.fontSize')
         FieldSet
           SelectField(:w="1/3" lb="Weight" v-model='rule.fontWeight')
             option(value="200") Light
@@ -14,10 +14,10 @@
             option(value="400") Normal
             option(value="500") Bold
             option(value="600") Heavy
-          Field(:w="1/3" lb="Line Height" v-model='rule.lineHeight')
+          Field(:w="1/3" lb="Line Height" ph="1.5" v-model='rule.lineHeight')
           Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
         FieldSet
-          Field(:w="2/3" lb="Color" v-model='rule.color')
+          Field(:w="2/3" lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
           ButtonGroup(:w="1/3", lb="Transform" v-model='rule.textTransform')
             Button AA
             Button Aa
@@ -110,7 +110,7 @@
 <script>
 import StyleBar from './StyleBar'
 // import FontSelect from './FontSelect'
-import { bus, Style } from '../data/factory'
+import { bus } from '../data/factory'
 import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
 import Expand from './Expand'
@@ -154,68 +154,14 @@ export default {
     ]),
     ...mapState([
       'user',
-      'styles',
+      'cubes',
     ]),
     rule(){
       return this.style ? this.style.style : this.cube.style
     },
     style(){
-      return this.styles[this.cube.css]
+      return this.cubes[this.cube.src]
     },
-    styleName(){
-      return this.style ? this.style.name : 'inline'
-    },
-    css(){
-      return this.cube.css
-    }
-  },
-  methods: {
-    cssFocus(){
-      this.cubeCss = this.cube.css
-    },
-    cssChanged(){
-      let css = this.cube.css
-      if (css){
-        let count = this.page.styles[css]
-        this.$set(this.page.styles, css, count ? count+1 : 1)
-      }
-      if (this.cubeCss){
-        let old = this.cubeCss
-        if (this.page.styles[old]){
-          this.page.styles[old]--
-          if (this.page.styles[old] <= 0)
-            this.$delete(this.page.styles, old)
-        }
-      }
-    },
-    async addStyle(){
-      var name = prompt("ADD NEW STYLE\n\nPlease enter style name", "style name")
-      if (name) {
-        let style = Style(name)
-        style.style = this.cube.style
-        style.uid = this.user._id
-        await this.$store.dispatch('addStyle', style)
-        this.cube.css = style._id
-        console.log('style created');
-        bus.$emit('watchStyle', style)
-
-        let count = this.page.styles[style._id]
-        this.$set(this.page.styles, style._id, count ? count+1 : 1)
-      }
-    },
-    async removeStyle(){
-      if (!this.style) return
-
-      let count = this.styleCount(this.style)
-      if (count > 1){
-        alert(`Can not delete this style because ${count} cubes are using it`)
-      }
-      else if (this.style && confirm('Do you want to delete this style?')){
-        this.$delete(this.page.styles, this.cube.css)
-        await this.$store.dispatch('removeStyle', this.style)
-        this.cube.css = null
-      }
-    }
   },
 }
 </script>

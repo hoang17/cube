@@ -88,20 +88,20 @@ export function genStyle (style) {
 }
 
 // Get style rules from array of style
-export function getRules(styles){
+export function getRules(cubes){
   let rules = ''
-  for (let i in styles){
-    let e = styles[i]
+  for (let i in cubes){
+    let e = cubes[i]
     let s = genStyle(e.style)
     rules += `.--${e._id}{${s}}`
   }
   return rules
 }
 
-export function getFonts(styles, page){
+export function getFonts(cubes, page){
   let fonts = []
-  for (let i in styles) {
-    let f = styles[i].font
+  for (let i in cubes) {
+    let f = cubes[i].style.fontFamily
     if (f) fonts.push(f)
   }
   if (page.fonts)
