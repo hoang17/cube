@@ -8,7 +8,7 @@
         :placeholder="ph"
         :class="$style.input"
         autocorrect="off" autocapitalize="off" spellcheck="false")
-      div(:class="$style.addon" @click="show=!show")
+      div(:class="$style.addon" @click="open")
         div(:class="$style.bg")
           div(:class="$style.inner" :style="{backgroundColor: value}")
     Sketch(v-model="colors" v-show="show" :class="$style.picker")
@@ -27,6 +27,13 @@ export default {
     Box, Input, Label, Sketch
   },
   methods: {
+    open(){
+      let cc = parse(this.value)
+      let c = cc.rgba
+      if (c)
+        this.colors = { hex:cc.hex, a: c[3], rgba: { r: c[0], g: c[1], b: c[2], a: c[3] } }
+      this.show = !this.show
+    },
     setColor(e) {
       let val = e.target.value
       if (!val)

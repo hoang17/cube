@@ -8889,6 +8889,10 @@ vue-markdown@^2.2.4:
     markdown-it-task-lists "^2.0.1"
     markdown-it-toc-and-anchor "^4.1.2"
 
+vue-range-slider@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/vue-range-slider/-/vue-range-slider-0.2.4.tgz#8b73e273718035d3203e5d1aa081c72d473fce61"
+
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"

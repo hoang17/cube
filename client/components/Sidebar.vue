@@ -6,9 +6,15 @@
       Expand(title="Font" expand)
         FieldSet
           Field(:w="2/3" lb="Font Family" ph="inherit" v-model="rule.fontFamily")
-          Field(:w="1/3" lb="Font Size" ph="14px" v-model='rule.fontSize')
+          //-Field(:w="1/3" lb="Font Size" ph="14px" v-model='rule.fontSize')
         FieldSet
-          SelectField(:w="1/3" lb="Weight" v-model='rule.fontWeight')
+          SliderField(lb="Font Size", v-model="rule.fontSize" min="0" max="10" step="0.01" subfix="em")
+        FieldSet
+          SliderField(lb="Line Height", v-model="rule.lineHeight" min="0" max="5" step="0.01")
+        FieldSet
+          SliderField(lb="Letter Spacing", v-model="rule.letterSpacing" min="-1" max="3" step="0.01" subfix="rem")
+        FieldSet
+          SelectField(:w="1/2" lb="Weight" v-model='rule.fontWeight')
             option(value="") inherit
             option(value="200") Light
             option(value="300") Thin
@@ -16,14 +22,16 @@
             option(value="500") Thick
             option(value="600") Heavy
             option(value="bold") Bold
-          Field(:w="1/3" lb="Line Height" ph="1.5" v-model='rule.lineHeight')
-          Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
-        FieldSet
-          ColorPicker(:w="2/3" lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
-          ButtonGroup(:w="1/3", lb="Transform")
+          ButtonGroup(:w="1/2", lb="Transform")
             ButtonIcon(value="uppercase" v-model='rule.textTransform') AA
             ButtonIcon(value="capitalize" v-model='rule.textTransform') Aa
             ButtonIcon(value="lowercase" v-model='rule.textTransform') aa
+          //-Field(:w="1/2" lb="Line Height" ph="1.5" v-model='rule.lineHeight')
+          //-Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
+        FieldSet
+          ColorPicker(lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
+        FieldSet
+          ColorPicker(lb="Background Color" v-model='rule.backgroundColor')
         FieldSet
           ButtonGroup(lb="Style")
             ButtonIcon(fa="bold" value="bold" v-model='rule.fontWeight')
@@ -36,7 +44,7 @@
             ButtonIcon(fa="align-center" value="center" v-model='rule.textAlign')
             ButtonIcon(fa="align-right" value="right" v-model='rule.textAlign')
             ButtonIcon(fa="align-justify" value="justify" v-model='rule.textAlign')
-      Expand(title="Background")
+      //-Expand(title="Background")
         Background(:rule="rule")
       Expand(title="Layout")
         FieldSet
@@ -49,9 +57,29 @@
             option(value="flex") Flex
             option(value="inline-flex") Inline Flex
         FieldSet
+          SliderField(lb="Width", v-model="rule.width" min="0" max="100" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Height", v-model="rule.height" min="0" max="100" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Max Width", v-model="rule.maxWidth" min="0" max="100" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Max Height", v-model="rule.maxHeight" min="0" max="100" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Min Width", v-model="rule.minWidth" min="0" max="100" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Min Height", v-model="rule.minHeight" min="0" max="100" step="0.01" subfix="rem")
+        //-FieldSet
           Label(:w="1/3") Dimensions
           Input(:w="1/3" ph="Width" v-model='rule.width')
           Input(:w="1/3" ph="Height" v-model='rule.height')
+        //-FieldSet
+          Label(:w="1/3") Max
+          Input(:w="1/3" ph="Width" v-model='rule.maxWidth')
+          Input(:w="1/3" ph="Height" v-model='rule.maxHeight')
+        //-FieldSet
+          Label(:w="1/3") Min
+          Input(:w="1/3" ph="Width" v-model='rule.minWidth')
+          Input(:w="1/3" ph="Height" v-model='rule.minHeight')
         FieldSet
           Label(:w="1/3") Magin
           Input(:w="2/3" ph="Margin" v-model='rule.margin')
@@ -129,8 +157,11 @@
             ButtonIcon Bottom
             ButtonIcon Left
         FieldSet
-          Field(:w="1/3" lb="Width" v-model='rule.borderWidth')
-          Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
+          SliderField(lb="Width", v-model="rule.borderWidth" min="0" max="1" step="0.01" subfix="rem")
+          //-Field(lb="Width" v-model='rule.borderWidth')
+          //-Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
+        FieldSet
+          SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="5" step="0.01" subfix="rem")
         FieldSet
           ColorPicker(lb="Color" v-model='rule.borderColor')
       Expand(title="Position")
@@ -167,6 +198,7 @@ import Input from './Input'
 import Label from './Label'
 import Background from './Background'
 import ColorPicker from './ColorPicker'
+import SliderField from './SliderField'
 
 export default {
   props: ['cube'],
@@ -184,7 +216,8 @@ export default {
     Input,
     Label,
     Background,
-    ColorPicker
+    ColorPicker,
+    SliderField,
   },
   data () {
     return {

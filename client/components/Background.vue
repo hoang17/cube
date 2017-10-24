@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    FieldSet
+    //-FieldSet
       SelectField(lb="Style" v-model='rule.backgroundStyle')
         option(value="color") Color
         option(value="gradient") Gradient
@@ -8,16 +8,16 @@
         option(value="video") Video
     FieldSet
       ColorPicker(lb="Color" v-model='rule.backgroundColor')
-    FieldSet
+    //-FieldSet
       Field(lb="Gradient")
-    FieldSet
+    //-FieldSet
       SelectField(lb="Select Image" v-model='rule.backgroundImg')
         option Light
         option Thin
         option Normal
         option Bold
         option Heavy
-    FieldSet
+    //-FieldSet
       SelectField(:w="1/3" lb="Position" v-model='rule.backgroundPosition')
         option(value='center') Center
         option(value='top-left') Top Left

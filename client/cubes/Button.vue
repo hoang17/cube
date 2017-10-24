@@ -30,6 +30,7 @@ export default {
 
 <style lang="stylus" module>
 .button
+  outline none
   composes cube from "./cube.css"
   display inline-block
   &[edit]
