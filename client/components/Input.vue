@@ -24,7 +24,7 @@ export default {
   background-color #fff
   background-clip padding-box
   border 1px solid rgba(0,0,0,.15)
-  border-radius 2px
+  /*border-radius 2px*/
   transition border-color ease-in-out .15s,box-shadow ease-in-out .15s
   &:not(:last-child)
     margin-right 5px

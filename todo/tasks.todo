@@ -26,7 +26,7 @@ TODO:
 ✔ API authenticate @done(2017-09-21 23:41)
 ✔ Form @done(2017-09-23 20:46)
 ✔ Font selection @done(2017-10-11 20:02)
-☐ Select dropdown for cube props
+✔ Select dropdown for cube props @done(2017-10-24 11:10)
 ☐ Local storage
 ☐ Build a blog plugin (cubes are package into plugin)
 ☐ Payment

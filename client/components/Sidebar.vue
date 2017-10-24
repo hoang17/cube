@@ -19,7 +19,7 @@
           Field(:w="1/3" lb="Line Height" ph="1.5" v-model='rule.lineHeight')
           Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
         FieldSet
-          Field(:w="2/3" lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
+          ColorPicker(:w="2/3" lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
           ButtonGroup(:w="1/3", lb="Transform")
             ButtonIcon(value="uppercase" v-model='rule.textTransform') AA
             ButtonIcon(value="capitalize" v-model='rule.textTransform') Aa
@@ -37,23 +37,7 @@
             ButtonIcon(fa="align-right" value="right" v-model='rule.textAlign')
             ButtonIcon(fa="align-justify" value="justify" v-model='rule.textAlign')
       Expand(title="Background")
-        FieldSet
-          Field(:w="1/2" lb="Color" v-model='rule.backgroundColor')
-          Field(:w="1/2" lb="Gradient")
-        FieldSet
-          SelectField(lb="Select Image" v-model='rule.backgroundImg')
-            option Light
-            option Thin
-            option Normal
-            option Bold
-            option Heavy
-        FieldSet
-          SelectField(:w="1/3" lb="Position" v-model='rule.backgroundPosition')
-            option Position
-          SelectField(:w="1/3" lb="Repeat" v-model='rule.backgroundRepeat')
-            option Repeat
-          SelectField(:w="1/3" lb="Size" v-model='rule.backgroundSize')
-            option Size
+        Background(:rule="rule")
       Expand(title="Layout")
         FieldSet
           Label(:w="1/3") Display
@@ -146,8 +130,9 @@
             ButtonIcon Left
         FieldSet
           Field(:w="1/3" lb="Width" v-model='rule.borderWidth')
-          Field(:w="1/3" lb="Color" v-model='rule.borderColor')
           Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
+        FieldSet
+          ColorPicker(lb="Color" v-model='rule.borderColor')
       Expand(title="Position")
         FieldSet
           Label(:w="1/3") Position
@@ -169,7 +154,6 @@
 import StyleBar from './StyleBar'
 // import FontSelect from './FontSelect'
 import { bus } from '../data/factory'
-import debounce from 'lodash/debounce'
 import { mapState, mapGetters } from 'vuex'
 import Expand from './Expand'
 import Expansion from './Expansion'
@@ -181,6 +165,8 @@ import ButtonGroup from './ButtonGroup'
 import ButtonIcon from './ButtonIcon'
 import Input from './Input'
 import Label from './Label'
+import Background from './Background'
+import ColorPicker from './ColorPicker'
 
 export default {
   props: ['cube'],
@@ -197,6 +183,8 @@ export default {
     ButtonIcon,
     Input,
     Label,
+    Background,
+    ColorPicker
   },
   data () {
     return {
