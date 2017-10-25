@@ -1,7 +1,12 @@
 <template lang="pug">
   Box(:w='w')
+    portal(to='modal')
+      Login
     Label(top) {{ lb }}
-    Input(:value="value" @click.native="show=!show" @input="val => $emit('input', val)" :placeholder="ph" :style="{fontFamily: value}" :class="$style.input")
+    div(:class="$style.box")
+      Input(:value="value" @click.native.stop="show=true" @input="val => $emit('input', val)" :placeholder="ph" :style="{fontFamily: value}" :class="$style.input")
+      div(:class="$style.addon" @click="open")
+        i(class="fa fa-plus")
     div(:class="$style.select" v-show="show")
       ul(:class="$style.list")
         li(v-for="font in fonts" :style="{fontFamily: font}" @click="select(font)") {{ font }}
@@ -11,10 +16,12 @@
 import Box from './Box'
 import Input from './Input'
 import Label from './Label'
+import Login from './Login'
+
 export default {
   props: ['w','lb','ph','value'],
   components: {
-    Box, Input, Label
+    Box, Input, Label, Login
   },
   mounted() {
     const onClick = e => {
@@ -31,6 +38,9 @@ export default {
     select(font) {
       this.show = false
       this.$emit('input', font)
+    },
+    open(){
+      this.$modal.show('login-modal')
     }
   },
   data(){
@@ -63,8 +73,12 @@ export default {
 </script>
 
 <style lang="stylus" module>
+.box
+  display flex
+
 .input
   font-size 14px
+  margin-right 0!important
 
 .select
   position relative
@@ -87,4 +101,26 @@ export default {
     white-space nowrap
     &:hover
       background-color #eee
+
+.addon
+  width 35px
+  height 28px
+  padding 3px
+  margin-bottom: 0
+  font-size 13px
+  line-height: 1.25
+  color: #464a4c
+  text-align: center
+  background-color: #eceeef
+  border: 1px solid rgba(0,0,0,.15)
+  border-radius: .25rem
+  white-space: nowrap
+  vertical-align: middle
+  display: flex
+  flex-direction: column
+  justify-content: center
+  border-left 0
+  border-bottom-left-radius 0
+  border-top-left-radius 0
+  cursor pointer
 </style>

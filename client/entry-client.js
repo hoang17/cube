@@ -4,6 +4,12 @@ import 'es6-promise/auto'
 import './plugins/favicon'
 import { createApp } from './app'
 
+import VModal from 'vue-js-modal'
+import PortalVue from 'portal-vue'
+
+Vue.use(PortalVue)
+Vue.use(VModal)
+
 // import VueLazyload from 'vue-lazyload'
 // import VueAutosize from 'vue-autosize'
 

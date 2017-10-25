@@ -1,7 +1,7 @@
 <template lang="pug">
   Box(:w='w')
     Label(top) {{ lb }}
-    div(:class="$style.cp")
+    div(:class="$style.box")
       Input(
         :value="value"
         :placeholder="ph"
@@ -87,7 +87,7 @@ export default {
 }
 </script>
 <style lang="stylus" module>
-.cp
+.box
   display flex
 
 .hex
@@ -119,11 +119,11 @@ export default {
   background-color: #eceeef
   border: 1px solid rgba(0,0,0,.15)
   border-radius: .25rem
-  /*white-space: nowrap
+  white-space: nowrap
   vertical-align: middle
   display: flex
   flex-direction: column
-  justify-content: center*/
+  justify-content: center
   border-left 0
   border-bottom-left-radius 0
   border-top-left-radius 0

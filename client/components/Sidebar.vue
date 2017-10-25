@@ -5,8 +5,7 @@
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
       Expand(title="Font" expand)
         FieldSet
-          FontSelect(lb="Font Family" :ph="font()" v-model="rule.fontFamily")
-          //-Field(:w="1/3" lb="Font Size" ph="14px" v-model='rule.fontSize')
+          FontSelect(lb="Font Family" ph="inherit" v-model="rule.fontFamily")
         FieldSet
           SliderField(lb="Font Size", v-model="rule.fontSize" min="0" max="10" step="0.01" subfix="em")
         FieldSet
@@ -197,7 +196,6 @@ import Label from './Label'
 import Background from './Background'
 import ColorPicker from './ColorPicker'
 import SliderField from './SliderField'
-import { Bin } from '../data/factory'
 
 export default {
   props: ['cube'],
@@ -222,13 +220,6 @@ export default {
       cubeCss: null,
     }
   },
-  methods: {
-    font(){
-      let font = Bin.activeElement ? window.getComputedStyle(Bin.activeElement).getPropertyValue('font-family') : 'inherit'
-      console.log(font);
-      return font
-    }
-  },
   computed: {
     ...mapGetters([
       'page',
@@ -245,6 +236,11 @@ export default {
     style(){
       return this.cubes[this.cube.src]
     },
+    font(){
+      let font = this.activeElement ? window.getComputedStyle(this.activeElement).getPropertyValue('font-family') : 'inherit'
+      console.log(font);
+      return font
+    }
   },
 }
 </script>

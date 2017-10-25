@@ -30,6 +30,7 @@ TODO:
 ✔ Color picker @done(2017-10-24 22:55)
 ✔ Slider input @done(2017-10-24 22:55)
 ☐ Font selector
+☐ Theming
 ☐ Link hover setting
 ☐ Local storage
 ☐ Build a blog plugin (cubes are package into plugin)

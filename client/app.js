@@ -9,8 +9,12 @@ import * as filters from './plugins/filters'
 import InfiniteLoading from './addons/InfiniteLoading'
 import ClickOutside from './directives/ClickOutside'
 import * as cubes from './data/cubes'
+// import VModal from 'vue-js-modal'
+// import VModal from 'vue-js-modal/dist/ssr.index'
 
 console.log(process.env.VERSION)
+
+// Vue.use(VModal)
 
 Vue.directive('click-outside', ClickOutside)
 
@@ -27,6 +31,7 @@ for (let i in cubes) {
   Vue.component(cubes[i].type+'-pane', () => import(`./panes/${cubes[i].name+'Pane'}`))
 }
 
+Vue.config.silent = true
 Vue.config.productionTip = false
 
 if (!Vue.mixins){

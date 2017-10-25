@@ -2,6 +2,8 @@
   .build(:class="{[$style.left]:left,[$style.right]:right}")
     link(v-for="f in pageFonts", :href="fontUrl(f)" rel='stylesheet')
     div(v-html="rules")
+    div
+      portal-target(name="modal")        
     Toolbar(:class="$style.toolbar" @leftClick="left = !left" @rightClick="right = !right")
     Navbar(:class="$style.navbar")
     Sidebar(v-if="activeCube", :cube='activeCube', :class="$style.sidebar" @keydown.native="keydown" tabindex="1")
@@ -24,7 +26,6 @@ import Draggable from 'vuedraggable'
 import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
-import { Bin } from '../data/factory'
 
 export default {
   title: 'Build',
@@ -106,7 +107,8 @@ export default {
   },
   methods: {
     fontUrl(f) {
-      return '/types/' + fonts[f]
+      if (fonts[f])
+        return '/types/' + fonts[f]
     },
     keydown(e){
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
@@ -118,7 +120,7 @@ export default {
     },
     selectCube(cube, el){
       this.activeCube = cube
-      Bin.activeElement = el
+      this.activeElement = el
     },
     // deselectCube(){
     //   this.activeCube = null
