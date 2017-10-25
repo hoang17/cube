@@ -6,14 +6,11 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, 
 
 const cubes = db.get('cubes')
 const pages = db.get('pages')
-// const styles = db.get('styles')
 
 try {
   cubes.createIndex('uid')
-  // styles.createIndex('uid')
 
   cubes.createIndex(['_id', 'uid'])
-  // styles.createIndex(['_id', 'uid'])
   pages.createIndex(['_id', 'uid'])
 
   pages.createIndex('uid')
@@ -50,8 +47,6 @@ router.route('/view')
     let data = {}
     data.page = await pages.findOne({url:req.body.url})
     if (!data.page) return res.json(data)
-    // let styleIds = Object.keys(data.page.styles)
-    // data.styles = styleIds.length > 0 ? await styles.find({_id: {$in: styleIds }}) : []
     let cubeIds = Object.keys(data.page.blocks)
     data.cubes = cubeIds.length > 0 ? await cubes.find({_id: {$in: cubeIds }}) : []
     res.json(data)

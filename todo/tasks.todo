@@ -29,6 +29,7 @@ TODO:
 ✔ Select dropdown for cube props @done(2017-10-24 11:10)
 ✔ Color picker @done(2017-10-24 22:55)
 ✔ Slider input @done(2017-10-24 22:55)
+☐ Font selector
 ☐ Link hover setting
 ☐ Local storage
 ☐ Build a blog plugin (cubes are package into plugin)

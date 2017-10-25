@@ -134,7 +134,7 @@ export default {
       }
 
       // UPDATE BLOCKS COUNT
-      let blocks = getCubeBlocks(c)
+      let blocks = getCubeBlocks(c, this.cubes)
       for (let i in blocks){
         let count = this.page.blocks[i]
         this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])

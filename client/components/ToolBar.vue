@@ -292,7 +292,7 @@ export default {
       let c = clone(this.clipboard.cube, this.user._id)
 
       // UPDATE BLOCKS COUNT
-      let blocks = getCubeBlocks(c)
+      let blocks = getCubeBlocks(c, this.$store.state.cubes)
       for (let i in blocks){
         let count = this.page.blocks[i]
         this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])
@@ -367,7 +367,7 @@ export default {
         }
       }
       // UPDATE BLOCKS COUNT
-      let blocks = getCubeBlocks(this.activeCube)
+      let blocks = getCubeBlocks(this.activeCube, this.$store.state.cubes)
       for (let i in blocks){
         let count = this.page.blocks[i]
         this.$set(this.page.blocks, i, count ? count-blocks[i] : 0)
@@ -483,7 +483,7 @@ export default {
         }
         else {
           // UPDATE BLOCKS COUNT
-          let blocks = getCubeBlocks(cube)
+          let blocks = getCubeBlocks(cube, this.$store.state.cubes)
           for (let i in blocks){
             let count = this.page.blocks[i]
             this.$set(this.page.blocks, i, count ? count+blocks[i] : blocks[i])

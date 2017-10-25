@@ -46,7 +46,7 @@ export function Clipboard(cube, cubes = null){
 }
 
 export function getPageCubes(page, state){
-  let blocks = getCubeBlocks(page)
+  let blocks = getCubeBlocks(page, state.cubes)
   let cubes = {}
   for (let i in blocks){
     if (state.cubes[i])
@@ -63,7 +63,7 @@ export function getPageCubes(page, state){
 }
 
 // GET ALL BLOCKS FROM A CUBE
-export function getCubeBlocks(cube){
+export function getCubeBlocks(cube, list){
   let blocks = {}
   var getBlocks = cubes => {
     if (!cubes) return
@@ -73,12 +73,32 @@ export function getCubeBlocks(cube){
         if (blocks[c.src]) blocks[c.src]++
         else blocks[c.src] = 1
       }
+
+      if (c.name == 'Block'){
+        let s = list[c.src]
+        if (s.src){
+          if (blocks[s.src]) blocks[s.src]++
+          else blocks[s.src] = 1
+        }
+        if (s.cubes) getBlocks(s.cubes)
+      }
+
       if (c.cubes && c.cubes.length > 0)
         getBlocks(c.cubes)
     }
   }
   if (cube.src)
     blocks[cube.src] = 1
+
+  if (cube.name == 'Block'){
+    let s = list[cube.src]
+    if (s.src){
+      if (blocks[s.src]) blocks[s.src]++
+      else blocks[s.src] = 1
+    }
+    if (s.cubes) getBlocks(s.cubes)
+  }
+
   getBlocks(cube.cubes)
   return blocks
 }
