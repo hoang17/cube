@@ -1,9 +1,9 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
-    link(v-for="f in pageFonts", :href="fontUrl(f)" rel='stylesheet')
+    link(v-for="f in pageFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
     div(v-html="rules")
     div
-      portal-target(name="modal")        
+      portal-target(name="modal")
     Toolbar(:class="$style.toolbar" @leftClick="left = !left" @rightClick="right = !right")
     Navbar(:class="$style.navbar")
     Sidebar(v-if="activeCube", :cube='activeCube', :class="$style.sidebar" @keydown.native="keydown" tabindex="1")
@@ -44,6 +44,7 @@ export default {
     return {
       left: true,
       right: true,
+      fonts,
     }
   },
   computed: {
@@ -106,10 +107,6 @@ export default {
     this.activeCube = this.page
   },
   methods: {
-    fontUrl(f) {
-      if (fonts[f])
-        return '/types/' + fonts[f]
-    },
     keydown(e){
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
       if (e.keyCode == 8 || e.keyCode == 46 || ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey))

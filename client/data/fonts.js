@@ -62,6 +62,8 @@ exports.fonts = {
   "Open Sans Light": "OpenSans-Light.css",
   "Open Sans": "Open-Sans.2.css",
   "Open Sans Extra Bold": "OpenSans-ExtraBold.css",
+  "Proxima Nova":"proxima-nova.css",
+  "SF Pro Display":"sf-pro.css",
   "Racing Sans One": "Racing-Sans-One.css",
   "Roboto": "Roboto.2.css",
   "Ubuntu": "Ubuntu.2.css",

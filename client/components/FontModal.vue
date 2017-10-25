@@ -109,7 +109,6 @@ export default {
     .line
       //background-color rgba(63,70,82,.15)
       background-color #666
-      -ms-flex-positive 1
       flex-grow 1
       height 1px
       margin auto
@@ -122,7 +121,6 @@ export default {
       text-align center
       text-transform uppercase
 
-/*:global(.application--light)*/
-  /*img
-    filter invert(100%)*/
+  img:not([alt='Proxima Nova']):not([alt='SF Pro Display'])
+    filter invert(100%)
 </style>

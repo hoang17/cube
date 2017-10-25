@@ -1,6 +1,6 @@
 <template lang="pug">
   div(:style="page.style | styl", :class="css")
-    link(v-for="f in pageFonts", :href='fontUrl(f)', rel='stylesheet')
+    link(v-for="f in pageFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
     div(v-html="rules")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      fonts
     }
   },
   watch: {
@@ -62,9 +63,6 @@ export default {
     },
   },
   methods: {
-    fontUrl(f) {
-      return '/types/' + fonts[f]
-    },
     map(type){
       return type == 'bk' ? 'bv' : type
     },

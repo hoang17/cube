@@ -354,16 +354,21 @@ exports.types = [
         "png": "Open-Sans@2x.png"
       },
       {
-        "family": "Proxima Nova",
-        "css": "proxima-nova.css",
-        "png": "proxima-nova.png"
-      },
-      {
         "family": "Open Sans Extra Bold",
         "displayName": "Open Sans Extra Bold",
         "css": "OpenSans-ExtraBold.css",
         "png": "Open-Sans-Extra-Bold@2x.png"
       },
+      {
+        "family": "Proxima Nova",
+        "css": "proxima-nova.css",
+        "png": "proxima-nova.png"
+      },
+      {
+        "family": "SF Pro Display",
+        "css": "sf-pro.css",
+        "png": "san-francisco.png"
+      },      
       {
         "family": "Racing Sans One",
         "css": "Racing-Sans-One.css",
