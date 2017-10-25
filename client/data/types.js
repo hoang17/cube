@@ -111,7 +111,8 @@ exports.types = [
         "png": "Helveticish@2x.png"
       },
       {
-        "family": "Helvetica",
+        "family": "HelveticaNeue",
+        "css": "HelveticaNeue.css",
         "png": "Helvetica@2x.png"
       },
       {
@@ -351,6 +352,11 @@ exports.types = [
         "family": "Open Sans",
         "css": "Open-Sans.2.css",
         "png": "Open-Sans@2x.png"
+      },
+      {
+        "family": "Proxima Nova",
+        "css": "proxima-nova.css",
+        "png": "proxima-nova.png"
       },
       {
         "family": "Open Sans Extra Bold",

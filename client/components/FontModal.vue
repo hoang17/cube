@@ -12,8 +12,8 @@
 
 <script>
 import { types } from '../data/types'
-// import WebFont from 'webfontloader'
 import { mapGetters } from 'vuex'
+const ImportWebFont = () => import('webfontloader')
 
 const MODAL_WIDTH = 300
 
@@ -37,40 +37,24 @@ export default {
   methods: {
     selectFont({family, css}) {
       if (!css) return
-      // WebFont.load({
-      //   custom: {
-      //     families: [family],
-      //     urls: ['/types/'+css]
-      //   },
-      //   active: () => {
-      //     this.setFont(family)
-      //   }
-      //   // google: {
-      //   //   families: [family]
-      //   // },
-      // })
+      ImportWebFont().then(WebFont => {
+        WebFont.load({
+          custom: {
+            families: [family],
+            urls: ['/types/'+css]
+          },
+          active: () => {
+            this.setFont(family)
+          }
+          // google: {
+          //   families: [family]
+          // },
+        })
+      })
+      this.$modal.hide('font-modal')
     },
     setFont(family) {
       let p, i = this.value
-
-      // if (this.item){
-      //   // Add font to style
-      //   this.item.font = family
-      // }
-      // else {
-      //   // Add font to page
-      //   if (!this.page.fonts) this.page.fonts = {}
-      //   p = this.page.fonts
-      //   let count = p[family]
-      //   count = count ? count + 1 : 1
-      //   this.$set(p, family, f)
-      //
-      //   // remove old font
-      //   if (p[i]){
-      //     p[i]--
-      //     if (p[i] == 0) this.$delete(p, i)
-      //   }
-      // }
 
       // Add font to page
       if (!this.page.fonts) this.page.fonts = {}
@@ -86,8 +70,6 @@ export default {
       }
 
       this.$emit('input', family)
-      this.$modal.hide('font-modal');
-      // this.rule.fontFamily = family
     }
   },
 }
@@ -141,6 +123,6 @@ export default {
       text-transform uppercase
 
 /*:global(.application--light)*/
-  img
-    filter invert(100%)
+  /*img
+    filter invert(100%)*/
 </style>
