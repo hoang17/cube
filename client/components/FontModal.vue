@@ -113,13 +113,14 @@ export default {
       user-select none
       list-style none
       display flex
-      padding 10px
+      padding 5px
       margin 0
       padding-left 1em
       transition background-color .1s ease
       &:hover
       &.active
-        background-color: rgba(0,0,0,.12)
+        background-color: #ebece9
+        /*background-color: rgba(0,0,0,.12)*/
 
   .header
     display flex
@@ -140,12 +141,6 @@ export default {
       text-transform uppercase
 
 /*:global(.application--light)*/
-  .font-select
-    ul
-      li
-        .active
-        &:hover
-          background-color: #ebece9
-    img
-      filter invert(100%)
+  img
+    filter invert(100%)
 </style>
