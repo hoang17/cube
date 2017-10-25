@@ -134,7 +134,7 @@ $facebook_color := #3880FF
     transition 0.1s all
     font-size 10px
     outline none
-    &hover
+    &:hover
       border-color mix(#DDDEDF, black, 90%)
       color mix(#8b8c8d, black, 80%)
 
@@ -145,7 +145,7 @@ $facebook_color := #3880FF
     span
       font-weight 600
 
-    &hover
+    &:hover
       color white !important
 
 
@@ -159,7 +159,7 @@ $facebook_color := #3880FF
   .facebook-btn
     border-color $facebook_color
     color $facebook_color
-    &hover
+    &:hover
       border-color $facebook_color
       background $facebook_color
 
@@ -167,7 +167,7 @@ $facebook_color := #3880FF
   .github-btn
     border-color $github_color
     color $github_color
-    &hover
+    &:hover
       border-color $github_color
       background $github_color
 

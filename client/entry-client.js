@@ -8,7 +8,7 @@ import VModal from 'vue-js-modal'
 import PortalVue from 'portal-vue'
 
 Vue.use(PortalVue)
-Vue.use(VModal)
+Vue.use(VModal, { dialog: true })
 
 // import VueLazyload from 'vue-lazyload'
 // import VueAutosize from 'vue-autosize'

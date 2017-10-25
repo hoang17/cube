@@ -2,9 +2,11 @@
   Box(:w='w')
     portal(to='modal')
       Login
+      v-dialog
+      FontModal(:value="value" @input="val => $emit('input', val)")
     Label(top) {{ lb }}
     div(:class="$style.box")
-      Input(:value="value" @click.native.stop="show=true" @input="val => $emit('input', val)" :placeholder="ph" :style="{fontFamily: value}" :class="$style.input")
+      Input(:value="value" @click.native.stop="show=true" @input="val => $emit('input', val)" :ph="ph" :style="{fontFamily: value}" :class="$style.input")
       div(:class="$style.addon" @click="open")
         i(class="fa fa-plus")
     div(:class="$style.select" v-show="show")
@@ -17,11 +19,12 @@ import Box from './Box'
 import Input from './Input'
 import Label from './Label'
 import Login from './Login'
+import FontModal from './FontModal'
 
 export default {
   props: ['w','lb','ph','value'],
   components: {
-    Box, Input, Label, Login
+    Box, Input, Label, Login, FontModal
   },
   mounted() {
     const onClick = e => {
@@ -40,8 +43,46 @@ export default {
       this.$emit('input', font)
     },
     open(){
-      this.$modal.show('login-modal')
-    }
+      // this.showBasicDialog()
+      // this.showTitleDialog()
+      // this.showButtonsDialog()
+      // this.$modal.show('login-modal')
+      this.$modal.show('font-modal')
+    },
+    showBasicDialog () {
+      this.$modal.show('dialog', {
+        text: 'I am a tiny dialog box.<br/>And I render <b>HTML!</b>'
+      })
+    },
+    showTitleDialog () {
+      this.$modal.show('dialog', {
+        title: 'Information',
+        text: 'Check out, I have a title 😎'
+      })
+    },
+    showButtonsDialog () {
+      this.$modal.show('dialog', {
+        title: 'Buttons example',
+        text: 'You can add an arbitrary number of buttons.',
+        buttons: [
+          {
+            title: 'C💩NCEL'
+          },
+          {
+            title: 'LIKE',
+            handler: () => {
+              alert('LIKE LIKE LIKE')
+            }
+          },
+          {
+            title: 'REPOST',
+            handler: () => {
+              alert('REPOST REPOST REPOST')
+            }
+          }
+        ]
+      })
+    },
   },
   data(){
     return {
