@@ -198,7 +198,7 @@ import ColorPicker from './ColorPicker'
 import SliderField from './SliderField'
 
 export default {
-  props: ['cube'],
+  props: ['cube','fonts'],
   components: {
     FontSelect,
     Expand,

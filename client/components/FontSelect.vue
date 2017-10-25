@@ -3,15 +3,20 @@
     portal(to='modal')
       Login
       v-dialog
-      FontModal(:value="value" @input="val => $emit('input', val)")
+      FontModal(:value="value" @input="select")
     Label(top) {{ lb }}
     div(:class="$style.box")
-      Input(:value="value" @click.native.stop="show=true" @input="val => $emit('input', val)" :ph="ph" :style="{fontFamily: value}" :class="$style.input")
+      Input(:value="value" @click.native.stop="show=true" @input="select" :ph="ph" :style="{fontFamily: value}" :class="$style.input")
       div(:class="$style.addon" @click="open")
         i(class="fa fa-plus")
     div(:class="$style.select" v-show="show")
       ul(:class="$style.list")
-        li(v-for="font in fonts" :style="{fontFamily: font}" @click="select(font)" :class="{[$style.active]:font==value}") {{ font }}
+        li(v-for="font in currentFonts" :style="{fontFamily: font}" @click="select(font)" :class="{[$style.font]:1, [$style.active]:font==value}") {{ font }}
+        li(:class="$style.header")
+          div(:class="$style.line")
+          div(:class="$style.label") System Fonts
+          div(:class="$style.line")
+        li(v-for="font in systemFonts" :style="{fontFamily: font}" @click="select(font)" :class="{[$style.font]:1, [$style.active]:font==value}") {{ font }}
 </template>
 
 <script>
@@ -20,11 +25,46 @@ import Input from './Input'
 import Label from './Label'
 import Login from './Login'
 import FontModal from './FontModal'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   props: ['w','lb','ph','value'],
   components: {
     Box, Input, Label, Login, FontModal
+  },
+  data(){
+    return {
+      show: false,
+      systemFonts: [
+        '-apple-system, BlinkMacSystemFont, sans-serif',
+        'Helvetica Neue, Helvetica, Arial, sans-serif',
+        'Avenir Next, Helvetica, Arial, sans-serif',
+        'Verdana, sans-serif',
+        'Lucida Grande, sans-serif',
+        'Menlo, monospace',
+        'Roboto, sans-serif',
+        'Roboto Condensed, sans-serif',
+        'Roboto Mono, monospace',
+        'Roboto Slab, Georgia, serif',
+        'Montserrat, sans-serif',
+        'Open Sans, sans-serif',
+        'Lato, sans-serif',
+        'Source Sans Pro, sans-serif',
+        'PT Sans, sans-serif',
+        'PT Serif, serif',
+        'Raleway, sans-serif',
+        'Merriweather, Georgia, serif',
+        'Noto Sans, sans-serif',
+      ]
+    }
+  },
+  computed: {
+    ...mapState([
+      'recentFonts'
+    ]),
+    ...mapGetters([
+      'currentFonts'
+    ]),
   },
   mounted() {
     const onClick = e => {
@@ -41,6 +81,13 @@ export default {
     select(font) {
       this.show = false
       this.$emit('input', font)
+      if (
+        !this.recentFonts.includes(font) &&
+        !this.systemFonts.includes(font)
+      )
+      {
+        this.recentFonts.unshift(font)
+      }
     },
     open(){
       // this.showBasicDialog()
@@ -84,32 +131,6 @@ export default {
       })
     },
   },
-  data(){
-    return {
-      show: false,
-      fonts: [
-        '-apple-system, BlinkMacSystemFont, sans-serif',
-        'Helvetica Neue, Helvetica, Arial, sans-serif',
-        'Avenir Next, Helvetica, Arial, sans-serif',
-        'Verdana, sans-serif',
-        'Lucida Grande, sans-serif',
-        'Menlo, monospace',
-        'Roboto, sans-serif',
-        'Roboto Condensed, sans-serif',
-        'Roboto Mono, monospace',
-        'Roboto Slab, Georgia, serif',
-        'Montserrat, sans-serif',
-        'Open Sans, sans-serif',
-        'Lato, sans-serif',
-        'Source Sans Pro, sans-serif',
-        'PT Sans, sans-serif',
-        'PT Serif, serif',
-        'Raleway, sans-serif',
-        'Merriweather, Georgia, serif',
-        'Noto Sans, sans-serif',
-      ]
-    }
-  }
 }
 </script>
 
@@ -136,7 +157,7 @@ export default {
   cursor pointer
   max-height 300px
   box-shadow 2px 2px 3px rgba(0,0,0,0.1)
-  li
+  .font
     line-height 2
     padding 0 10px
     white-space nowrap
@@ -144,6 +165,26 @@ export default {
       background-color #eee
   .active
     background-color #eee
+
+.header
+  display flex
+  &:hover
+    background-color none!important
+  .line
+    //background-color rgba(63,70,82,.15)
+    background-color #ddd
+    flex-grow 1
+    height 1px
+    margin auto
+  .label
+    //color rgba(63,70,82,.4)
+    /*font-weight 500*/
+    color #ccc
+    font-size 12px
+    margin 5px 20px
+    min-width 40px
+    text-align center
+    text-transform uppercase
 
 .addon
   width 35px

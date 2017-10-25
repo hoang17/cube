@@ -7,6 +7,8 @@ Vue.use(Vuex)
 import * as cubes from './data/cubes'
 import { clone } from './data/factory'
 
+import uniq from 'lodash/uniq'
+
 export function createStore (context) {
   let api = setup(context.token)
   return new Vuex.Store({
@@ -21,10 +23,10 @@ export function createStore (context) {
       tokenFB: null,
       pages: {},
       cubes: {},
-      // styles: {},
       histories: {},
       routes: {},
       dark: false,
+      recentFonts: [],
     },
     actions: {
       async addCube({ state, commit }, cube) {
@@ -143,6 +145,12 @@ export function createStore (context) {
     },
     getters: {
       page: state => state.pages[state.pageId],
+      currentFonts: state => {
+        let pageFonts = Object.values(state.pages).reduce((acc, page) => {
+          return page.fonts ? uniq(acc.concat(Object.keys(page.fonts))) : acc
+        }, [])
+        return uniq([...state.recentFonts, ...pageFonts]).sort()
+      },
       blockCount: state => cube => {
         let count = 0
         for (let i in state.pages){

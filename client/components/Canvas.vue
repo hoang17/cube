@@ -1,12 +1,20 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
-    link(v-for="f in pageFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
+    link(v-for="f in currentFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
     div(v-html="rules")
     div
       portal-target(name="modal")
-    Toolbar(:class="$style.toolbar" @leftClick="left = !left" @rightClick="right = !right")
+    Toolbar(
+      :class="$style.toolbar"
+      @leftClick="left = !left"
+      @rightClick="right = !right")
     Navbar(:class="$style.navbar")
-    Sidebar(v-if="activeCube", :cube='activeCube', :class="$style.sidebar" @keydown.native="keydown" tabindex="1")
+    Sidebar(
+      v-if="activeCube"
+      :cube='activeCube'
+      :class="$style.sidebar"
+      @keydown.native="keydown"
+      tabindex="1")
     draggable(
       v-model='cubes'
       :style="page.style | styl"
@@ -26,6 +34,7 @@ import Draggable from 'vuedraggable'
 import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
+import clone from 'lodash/clone'
 
 export default {
   title: 'Build',
@@ -49,7 +58,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'page'
+      'page',
+      'currentFonts'
     ]),
     ...mapState({
       rules(state){
@@ -105,6 +115,8 @@ export default {
     heroku_app && console.log(heroku_app, heroku_ver, heroku_des)
     // console.log(this.$store.state.env)
     this.activeCube = this.page
+
+    this.$store.state.recentFonts = clone(this.currentFonts)
   },
   methods: {
     keydown(e){
