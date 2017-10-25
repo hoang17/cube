@@ -12,7 +12,7 @@
 
 <script>
 import { types } from '../data/types'
-import WebFont from 'webfontloader'
+// import WebFont from 'webfontloader'
 import { mapGetters } from 'vuex'
 
 const MODAL_WIDTH = 300
@@ -37,18 +37,18 @@ export default {
   methods: {
     selectFont({family, css}) {
       if (!css) return
-      WebFont.load({
-        custom: {
-          families: [family],
-          urls: ['/types/'+css]
-        },
-        active: () => {
-          this.setFont(family)
-        }
-        // google: {
-        //   families: [family]
-        // },
-      })
+      // WebFont.load({
+      //   custom: {
+      //     families: [family],
+      //     urls: ['/types/'+css]
+      //   },
+      //   active: () => {
+      //     this.setFont(family)
+      //   }
+      //   // google: {
+      //   //   families: [family]
+      //   // },
+      // })
     },
     setFont(family) {
       let p, i = this.value
