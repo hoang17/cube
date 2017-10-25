@@ -5,7 +5,7 @@
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
       Expand(title="Font" expand)
         FieldSet
-          Field(:w="2/3" lb="Font Family" ph="inherit" v-model="rule.fontFamily")
+          FontSelect(lb="Font Family" :ph="font()" v-model="rule.fontFamily")
           //-Field(:w="1/3" lb="Font Size" ph="14px" v-model='rule.fontSize')
         FieldSet
           SliderField(lb="Font Size", v-model="rule.fontSize" min="0" max="10" step="0.01" subfix="em")
@@ -182,9 +182,7 @@
 </template>
 
 <script>
-import StyleBar from './StyleBar'
-// import FontSelect from './FontSelect'
-import { bus } from '../data/factory'
+import FontSelect from './FontSelect'
 import { mapState, mapGetters } from 'vuex'
 import Expand from './Expand'
 import Expansion from './Expansion'
@@ -199,12 +197,12 @@ import Label from './Label'
 import Background from './Background'
 import ColorPicker from './ColorPicker'
 import SliderField from './SliderField'
+import { Bin } from '../data/factory'
 
 export default {
   props: ['cube'],
   components: {
-    StyleBar,
-    // FontSelect
+    FontSelect,
     Expand,
     Expansion,
     FieldSet,
@@ -224,6 +222,13 @@ export default {
       cubeCss: null,
     }
   },
+  methods: {
+    font(){
+      let font = Bin.activeElement ? window.getComputedStyle(Bin.activeElement).getPropertyValue('font-family') : 'inherit'
+      console.log(font);
+      return font
+    }
+  },
   computed: {
     ...mapGetters([
       'page',
@@ -232,6 +237,7 @@ export default {
     ...mapState([
       'user',
       'cubes',
+      'activeElement',
     ]),
     rule(){
       return this.style ? this.style.style : this.cube.style

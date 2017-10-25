@@ -26,6 +26,7 @@ export default {
   methods: {
     slide(val) {
       let v = val.toFixed(2)
+      if (!v) v = null
       this.$emit('input', this.subfix ? v + this.subfix : v)
     }
   }

@@ -1,5 +1,11 @@
 <template lang="pug">
-  button(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="onClick", :class="css", @mouseover.stop="") {{ cube.content }}
+  button(
+    :edit="edit"
+    :active="active"
+    :style="cube.style | styl"
+    :class="css"
+    @click.stop="onClick"
+    @mouseover.stop="") {{ cube.content }}
 </template>
 
 <script>
@@ -16,7 +22,7 @@ export default {
   methods: {
     onClick(){
       if (this.edit)
-        this.select(this.cube)
+        this.select(this.cube, this.$el)
       else if (this.cube.url) {
         if (this.cube.url == 'back')
           this.$router.go(-1)

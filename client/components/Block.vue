@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     focus(){
-      this.select(this.cube)
+      this.select(this.cube, this.$el)
     },
   },
 }

@@ -24,6 +24,7 @@ import Draggable from 'vuedraggable'
 import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
+import { Bin } from '../data/factory'
 
 export default {
   title: 'Build',
@@ -70,6 +71,14 @@ export default {
         this.$store.commit('setActiveCube', cube)
       }
     },
+    activeElement: {
+      get() {
+        return this.$store.state.activeElement
+      },
+      set(el) {
+        this.$store.commit('setActiveElement', el)
+      }
+    },
     cubes: {
       get() {
         return this.page.cubes
@@ -107,8 +116,9 @@ export default {
     selectPage(){
       this.activeCube = this.page
     },
-    selectCube(cube){
+    selectCube(cube, el){
       this.activeCube = cube
+      Bin.activeElement = el
     },
     // deselectCube(){
     //   this.activeCube = null

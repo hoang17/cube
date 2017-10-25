@@ -1,5 +1,12 @@
 <template lang="pug">
-  div(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", v-html="markdown", :class="css", @mouseover.stop="")
+  div(
+    :class="css"
+    :edit="edit"
+    :active="active"
+    :style="cube.style | styl"
+    v-html="markdown"
+    @click.stop="edit && focus()"
+    @mouseover.stop="")
   //-vue-markdown.cube(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
 </template>
 
@@ -13,7 +20,13 @@ export default {
   components: {
     // VueMarkdown
   },
+  // mounted() {
+  //   console.log(window.getComputedStyle(this.$refs.el));
+  // },
   computed: {
+    computedStyle(){
+      return window.getComputedStyle(this.$refs.el)
+    },
     css(){
       return [this.$style.text, this.cube.src ? '--' + this.cube.src : '']
     },
@@ -26,7 +39,7 @@ export default {
   },
   methods: {
     focus(){
-      this.select(this.cube)
+      this.select(this.cube, this.$el)
     },
   },
 }

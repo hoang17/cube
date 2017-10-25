@@ -14,6 +14,7 @@ export function createStore (context) {
       newId: null,
       pageId: null,
       activeCube: null,
+      activeElement: null,
       host: null,
       user: null,
       token: null,
@@ -37,20 +38,6 @@ export function createStore (context) {
       async updateCube({ state, commit }, cube) {
         return await api.updateCube(cube)
       },
-      // async updateStyle({ state, commit }, style) {
-      //   return await api.updateStyle(style)
-      // },
-      // async addStyle({ state, commit }, style) {
-      //   Vue.set(state.styles, style._id, style)
-      //   return await api.addStyle(style)
-      // },
-      // async addStyles({ state, commit }, styles) {
-      //   for (let i in styles){
-      //     if (state.styles[i]) continue
-      //     Vue.set(state.styles, i, styles[i])
-      //     api.addStyle(styles[i])
-      //   }
-      // },
       async addCubes({ state, commit }, cubes) {
         for (let i in cubes){
           if (state.cubes[i]) continue
@@ -58,10 +45,6 @@ export function createStore (context) {
           api.addCube(cubes[i])
         }
       },
-      // async removeStyle({ state, commit }, style) {
-      //   await api.deleteStyle(style._id)
-      //   Vue.delete(state.styles, style._id)
-      // },
       async fetchRoute({ state, commit }, { url }){
         return state.routes[url]
       },
@@ -120,7 +103,6 @@ export function createStore (context) {
         if (state.routes[url]) return state.routes[url]
         let { page, cubes } = await api.fetchViewData(url)
         if (!page) return
-        // state.styles = Object.assign({}, state.styles, styles)
         state.cubes = Object.assign({}, state.cubes, cubes)
         Vue.set(state.pages, page._id, page)
         state.routes[url] = page._id
@@ -144,9 +126,6 @@ export function createStore (context) {
       setCube(state, cube) {
         Vue.set(state.cubes, cube._id, cube)
       },
-      // setStyle(state, style) {
-      //   Vue.set(state.styles, style._id, style)
-      // },
       setNewPage(state, page){
         state.pageId = page._id
         Vue.set(state.pages, state.pageId, page)
@@ -157,6 +136,9 @@ export function createStore (context) {
       },
       setActiveCube(state, cube) {
         state.activeCube = cube
+      },
+      setActiveElement(state, el) {
+        state.activeElement = el
       },
     },
     getters: {
@@ -170,16 +152,6 @@ export function createStore (context) {
         }
         return count
       },
-      // styleCount: state => style => {
-      //   if (!style) return 0
-      //   let count = 0
-      //   for (let i in state.pages){
-      //     let p = state.pages[i]
-      //     if (p.styles[style._id])
-      //       count+=p.styles[style._id]
-      //   }
-      //   return count
-      // },
     }
   })
 }

@@ -18,7 +18,7 @@ export default {
   width 100%
   height 28px
   padding .3rem .4rem
-  font-size 13px
+  font-size 14px
   line-height 1.25
   color #464a4c
   background-color #fff

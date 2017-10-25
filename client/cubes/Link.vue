@@ -1,5 +1,12 @@
 <template lang="pug">
-  a(v-if="edit", :edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="") {{ cube.content }}
+  a(
+    v-if="edit"
+    :class="css"
+    :edit="edit"
+    :active="active"
+    :style="cube.style | styl"
+    @click.stop="edit && focus()"
+    @mouseover.stop="") {{ cube.content }}
   router-link(v-else, :style="cube.style | styl", :to="cube.url?cube.url:''", :class="css") {{ cube.content }}
 </template>
 
@@ -16,7 +23,7 @@ export default {
   },
   methods: {
     focus(){
-      this.select(this.cube)
+      this.select(this.cube, this.$el)
     },
   },
 }

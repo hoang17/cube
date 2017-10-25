@@ -1,5 +1,11 @@
 <template lang="pug">
-  div(:edit="edit", :active="active", :style="cube.style | styl", @click.stop="edit && focus()", :class="css", @mouseover.stop="")
+  div(
+    :class="css"
+    :edit="edit"
+    :active="active"
+    :style="cube.style | styl"
+    @click.stop="edit && focus()"
+    @mouseover.stop="")
     label(:class="$style.label") {{ cube.content }}
     div(:class="$style.group")
       div(v-for='o in cube.options', :class="$style.radiobox")
@@ -20,7 +26,7 @@ export default {
   },
   methods: {
     focus(){
-      this.select(this.cube)
+      this.select(this.cube, this.$el)
     },
   },
 }

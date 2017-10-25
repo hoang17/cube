@@ -1,145 +1,90 @@
 <template lang="pug">
-  div(:class="$style.fontSelect")
-    ul(v-for="type in types")
-      li(:class="$style.header")
-        div(:class="$style.line")
-        div(:class="$style.label") {{ type.name }}
-        div(:class="$style.line")
-      li(v-for="font in type.fonts", :class="{[$style.active]: rule.fontFamily==font.family}")
-        button(@click="selectFont(font)")
-          img(:src="'/types/'+font.png", height='30', :alt='font.family')
-    //-.toolbar__fontCta
-      .toolbar__fontCtaLabel Upload your own fonts!
-      button.button.buttonSmall.toolbar__fontCtaButton LEARN MORE
+  Box(:w='w')
+    Label(top) {{ lb }}
+    Input(:value="value" @click.native="show=!show" @input="val => $emit('input', val)" :placeholder="ph" :style="{fontFamily: value}" :class="$style.input")
+    div(:class="$style.select" v-show="show")
+      ul(:class="$style.list")
+        li(v-for="font in fonts" :style="{fontFamily: font}" @click="select(font)") {{ font }}
 </template>
 
 <script>
-import { types } from '../data/types'
-import WebFont from 'webfontloader'
-import { mapGetters } from 'vuex'
-
+import Box from './Box'
+import Input from './Input'
+import Label from './Label'
 export default {
-  props: ['item','rule'],
-  data () {
-    return {
-      types,
-    }
+  props: ['w','lb','ph','value'],
+  components: {
+    Box, Input, Label
   },
-  computed: {
-    ...mapGetters([
-      'page'
-    ]),
+  mounted() {
+    const onClick = e => {
+      if (this.show)
+        this.show = false
+    }
+    // iOS does not recognize click events on document
+    // or body, this is the entire purpose of the v-app
+    // component and [data-app], stop removing this
+    const app = document.querySelector('[data-app]') || document.body
+    app.addEventListener('click', onClick, true)
   },
   methods: {
-    selectFont({family, css}) {
-      if (!css) return
-      WebFont.load({
-        custom: {
-          families: [family],
-          urls: ['/types/'+css]
-        },
-        active: () => {
-          this.setFont(family)
-        }
-        // google: {
-        //   families: [family]
-        // },
-      })
-    },
-    setFont(family) {
-      let p, i = this.rule.fontFamily
-
-      if (this.item){
-        // Add font to style
-        this.item.font = family
-      }
-      else {
-        // Add font to page
-        if (!this.page.fonts) this.page.fonts = {}
-        p = this.page.fonts
-        let count = p[family]
-        count = count ? count + 1 : 1
-        this.$set(p, family, f)
-
-        // remove old font
-        if (p[i]){
-          p[i]--
-          if (p[i] == 0) this.$delete(p, i)
-        }
-      }
-
-      this.rule.fontFamily = family
+    select(font) {
+      this.show = false
+      this.$emit('input', font)
     }
   },
+  data(){
+    return {
+      show: false,
+      fonts: [
+        '-apple-system, BlinkMacSystemFont, sans-serif',
+        'Helvetica Neue, Helvetica, Arial, sans-serif',
+        'Avenir Next, Helvetica, Arial, sans-serif',
+        'Verdana, sans-serif',
+        'Lucida Grande, sans-serif',
+        'Menlo, monospace',
+        'Roboto, sans-serif',
+        'Roboto Condensed, sans-serif',
+        'Roboto Mono, monospace',
+        'Roboto Slab, Georgia, serif',
+        'Montserrat, sans-serif',
+        'Open Sans, sans-serif',
+        'Lato, sans-serif',
+        'Source Sans Pro, sans-serif',
+        'PT Sans, sans-serif',
+        'PT Serif, serif',
+        'Raleway, sans-serif',
+        'Merriweather, Georgia, serif',
+        'Noto Sans, sans-serif',
+      ]
+    }
+  }
 }
 </script>
 
 <style lang="stylus" module>
-.font-select
-  max-height 70vh
-  overflow-y scroll
-  overflow-x hidden
-  height calc(100% - 8px)
-  ul
-    //min-width 80px
-    //max-height 50vh
-    //overflow-y scroll
-    //overflow-x hidden
-    //height calc(100% - 8px)
-    box-sizing border-box
-    border-radius inherit
-    padding 0
+.input
+  font-size 14px
 
+.select
+  position relative
+  width 100%
+
+.list
+  position absolute
+  background-color #fafafa
+  z-index 100
+  border 1px solid rgba(0,0,0,.15)
+  overflow auto
+  width 100%
+  padding 0
+  cursor pointer
+  max-height 300px
+  box-shadow 2px 2px 3px rgba(0,0,0,0.1)
   li
-    user-select none
-    list-style none
-    padding 0
+    line-height 2
+    padding 0 10px
+    white-space nowrap
     &:hover
-    &.active
-      background-color: rgba(0,0,0,.12)
-
-  button
-    display flex
-    padding-right 33px
-    background-position 1em center
-    background-repeat no-repeat
-    background-size auto 30px
-    overflow: hidden
-    width 100%
-    height 35px
-    padding 0
-    margin 0
-    text-align left
-    padding-left 1em
-    transition background-color .1s ease
-    outline none
-    /*-ms-flex-pack justify
-    justify-content space-between*/
-
-  .header
-    display flex
-    .line
-      //background-color rgba(63,70,82,.15)
-      background-color #666
-      -ms-flex-positive 1
-      flex-grow 1
-      height 1px
-      margin auto
-    .label
-      //color rgba(63,70,82,.4)
-      font-size 11px
-      font-weight 500
-      margin 8px 20px
-      min-width 40px
-      text-align center
-      text-transform uppercase
-
-:global(.application--light)
-  .font-select
-    li
-      .active
-      &:hover
-        background-color: #ebece9
-    img
-      filter invert(100%)
+      background-color #eee
 </style>
