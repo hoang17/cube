@@ -11,7 +11,7 @@
         i(class="fa fa-plus")
     div(:class="$style.select" v-show="show")
       ul(:class="$style.list")
-        li(v-for="font in fonts" :style="{fontFamily: font}" @click="select(font)") {{ font }}
+        li(v-for="font in fonts" :style="{fontFamily: font}" @click="select(font)" :class="{[$style.active]:font==value}") {{ font }}
 </template>
 
 <script>
@@ -142,6 +142,8 @@ export default {
     white-space nowrap
     &:hover
       background-color #eee
+  .active
+    background-color #eee
 
 .addon
   width 35px
