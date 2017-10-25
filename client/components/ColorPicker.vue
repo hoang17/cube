@@ -4,10 +4,14 @@
     div(:class="$style.cp")
       Input(
         :value="value"
-        @change.native="setColor"
         :placeholder="ph"
-        :class="$style.input"
+        :class="$style.rgba"
+        @change.native="setColor"
         autocorrect="off" autocapitalize="off" spellcheck="false")
+      Input(
+        :value="hex"
+        :class="$style.hex"
+        readonly="true")
       div(:class="$style.addon" @click="open")
         div(:class="$style.bg")
           div(:class="$style.inner" :style="{backgroundColor: value}")
@@ -25,6 +29,22 @@ export default {
   props:['lb','w','ph','value'],
   components: {
     Box, Input, Label, Sketch
+  },
+  mounted() {
+    const onClick = e => {
+      if (this.show)
+        this.show = false
+    }
+    // iOS does not recognize click events on document
+    // or body, this is the entire purpose of the v-app
+    // component and [data-app], stop removing this
+    const app = document.querySelector('[data-app]') || document.body
+    app.addEventListener('click', onClick, true)
+  },
+  computed:{
+    hex(){
+      return parse(this.value).hex
+    }
   },
   methods: {
     open(){
@@ -56,9 +76,9 @@ export default {
       show: false,
       colors: {
         rgba: {
-          r: 25,
-          g: 77,
-          b: 51,
+          r: 0,
+          g: 0,
+          b: 0,
           a: 1
         }
       }
@@ -70,7 +90,17 @@ export default {
 .cp
   display flex
 
-.input
+.hex
+  width 25%
+  border-left 0
+  margin-right 0!important
+  background-color: #eceeef
+  &:focus
+    color #464a4c
+    background-color: #eceeef
+    border-color rgba(0,0,0,.15)
+.rgba
+  width 75%
   margin-right 0!important
 
 .picker
@@ -94,9 +124,9 @@ export default {
   display: flex
   flex-direction: column
   justify-content: center*/
-  border-left: 0
-  border-bottom-left-radius: 0
-  border-top-left-radius: 0
+  border-left 0
+  border-bottom-left-radius 0
+  border-top-left-radius 0
   cursor pointer
 
 .bg
