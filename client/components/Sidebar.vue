@@ -163,6 +163,8 @@
           SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="5" step="0.01" subfix="rem")
         FieldSet
           ColorPicker(lb="Color" v-model='rule.borderColor')
+        FieldSet
+          Field(lb="Box Shadow" v-model='rule.boxShadow')
       Expand(title="Position")
         FieldSet
           Label(:w="1/3") Position

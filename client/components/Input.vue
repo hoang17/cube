@@ -1,5 +1,10 @@
 <template lang="pug">
-  input(:class="$style.input" :style="styles" :value="value" @input="e => $emit('input', e.target.value)" :placeholder="ph")
+  input(
+    :class="$style.input"
+    :style="styles"
+    :value="value"
+    :placeholder="ph"
+    @input="e => $emit('input', e.target.value)")
 </template>
 
 <script>

@@ -1,5 +1,9 @@
 <template lang="pug">
-  select(:class="$style.select", :style="styles", :value="value" @input="e => $emit('input', e.target.value)")
+  select(
+    :class="$style.select"
+    :style="styles"
+    :value="value"
+    @input="e => $emit('input', e.target.value)")
     slot
 </template>
 
