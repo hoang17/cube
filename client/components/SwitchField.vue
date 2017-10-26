@@ -1,13 +1,13 @@
 <template lang="pug">
   Box(:w='w')
     Label(top) {{ lb }}
-    Input(
-      :ph="ph"
-      type="text"
-      :readonly="readonly"
+    toggle-button(
+      color="#82C7EB"
       :value="value"
-      @input="val => $emit('input', val)"
-      @change.native="e => $emit('change', e.target.value)")
+      :sync="true"
+      :labels="true"
+      @input="val => $emit('input', val)")
+    //-Input(:ph="ph" type="text", :value="value" @input="val => $emit('input', val)")
 </template>
 
 <script>
@@ -15,9 +15,9 @@ import Box from './Box'
 import Input from './Input'
 import Label from './Label'
 export default {
-  props: ['w','lb','ph','value','readonly'],
+  props: ['w','lb','ph','value'],
   components: {
-    Box, Input, Label
+    Box, Label
   },
 }
 </script>

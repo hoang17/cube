@@ -3,44 +3,36 @@
     FieldSet
       Field(
         lb="Box Shadow"
-        :value="value")
+        :value="value"
+        @input="val => $emit('input', val)")
     FieldSet
       SliderField(
         lb="Horizontal Length"
-        v-model="hor"
+        v-model="box.offsetX"
         min="-50" max="50"
-        step="1"
-        subfix="px")
+        step="1")
     FieldSet
       SliderField(
         lb="Vertical Length"
-        v-model="ver"
+        v-model="box.offsetY"
         min="-50" max="50"
-        step="1"
-        subfix="px")
+        step="1")
     FieldSet
       SliderField(
         lb="Blur Radius"
-        v-model="blur"
+        v-model="box.blurRadius"
         min="0" max="100"
-        step="1"
-        subfix="px")
+        step="1")
     FieldSet
       SliderField(
         lb="Spread Radius"
-        v-model="spread"
+        v-model="box.spreadRadius"
         min="-50" max="50"
-        step="1"
-        subfix="px")
+        step="1")
     FieldSet
-      ColorPicker(lb="Color" v-model='color')
+      ColorPicker(lb="Color" v-model='box.color')
     FieldSet
-      toggle-button(
-        v-model="inset"
-        color="#82C7EB"
-        :value="false"
-        :sync="true"
-        :labels="true")
+      SwitchField(lb="Inset" v-model='box.inset')
 </template>
 
 <script>
@@ -48,29 +40,42 @@ import FieldSet from './FieldSet'
 import Field from './Field'
 import SliderField from './SliderField'
 import ColorPicker from './ColorPicker'
+import SwitchField from './SwitchField'
+import { parse, stringify } from '../plugins/css-box-shadow'
+
+const defaultValue = {
+  offsetX: 0,
+  offsetY: 0,
+  blurRadius: 0,
+  spreadRadius: 0,
+  color: null,
+  inset: false
+}
 
 export default {
   props: ['w','lb','ph','value'],
   components: {
-    FieldSet, Field, SliderField, ColorPicker
+    FieldSet, Field, SliderField, ColorPicker, SwitchField
   },
   data(){
     return {
-      hor: 0,
-      ver: 0,
-      blur: 0,
-      spread: 0,
-      color: null,
-      inset: false
+      box: defaultValue
     }
   },
   computed: {
-    boxShadow(){
-      return `${this.hor} ${this.ver} ${this.blur} ${this.spread} ${this.color}`.trim()
+    val(){
+      let v = stringify([this.box])
+      return this.box.offsetX == 0 && this.box.offsetY == 0 ? null : v
+    },
+    activeCube() {
+      return this.$store.state.activeCube
     }
   },
   watch:{
-    boxShadow(val){
+    activeCube(){
+      this.box = this.value ? parse(this.value)[0] : defaultValue
+    },
+    val(val){
       this.$emit('input', val)
     }
   }

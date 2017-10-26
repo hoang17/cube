@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     slide(val) {
-      let n = this.step == 1 ? 0 : 2
-      let v = val.toFixed(n)
-      if (!v) v = null
-      this.$emit('input', this.subfix ? v + this.subfix : v)
+      let v = this.step == 1 ? parseInt(val) : val.toFixed(2)
+      if (!v) v = this.step == 1 ? 0 : null
+      let e = this.subfix ? v + this.subfix : v
+      this.$emit('input', e)
     }
   }
 }
