@@ -213,10 +213,10 @@ export const select = {
   }
 }
 
-export const check = {
+export const checkbox = {
   _id: null,
   type: 'ck',
-  name: 'Check',
+  name: 'Checkbox',
   content: 'Check all that apply',
   field: 'fieldName',
   required: false,
