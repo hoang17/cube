@@ -6,8 +6,7 @@
         :value="value"
         :placeholder="ph"
         :class="$style.rgba"
-        @change.native="setColor"
-        autocorrect="off" autocapitalize="off" spellcheck="false")
+        @change.native="setColor")
       Input(
         :value="hex"
         :class="$style.hex"
@@ -15,7 +14,7 @@
       div(:class="$style.addon" @click="open")
         div(:class="$style.bg")
           div(:class="$style.inner" :style="{backgroundColor: value}")
-    Sketch(v-model="colors" v-show="show" :class="$style.picker")
+    Sketch(v-model="colors" v-show="show" :class="$style.picker" @click.native.stop="")
 </template>
 <script>
 import Box from './Box'

@@ -2,7 +2,13 @@
   Box(:w='w')
     Label(top) {{ lb }}
     div(:class="$style.slider")
-      Slider(:class="['slider', $style.range]" :min="min" :max="max" :step="step", :value="val" @input="slide")
+      Slider(
+        :class="['slider', $style.range]"
+        :min="min"
+        :max="max"
+        :step="step"
+        :value="val"
+        @input="slide")
       Input(:value="value", :class="$style.input" @input="val => $emit('input', val)", :ph="ph")
 </template>
 
@@ -25,7 +31,8 @@ export default {
   },
   methods: {
     slide(val) {
-      let v = val.toFixed(2)
+      let n = this.step == 1 ? 0 : 2
+      let v = val.toFixed(n)
       if (!v) v = null
       this.$emit('input', this.subfix ? v + this.subfix : v)
     }

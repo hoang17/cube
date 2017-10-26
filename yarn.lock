@@ -8857,6 +8857,10 @@ vue-js-modal@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/vue-js-modal/-/vue-js-modal-1.3.4.tgz#0371c79d4a519dde320d43b9847ba8b404247e1f"
 
+vue-js-toggle-button@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vue-js-toggle-button/-/vue-js-toggle-button-1.2.0.tgz#d7ae11b9ec0ab57346faf89a34dec36b00b73eb5"
+
 vue-lazyload@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.1.4.tgz#94dbb3fcb047f147f37900c0e22ad4fd478e31c4"

@@ -165,6 +165,8 @@
           ColorPicker(lb="Color" v-model='rule.borderColor')
         FieldSet
           Field(lb="Box Shadow" v-model='rule.boxShadow')
+      Expand(title="Box Shadow")
+        BoxShadow(v-model='rule.boxShadow')
       Expand(title="Position")
         FieldSet
           Label(:w="1/3") Position
@@ -198,6 +200,7 @@ import Label from './Label'
 import Background from './Background'
 import ColorPicker from './ColorPicker'
 import SliderField from './SliderField'
+import BoxShadow from './BoxShadow'
 
 export default {
   props: ['cube','fonts'],
@@ -216,6 +219,7 @@ export default {
     Background,
     ColorPicker,
     SliderField,
+    BoxShadow,
   },
   data () {
     return {

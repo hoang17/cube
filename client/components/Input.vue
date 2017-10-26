@@ -4,7 +4,8 @@
     :style="styles"
     :value="value"
     :placeholder="ph"
-    @input="e => $emit('input', e.target.value)")
+    @input="e => $emit('input', e.target.value)"
+    autocorrect="off" autocapitalize="off" spellcheck="false")
 </template>
 
 <script>
@@ -23,7 +24,7 @@ export default {
   width 100%
   height 28px
   padding .3rem .4rem
-  font-size 14px
+  font-size 13px
   line-height 1.25
   color #464a4c
   background-color #fff

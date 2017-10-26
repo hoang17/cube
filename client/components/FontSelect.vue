@@ -6,12 +6,22 @@
       FontModal(:value="value" @input="select")
     Label(top) {{ lb }}
     div(:class="$style.box")
-      Input(:value="value" @click.native.stop="show=true" @input="select" :ph="ph" :style="{fontFamily: value}" :class="$style.input")
+      Input(
+        :value="value"
+        :ph="ph"
+        :style="{fontFamily: value}"
+        :class="$style.input"
+        @input="select"
+        @click.native.stop="show=true")
       div(:class="$style.addon" @click="open")
         i(class="fa fa-plus")
     div(:class="$style.select" v-show="show")
       ul(:class="$style.list")
-        li(v-for="font in currentFonts" :style="{fontFamily: font}" @click="select(font)" :class="{[$style.font]:1, [$style.active]:font==value}") {{ font }}
+        li(
+          v-for="font in currentFonts"
+          :style="{fontFamily: font}"
+          :class="{[$style.font]:1, [$style.active]:font==value}"
+          @click="select(font)") {{ font }}
         li(:class="$style.header")
           div(:class="$style.line")
           div(:class="$style.label") System Fonts
@@ -139,7 +149,7 @@ export default {
   display flex
 
 .input
-  font-size 14px
+  font-size 14px!important
   margin-right 0!important
 
 .select
