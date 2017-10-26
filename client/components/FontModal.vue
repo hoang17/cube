@@ -54,21 +54,20 @@ export default {
       this.$modal.hide('font-modal')
     },
     setFont(family) {
-      let p, i = this.value
-
-      // Add font to page
-      if (!this.page.fonts) this.page.fonts = {}
-      p = this.page.fonts
-      let count = p[family]
-      count = count ? count + 1 : 1
-      this.$set(p, family, count)
-
-      // remove old font
-      if (p[i]){
-        p[i]--
-        if (p[i] == 0) this.$delete(p, i)
-      }
-
+      // let p, i = this.value
+      //
+      // // Add font to page
+      // if (!this.page.fonts) this.page.fonts = {}
+      // p = this.page.fonts
+      // let count = p[family]
+      // count = count ? count + 1 : 1
+      // this.$set(p, family, count)
+      //
+      // // remove old font
+      // if (p[i]){
+      //   p[i]--
+      //   if (p[i] == 0) this.$delete(p, i)
+      // }
       this.$emit('input', family)
     }
   },
