@@ -88,7 +88,7 @@
         FieldSet
           Label(:w="1/3") Transform
           Input(:w="2/3" ph="Transform" v-model='rule.transform')
-      Expand(title="Flex Box Container")
+      Expand(title="Flex Container")
         FieldSet
           Label(:w="1/3") Flex Direction
           Select(:w="2/3" v-model='rule.flexDirection')
@@ -127,7 +127,7 @@
             option(value="space-between") Space Between
             option(value="space-around") Space Around
             option(value="stretch") Stretch
-      Expand(title="Flex Box Item")
+      Expand(title="Flex Item")
         FieldSet
           Label(:w="1/3") Order
           Input(:w="2/3" ph="Order" v-model='rule.order')

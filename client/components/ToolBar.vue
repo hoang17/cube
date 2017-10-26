@@ -79,7 +79,7 @@ export default {
       return this.history.stack.length - 1 > this.history.index
     },
     canCreateCube(){
-      return this.activeCube && this.activeCube.name != "Page" && this.activeCube.name != "Block"
+      return this.activeCube && this.activeCube.name != "Page" && !this.activeCube.src
     },
     canToggleBlock(){
       return this.activeCube && this.activeCube.name != "Page" && !this.activeCube.block
@@ -146,7 +146,7 @@ export default {
       this.watchCube(cube)
 
       this.activeCube.src = cube._id
-      delete this.activeCube.style
+      // delete this.activeCube.style
       // UPDATE BLOCKS COUNT
       this.$set(this.page.blocks, cube._id, 1)
       // END UPDATE
