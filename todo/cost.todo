@@ -6,11 +6,19 @@ ctrl-c: cancel the selected tasks
 ctrl-s: add/update timestamp for current task
 
 Food:
-☐ 25 @timestamp(2017-10-11 13:40)
-☐ 15 @timestamp(2017-10-16 19:49)
+✔ 25 @timestamp(2017-10-11 13:40) @done(2017-10-26 14:09)
+✔ 15 @timestamp(2017-10-16 19:49) @done(2017-10-26 14:09)
+✔ 10 @timestamp(2017-10-26 14:09) @done(2017-10-26 14:09)
 
-Util:
-☐ 10 @timestamp(2017-10-17 10:06)
+Internet:
+✔ 10 @timestamp(2017-10-17 10:06) @done(2017-10-26 14:09)
 
-Transport:
-  ☐ 10 @timestamp(2017-10-17 10:07)
+Taxi:
+✔ 10 @timestamp(2017-10-17 10:07) @done(2017-10-26 14:09)
+✔ 10 @timestamp(2017-10-26 14:10) @done(2017-10-26 14:10)
+
+Electricity:
+✔ 50 @timestamp(2017-10-26 14:08) @done(2017-10-26 14:09)
+
+Maid:
+☐ 200 @timestamp(2017-10-26 14:12)
