@@ -4,6 +4,7 @@
     "stage-3"
   ],
   "plugins": [
+    "emotion",
     "syntax-dynamic-import",
     "lodash"
   ]

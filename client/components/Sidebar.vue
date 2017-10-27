@@ -182,6 +182,13 @@
           Field(:w="1/4" lb="Bottom" v-model='rule.bottom')
           Field(:w="1/4" lb="Left" v-model='rule.left')
           Field(:w="1/4" lb="Right" v-model='rule.right')
+      Expand(title=":hover")
+        FieldSet
+          ColorPicker(lb="Color" v-model="hover.color")
+        FieldSet
+          ColorPicker(lb="Background Color" v-model="hover.backgroundColor")
+        FieldSet
+          ColorPicker(lb="Border Color" v-model="hover.borderColor")
 </template>
 
 <script>
@@ -236,6 +243,11 @@ export default {
       'cubes',
       'activeElement',
     ]),
+    hover(){
+      if (!this.rule[':hover'])
+        this.rule[':hover'] = {}
+      return this.rule[':hover']
+    },
     rule(){
       return this.style ? this.style.style : this.cube.style
     },

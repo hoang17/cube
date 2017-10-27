@@ -6,6 +6,12 @@ Vue.use(Router)
 const Canvas = () => import('./components/Canvas')
 const Page = () => import('./components/Page')
 const Lab = () => import('./lab/Lab')
+const JSS = () => import('./lab/JSS')
+const Fela = () => import('./lab/Fela')
+const Emotion = () => import('./lab/Emotion')
+const Glamor = () => import('./lab/Glamor')
+const ASS = () => import('./lab/ASS')
+const CXS = () => import('./lab/CXS')
 
 export function createRouter () {
   let router = new Router({
@@ -16,6 +22,12 @@ export function createRouter () {
       { path: '/', name: 'home', component: Page },
       { path: '/build/:id?', name: 'build', component: Canvas },
       { path: '/lab', name: 'lab', component: Lab },
+      { path: '/jss', name: 'jss', component: JSS },
+      { path: '/fela', name: 'fela', component: Fela },
+      { path: '/emotion', name: 'emotion', component: Emotion },
+      { path: '/glamor', name: 'glamor', component: Glamor },
+      { path: '/ass', name: 'ass', component: ASS },
+      { path: '/cxs', name: 'cxs', component: CXS },
       { path: '*', name: 'catch-all',component: Page },
     ],
     // scrollBehavior (to, from, savedPosition) {
