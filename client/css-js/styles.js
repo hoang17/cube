@@ -29,7 +29,8 @@ const cssB = {
 }
 
 export const cssC = {
-  extend: [cssB, wrapper],
+  extend: cssB,
+  // extend: [cssB, wrapper],
   // composes: '$wrapper',
   cursor: 'pointer',
   paddingLeft: '5em',
