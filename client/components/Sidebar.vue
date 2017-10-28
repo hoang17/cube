@@ -265,17 +265,17 @@ export default {
 
 <style lang="stylus" module>
 .sidebar
-  position: fixed
-  top: 0
-  right: 0
-  z-index: 3
-  height: 100%
+  position fixed
+  top 0
+  right 0
+  z-index 3
+  height 100%
   outline none
   user-select none
-  overflow-y: auto
-  padding-bottom: 100px
-  will-change: transform
-  background-color: #f5f5f5;
-  border-left: 1px solid #d1d1d1;
-  transition: .3s cubic-bezier(.25,.8,.5,1)
+  overflow-y auto
+  padding-bottom 100px
+  will-change transform
+  background-color #f5f5f5
+  border-left 1px solid #d1d1d1
+  transition .3s cubic-bezier(.25,.8,.5,1)
 </style>

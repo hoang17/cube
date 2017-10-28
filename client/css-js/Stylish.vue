@@ -1,11 +1,11 @@
 <template lang="pug">
-  div(:class="className") Testing
+  div(:class="className" @click="active=!active") Testing
 </template>
 
 <script>
 import { cssC, wrapper } from './styles'
 
-import { css } from './stylish.js'
+import { sheet, css } from './stylish.js'
 
 const className = css(cssC, wrapper)
 
@@ -13,6 +13,14 @@ export default {
   data(){
     return {
       className,
+      active: false,
+    }
+  },
+  watch: {
+    active(){
+      sheet.update({
+        color: this.active ? 'red' : 'blue'
+      })
     }
   }
 }

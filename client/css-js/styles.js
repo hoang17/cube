@@ -4,7 +4,8 @@ export const wrapper = {
   height: '10em',
   border: '.5vw solid #07c',
   '&:hover': {
-    color: 'green'
+    color: data => data.color,
+    userSelect: 'none',
   }
 }
 

@@ -9,11 +9,10 @@ const isNotFalsy = val => !!val
 const getClassName = rule => rule.className
 const generateClassName = (name, str) => `${name}${hash(str)}`
 const mergeStyles = (style, rule) => merge(style, rule)
+const isProd = process.env.NODE_ENV === 'production'
 
 export default function stylish(jss, options) {
-  const renderSheet = () => (
-    jss.createStyleSheet(null, {meta, link: false, ...options}).attach()
-  )
+  const renderSheet = () => jss.createStyleSheet(null, {meta, link: true, ...options}).attach()
 
   let sheet = renderSheet()
 
@@ -29,7 +28,16 @@ export default function stylish(jss, options) {
 
     if (sheet.getRule(className)) return className
 
-    sheet.addRule(className, style, {selector: `.${className}`})
+    if (!isProd) {
+      // Devtool editable
+      sheet.detach()
+      sheet.addRule(className, style, {selector: `.${className}`})
+      sheet.attach()
+      sheet.link()
+    } else {
+      // Devtool immutable
+      sheet.addRule(className, style, {selector: `.${className}`})
+    }
 
     return className
   }
@@ -40,10 +48,11 @@ export default function stylish(jss, options) {
   }
 
   return {
+    sheet,
     css,
     reset,
     toString: () => sheet.toString(),
   }
 }
 
-export const {css, reset, toString} = stylish(create(preset()))
+export const {sheet, css, reset, toString} = stylish(create(preset()))
