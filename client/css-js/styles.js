@@ -9,6 +9,15 @@ export const wrapper = {
   }
 }
 
+export const wrapperFunc = ({ color }) => ({
+  height: '10em',
+  border: '.5vw solid #07c',
+  '&:hover': {
+    color,
+    userSelect: 'none',
+  }
+})
+
 const cssClass = {
   color: 'red',
   backgroundColor: 'lightblue'

@@ -1,18 +1,27 @@
 <template lang="pug">
-  div(:class="className") Testing
+  div(:class="className" @click="active=!active") Testing
 </template>
 
 <script>
-import { cssC, wrapper } from './styles'
+import { cssC, wrapperFunc } from './styles'
 
 import { css } from 'emotion'
 
-const className = css(cssC.extend, cssC, wrapper)
+// const className = css(cssC.extend, cssC, wrapper)
 
 export default {
   data(){
     return {
-      className,
+      className: null,
+      active: false,
+    }
+  },
+  watch: {
+    active(){
+      const wrapper = wrapperFunc({
+        color: this.active ? 'yellow' : 'blue'
+      })
+      this.className = css(cssC.extend, cssC, wrapper)
     }
   }
 }
