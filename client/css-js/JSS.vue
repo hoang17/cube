@@ -18,7 +18,7 @@ jss.setup({createGenerateClassName, ...preset()})
 const styles = { cssC, wrapper }
 
 const { classes } = jss.createStyleSheet(styles).attach()
-const className = classes.cssC + ' ' + classes.wrapper
+const className = classes.cssC
 
 export default {
   data(){

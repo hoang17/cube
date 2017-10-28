@@ -48,11 +48,11 @@ export default function stylish(jss, options) {
   }
 
   return {
-    createStyles,
-    toString: () => sheet.toString(),
     css,
     reset,
+    createStyles,
+    toString: () => sheet.toString(),
   }
 }
 
-export const {css, createStyles, reset, toString} = stylish(create(preset()))
+export const {css, reset, createStyles, toString} = stylish(create(preset()))

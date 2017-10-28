@@ -34,8 +34,8 @@ const renderer = createRenderer({
   ]
 })
 
-const className = renderer.renderRule(compose(() => cssC, () => wrapper))
-
+const className = renderer.renderRule(() => cssC)
+// const className = renderer.renderRule(compose(() => cssC, () => wrapper))
 // const className = renderer.renderRule(combineRules(() => cssB, () => cssC))
 
 if (process.env.VUE_ENV === 'client')

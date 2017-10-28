@@ -29,7 +29,8 @@ const cssB = {
 }
 
 export const cssC = {
-  extend: cssB,
+  extend: [cssB, wrapper],
+  // composes: '$wrapper',
   cursor: 'pointer',
   paddingLeft: '5em',
   transition: '.3s cubic-bezier(.25,.8,.5,1)',

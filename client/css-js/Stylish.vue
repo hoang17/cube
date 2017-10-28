@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import { cssC } from './styles'
-import * as allStyles from './styles'
+// import { cssC } from './styles'
+import * as styles from './styles'
 
 import { createStyles, css } from './stylish.js'
 
-const styles = createStyles(allStyles)
+const { cssC } = createStyles(styles)
 
-const className = css(styles.cssC, styles.wrapper)
+const className = css(cssC)
 
 export default {
   data(){
