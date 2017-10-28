@@ -2,7 +2,7 @@ import { lighten, modularScale, hiDPI } from 'polished'
 
 export const wrapper = {
   height: '10em',
-  border: '1px solid lightblue'
+  border: '.5vw solid #07c'
 }
 
 const cssClass = {
@@ -31,11 +31,11 @@ const cssB = {
 export const cssC = {
   extend: cssB,
   cursor: 'pointer',
-  'padding-left': '5em',
+  paddingLeft: '5em',
   transition: '.3s cubic-bezier(.25,.8,.5,1)',
   '&:hover': {
-    'letter-spacing': '1em',
-    'padding-left': '2em',
-    'line-height': '3em',
+    letterSpacing: '1em',
+    paddingLeft: '2em',
+    lineHeight: '3em',
   }
 }

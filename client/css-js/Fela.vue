@@ -3,13 +3,13 @@
 </template>
 
 <script>
-import { cssC } from './styles'
+import { cssC, wrapper } from './styles'
 
 // ********
 //   FELA
 // ********
 
-import { createRenderer, combineRules } from 'fela'
+import { createRenderer, combineRules as compose } from 'fela'
 import extend from 'fela-plugin-extend'
 // import customProperty from 'fela-plugin-custom-property'
 // import embedded from 'fela-plugin-embedded'
@@ -34,7 +34,7 @@ const renderer = createRenderer({
   ]
 })
 
-const className = renderer.renderRule(() => cssC)
+const className = renderer.renderRule(compose(() => cssC, () => wrapper))
 
 // const className = renderer.renderRule(combineRules(() => cssB, () => cssC))
 

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { cssC } from './styles'
+import { cssC, wrapper } from './styles'
 
 // ********
 //   JSS
@@ -15,10 +15,10 @@ import createGenerateClassName from 'jss/lib/utils/createGenerateClassName'
 
 jss.setup({createGenerateClassName, ...preset()})
 
-const styles = { cssC }
+const styles = { cssC, wrapper }
 
 const { classes } = jss.createStyleSheet(styles).attach()
-const className = classes.cssC
+const className = classes.cssC + ' ' + classes.wrapper
 
 export default {
   data(){

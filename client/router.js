@@ -12,6 +12,7 @@ const Emotion = () => import('./css-js/Emotion')
 const Glamor = () => import('./css-js/Glamor')
 const ASS = () => import('./css-js/ASS')
 const CXS = () => import('./css-js/CXS')
+const Stylish = () => import('./css-js/Stylish.vue')
 
 export function createRouter () {
   let router = new Router({
@@ -28,6 +29,7 @@ export function createRouter () {
       { path: '/glamor', name: 'glamor', component: Glamor },
       { path: '/ass', name: 'ass', component: ASS },
       { path: '/cxs', name: 'cxs', component: CXS },
+      { path: '/stylish', name: 'stylish', component: Stylish },
       { path: '*', name: 'catch-all',component: Page },
     ],
     // scrollBehavior (to, from, savedPosition) {

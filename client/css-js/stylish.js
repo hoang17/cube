@@ -1,4 +1,4 @@
-import {create} from 'jss'
+import { create } from 'jss'
 import preset from 'jss-preset-default'
 import hash from 'murmurhash-js/murmurhash3_gc'
 
@@ -32,7 +32,7 @@ export default function stylish(jss, options) {
     return className
   }
 
-  function register(styles) {
+  function createStyles(styles) {
     return Object.keys(styles).reduce((map, name) => {
       map[name] = {
         className: generateClassName(name, JSON.stringify(styles[name])),
@@ -48,12 +48,11 @@ export default function stylish(jss, options) {
   }
 
   return {
-    StyleSheet: {create: register},
+    createStyles,
     toString: () => sheet.toString(),
     css,
     reset,
-    version: __VERSION__
   }
 }
 
-export const {css, StyleSheet, reset, toString, version} = aphroditeJss(create(preset()))
+export const {css, createStyles, reset, toString} = stylish(create(preset()))

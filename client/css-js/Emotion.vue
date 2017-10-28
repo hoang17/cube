@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { cssC } from './styles'
+import { cssC, wrapper } from './styles'
 
 // **********
 //   Emotion
@@ -11,7 +11,7 @@ import { cssC } from './styles'
 
 import { css } from 'emotion'
 
-const className = css(cssC.extend, cssC)
+const className = css(cssC.extend, cssC, wrapper)
 
 export default {
   data(){
