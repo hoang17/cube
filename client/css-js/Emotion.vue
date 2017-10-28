@@ -5,10 +5,6 @@
 <script>
 import { cssC, wrapper } from './styles'
 
-// **********
-//   Emotion
-// **********
-
 import { css } from 'emotion'
 
 const className = css(cssC.extend, cssC, wrapper)

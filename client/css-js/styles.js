@@ -2,7 +2,10 @@ import { lighten, modularScale, hiDPI } from 'polished'
 
 export const wrapper = {
   height: '10em',
-  border: '.5vw solid #07c'
+  border: '.5vw solid #07c',
+  '&:hover': {
+    color: 'green'
+  }
 }
 
 const cssClass = {

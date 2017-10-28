@@ -5,9 +5,9 @@
 <script>
 import { cssC, wrapper } from './styles'
 
-import { cs } from './stylish.js'
+import { css } from './stylish.js'
 
-const className = cs(cssC, wrapper)
+const className = css(cssC, wrapper)
 
 export default {
   data(){
