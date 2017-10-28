@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import * as styles from './styles'
+import { cssC } from './styles'
 
 import { StyleSheet as sheet, css } from 'aphrodite-jss'
 
@@ -35,6 +35,8 @@ import { StyleSheet as sheet, css } from 'aphrodite-jss'
 // })
 
 // const className = css(styles.button, styles.primary)
+
+const styles = { cssC }
 
 const className = css(sheet.create(styles).cssC)
 

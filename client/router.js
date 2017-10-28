@@ -6,12 +6,12 @@ Vue.use(Router)
 const Canvas = () => import('./components/Canvas')
 const Page = () => import('./components/Page')
 const Lab = () => import('./lab/Lab')
-const JSS = () => import('./lab/JSS')
-const Fela = () => import('./lab/Fela')
-const Emotion = () => import('./lab/Emotion')
-const Glamor = () => import('./lab/Glamor')
-const ASS = () => import('./lab/ASS')
-const CXS = () => import('./lab/CXS')
+const JSS = () => import('./css-js/JSS')
+const Fela = () => import('./css-js/Fela')
+const Emotion = () => import('./css-js/Emotion')
+const Glamor = () => import('./css-js/Glamor')
+const ASS = () => import('./css-js/ASS')
+const CXS = () => import('./css-js/CXS')
 
 export function createRouter () {
   let router = new Router({
