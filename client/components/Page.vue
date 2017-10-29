@@ -1,21 +1,19 @@
 <template lang="pug">
   div(:style="page.style | styl", :class="css")
     link(v-for="f in pageFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
-    div(v-html="rules")
+    style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
 
 <script>
 import { getRules, getFonts } from '../plugins/helpers'
 import { fonts } from '../data/fonts'
+import css from '../css-js/styl'
 
 export default {
   title(){
     return this.page.content
   },
-  // rules(){
-  //   return getRules(this.$store.state.styles)
-  // },
   async asyncData ({ store, route, context }) {
     // context.res.status(404).end('404 | Page Not Found')
     let id = await store.dispatch('fetchView', { url: store.state.host + route.path })
@@ -61,8 +59,14 @@ export default {
     pageFonts(state){
       return getFonts(this.$store.state.cubes, this.page)
     },
+    blocks(state){
+      return this.$store.state.cubes
+    },
   },
   methods: {
+    getRule(e){
+      return css([e.style], '--'+e._id).toString()
+    },
     map(type){
       return type == 'bk' ? 'bv' : type
     },

@@ -244,9 +244,9 @@ export default {
       'activeElement',
     ]),
     hover(){
-      if (!this.rule[':hover'])
-        this.rule[':hover'] = {}
-      return this.rule[':hover']
+      if (!this.rule['&:hover'])
+        this.$set(this.rule, '&:hover', { color: null, backgroundColor: null, borderColor: null })
+      return this.rule['&:hover']
     },
     rule(){
       return this.style ? this.style.style : this.cube.style
