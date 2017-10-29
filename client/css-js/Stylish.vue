@@ -5,7 +5,7 @@
 <script>
 import { cssC, wrapper } from './styles'
 
-import { sheet, css, update } from './stylish.js'
+import { css, update } from './stylish.js'
 
 const rule = css([cssC, wrapper])
 const className = rule.key
@@ -23,9 +23,6 @@ export default {
         color: this.active ? 'red' : wrapper.color,
         fontSize: this.active ? '3em' : wrapper.fontSize
       })
-      // sheet.update({
-      //   color: this.active ? 'red' : 'blue'
-      // })
     }
   }
 }

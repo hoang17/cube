@@ -1,7 +1,8 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
     link(v-for="f in currentFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
-    div(v-html="rules")
+    //- div(v-html="rules")
+    div(v-html="styles")
     div
       portal-target(name="modal")
     Toolbar(
@@ -35,6 +36,7 @@ import { getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
 import clone from 'lodash/clone'
+import { css, update, reset, toString } from '../css-js/stylish.js'
 
 export default {
   title: 'Build',
@@ -53,6 +55,7 @@ export default {
     return {
       left: true,
       right: true,
+      styleStr: '',
       fonts,
     }
   },
@@ -117,6 +120,21 @@ export default {
     this.activeCube = this.page
 
     this.$store.state.recentFonts = clone(this.currentFonts)
+  },
+  created() {
+    for (let id in this.$store.state.cubes){
+      const c = this.$store.state.cubes[id]
+      if (c.name != 'Block' && c.style){
+        const rule = css([c.style], '--'+id)
+        // if (c.content == "Button")
+        //   console.log(c.style.fontSize);
+        this.$watch(() => c.style, (val, old) => {
+          update(rule, val)
+        }, {deep: true})
+      }
+    }
+    this.styles = '<style>'+toString()+'</style>'
+    reset()
   },
   methods: {
     keydown(e){

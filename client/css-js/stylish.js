@@ -4,6 +4,7 @@ import preset from 'jss-preset-default'
 // import hash from 'murmurhash-js/murmurhash3_gc'
 import { hashString as hash }  from './hash'
 import merge from 'lodash/merge'
+import omitBy from 'lodash/omitBy'
 
 const meta = 's'
 const isNotFalsy = val => !!val
@@ -23,29 +24,30 @@ export default function stylish(jss, options) {
 
     if (!styles.length) return ''
 
-    const style = styles.reduce(mergeStyles, {})
+    const style = omitBy(styles.reduce(mergeStyles, {}), e => !e)
+
+    // console.log(style);
 
     const className = name ? name : generateClassName(meta, JSON.stringify(style))
 
-    // if (sheet.getRule(className)) return className
+    let rule = sheet.getRule(className)
 
-    // let rule
-    //
-    // if (!isProd) {
-    //   // Devtool editable
-    //   sheet.detach()
-    //   rule = sheet.addRule(className, style, {selector: `.${className}`})
-    //   sheet.attach()
-    //   sheet.link()
-    // } else {
-    //   // Devtool immutable
-    //   rule = sheet.addRule(className, style, {selector: `.${className}`})
-    // }
-
-    let rule = sheet.addRule(className, style, {selector: `.${className}`})
+    if (!rule){
+      // if (!isProd) {
+      //   // Devtool editable
+      //   sheet.detach()
+      //   rule = sheet.addRule(className, style, {selector: `.${className}`})
+      //   sheet.attach()
+      //   sheet.link()
+      // } else {
+      //   // Devtool immutable
+      //   rule = sheet.addRule(className, style, {selector: `.${className}`})
+      // }
+      rule = sheet.addRule(className, style, {selector: `.${className}`})
+    }
 
     // console.log(rule);
-    
+
     return rule
   }
 
@@ -56,11 +58,10 @@ export default function stylish(jss, options) {
 
   return {
     update: updateStyle,
-    sheet,
     css,
     reset,
     toString: () => sheet.toString(),
   }
 }
 
-export const { update, sheet, css, reset, toString} = stylish(create(preset()))
+export const { update, css, reset, toString} = stylish(create(preset()))
