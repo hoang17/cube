@@ -3,8 +3,9 @@ import { lighten, modularScale, hiDPI } from 'polished'
 export const wrapper = {
   height: '10em',
   border: '.5vw solid #07c',
+  color: 'pink',
+  fontSize: '2em',
   '&:hover': {
-    color: data => data.color,
     userSelect: 'none',
   }
 }

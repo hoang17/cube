@@ -5,9 +5,10 @@
 <script>
 import { cssC, wrapper } from './styles'
 
-import { sheet, css } from './stylish.js'
+import { sheet, css, update } from './stylish.js'
 
-const className = css(cssC, wrapper)
+const rule = css([cssC, wrapper])
+const className = rule.key
 
 export default {
   data(){
@@ -18,9 +19,13 @@ export default {
   },
   watch: {
     active(){
-      sheet.update({
-        color: this.active ? 'red' : 'blue'
+      update(rule, {
+        color: this.active ? 'red' : wrapper.color,
+        fontSize: this.active ? '3em' : wrapper.fontSize
       })
+      // sheet.update({
+      //   color: this.active ? 'red' : 'blue'
+      // })
     }
   }
 }

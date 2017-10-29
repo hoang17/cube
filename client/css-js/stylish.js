@@ -1,4 +1,5 @@
 import { create } from 'jss'
+import { updateStyle } from './updateStyle'
 import preset from 'jss-preset-default'
 // import hash from 'murmurhash-js/murmurhash3_gc'
 import { hashString as hash }  from './hash'
@@ -16,7 +17,7 @@ export default function stylish(jss, options) {
 
   let sheet = renderSheet()
 
-  function css(...styles) {
+  function css(styles, name) {
     // Filter falsy values to allow `css(a, test && c)`.
     styles = styles.filter(isNotFalsy)
 
@@ -24,22 +25,28 @@ export default function stylish(jss, options) {
 
     const style = styles.reduce(mergeStyles, {})
 
-    const className = generateClassName(meta, JSON.stringify(style))
+    const className = name ? name : generateClassName(meta, JSON.stringify(style))
 
-    if (sheet.getRule(className)) return className
+    // if (sheet.getRule(className)) return className
 
-    if (!isProd) {
-      // Devtool editable
-      sheet.detach()
-      sheet.addRule(className, style, {selector: `.${className}`})
-      sheet.attach()
-      sheet.link()
-    } else {
-      // Devtool immutable
-      sheet.addRule(className, style, {selector: `.${className}`})
-    }
+    // let rule
+    //
+    // if (!isProd) {
+    //   // Devtool editable
+    //   sheet.detach()
+    //   rule = sheet.addRule(className, style, {selector: `.${className}`})
+    //   sheet.attach()
+    //   sheet.link()
+    // } else {
+    //   // Devtool immutable
+    //   rule = sheet.addRule(className, style, {selector: `.${className}`})
+    // }
 
-    return className
+    let rule = sheet.addRule(className, style, {selector: `.${className}`})
+
+    // console.log(rule);
+    
+    return rule
   }
 
   function reset() {
@@ -48,6 +55,7 @@ export default function stylish(jss, options) {
   }
 
   return {
+    update: updateStyle,
     sheet,
     css,
     reset,
@@ -55,4 +63,4 @@ export default function stylish(jss, options) {
   }
 }
 
-export const {sheet, css, reset, toString} = stylish(create(preset()))
+export const { update, sheet, css, reset, toString} = stylish(create(preset()))
