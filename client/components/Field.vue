@@ -10,13 +10,7 @@
       @change.native="e => $emit('change', e.target.value)")
 </template>
 
-<script>
-import { css } from 'emotion'
-
-const myStyle = css`
-  color: tomato
-`
-
+<script>1
 import Box from './Box'
 import Input from './Input'
 import Label from './Label'
@@ -26,13 +20,7 @@ export default {
     Box,
     Input,
     Label,
-    // Button
   },
-  data(){
-    return {
-      myStyle: myStyle
-    }
-  }
 }
 </script>
 
