@@ -1,8 +1,7 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
     link(v-for="f in currentFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
-    //- div(v-html="rules")
-    div(v-html="styles")
+    style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
     div
       portal-target(name="modal")
     Toolbar(
@@ -32,11 +31,11 @@ import Toolbar from './ToolBar'
 import Navbar from './NavBar'
 import Sidebar from './Sidebar'
 import Draggable from 'vuedraggable'
-import { getRules, getFonts } from '../plugins/helpers'
+import { genStyle, getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
 import clone from 'lodash/clone'
-import { css, update, reset, toString } from '../css-js/stylish.js'
+import css from '../css-js/styl'
 
 export default {
   title: 'Build',
@@ -55,7 +54,6 @@ export default {
     return {
       left: true,
       right: true,
-      styleStr: '',
       fonts,
     }
   },
@@ -65,6 +63,9 @@ export default {
       'currentFonts'
     ]),
     ...mapState({
+      blocks(state){
+        return state.cubes
+      },
       rules(state){
         return '<style>'+getRules(state.cubes)+'</style>'
       },
@@ -120,23 +121,23 @@ export default {
     this.activeCube = this.page
 
     this.$store.state.recentFonts = clone(this.currentFonts)
-  },
-  created() {
-    for (let id in this.$store.state.cubes){
-      const c = this.$store.state.cubes[id]
-      if (c.name != 'Block' && c.style){
-        const rule = css([c.style], '--'+id)
-        // if (c.content == "Button")
-        //   console.log(c.style.fontSize);
-        this.$watch(() => c.style, (val, old) => {
-          update(rule, val)
-        }, {deep: true})
-      }
-    }
-    this.styles = '<style>'+toString()+'</style>'
-    reset()
+
+    // for (let id in this.$store.state.cubes){
+    //   const c = this.$store.state.cubes[id]
+    //   if (c.name != 'Block' && c.style){
+    //     const rule = css([c.style], '--'+id)
+    //     // if (c.content == "Button")
+    //     //   console.log(c.style.fontSize);
+    //     this.$watch(() => c.style, (val, old) => {
+    //       update(rule, val)
+    //     }, {deep: true})
+    //   }
+    // }
   },
   methods: {
+    getRule(e){
+      return css([e.style], '--'+e._id).toString()
+    },
     keydown(e){
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
       if (e.keyCode == 8 || e.keyCode == 46 || ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey))

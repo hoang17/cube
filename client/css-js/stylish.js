@@ -57,9 +57,9 @@ export default function stylish(jss, options) {
   }
 
   return {
-    update: updateStyle,
     css,
     reset,
+    update: updateStyle,
     toString: () => sheet.toString(),
   }
 }
