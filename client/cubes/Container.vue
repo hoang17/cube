@@ -18,8 +18,7 @@
       :key="i"
       :edit="edit"
       :select="select"
-      :parent="cube")
-    i
+      :parent="cube")    
   div(
     v-else
     :style="cube.style | styl"

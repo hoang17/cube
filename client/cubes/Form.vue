@@ -11,8 +11,7 @@
     @click.native.stop="edit && focus()"
     @mouseover.native.stop="hover=true"
     @mouseout.native.stop="hover=false")
-    component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")
-    i
+    component(v-for="(c, i) in cube.cubes", :cube="c", :is="c.type", :key="i", :edit="edit", :select="select")    
   div(v-else, :style="cube.style | styl", :content="cube.content", :class="css")
     component(v-for="(c, i) in cube.cubes", :cube="c", :is="map(c.type)", :key="i", :edit="edit")
 </template>
