@@ -130,18 +130,6 @@ export default {
     this.activeCube = this.page
 
     this.$store.state.recentFonts = clone(this.currentFonts)
-
-    // for (let id in this.$store.state.cubes){
-    //   const c = this.$store.state.cubes[id]
-    //   if (c.name != 'Block' && c.style){
-    //     const rule = css([c.style], '--'+id)
-    //     // if (c.content == "Button")
-    //     //   console.log(c.style.fontSize);
-    //     this.$watch(() => c.style, (val, old) => {
-    //       update(rule, val)
-    //     }, {deep: true})
-    //   }
-    // }
   },
   methods: {
     getRule(e){

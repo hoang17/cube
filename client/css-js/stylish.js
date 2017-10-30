@@ -17,7 +17,7 @@ export default function stylish(sheetName, options) {
   const jss = create(preset())
   const renderSheet = (meta) => jss.createStyleSheet(null, {meta, link: true, ...options}).attach()
 
-  let sheet = renderSheet(sheetName)
+  const sheet = renderSheet(sheetName)
 
   function css(styles, className) {
 
@@ -103,7 +103,10 @@ export default function stylish(sheetName, options) {
     }
   }
 
-  return { css }
+  return {
+    css,
+    toString: () => sheet.toString()
+  }
 }
 
-export const { css } = stylish()
+export const { css, toString } = stylish('stylish sheet')

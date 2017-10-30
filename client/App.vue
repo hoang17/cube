@@ -5,15 +5,16 @@
       router-view
       //-keep-alive(include="groups,likes,pages")
         router-view.view
+    StyleProvider
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import StyleProvider from './components/StyleProvider'
 export default {
   name: 'app',
-  data() {
-  	return {
-  	}
+  components: {
+    StyleProvider
   },
   computed: {
     ...mapState(['dark']),

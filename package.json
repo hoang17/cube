@@ -14,6 +14,7 @@
     "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
     "test:cover": "nyc --reporter=html --reporter=text mocha",
     "dev": "nodemon --ignore client/ --ignore dist/ server.js",
+    "ba": "nodemon --ignore client/ --ignore dist/ server.js --exec babel-node",
     "up": "npm run bu && npm run pu",
     "bu": "bash sh/build.sh",
     "pu": "npm run --prefix bin push",
@@ -148,6 +149,7 @@
   },
   "devDependencies": {
     "async": "^2.5.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-filehash": "^6.9.5",
