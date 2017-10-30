@@ -63,7 +63,7 @@ export default {
       return type == 'bk' ? 'bv' : type
     },
     focus(){
-      this.select(this.cube, this.$el)
+      this.select(this.cube, this.$el, this.parent)
     },
   },
 }

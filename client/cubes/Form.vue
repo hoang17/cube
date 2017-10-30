@@ -21,7 +21,7 @@
 import draggable from 'vuedraggable'
 
 export default {
-  props: ['cube','select','edit'],
+  props: ['cube','select','edit','parent'],
   components: {
     draggable,
   },
@@ -47,7 +47,7 @@ export default {
       return type == 'bk' ? 'bv' : type
     },
     focus(){
-      this.select(this.cube, this.$el)
+      this.select(this.cube, this.$el, this.parent)
     },
   },
 }

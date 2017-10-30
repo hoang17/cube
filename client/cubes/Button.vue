@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  props: ['cube','select','edit'],
+  props: ['cube','select','edit','parent'],
   computed: {
     css(){
       return [this.$style.button, this.cube.src && '--'+this.cube.src]
@@ -22,7 +22,7 @@ export default {
   methods: {
     onClick(){
       if (this.edit)
-        this.select(this.cube, this.$el)
+        this.select(this.cube, this.$el, this.parent)
       else if (this.cube.url) {
         if (this.cube.url == 'back')
           this.$router.go(-1)

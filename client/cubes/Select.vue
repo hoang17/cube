@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  props: ['cube','select','edit'],
+  props: ['cube','select','edit','parent'],
   computed: {
     css(){
       return [this.$style.select, this.cube.src ? '--' + this.cube.src : '']
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     focus(){
-      this.select(this.cube, this.$el)
+      this.select(this.cube, this.$el, this.parent)
     },
   },
 }
