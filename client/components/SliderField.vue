@@ -32,7 +32,7 @@ export default {
   methods: {
     slide(val) {
       let v = this.step == 1 ? parseInt(val) : val.toFixed(2)
-      if (!v) v = this.step == 1 ? 0 : null
+      if (!v) v = this.step == 1 ? 0 : ''
       let e = this.subfix ? v + this.subfix : v
       this.$emit('input', e)
     }

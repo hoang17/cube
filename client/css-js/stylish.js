@@ -4,6 +4,7 @@ import preset from 'jss-preset-default'
 import { hashString as hash }  from './hash'
 import merge from 'lodash/merge'
 import omitBy from 'lodash/omitBy'
+import isNil from 'lodash/isNil'
 import { hyphenate } from '../plugins/helpers'
 
 const prefix = 's'
@@ -27,7 +28,7 @@ export default function stylish(sheetName, options) {
       styles = styles.reduce(mergeStyles, {})
     }
 
-    const style = omitBy(styles, e => !e)
+    const style = omitBy(styles, isNil)
 
     // console.log(style);
 
@@ -39,15 +40,15 @@ export default function stylish(sheetName, options) {
     // console.log(className, rule);
 
     // *** UPDATE or ADD MODE ***
-    // if (rule)
-    //   updateRule(rule, style)
-    // else
-    //   addRule(className, style)
+    if (rule)
+      updateRule(rule, style)
+    else
+      addRule(className, style)
 
     // *** DELETE & ADD MODE ***
-    if (rule)
-      deleteRule(className, style)
-    addRule(className, style)
+    // if (rule)
+    //   deleteRule(className, style)
+    // addRule(className, style)
 
     return className
   }
@@ -87,7 +88,10 @@ export default function stylish(sheetName, options) {
           updateRuleByName('.'+rule.key+key.slice(1), data[key])
         else {
           const prop = hyphenate(key)
-          rule.prop(prop, data[key])
+          // rule.prop(prop, data[key])
+          // console.log(prop, data[key]);
+          // console.log(rule.renderable);
+          rule.renderer.setStyle(rule.renderable, prop, data[key])
         }
       }
     }
