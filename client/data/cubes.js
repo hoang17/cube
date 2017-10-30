@@ -20,7 +20,12 @@ export const text = {
     textAlign: null,
     padding: null,
     margin: null,
-  }
+    '&:hover': {
+      color: null,
+      backgroundColor: null,
+      borderColor: null
+    }
+  },
 }
 
 export const link = {
@@ -48,6 +53,11 @@ export const link = {
     margin: null,
     border: null,
     borderRadius: null,
+    '&:hover': {
+      color: null,
+      backgroundColor: null,
+      borderColor: null
+    }
   }
 }
 
@@ -75,6 +85,11 @@ export const button = {
     textAlign: 'center',
     padding: null,
     margin: null,
+    '&:hover': {
+      color: null,
+      backgroundColor: null,
+      borderColor: null
+    }
   }
 }
 
@@ -110,7 +125,12 @@ export const container = {
     transform: null,
     background: null,
     flex: null,
-    flexFlow: null
+    flexFlow: null,
+    '&:hover': {
+      color: null,
+      backgroundColor: null,
+      borderColor: null
+    }
   },
   cubes: []
 }
@@ -147,7 +167,7 @@ export const form = {
     transform: null,
     background: null,
     flex: null,
-    flexFlow: null
+    flexFlow: null,
   },
   cubes: [],
 }
@@ -302,6 +322,11 @@ export const photo = {
     margin: null,
     border: null,
     borderRadius: null,
+    '&:hover': {
+      color: null,
+      backgroundColor: null,
+      borderColor: null
+    }
   }
 }
 

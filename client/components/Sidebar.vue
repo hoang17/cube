@@ -3,7 +3,7 @@
     Expansion
       Expand(:title="cube.name" expand)
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
-      Expand(title="Font" expand)
+      Expand(title="Font")
         FieldSet
           FontSelect(lb="Font Family" ph="inherit" v-model="rule.fontFamily")
         FieldSet
@@ -25,12 +25,8 @@
             ButtonIcon(value="uppercase" v-model='rule.textTransform') AA
             ButtonIcon(value="capitalize" v-model='rule.textTransform') Aa
             ButtonIcon(value="lowercase" v-model='rule.textTransform') aa
-          //-Field(:w="1/2" lb="Line Height" ph="1.5" v-model='rule.lineHeight')
-          //-Field(:w="1/3" lb="Spacing" ph="normal" v-model='rule.letterSpacing')
         FieldSet
           ColorPicker(lb="Color" ph="rgba(0,0,0,.87)" v-model='rule.color')
-        FieldSet
-          ColorPicker(lb="Background Color" v-model='rule.backgroundColor')
         FieldSet
           ButtonGroup(lb="Style")
             ButtonIcon(fa="bold" value="bold" v-model='rule.fontWeight')
@@ -43,42 +39,38 @@
             ButtonIcon(fa="align-center" value="center" v-model='rule.textAlign')
             ButtonIcon(fa="align-right" value="right" v-model='rule.textAlign')
             ButtonIcon(fa="align-justify" value="justify" v-model='rule.textAlign')
-      //-Expand(title="Background")
-        Background(:rule="rule")
-      Expand(title="Layout")
+      Expand(title="Display" v-if="canDisplay")
         FieldSet
           Label(:w="1/3") Display
           Select(:w="2/3" v-model='rule.display')
             option(value="") --
-            option(value="block") Block
-            option(value="inline") Inline
-            option(value="inline-block") Inline Block
-            option(value="flex") Flex
-            option(value="inline-flex") Inline Flex
-        FieldSet
-          SliderField(lb="Width", v-model="rule.width" min="0" max="100" step="0.01" subfix="rem")
-        FieldSet
-          SliderField(lb="Height", v-model="rule.height" min="0" max="100" step="0.01" subfix="rem")
-        FieldSet
-          SliderField(lb="Max Width", v-model="rule.maxWidth" min="0" max="100" step="0.01" subfix="rem")
-        FieldSet
-          SliderField(lb="Max Height", v-model="rule.maxHeight" min="0" max="100" step="0.01" subfix="rem")
-        FieldSet
-          SliderField(lb="Min Width", v-model="rule.minWidth" min="0" max="100" step="0.01" subfix="rem")
-        FieldSet
-          SliderField(lb="Min Height", v-model="rule.minHeight" min="0" max="100" step="0.01" subfix="rem")
-        //-FieldSet
-          Label(:w="1/3") Dimensions
-          Input(:w="1/3" ph="Width" v-model='rule.width')
-          Input(:w="1/3" ph="Height" v-model='rule.height')
-        //-FieldSet
-          Label(:w="1/3") Max
-          Input(:w="1/3" ph="Width" v-model='rule.maxWidth')
-          Input(:w="1/3" ph="Height" v-model='rule.maxHeight')
-        //-FieldSet
-          Label(:w="1/3") Min
-          Input(:w="1/3" ph="Width" v-model='rule.minWidth')
-          Input(:w="1/3" ph="Height" v-model='rule.minHeight')
+            option(value="block") block
+            //- option(value="inline") Inline
+            option(value="inline-block") inline block
+            option(value="flex") flex
+            option(value="inline-flex") inline flex
+        FieldSet(v-if="['Container','Block','Text'].includes(cube.name)")
+          Label(:w="1/3") Overflow
+          Select(:w="2/3" v-model='rule.overflow')
+            option(value="") --
+            option(value="auto") auto
+            option(value="scroll") scroll
+            option(value="hidden") hidden
+        div(v-if="rule.display!='inline'")
+          FieldSet
+            SliderField(lb="Width", v-model="rule.width" min="0" max="100" step="0.01" subfix="rem")
+          FieldSet
+            SliderField(lb="Height", v-model="rule.height" min="0" max="100" step="0.01" subfix="rem")
+        div(v-if="rule.display!='inline' && ['Container','Block','Form','Text'].includes(cube.name)")
+          FieldSet
+            SliderField(lb="Max Width", v-model="rule.maxWidth" min="0" max="100" step="0.01" subfix="rem")
+          FieldSet
+            SliderField(lb="Max Height", v-model="rule.maxHeight" min="0" max="100" step="0.01" subfix="rem")
+          FieldSet
+            SliderField(lb="Min Width", v-model="rule.minWidth" min="0" max="100" step="0.01" subfix="rem")
+          FieldSet
+            SliderField(lb="Min Height", v-model="rule.minHeight" min="0" max="100" step="0.01" subfix="rem")
+      Expand(title="Layout" v-if="canLayout")
         FieldSet
           Label(:w="1/3") Magin
           Input(:w="2/3" ph="Margin" v-model='rule.margin')
@@ -88,7 +80,7 @@
         FieldSet
           Label(:w="1/3") Transform
           Input(:w="2/3" ph="Transform" v-model='rule.transform')
-      Expand(title="Flex Container")
+      Expand(title="Flex" v-if="canFlex")
         FieldSet
           Label(:w="1/3") Flex Direction
           Select(:w="2/3" v-model='rule.flexDirection')
@@ -127,7 +119,7 @@
             option(value="space-between") Space Between
             option(value="space-around") Space Around
             option(value="stretch") Stretch
-      Expand(title="Flex Item")
+      Expand(title="Flex Item" v-if="canFlexItem")
         FieldSet
           Label(:w="1/3") Order
           Input(:w="2/3" ph="Order" v-model='rule.order')
@@ -143,7 +135,9 @@
             option(value="center") Center
             option(value="baseline") Baseline
             option(value="stretch") Stretch
-      Expand(title="Border")
+      Expand(title="Background")
+        Background(:rule="rule")
+      Expand(title="Border" v-if="canBorder")
         FieldSet
           ButtonGroup(lb="Style")
             ButtonIcon(value="solid" v-model='rule.borderStyle') Solid
@@ -163,26 +157,24 @@
           SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="5" step="0.01" subfix="rem")
         FieldSet
           ColorPicker(lb="Color" v-model='rule.borderColor')
-      Expand(title="Box Shadow")
-        //-FieldSet
-          Field(lb="Box Shadow" v-model='rule.boxShadow')
+      Expand(title="Box Shadow" v-if="canBoxShadow")
         BoxShadow(v-model='rule.boxShadow')
-      Expand(title="Position")
+      Expand(title="Position" v-if="canPostion")
         FieldSet
           Label(:w="1/3") Position
           Select(:w="2/3" lb="Position" v-model='rule.position')
             option(value="") --
-            option(value="static") Static
-            option(value="absolute") Absolute
-            option(value="relative") Relative
-            option(value="fixed") Fixed
-            option(value="sticky") Sticky
+            option(value="static") static
+            option(value="absolute") absolute
+            option(value="relative") relative
+            option(value="fixed") fixed
+            option(value="sticky") sticky
         FieldSet
           Field(:w="1/4" lb="Top" v-model='rule.top')
           Field(:w="1/4" lb="Bottom" v-model='rule.bottom')
           Field(:w="1/4" lb="Left" v-model='rule.left')
           Field(:w="1/4" lb="Right" v-model='rule.right')
-      Expand(title=":hover")
+      Expand(title="Hover" v-if="canHover")
         FieldSet
           ColorPicker(lb="Color" v-model="hover.color")
         FieldSet
@@ -210,7 +202,7 @@ import SliderField from './SliderField'
 import BoxShadow from './BoxShadow'
 
 export default {
-  props: ['cube','fonts'],
+  props: ['cube','fonts','parent'],
   components: {
     FontSelect,
     Expand,
@@ -234,6 +226,30 @@ export default {
     }
   },
   computed: {
+    canDisplay(){
+      return ['Container','Block','Form','Button','Text','Link'].includes(this.cube.name)
+    },
+    canLayout(){
+      return true
+    },
+    canFlex(){
+      return this.rule.display == 'flex'
+    },
+    canFlexItem(){
+      return this.parent && this.parentRule.display == 'flex'
+    },
+    canBorder(){
+      return ['Container','Block','Form','Button','Text'].includes(this.cube.name)
+    },
+    canBoxShadow(){
+      return ['Container','Block','Form','Button','Text'].includes(this.cube.name)
+    },
+    canPostion(){
+      return ['Container','Block'].includes(this.cube.name)
+    },
+    canHover(){
+      return ['Button','Link'].includes(this.cube.name)
+    },
     ...mapGetters([
       'page',
       'styleCount'
@@ -251,8 +267,14 @@ export default {
     rule(){
       return this.style ? this.style.style : this.cube.style
     },
+    parentRule(){
+      return this.parentStyle ? this.parentStyle.style : this.parent.style
+    },
     style(){
       return this.cubes[this.cube.src]
+    },
+    parentStyle(){
+      return this.cubes[this.parent.src]
     },
     font(){
       let font = this.activeElement ? window.getComputedStyle(this.activeElement).getPropertyValue('font-family') : 'inherit'

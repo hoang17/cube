@@ -12,6 +12,7 @@
     Sidebar(
       v-if="activeCube"
       :cube='activeCube'
+      :parent='activeParent'
       :class="$style.sidebar"
       @keydown.native="keydown"
       tabindex="1")
@@ -87,6 +88,14 @@ export default {
         this.$store.commit('setActiveCube', cube)
       }
     },
+    activeParent: {
+      get() {
+        return this.$store.state.activeParent
+      },
+      set(cube) {
+        this.$store.commit('setActiveParent', cube)
+      }
+    },
     activeElement: {
       get() {
         return this.$store.state.activeElement
@@ -146,9 +155,10 @@ export default {
     selectPage(){
       this.activeCube = this.page
     },
-    selectCube(cube, el){
+    selectCube(cube, el, parent){
       this.activeCube = cube
       this.activeElement = el
+      this.activeParent = parent
     },
     // deselectCube(){
     //   this.activeCube = null

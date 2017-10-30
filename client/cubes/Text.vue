@@ -16,7 +16,7 @@
 import marked from 'marked'
 
 export default {
-  props: ['cube','select','edit'],
+  props: ['cube','select','edit','parent'],
   components: {
     // VueMarkdown
   },
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     focus(){
-      this.select(this.cube, this.$el)
+      this.select(this.cube, this.$el, this.parent)
     },
   },
 }

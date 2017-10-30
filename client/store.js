@@ -16,6 +16,7 @@ export function createStore (context) {
       newId: null,
       pageId: null,
       activeCube: null,
+      activeParent: null,
       activeElement: null,
       host: null,
       user: null,
@@ -138,6 +139,9 @@ export function createStore (context) {
       },
       setActiveCube(state, cube) {
         state.activeCube = cube
+      },
+      setActiveParent(state, cube) {
+        state.activeParent = cube
       },
       setActiveElement(state, el) {
         state.activeElement = el
