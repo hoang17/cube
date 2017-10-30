@@ -3,7 +3,6 @@
     :class="css"
     :edit="edit"
     :active="active"
-    :style="cube.style | styl"
     v-html="markdown"
     @click.stop="edit && focus()"
     @mouseover.stop="")
@@ -12,23 +11,26 @@
 
 <script>
 // import VueMarkdown from 'vue-markdown'
-
 import marked from 'marked'
+import stylish from '../css-js/stylish'
 
 export default {
   props: ['cube','select','edit','parent'],
   components: {
     // VueMarkdown
   },
-  // mounted() {
-  //   console.log(window.getComputedStyle(this.$refs.el));
-  // },
+  created() {
+    this.cs = stylish(this.cube._id)
+  },
   computed: {
     computedStyle(){
       return window.getComputedStyle(this.$refs.el)
     },
     css(){
-      return [this.$style.text, this.cube.src ? '--' + this.cube.src : '']
+      return [
+        this.$style.text,
+        this.cube.src ? '--' + this.cube.src : this.cs(this.cube.style, 'x' + this.cube._id),
+      ]
     },
     active(){
       return this.$store.state.activeCube == this.cube

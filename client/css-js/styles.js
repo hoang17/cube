@@ -7,6 +7,7 @@ export const wrapper = {
   fontSize: '2em',
   '&:hover': {
     userSelect: 'none',
+    color: 'orange',
   }
 }
 

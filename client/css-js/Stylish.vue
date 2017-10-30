@@ -5,10 +5,11 @@
 <script>
 import { cssC, wrapper } from './styles'
 
-import { css, update } from './stylish.js'
+import stylish from './stylish.js'
 
-const rule = css([cssC, wrapper])
-const className = rule.key
+const css = stylish()
+const className = 'test'
+css([cssC, wrapper], className)
 
 export default {
   data(){
@@ -19,10 +20,14 @@ export default {
   },
   watch: {
     active(){
-      update(rule, {
+      css({
+        // color: this.active ? 'blue' : 'brown',
         color: this.active ? 'red' : wrapper.color,
-        fontSize: this.active ? '3em' : wrapper.fontSize
-      })
+        fontSize: this.active ? '3em' : wrapper.fontSize,
+        '&:hover': {
+          color: this.active ? 'blue' : 'brown',
+        }
+      }, className)
     }
   }
 }

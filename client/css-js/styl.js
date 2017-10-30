@@ -6,13 +6,11 @@ import omitBy from 'lodash/omitBy'
 
 const prefix = 's'
 const isNotFalsy = val => !!val
-const getClassName = rule => rule.className
 const generateClassName = (name, str) => `${name}${hash(str)}`
 const mergeStyles = (style, rule) => merge(style, rule)
-const isProd = process.env.NODE_ENV === 'production'
 
 export function stylish(jss, options) {
-  const renderSheet = name => jss.createStyleSheet(null, {link: false, ...options})
+  const renderSheet = meta => jss.createStyleSheet(null, {meta, link: false, ...options})
 
   function css(styles, name) {
     let sheet = renderSheet(name)
