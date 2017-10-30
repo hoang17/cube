@@ -139,7 +139,7 @@ export const form = {
   _id: null,
   type: 'fm',
   name: 'Form',
-  content: 'New Form',
+  content: 'Form',
   icon: 'fa fa-list-alt',
   uid: null,
   src: null,

@@ -227,7 +227,7 @@ export default {
   },
   computed: {
     canDisplay(){
-      return ['Container','Block','Form','Button','Text','Link'].includes(this.cube.name)
+      return true
     },
     canLayout(){
       return true

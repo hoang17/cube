@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    Field(lb='Name' v-model='cube.content')
+  Field(lb='Name' v-model='cube.content')
 </template>
 
 <script>
