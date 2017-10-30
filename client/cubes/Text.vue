@@ -12,25 +12,23 @@
 <script>
 // import VueMarkdown from 'vue-markdown'
 import marked from 'marked'
-import { css } from '../css-js/stylish'
+import cssMixin from '../mixins/css'
 
 export default {
   props: ['cube','select','edit','parent'],
+  mixins: [cssMixin],
   components: {
     // VueMarkdown
   },
   computed: {
-    computedStyle(){
-      return window.getComputedStyle(this.$refs.el)
-    },
+    // computedStyle(){
+    //   return window.getComputedStyle(this.$refs.el)
+    // },
     css(){
       return [
         this.$style.text,
-        this.cube.src ? '--' + this.cube.src : css(this.cube.style, 'x' + this.cube._id),
+        this.cubeCss,
       ]
-    },
-    active(){
-      return this.$store.state.activeCube == this.cube
     },
     markdown() {
       return marked(this.cube.content, { sanitize: true })

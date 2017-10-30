@@ -18,7 +18,7 @@
       :key="i"
       :edit="edit"
       :select="select"
-      :parent="cube")    
+      :parent="cube")
   div(
     v-else
     :style="cube.style | styl"
@@ -34,9 +34,11 @@
 
 <script>
 import draggable from 'vuedraggable'
+import cssMixin from '../mixins/css'
 
 export default {
   props: ['cube','select','edit','parent'],
+  mixins: [cssMixin],
   components: {
     draggable,
   },
@@ -49,13 +51,10 @@ export default {
     css(){
       return [
         this.$style.container,
-        this.cube.src ? '--' + this.cube.src : '',
+        this.cubeCss,
         this.hover ? 'hover' : ''
       ]
     },
-    active(){
-      return this.$store.state.activeCube == this.cube
-    }
   },
   methods: {
     map(type){

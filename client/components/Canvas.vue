@@ -1,9 +1,7 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
     link(v-for="f in currentFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
-    style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
-    div
-      portal-target(name="modal")
+    //-style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
     Toolbar(
       :class="$style.toolbar"
       @leftClick="left = !left"
@@ -32,11 +30,11 @@ import Toolbar from './ToolBar'
 import Navbar from './NavBar'
 import Sidebar from './Sidebar'
 import Draggable from 'vuedraggable'
-import { genStyle, getRules, getFonts } from '../plugins/helpers'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
 import clone from 'lodash/clone'
-import css from '../css-js/styl'
+// import { getFonts } from '../plugins/helpers'
+// import css from '../css-js/styl'
 
 export default {
   title: 'Build',
@@ -64,15 +62,15 @@ export default {
       'currentFonts'
     ]),
     ...mapState({
-      blocks(state){
-        return state.cubes
-      },
-      rules(state){
-        return '<style>'+getRules(state.cubes)+'</style>'
-      },
-      pageFonts(state){
-        return getFonts(state.cubes, this.page)
-      },
+      // blocks(state){
+      //   return state.cubes
+      // },
+      // rules(state){
+      //   return '<style>'+getRules(state.cubes)+'</style>'
+      // },
+      // pageFonts(state){
+      //   return getFonts(state.cubes, this.page)
+      // },
       user(state){
         return state.user
       },
@@ -132,9 +130,9 @@ export default {
     this.$store.state.recentFonts = clone(this.currentFonts)
   },
   methods: {
-    getRule(e){
-      return css([e.style], '--'+e._id).toString()
-    },
+    // getRule(e){
+    //   return css([e.style], '--'+e._id).toString()
+    // },
     keydown(e){
       var metaKey = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
       if (e.keyCode == 8 || e.keyCode == 46 || ((e.keyCode == 67 || e.keyCode == 86 || e.keyCode == 88 || e.keyCode == 90) && metaKey))

@@ -19,18 +19,14 @@ export default function stylish(sheetName, options) {
 
   var sheet = renderSheet(sheetName)
 
-  function css(styles, className) {
+  function css(style, className) {
 
-    if (styles.constructor === Array) {
+    if (style.constructor === Array) {
       // Filter falsy values to allow `css(a, test && c)`.
-      styles = styles.filter(isNotFalsy)
-      if (!styles.length) return ''
-      styles = styles.reduce(mergeStyles, {})
+      style = style.filter(isNotFalsy)
+      if (!style.length) return ''
+      style = style.reduce(mergeStyles, {})
     }
-
-    const style = omitBy(styles, isNil)
-
-    // console.log(style);
 
     if (!className)
       className = generateClassName(prefix, JSON.stringify(style))
@@ -43,7 +39,7 @@ export default function stylish(sheetName, options) {
     if (rule)
       updateRule(rule, style)
     else
-      addRule(className, style)
+      addRule(className, omitBy(style, isNil))
 
     // *** DELETE & ADD MODE ***
     // if (rule)

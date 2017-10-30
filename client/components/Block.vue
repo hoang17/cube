@@ -9,12 +9,14 @@
     @click.stop="edit && focus()"
     @mouseover.stop="hover=true"
     @mouseout.stop="hover=false")
-    component(:cube="source", :is="source.type", :edit="edit", :select="select")
+    component(:cube="src", :is="src.type", :edit="edit", :select="select")
 </template>
 
 <script>
+import cssMixin from '../mixins/css'
 export default {
   props: ['cube','select','edit','parent'],
+  mixins: [cssMixin],
   data(){
     return {
       hover: false
@@ -26,12 +28,6 @@ export default {
         this.$style.block,
         this.hover ? 'hover' : ''
       ]
-    },
-    active(){
-      return this.$store.state.activeCube == this.cube
-    },
-    source(){
-      return this.$store.state.cubes[this.cube.src]
     },
   },
   methods: {

@@ -11,14 +11,16 @@
 </template>
 
 <script>
+import cssMixin from '../mixins/css'
 export default {
   props: ['cube','select','edit','parent'],
+  mixins: [cssMixin],
   computed: {
     css(){
-      return [this.$style.textfield, this.cube.src ? '--' + this.cube.src : '']
-    },
-    active(){
-      return this.$store.state.activeCube == this.cube
+      return [
+        this.$style.textfield,
+        this.cubeCss,
+      ]
     },
   },
   methods: {

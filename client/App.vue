@@ -1,5 +1,7 @@
 <template lang="pug">
   #app(:dark="dark")
+    div
+      portal-target(name="modal")
     transition(name='fade', mode='out-in')
       router-view
       //-keep-alive(include="groups,likes,pages")
