@@ -72,9 +72,26 @@
             SliderField(lb="Min Height", v-model="rule.minHeight" min="0" max="100" step="0.01" subfix="rem")
       Expand(title="Layout" v-if="canLayout")
         FieldSet
-          Label(:w="1/3") Magin
-          Input(:w="2/3" ph="Margin" v-model='rule.margin')
+          SliderField(lb="Magin Left", v-model="rule.marginLeft" min="0" max="20" step="0.01" subfix="rem")
         FieldSet
+          SliderField(lb="Magin Right", v-model="rule.marginRight" min="0" max="20" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Magin Top", v-model="rule.marginTop" min="0" max="20" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Magin Bottom", v-model="rule.marginBottom" min="0" max="20" step="0.01" subfix="rem")
+        hr(:class="$style.line")
+        FieldSet
+          SliderField(lb="Padding Left", v-model="rule.paddingLeft" min="0" max="20" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Padding Right", v-model="rule.paddingRight" min="0" max="20" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Padding Top", v-model="rule.paddingTop" min="0" max="20" step="0.01" subfix="rem")
+        FieldSet
+          SliderField(lb="Padding Bottom", v-model="rule.paddingBottom" min="0" max="20" step="0.01" subfix="rem")
+        //- FieldSet
+          Label(:w="1/3") Padding
+          Input(:w="2/3" ph="Margin" v-model='rule.margin')
+        //- FieldSet
           Label(:w="1/3") Padding
           Input(:w="2/3" ph="Padding" v-model='rule.padding')
         FieldSet
@@ -248,7 +265,7 @@ export default {
       return ['Container','Block'].includes(this.cube.name)
     },
     canHover(){
-      return ['Button','Link'].includes(this.cube.name)
+      return ['Button','Link','Text'].includes(this.cube.name)
     },
     ...mapGetters([
       'page',
@@ -300,4 +317,14 @@ export default {
   background-color #f5f5f5
   border-left 1px solid #d1d1d1
   transition .3s cubic-bezier(.25,.8,.5,1)
+
+.line
+  background-color: rgba(0,0,0,.12)
+  border: none
+  display: block
+  height: 1px
+  flex: 1
+  width: 100%
+  margin: 20px 0
+  overflow: visible
 </style>
