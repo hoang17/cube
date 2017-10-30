@@ -38,12 +38,25 @@ export default function stylish(sheetName, options) {
 
     // console.log(className, rule);
 
+    // *** UPDATE or ADD MODE ***
+    // if (rule)
+    //   updateRule(rule, style)
+    // else
+    //   addRule(className, style)
+
+    // *** DELETE & ADD MODE ***
     if (rule)
-      updateRule(rule, style)
-    else
-      rule = addRule(className, style)
+      deleteRule(className, style)
+    addRule(className, style)
 
     return className
+  }
+
+  const deleteRule = (name, data) => {
+    sheet.deleteRule(name)
+    for (var key in data)
+      if (key.startsWith('&'))
+        sheet.deleteRule('.'+name+key.slice(1))
   }
 
   const addRule = (name, data) => {
@@ -68,11 +81,10 @@ export default function stylish(sheetName, options) {
 
   const updateRule = (rule, data) => {
     if (rule.type === 'style') {
-      for (const key in data) {
+      for (var key in data) {
         // process pseudo selector eg: &:hover
-        if (key.startsWith('&:')) {
+        if (key.startsWith('&'))
           updateRuleByName('.'+rule.key+key.slice(1), data[key])
-        }
         else {
           const prop = hyphenate(key)
           rule.prop(prop, data[key])
