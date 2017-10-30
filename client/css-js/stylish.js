@@ -17,7 +17,7 @@ export default function stylish(sheetName, options) {
   const jss = create(preset())
   const renderSheet = (meta) => jss.createStyleSheet(null, {meta, link: true, ...options}).attach()
 
-  const sheet = renderSheet(sheetName)
+  var sheet = renderSheet(sheetName)
 
   function css(styles, className) {
 
@@ -53,14 +53,14 @@ export default function stylish(sheetName, options) {
     return className
   }
 
-  const deleteRule = (name, data) => {
+  function deleteRule(name, data) {
     sheet.deleteRule(name)
     for (var key in data)
       if (key.startsWith('&'))
         sheet.deleteRule('.'+name+key.slice(1))
   }
 
-  const addRule = (name, data) => {
+  function addRule(name, data) {
     // Devtool immutable
     if (isProd)
       return sheet.addRule(name, data, {selector: `.${name}`})
@@ -75,12 +75,12 @@ export default function stylish(sheetName, options) {
     // return sheet.addRule(name, data, {selector: `.${name}`})
   }
 
-  const updateRuleByName = (name, data) => {
+  function updateRuleByName(name, data) {
     let rule = sheet.getRule(name)
     updateRule(rule, data)
   }
 
-  const updateRule = (rule, data) => {
+  function updateRule(rule, data) {
     if (rule.type === 'style') {
       for (var key in data) {
         // process pseudo selector eg: &:hover
@@ -103,10 +103,19 @@ export default function stylish(sheetName, options) {
     }
   }
 
+  function reset() {
+    jss.removeStyleSheet(sheet)
+    sheet = renderSheet()
+  }
+
   return {
     css,
-    toString: () => sheet.toString()
+    toString: () => {
+      let s = sheet.toString()
+      reset()
+      return s
+    }
   }
 }
 
-export const { css, toString } = stylish('stylish sheet')
+export const { css, toString } = stylish()

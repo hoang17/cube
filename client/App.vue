@@ -1,5 +1,4 @@
 <template lang="pug">
-  //-v-app(:dark="dark")
   #app(:dark="dark")
     transition(name='fade', mode='out-in')
       router-view
