@@ -38,22 +38,27 @@ export default function stylish(sheetName, options) {
 
     // console.log(className, rule);
 
-    if (!rule){
-      // Devtool editable
-      if (!isProd) {
-        sheet.detach()
-        rule = sheet.addRule(className, style, {selector: `.${className}`})
-        sheet.attach()
-        sheet.link()
-      }
-      // Devtool immutable
-      else rule = sheet.addRule(className, style, {selector: `.${className}`})
-      // rule = sheet.addRule(className, style, {selector: `.${className}`})
-    }
-    else
+    if (rule)
       updateRule(rule, style)
+    else
+      rule = addRule(className, style)
 
     return className
+  }
+
+  const addRule = (name, data) => {
+    // Devtool immutable
+    if (isProd)
+      return sheet.addRule(name, data, {selector: `.${name}`})
+    // Devtool editable
+    else {
+      sheet.detach()
+      let rule = sheet.addRule(name, data, {selector: `.${name}`})
+      sheet.attach()
+      sheet.link()
+      return rule
+    }
+    // return sheet.addRule(name, data, {selector: `.${name}`})
   }
 
   const updateRuleByName = (name, data) => {
@@ -82,5 +87,7 @@ export default function stylish(sheetName, options) {
     }
   }
 
-  return css
+  return { css }
 }
+
+export const { css } = stylish()
