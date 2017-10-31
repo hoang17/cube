@@ -6,7 +6,7 @@
         :value="value"
         :placeholder="ph"
         :class="$style.rgba"
-        @change.native="setColor")
+        @input="val => $emit('input', val)")
       Input(
         :value="hex"
         :class="$style.hex"
