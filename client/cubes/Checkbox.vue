@@ -2,7 +2,6 @@
   div(
     :edit="edit"
     :active="active"
-    :style="cube.style | styl"
     :class="css"
     @click.stop="edit && focus()"
     @mouseover.stop="")

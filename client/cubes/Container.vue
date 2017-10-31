@@ -6,7 +6,6 @@
     :class="css"
     :active="active"
     :content="cube.content"
-    :style="cube.style | styl"
     :options="{group:'cubes'}"
     @click.native.stop="edit && focus()"
     @mouseover.native.stop="hover=true"
@@ -21,7 +20,6 @@
       :parent="cube")
   div(
     v-else
-    :style="cube.style | styl"
     :content="cube.content"
     :class="css")
     component(

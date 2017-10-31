@@ -6,7 +6,7 @@
     v-html="markdown"
     @click.stop="edit && focus()"
     @mouseover.stop="")
-  //-vue-markdown.cube(:edit="edit", :active="active", :style="cube.style | styl", @click.native.stop="edit && focus()", :source='cube.content')
+  //-vue-markdown.cube(:edit="edit" :active="active" @click.native.stop="edit && focus()" :source='cube.content')
 </template>
 
 <script>

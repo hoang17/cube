@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(:style="page.style | styl", :class="css")
+  div(:class="css")
     link(v-for="f in pageFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
     //-style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
@@ -8,7 +8,7 @@
 <script>
 import { getFonts } from '../plugins/helpers'
 import { fonts } from '../data/fonts'
-import css from '../css-js/styl'
+import { css } from '../css-js/stylish'
 
 export default {
   title(){
@@ -38,8 +38,11 @@ export default {
     css(){
       return [
         this.$style.page,
-        // this.page.src ? '--' + this.page.src : ''
+        this.pageCss
       ]
+    },
+    pageCss(){
+      return css(this.page.style, 'c'+this.page._id)
     },
     path(){
       return this.$route.path

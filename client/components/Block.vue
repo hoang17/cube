@@ -4,7 +4,6 @@
     :edit="edit"
     :class="css"
     :active="active"
-    :style="cube.style | styl"
     :content="cube.content"
     @click.stop="edit && focus()"
     @mouseover.stop="hover=true"

@@ -4,10 +4,12 @@
     :class="css"
     :edit="edit"
     :active="active"
-    :style="cube.style | styl"
     @click.stop="edit && focus()"
     @mouseover.stop="") {{ cube.content }}
-  router-link(v-else, :style="cube.style | styl", :to="cube.url?cube.url:''", :class="css") {{ cube.content }}
+  router-link(
+    v-else
+    :to="cube.url?cube.url:''"
+    :class="css") {{ cube.content }}
 </template>
 
 <script>

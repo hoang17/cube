@@ -16,7 +16,6 @@
       tabindex="1")
     draggable(
       v-model='cubes'
-      :style="page.style | styl"
       :options="{group:'cubes'}"
       :class="$style.canvas + ' --'+page.src"
       @click.native.stop="selectPage"

@@ -3,7 +3,6 @@
     :class="css"
     :edit="edit"
     :active="active"
-    :style="cube.style | styl"
     @click.stop="edit && focus()"
     @mouseover.stop="")
     label(:class="$style.label") {{ cube.content }}

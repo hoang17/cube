@@ -1,6 +1,5 @@
 import truncate from 'lodash/truncate'
 import numeral from 'numeral'
-import { genStyle } from './helpers'
 
 export function host (url) {
   const host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
@@ -49,5 +48,3 @@ export function cropTxt(txt, length = 300){
       'separator': /,? +/
     })
 }
-
-export const styl = genStyle
