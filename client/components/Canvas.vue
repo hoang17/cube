@@ -16,8 +16,8 @@
       tabindex="1")
     draggable(
       v-model='cubes'
+      :class="css"
       :options="{group:'cubes'}"
-      :class="$style.canvas + ' --'+page.src"
       @click.native.stop="selectPage"
     )
       component(v-for="(cube, i) in cubes", :cube="cube", :is="cube.type", :key="i", :edit="true", :select="selectCube")
@@ -32,6 +32,7 @@ import Draggable from 'vuedraggable'
 import { mapState, mapGetters } from 'vuex'
 import { fonts } from '../data/fonts'
 import clone from 'lodash/clone'
+import { css } from '../css-js/stylish'
 // import { getFonts } from '../plugins/helpers'
 // import css from '../css-js/styl'
 
@@ -74,6 +75,15 @@ export default {
         return state.user
       },
     }),
+    css(){
+      return [
+        this.$style.canvas,
+        this.pageCss
+      ]
+    },
+    pageCss(){
+      return css(this.page.style, 'c'+this.page._id)
+    },
     id(){
       return this.$route.params.id
     },
