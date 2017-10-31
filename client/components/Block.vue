@@ -9,6 +9,7 @@
     @mouseover.stop="hover=true"
     @mouseout.stop="hover=false")
     component(:cube="src", :is="src.type", :edit="edit", :select="select")
+    i
 </template>
 
 <script>

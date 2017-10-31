@@ -18,6 +18,7 @@
       :edit="edit"
       :select="select"
       :parent="cube")
+    i
   div(
     v-else
     :content="cube.content"
@@ -28,6 +29,7 @@
       :is="map(c.type)"
       :key="i"
       :edit="edit")
+    i
 </template>
 
 <script>

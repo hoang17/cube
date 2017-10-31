@@ -1,6 +1,7 @@
 <template lang="pug">
   div(:class="css")
     component(:cube="src", :is="src.type")
+    i
 </template>
 
 <script>
