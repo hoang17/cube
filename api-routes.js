@@ -27,15 +27,17 @@ const authenticate = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.SESSION_SECRET, function(err, decoded) {
       if (err) {
-        return res.status(403).send({ success: false, message: 'Auth failed' })
-      } else {
+        console.err(err)
+        return res.status(403).send({ message: 'Auth failed' })
+      }
+      else {
         req.decoded = decoded
         next()
       }
     })
-  } else {
-    return res.status(403).send({ success: false, message: 'Failed Auth' })
   }
+  else
+    return res.status(403).send({ message: 'Failed auth' })
 }
 
 const router = require('express').Router()
@@ -59,17 +61,25 @@ router.route('/pages')
     res.json(data)
   })
   .post(async function(req, res) {
-    let page = await pages.insert(req.body)
-    res.json({ message: 'Page created', _id: page._id })
+    try {
+      let page = await pages.insert(req.body)
+      res.json({ message: 'Page created', _id: page._id, data })
+    } catch (e) {
+      console.error(e);
+      res.status(500).send({ message: 'Page creation failed', data })
+    }
   })
   .put(async function(req, res) {
-    let uid = req.user._id+''
-    let page = req.body
-    let data = await pages.update({'_id': page._id, uid: uid }, page)
     if (data.nModified == 1)
-      res.json({ message: 'Page updated', _id: page._id })
-    else
-      res.status(403).send({ message: 'Update failed' })
+    try {
+      let uid = req.user._id+''
+      let page = req.body
+      let data = await pages.update({'_id': page._id, uid: uid }, page)
+      res.json({ message: 'Page updated', _id: page._id, data })
+    } catch (e) {
+      console.error(e);
+      res.status(500).send({ message: 'Page update failed', data })
+    }
   })
 
 router.route('/pages/:id')
@@ -79,13 +89,16 @@ router.route('/pages/:id')
     res.json(page)
   })
   .delete(async function(req, res) {
-    let uid = req.user._id+''
-    let id = req.params.id
-    let data = await pages.remove({ _id: id, uid: uid })
     if (data.deletedCount == 1)
-      res.json({ message: 'Page deleted', _id: req.params.id })
-    else
-      res.status(403).send({ message: 'Deletion failed' })
+    try {
+      let uid = req.user._id+''
+      let id = req.params.id
+      let data = await pages.remove({ _id: id, uid: uid })
+      res.json({ message: 'Page deleted', _id: req.params.id, data })
+    } catch (e) {
+      console.error(e);
+      res.status(500).send({ message: 'Page deletion failed', data })
+    }
   })
 
 router.route('/routes')
@@ -104,28 +117,40 @@ router.route('/cubes')
     res.json(data)
   })
   .post(async function(req, res) {
-    cube = await cubes.insert(req.body)
-    res.json({ message: 'Cube created', _id: cube._id })
+    try {
+      cube = await cubes.insert(req.body)
+      res.json({ message: 'Cube created', _id: cube._id, data })
+    } catch (e) {
+      console.err(e);
+      res.status(500).send({ message: 'Cube creation failed', data })
+    }
   })
   .put(async function(req, res) {
-    let uid = req.user._id+''
-    let cube = req.body
-    let data = await cubes.update({'_id': cube._id, uid: uid }, cube)
-    if (data.nModified == 1)
-      res.json({ message: 'Cube updated', _id: cube._id })
-    else
-      res.status(403).send({ message: 'Update failed' })
+    try {
+      let uid = req.user._id+''
+      let cube = req.body
+      let data = await cubes.update({'_id': cube._id, uid: uid }, cube)
+      if (data.nModified > 0)
+        res.send({ message: 'Cube updated', _id: cube._id, data })
+      else
+        res.send({ message: 'Nothing updated', _id: cube._id, data })
+    } catch (e) {
+      console.err(e);
+      res.status(500).send({ message: 'Cube update failed' })
+    }
   })
 
 router.route('/cubes/:id')
   .delete(async function(req, res) {
-    let uid = req.user._id+''
-    let id = req.params.id
-    let data = await cubes.remove({ _id: id, uid: uid })
-    if (data.deletedCount == 1)
-      res.json({ message: 'Cube deleted', _id: id })
-    else
-      res.status(403).send({ message: 'Deletion failed' })
+    try {
+      let uid = req.user._id+''
+      let id = req.params.id
+      let data = await cubes.remove({ _id: id, uid: uid })
+      res.json({ message: 'Cube deleted', _id: id, data })
+    } catch (e) {
+      console.error(e);
+      res.status(500).send({ message: 'Cube deletion failed' })
+    }
   })
 
 module.exports = router
