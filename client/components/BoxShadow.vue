@@ -32,7 +32,7 @@
     FieldSet
       ColorPicker(lb="Color" v-model='box.color')
     FieldSet
-      SwitchField(lb="Inset" v-model='box.inset')
+      SwitchField(lb="Inset" v-model='box.inset' id="inset")
 </template>
 
 <script>
