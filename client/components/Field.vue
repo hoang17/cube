@@ -1,6 +1,6 @@
 <template lang="pug">
   Box(:w='w')
-    Label(:class="myStyle" top) {{ lb }}
+    Label(top) {{ lb }}
     Input(
       :ph="ph"
       type="text"

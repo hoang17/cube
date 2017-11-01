@@ -7,8 +7,12 @@
     @mouseover.stop="")
     label(:class="$style.label") {{ cube.content }}
     div(:class="$style.group")
-      div(v-for='o in cube.options', :class="$style.checkbox")
-        input(type="checkbox", :name="cube._id", :id="o.value", :value="o.value")
+      div(v-for='o in cube.options' :class="$style.checkbox")
+        input(
+          type="checkbox"
+          :name="cube._id"
+          :id="o.value"
+          :value="o.value")
         label(:for="o.value") {{ o.name }}
 </template>
 
