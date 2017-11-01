@@ -49,87 +49,91 @@ router.route('/view')
     let data = {}
     data.page = await pages.findOne({url:req.body.url})
     if (!data.page) return res.json(data)
-    let cubeIds = Object.keys(data.page.blocks)
+    const cubeIds = Object.keys(data.page.blocks)
     data.cubes = cubeIds.length > 0 ? await cubes.find({_id: {$in: cubeIds }}) : []
     res.json(data)
   })
 
 router.route('/pages')
   .get(async function(req, res) {
-    let uid = req.decoded.id
-    let data = await pages.find({ uid:uid })
+    const uid = req.decoded.id
+    const data = await pages.find({ uid:uid })
     res.json(data)
   })
   .post(async function(req, res) {
     try {
-      let page = await pages.insert(req.body)
-      res.json({ message: 'Page created', _id: page._id, data })
+      const data = await pages.insert(req.body)
+      res.json({ message: 'Page created', _id: data._id, data })
     } catch (e) {
       console.error(e);
-      res.status(500).send({ message: 'Page creation failed', data })
+      res.status(500).send({ message: 'Page creation failed' })
     }
   })
   .put(async function(req, res) {
-    if (data.nModified == 1)
     try {
-      let uid = req.user._id+''
-      let page = req.body
-      let data = await pages.update({'_id': page._id, uid: uid }, page)
-      res.json({ message: 'Page updated', _id: page._id, data })
+      const uid = req.user._id+''
+      const page = req.body
+      const data = await pages.update({'_id': page._id, uid: uid }, page)
+      if (data.nModified > 0)
+        res.json({ message: 'Page updated', _id: page._id, data })
+      else
+        res.json({ message: 'Nothing updated', _id: page._id, data })
     } catch (e) {
       console.error(e);
-      res.status(500).send({ message: 'Page update failed', data })
+      res.status(500).send({ message: 'Page update failed' })
     }
   })
 
 router.route('/pages/:id')
   .get(async function(req, res) {
-    let id = req.params.id
-    let page = await pages.findOne({_id: id})
+    const id = req.params.id
+    const page = await pages.findOne({_id: id})
     res.json(page)
   })
   .delete(async function(req, res) {
-    if (data.deletedCount == 1)
     try {
-      let uid = req.user._id+''
-      let id = req.params.id
-      let data = await pages.remove({ _id: id, uid: uid })
-      res.json({ message: 'Page deleted', _id: req.params.id, data })
+      const uid = req.user._id+''
+      const id = req.params.id
+      const data = await pages.remove({ _id: id, uid: uid })
+      if (data.deletedCount > 0)
+        res.json({ message: 'Page deleted', _id: req.params.id, data })
+      else
+        res.json({ message: 'Nothing deleted', _id: req.params.id, data })
     } catch (e) {
       console.error(e);
-      res.status(500).send({ message: 'Page deletion failed', data })
+      res.status(500).send({ message: 'Page deletion failed' })
     }
   })
 
 router.route('/routes')
   .post(async function(req, res) {
-    let url = req.body.url
+    const url = req.body.url
     // log(url)
-    let page = await pages.findOne({url: url})
-    let id = page ? page._id : null
+    const page = await pages.findOne({url: url})
+    const id = page ? page._id : null
     res.send(id)
   })
 
 router.route('/cubes')
   .get(async function(req, res) {
-    let uid = req.decoded.id
-    let data = await cubes.find({ uid:uid },{sort : { order : 1 }})
+    const uid = req.decoded.id
+    const data = await cubes.find({ uid:uid },{sort : { order : 1 }})
     res.json(data)
   })
   .post(async function(req, res) {
     try {
-      cube = await cubes.insert(req.body)
-      res.json({ message: 'Cube created', _id: cube._id, data })
+      const data = await cubes.insert(req.body)
+      res.json({ message: 'Cube created', _id: data._id, data })
     } catch (e) {
       console.err(e);
-      res.status(500).send({ message: 'Cube creation failed', data })
+      res.status(500).send({ message: 'Cube creation failed' })
     }
   })
   .put(async function(req, res) {
     try {
-      let uid = req.user._id+''
-      let cube = req.body
-      let data = await cubes.update({'_id': cube._id, uid: uid }, cube)
+      const uid = req.user._id+''
+      const cube = req.body
+      const data = await cubes.update({'_id': cube._id, uid: uid }, cube)
       if (data.nModified > 0)
         res.send({ message: 'Cube updated', _id: cube._id, data })
       else
@@ -143,10 +147,13 @@ router.route('/cubes')
 router.route('/cubes/:id')
   .delete(async function(req, res) {
     try {
-      let uid = req.user._id+''
-      let id = req.params.id
-      let data = await cubes.remove({ _id: id, uid: uid })
-      res.json({ message: 'Cube deleted', _id: id, data })
+      const uid = req.user._id+''
+      const id = req.params.id
+      const data = await cubes.remove({ _id: id, uid: uid })
+      if (data.deletedCount > 0)
+        res.json({ message: 'Cube deleted', _id: id, data })
+      else
+        res.json({ message: 'Nothing deleted', _id: id, data })
     } catch (e) {
       console.error(e);
       res.status(500).send({ message: 'Cube deletion failed' })
