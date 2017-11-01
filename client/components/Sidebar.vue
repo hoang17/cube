@@ -198,6 +198,8 @@
           ColorPicker(lb="Background Color" v-model="hover.backgroundColor")
         FieldSet
           ColorPicker(lb="Border Color" v-model="hover.borderColor")
+        FieldSet
+          Field(lb="Background Style" v-model='hover.background')
 </template>
 
 <script>
@@ -265,7 +267,7 @@ export default {
       return ['Container','Block'].includes(this.cube.name)
     },
     canHover(){
-      return ['Button','Link','Text'].includes(this.cube.name)
+      return ['Button','Link','Text','Container'].includes(this.cube.name)
     },
     ...mapGetters([
       'page',
@@ -278,7 +280,7 @@ export default {
     ]),
     hover(){
       if (!this.rule['&:hover'])
-        this.$set(this.rule, '&:hover', { color: null, backgroundColor: null, borderColor: null })
+        this.$set(this.rule, '&:hover', { color: null, backgroundColor: null, borderColor: null, background: null })
       return this.rule['&:hover']
     },
     rule(){

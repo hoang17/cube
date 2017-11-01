@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     FieldSet
-      Field(lb="Background" v-model='rule.background')
+      Field(lb="Background Style" v-model='rule.background')
     //- FieldSet
       SelectField(lb="Style" v-model='rule.backgroundStyle')
         option(value="color") Color
@@ -9,9 +9,9 @@
         option(value="image") Image
         option(value="video") Video
     FieldSet
-      ColorPicker(lb="Color" v-model='rule.backgroundColor')
+      ColorPicker(lb="Background Color" v-model='rule.backgroundColor')
     FieldSet
-      Field(lb="Background Image URL" v-model='bgImg' ph="URL")
+      Field(lb="Background Image" v-model='bgImg' ph="URL")
     FieldSet
       SelectField(:w="1/3" lb="Position" v-model='rule.backgroundPosition')
         option(value='center') Center

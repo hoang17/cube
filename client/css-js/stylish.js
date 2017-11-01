@@ -3,9 +3,8 @@ import preset from 'jss-preset-default'
 // import hash from 'murmurhash-js/murmurhash3_gc'
 import { hashString as hash }  from './hash'
 import merge from 'lodash/merge'
-import omitBy from 'lodash/omitBy'
 import isNil from 'lodash/isNil'
-import { hyphenate } from '../plugins/helpers'
+import { hyphenate, omitByDeep } from '../plugins/helpers'
 
 const prefix = 's'
 const isNotFalsy = val => !!val
@@ -39,7 +38,7 @@ export default function stylish(sheetName, options) {
     if (rule)
       updateRule(rule, style)
     else
-      addRule(className, omitBy(style, isNil))
+      addRule(className, omitByDeep(style, isNil))
 
     // *** DELETE & ADD MODE ***
     // if (rule)

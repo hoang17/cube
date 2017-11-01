@@ -1,3 +1,7 @@
+import isObject from 'lodash/isObject'
+import omitBy from 'lodash/omitBy'
+import mapValues from 'lodash/mapValues'
+
 export function $(selector) {
   if (typeof selector !== "string") {
     return selector
@@ -108,4 +112,10 @@ export function getFonts(cubes, page){
     for (let f in page.fonts)
       if (!fonts.includes(f)) fonts.push(f)
   return fonts
+}
+
+export function omitByDeep(value, iteratee) {
+  return isObject(value)?
+    mapValues(omitBy(value, iteratee), v => omitByDeep(v, iteratee))
+    : value
 }
