@@ -35,27 +35,28 @@ export default function stylish(sheetName, options) {
     // console.log(className, rule);
 
     // *** UPDATE or ADD MODE ***
-    if (rule)
-      updateRule(rule, style)
-    else
-      addRule(className, omitByDeep(style, isNil))
+    // if (rule)
+    //   updateRule(rule, style)
+    // else
+    //   addRule(className, style)
 
     // *** DELETE & ADD MODE ***
-    // if (rule)
-    //   deleteRule(className, style)
-    // addRule(className, style)
+    if (rule)
+      deleteRule(className, style)
+    addRule(className, style)
 
     return className
   }
 
-  function deleteRule(name, data) {
+  function deleteRule(name, style) {
     sheet.deleteRule(name)
-    for (var key in data)
+    for (var key in style)
       if (key.startsWith('&'))
         sheet.deleteRule('.'+name+key.slice(1))
   }
 
-  function addRule(name, data) {
+  function addRule(name, style) {
+    const data = omitByDeep(style, isNil)
     // Devtool immutable
     if (isProd)
       return sheet.addRule(name, data, {selector: `.${name}`})
@@ -70,30 +71,30 @@ export default function stylish(sheetName, options) {
     // return sheet.addRule(name, data, {selector: `.${name}`})
   }
 
-  function updateRuleByName(name, data) {
+  function updateRuleByName(name, style) {
     let rule = sheet.getRule(name)
-    updateRule(rule, data)
+    updateRule(rule, style)
   }
 
-  function updateRule(rule, data) {
+  function updateRule(rule, style) {
     if (rule.type === 'style') {
-      for (var key in data) {
+      for (var key in style) {
         // process pseudo selector eg: &:hover
         if (key.startsWith('&'))
-          updateRuleByName('.'+rule.key+key.slice(1), data[key])
+          updateRuleByName('.'+rule.key+key.slice(1), style[key])
         else {
           const prop = hyphenate(key)
-          // rule.prop(prop, data[key])
-          // console.log(prop, data[key]);
+          // rule.prop(prop, style[key])
+          // console.log(prop, style[key]);
           // console.log(rule.renderable);
-          rule.renderer.setStyle(rule.renderable, prop, data[key])
+          rule.renderer.setStyle(rule.renderable, prop, style[key])
         }
       }
     }
     else if (rule.rules && rule.rules.index.length > 0) {
       let idx = rule.rules.index
       for (let i in idx) {
-        updateRule(idx[i], data)
+        updateRule(idx[i], style)
       }
     }
   }
