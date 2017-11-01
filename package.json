@@ -49,6 +49,7 @@
     "compression": "^1.7.1",
     "connect-mongo": "^2.0.0",
     "css-box-shadow": "^1.0.0-3",
+    "css-url-parser": "^1.1.2",
     "cxs": "^6.1.0",
     "dotenv": "^4.0.0",
     "download": "^6.2.5",

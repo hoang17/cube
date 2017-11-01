@@ -33,10 +33,13 @@ TODO:
 ✔ Box Shadow @done(2017-10-27 17:07)
 ✔ Link hover setting @done(2017-10-30 15:32)
 ✔ Stylish @done(2017-10-31 14:05)
-☐ Theming
+✔ Background @done(2017-11-01 14:55)
+☐ Firebase support
+☐ Checkbox
+☐ Photo
 ☐ Local storage
 ☐ Build a blog plugin (cubes are package into plugin)
 ☐ Payment
 ☐ New page suggestion similar to notion.io
-☐ Photo
 ☐ Remove vue switch & modal from front end
+☐ Theming
