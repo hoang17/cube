@@ -20,13 +20,13 @@ import Slider from 'vue-range-slider'
 import 'vue-range-slider/dist/vue-range-slider.css'
 
 export default {
-  props: ['w','lb','ph','value','subfix','min','max','step'],
+  props: ['w','lb','ph','value','subfix','min','max','step','default'],
   components: {
     Box, Label, Input, Slider
   },
   computed: {
     val(){
-      return parseFloat(this.value) || (this.max-Math.abs(this.min))/2
+      return parseFloat(this.value) || this.default || (this.max-Math.abs(this.min))/2
     }
   },
   methods: {

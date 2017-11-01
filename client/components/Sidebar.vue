@@ -56,9 +56,17 @@
             option(value="auto") auto
             option(value="scroll") scroll
             option(value="hidden") hidden
+        FieldSet
+          Label(:w="1/3") Transform
+          Input(:w="2/3" ph="Transform" v-model='rule.transform')
+        FieldSet
+          SliderField(lb="Rotate", v-model="rotate" min="-180" max="180" step="0.01" default="0")
+        FieldSet
+          SliderField(lb="Opacity", v-model="rule.opacity" min="0" max="1" step="0.01" default="1")
+      Expand(title="Dimension")
         div(v-if="rule.display!='inline'")
           FieldSet
-            SliderField(lb="Width", v-model="rule.width" min="0" max="100" step="0.01" subfix="rem")
+            SliderField(lb="Width", v-model="rule.width" min="0" max="100" step="0.01" subfix="rem" :default="width")
           FieldSet
             SliderField(lb="Height", v-model="rule.height" min="0" max="100" step="0.01" subfix="rem")
         div(v-if="rule.display!='inline' && ['Container','Block','Form','Text'].includes(cube.name)")
@@ -94,9 +102,6 @@
         //- FieldSet
           Label(:w="1/3") Padding
           Input(:w="2/3" ph="Padding" v-model='rule.padding')
-        FieldSet
-          Label(:w="1/3") Transform
-          Input(:w="2/3" ph="Transform" v-model='rule.transform')
       Expand(title="Flex" v-if="canFlex")
         FieldSet
           Label(:w="1/3") Flex Direction
@@ -219,6 +224,7 @@ import Background from './Background'
 import ColorPicker from './ColorPicker'
 import SliderField from './SliderField'
 import BoxShadow from './BoxShadow'
+import { parse } from 'svg-transform-parser'
 
 export default {
   props: ['cube','fonts','parent'],
@@ -295,10 +301,24 @@ export default {
     parentStyle(){
       return this.cubes[this.parent.src]
     },
+    cs() {
+      return this.activeElement ? window.getComputedStyle(this.activeElement) : this.cube.style
+    },
     font(){
-      let font = this.activeElement ? window.getComputedStyle(this.activeElement).getPropertyValue('font-family') : 'inherit'
-      console.log(font);
-      return font
+      return this.cs.fontFamily
+    },
+    width(){
+      console.log('computed width', this.cs.width);
+      return this.cs.width
+    },
+    rotate: {
+      get(){
+        if (!this.rule.transform) return
+        return parseFloat(this.rule.transform.substring(7))
+      },
+      set(val){
+        this.rule.transform = `rotate(${val}deg)`
+      }
     }
   },
 }
