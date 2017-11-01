@@ -2,7 +2,7 @@
   div
     FieldSet
       Field(lb='Name' v-model='cube.content')
-    Box
+    Box(:class="$style.box")
       Label(top) Options
       draggable(v-model='cube.options')
         FieldSet(v-for="option,i in cube.options" :key="i")
@@ -61,6 +61,8 @@ export default {
   height: 11px
   opacity: .25
   margin-right: 10px
-  cursor: pointer
   background: linear-gradient(180deg,#000,#000 20%,#fff 0,#fff 40%,#000 0,#000 60%,#fff 0,#fff 80%,#000 0,#000)
+.box
+  i
+    cursor pointer
 </style>
