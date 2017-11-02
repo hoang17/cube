@@ -17,14 +17,14 @@
           :active="page._id == p._id"
           :badge="showBadge(p)"
           @click.native.stop="selectPage(p)")
-      Expand(title="Basic Cubes" expand :inner="$style.inner")
+      Expand(title="Basic Cubes" :inner="$style.inner")
         MenuButton(
           v-for='(cube, i) in baseCubes'
           :w="1/2"
           :icon="cube.icon"
           :lb="cube.name", :key='i'
           @click.native="addBaseCube(cube)")
-      Expand(title="Custom Cubes" expand inner)
+      Expand(title="Custom Cubes" inner)
         MenuButton(
           v-for='(cube, i) in customCubes'
           :icon="cube.icon"
@@ -32,7 +32,7 @@
           :meta="blockCount(cube) + ' cubes'"
           @click.native.stop="addCube(cube)"
           @trash="trash(cube)")
-      Expand(title="Cube Blocks" expand inner)
+      Expand(title="Cube Blocks" inner)
         MenuButton(
           v-for='(cube, i) in blocks'
           icon="fa fa-cubes"
