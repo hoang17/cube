@@ -60,7 +60,7 @@
           Label(:w="1/3") Transform
           Input(:w="2/3" ph="Transform" v-model='rule.transform')
         FieldSet
-          SliderField(lb="Rotate", v-model="rotate" min="0" max="360" step="0.01" default="0")
+          SliderField(lb="Rotate", v-model="rotate" min="-180" max="180" step="0.01" default="0")
         FieldSet
           SliderField(lb="Opacity", v-model="rule.opacity" min="0" max="1" step="0.01" default="1")
       Expand(title="Dimension")
@@ -176,7 +176,7 @@
           //-Field(lb="Width" v-model='rule.borderWidth')
           //-Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
         FieldSet
-          SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="100" step="0.01" subfix="px" :default="cs.borderRadius")
+          SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="200" step="0.01" subfix="px" :default="cs.borderRadius")
         FieldSet
           ColorPicker(lb="Color" v-model='rule.borderColor' :ph='cs.borderColor')
       Expand(title="Box Shadow" v-if="canBoxShadow")
@@ -320,7 +320,7 @@ export default {
         return parseFloat(this.rule.transform.substring(7))
       },
       set(val){
-        this.rule.transform = `rotate(${val}deg)`
+        this.rule.transform = val ? `rotate(${val}deg)` : null
       }
     }
   },

@@ -73,6 +73,7 @@
     "fela-plugin-named-media-query": "^5.0.11",
     "fela-plugin-placeholder-prefixer": "^5.0.11",
     "fela-plugin-unit": "^5.0.11",
+    "firebase": "^4.6.0",
     "github": "^12.0.1",
     "glamor": "^2.20.40",
     "gm": "^1.23.0",
