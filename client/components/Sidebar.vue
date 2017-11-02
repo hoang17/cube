@@ -60,7 +60,7 @@
           Label(:w="1/3") Transform
           Input(:w="2/3" ph="Transform" v-model='rule.transform')
         FieldSet
-          SliderField(lb="Rotate", v-model="rotate" min="-180" max="180" step="0.01" default="0")
+          SliderField(lb="Rotate", v-model="rotate" min="0" max="360" step="0.01" default="0")
         FieldSet
           SliderField(lb="Opacity", v-model="rule.opacity" min="0" max="1" step="0.01" default="1")
       Expand(title="Dimension")
