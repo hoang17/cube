@@ -1,6 +1,6 @@
 <template lang="pug">
   img(
-    :src="cube.url"
+    :src="cube.url || placeholderImg"
     :class="css"
     :edit="edit"
     :active="active"
@@ -14,6 +14,11 @@ export default {
   props: ['cube','select','edit','parent'],
   mixins: [cssMixin],
   computed: {
+    placeholderImg(){
+      const w = this.cube.style.width ? parseInt(this.cube.style.width) : 150
+      const h = this.cube.style.height ? parseInt(this.cube.style.height) : 150
+      return 'https://dummyimage.com/'+w+'x'+h+'/ffffff/000000.png'
+    },
     css(){
       return [
         this.$style.photo,
@@ -32,10 +37,12 @@ export default {
 <style lang="stylus" module>
 .photo
   composes cube from "./cube.css"
-  min-height 100px
-  min-width 100px
   padding 0
-  // border 1px solid #eee
+  width 150px
+  border 1px solid #eee
+  &[active]
+  &[edit]:hover
+    border 1px dotted #03a9f4
   &[edit]
     cursor default
 </style>

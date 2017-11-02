@@ -7,11 +7,11 @@
         FieldSet
           FontSelect(lb="Font Family" ph="inherit" v-model="rule.fontFamily")
         FieldSet
-          SliderField(lb="Font Size", v-model="rule.fontSize" min="0" max="10" step="0.01" subfix="em")
+          SliderField(lb="Font Size", v-model="rule.fontSize" min="0" max="80" step="0.01" subfix="px" :default="cs.fontSize")
         FieldSet
-          SliderField(lb="Line Height", v-model="rule.lineHeight" min="0" max="5" step="0.01")
+          SliderField(lb="Line Height", v-model="rule.lineHeight" min="0" max="120" step="0.01" subfix="px" :default="cs.lineHeight")
         FieldSet
-          SliderField(lb="Letter Spacing", v-model="rule.letterSpacing" min="-1" max="3" step="0.01" subfix="rem")
+          SliderField(lb="Letter Spacing", v-model="rule.letterSpacing" min="-1" max="3" step="0.01" subfix="rem" default="0")
         FieldSet
           SelectField(:w="1/2" lb="Weight" v-model='rule.fontWeight')
             option(value="") inherit
@@ -66,36 +66,36 @@
       Expand(title="Dimension")
         div(v-if="rule.display!='inline'")
           FieldSet
-            SliderField(lb="Width", v-model="rule.width" min="0" max="100" step="0.01" subfix="rem" :default="width")
+            SliderField(lb="Width", v-model="rule.width" min="0" max="1000" step="0.01" subfix="px" :default="cs.width")
           FieldSet
-            SliderField(lb="Height", v-model="rule.height" min="0" max="100" step="0.01" subfix="rem")
+            SliderField(lb="Height", v-model="rule.height" min="0" max="1000" step="0.01" subfix="px" :default="cs.height")
         div(v-if="rule.display!='inline' && ['Container','Block','Form','Text'].includes(cube.name)")
           FieldSet
-            SliderField(lb="Max Width", v-model="rule.maxWidth" min="0" max="100" step="0.01" subfix="rem")
+            SliderField(lb="Max Width", v-model="rule.maxWidth" min="0" max="100" step="0.01" subfix="px" :default="cs.maxWidth")
           FieldSet
-            SliderField(lb="Max Height", v-model="rule.maxHeight" min="0" max="100" step="0.01" subfix="rem")
+            SliderField(lb="Max Height", v-model="rule.maxHeight" min="0" max="100" step="0.01" subfix="px" :default="cs.maxHeight")
           FieldSet
-            SliderField(lb="Min Width", v-model="rule.minWidth" min="0" max="100" step="0.01" subfix="rem")
+            SliderField(lb="Min Width", v-model="rule.minWidth" min="0" max="100" step="0.01" subfix="px" :default="cs.minWidth")
           FieldSet
-            SliderField(lb="Min Height", v-model="rule.minHeight" min="0" max="100" step="0.01" subfix="rem")
+            SliderField(lb="Min Height", v-model="rule.minHeight" min="0" max="100" step="0.01" subfix="px" :default="cs.minHeight")
       Expand(title="Layout" v-if="canLayout")
         FieldSet
-          SliderField(lb="Magin Left", v-model="rule.marginLeft" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Magin Left", v-model="rule.marginLeft" min="0" max="100" step="0.01" subfix="px" :default="cs.marginLeft")
         FieldSet
-          SliderField(lb="Magin Right", v-model="rule.marginRight" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Magin Right", v-model="rule.marginRight" min="0" max="100" step="0.01" subfix="px" :default="cs.marginRight")
         FieldSet
-          SliderField(lb="Magin Top", v-model="rule.marginTop" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Magin Top", v-model="rule.marginTop" min="0" max="100" step="0.01" subfix="px" :default="cs.marginTop")
         FieldSet
-          SliderField(lb="Magin Bottom", v-model="rule.marginBottom" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Magin Bottom", v-model="rule.marginBottom" min="0" max="100" step="0.01" subfix="px" :default="cs.marginBottom")
         hr(:class="$style.line")
         FieldSet
-          SliderField(lb="Padding Left", v-model="rule.paddingLeft" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Padding Left", v-model="rule.paddingLeft" min="0" max="100" step="0.01" subfix="px" :default="cs.paddingLeft")
         FieldSet
-          SliderField(lb="Padding Right", v-model="rule.paddingRight" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Padding Right", v-model="rule.paddingRight" min="0" max="100" step="0.01" subfix="px" :default="cs.paddingRight")
         FieldSet
-          SliderField(lb="Padding Top", v-model="rule.paddingTop" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Padding Top", v-model="rule.paddingTop" min="0" max="100" step="0.01" subfix="px" :default="cs.paddingTop")
         FieldSet
-          SliderField(lb="Padding Bottom", v-model="rule.paddingBottom" min="0" max="20" step="0.01" subfix="rem")
+          SliderField(lb="Padding Bottom", v-model="rule.paddingBottom" min="0" max="100" step="0.01" subfix="px" :default="cs.paddingBottom")
         //- FieldSet
           Label(:w="1/3") Padding
           Input(:w="2/3" ph="Margin" v-model='rule.margin')
@@ -172,13 +172,13 @@
             ButtonIcon Bottom
             ButtonIcon Left
         FieldSet
-          SliderField(lb="Width", v-model="rule.borderWidth" min="0" max="1" step="0.01" subfix="rem")
+          SliderField(lb="Width", v-model="rule.borderWidth" min="0" max="20" step="0.01" subfix="px" :default="cs.borderWidth")
           //-Field(lb="Width" v-model='rule.borderWidth')
           //-Field(:w="1/3" lb="Radius" v-model='rule.borderRadius')
         FieldSet
-          SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="5" step="0.01" subfix="rem")
+          SliderField(lb="Radius", v-model="rule.borderRadius" min="0" max="100" step="0.01" subfix="px" :default="cs.borderRadius")
         FieldSet
-          ColorPicker(lb="Color" v-model='rule.borderColor')
+          ColorPicker(lb="Color" v-model='rule.borderColor' :ph='cs.borderColor')
       Expand(title="Box Shadow" v-if="canBoxShadow")
         BoxShadow(v-model='rule.boxShadow')
       Expand(title="Position" v-if="canPostion")
@@ -264,13 +264,13 @@ export default {
       return this.parent && this.parentRule.display == 'flex'
     },
     canBorder(){
-      return ['Container','Block','Form','Button','Text'].includes(this.cube.name)
+      return ['Container','Block','Form','Button','Text','Photo'].includes(this.cube.name)
     },
     canBoxShadow(){
-      return ['Container','Block','Form','Button','Text'].includes(this.cube.name)
+      return ['Container','Block','Form','Button','Text','Photo'].includes(this.cube.name)
     },
     canPostion(){
-      return ['Container','Block'].includes(this.cube.name)
+      return ['Container','Block','Photo'].includes(this.cube.name)
     },
     canHover(){
       return ['Button','Link','Text','Container'].includes(this.cube.name)
@@ -304,12 +304,16 @@ export default {
     cs() {
       return this.activeElement ? window.getComputedStyle(this.activeElement) : this.cube.style
     },
+    width(){
+      console.log(this.cs.width);
+      return this.cs.width
+    },
+    height(){
+      console.log(this.cs.height);
+      return this.cs.height
+    },
     font(){
       return this.cs.fontFamily
-    },
-    width(){
-      console.log('computed width', this.cs.width);
-      return this.cs.width
     },
     rotate: {
       get(){
@@ -321,6 +325,12 @@ export default {
       }
     }
   },
+  methods: {
+    c(key) {
+      console.log(this.cs[key]);
+      return this.cs[key]
+    }
+  }
 }
 </script>
 
