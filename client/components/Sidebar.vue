@@ -224,7 +224,6 @@ import Background from './Background'
 import ColorPicker from './ColorPicker'
 import SliderField from './SliderField'
 import BoxShadow from './BoxShadow'
-import { parse } from 'svg-transform-parser'
 
 export default {
   props: ['cube','fonts','parent'],
