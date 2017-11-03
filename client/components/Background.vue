@@ -3,7 +3,7 @@
     FieldSet
       Field(lb="Background Style" v-model='rule.background' :ph="cs.background")
     //- FieldSet
-      SelectField(lb="Style" v-model='rule.backgroundStyle')
+      SelectField(lb="Style")
         option(value="color") Color
         option(value="gradient") Gradient
         option(value="image") Image
