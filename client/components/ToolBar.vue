@@ -397,19 +397,38 @@ export default {
       }
       set(this.cubes)
     },
+    // Return { cube_id: cube, ... }
     getCubes(cube){
       let blocks = {}
-      let s = this.$store.state.cubes
-      let id = cube.src
-      if (id && s[id]) blocks[id] = s[id]
-
+      let list = this.$store.state.cubes
       var getBlocks = cubes => {
         if (!cubes) return
-        cubes.map(c => {
-          let i = c.src
-          if (i && s[i]) blocks[i] = s[i]
-          getBlocks(c.cubes)
-        })
+        for (let i in cubes){
+          let c = cubes[i]
+          if (c.src && list[c.src])
+            blocks[c.src] = list[c.src]
+
+          if (c.name == 'Block'){
+            let s = list[c.src]
+            if (s && s.src)
+              blocks[s.src] = list[s.src]
+
+            if (s && s.cubes) getBlocks(s.cubes)
+          }
+
+          if (c.cubes && c.cubes.length > 0)
+            getBlocks(c.cubes)
+        }
+      }
+      if (cube.src)
+        blocks[cube.src] = list[cube.src]
+
+      if (cube.name == 'Block'){
+        let s = list[cube.src]
+        if (s.src)
+          blocks[s.src] = list[s.src]
+
+        if (s.cubes) getBlocks(s.cubes)
       }
       getBlocks(cube.cubes)
       return Object.keys(blocks).length == 0 ? null : blocks

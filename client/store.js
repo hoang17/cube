@@ -44,6 +44,7 @@ export function createStore (context) {
       async addCubes({ state, commit }, cubes) {
         for (let i in cubes){
           if (state.cubes[i]) continue
+          cubes[i].uid = state.user._id
           Vue.set(state.cubes, i, cubes[i])
           api.addCube(cubes[i])
         }

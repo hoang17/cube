@@ -63,6 +63,7 @@ export function getPageCubes(page, state){
 }
 
 // GET ALL BLOCKS FROM A CUBE
+// Return: { cube_id: count, ... }
 export function getCubeBlocks(cube, list){
   let blocks = {}
   var getBlocks = cubes => {
@@ -76,11 +77,11 @@ export function getCubeBlocks(cube, list){
 
       if (c.name == 'Block'){
         let s = list[c.src]
-        if (s.src){
+        if (s && s.src){
           if (blocks[s.src]) blocks[s.src]++
           else blocks[s.src] = 1
         }
-        if (s.cubes) getBlocks(s.cubes)
+        if (s && s.cubes) getBlocks(s.cubes)
       }
 
       if (c.cubes && c.cubes.length > 0)
