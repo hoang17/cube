@@ -58,7 +58,8 @@ export default {
     width 100%
     border 1px solid rgba(0,0,0,.15)
     flex 1 1 60%
-    // border-radius 2px
+    -webkit-appearance none
+    border-radius 0
 
 :global(.application--light)
   .textfield

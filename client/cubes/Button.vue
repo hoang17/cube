@@ -39,14 +39,17 @@ export default {
 .button
   composes cube from "./cube.css"
   outline none
-  background none
-  border 1px solid rgba(0,0,0,.15)
+  background-color #f5f5f5
   border-radius 0
   cursor pointer
   display inline-block
+  border none
+  padding .6em 1.7em
+  // border 1px solid rgba(0,0,0,.15)
   // box-shadow 0 1px 2px rgba(0,0,0,0.1)
   &:hover
     border-color rgba(0,0,0,.3)
+    box-shadow 0 1px 5px rgba(0,0,0,0.1)
   &:active
     box-shadow 0 2px 2px rgba(0,0,0,0.1)
   &[edit]

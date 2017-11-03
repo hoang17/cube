@@ -208,6 +208,8 @@
           ColorPicker(lb="Border Color" v-model="hover.borderColor")
         FieldSet
           Field(lb="Background Style" v-model='hover.background')
+        FieldSet
+          Field(lb="Box Shadow" v-model='hover.boxShadow')
 </template>
 
 <script>
@@ -288,7 +290,7 @@ export default {
     ]),
     hover(){
       if (!this.rule['&:hover'])
-        this.$set(this.rule, '&:hover', { color: null, backgroundColor: null, borderColor: null, background: null })
+        this.$set(this.rule, '&:hover', { color: null, backgroundColor: null, borderColor: null, background: null, boxShadow: null })
       return this.rule['&:hover']
     },
     rule(){
