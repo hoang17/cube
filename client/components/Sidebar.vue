@@ -57,8 +57,11 @@
             option(value="scroll") scroll
             option(value="hidden") hidden
         FieldSet
+          Label(:w="1/3") Transition
+          Input(:w="2/3" :ph="cs.transition" v-model='rule.transform')
+        FieldSet
           Label(:w="1/3") Transform
-          Input(:w="2/3" ph="Transform" v-model='rule.transform')
+          Input(:w="2/3" :ph="cs.transform" v-model='rule.transform')
         FieldSet
           SliderField(lb="Rotate", v-model="rotate" min="-180" max="180" step="0.01" default="0")
         FieldSet
@@ -301,15 +304,7 @@ export default {
       return this.cubes[this.parent.src]
     },
     cs() {
-      return this.activeElement ? window.getComputedStyle(this.activeElement) : this.cube.style
-    },
-    width(){
-      console.log(this.cs.width);
-      return this.cs.width
-    },
-    height(){
-      console.log(this.cs.height);
-      return this.cs.height
+      return this.activeElement ? window.getComputedStyle(this.activeElement) : this.rule
     },
     font(){
       return this.cs.fontFamily

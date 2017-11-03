@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     FieldSet
-      Field(lb="Background Style" v-model='rule.background')
+      Field(lb="Background Style" v-model='rule.background' :ph="cs.background")
     //- FieldSet
       SelectField(lb="Style" v-model='rule.backgroundStyle')
         option(value="color") Color
@@ -55,6 +55,12 @@ export default {
     Field, FieldSet, SelectField, ColorPicker
   },
   computed: {
+    cs() {
+      return this.activeElement ? window.getComputedStyle(this.activeElement) : this.rule
+    },
+    activeElement(){
+      return this.$store.state.activeElement
+    },
     bgImg:{
       get(){
         return this.rule.backgroundImage ? parseCssUrls(this.rule.backgroundImage)[0] : ''
