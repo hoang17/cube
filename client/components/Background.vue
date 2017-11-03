@@ -9,7 +9,7 @@
         option(value="image") Image
         option(value="video") Video
     FieldSet
-      ColorPicker(lb="Background Color" v-model='rule.backgroundColor')
+      ColorPicker(lb="Background Color" v-model='rule.backgroundColor' :ph="cs.backgroundColor")
     FieldSet
       Field(lb="Background Image" v-model='bgImg' ph="URL")
     FieldSet
@@ -50,17 +50,11 @@ import ColorPicker from './ColorPicker'
 import parseCssUrls from 'css-url-parser'
 
 export default {
-  props:['rule'],
+  props:['rule','cs'],
   components: {
     Field, FieldSet, SelectField, ColorPicker
   },
   computed: {
-    cs() {
-      return this.activeElement ? window.getComputedStyle(this.activeElement) : this.rule
-    },
-    activeElement(){
-      return this.$store.state.activeElement
-    },
     bgImg:{
       get(){
         return this.rule.backgroundImage ? parseCssUrls(this.rule.backgroundImage)[0] : ''

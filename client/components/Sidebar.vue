@@ -161,7 +161,7 @@
             option(value="baseline") Baseline
             option(value="stretch") Stretch
       Expand(title="Background")
-        Background(:rule="rule")
+        Background(:rule="rule" :cs="cs")
       Expand(title="Border" v-if="canBorder")
         FieldSet
           ButtonGroup(lb="Style")
