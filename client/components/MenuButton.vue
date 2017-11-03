@@ -35,7 +35,6 @@ export default {
     .label
     .meta
       font-weight 600
-      letter-spacing 2px
 
 .icon
 .trash
@@ -65,13 +64,11 @@ export default {
   overflow: hidden
   text-overflow: ellipsis
   width: 100%
-  transition: .3s cubic-bezier(.25,.8,.5,1)
 
 .meta
   color #999
   font-size 10px
   font-weight 100
-  transition: .3s cubic-bezier(.25,.8,.5,1)
 
 .badge:after
   background #4caf50!important
