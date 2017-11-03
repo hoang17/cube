@@ -5,7 +5,7 @@
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
       Expand(title="Font")
         FieldSet
-          FontSelect(lb="Font Family" ph="inherit" v-model="rule.fontFamily")
+          FontSelect(lb="Font Family" v-model="rule.fontFamily" :ph="cs.fontFamily")
         FieldSet
           SliderField(lb="Font Size", v-model="rule.fontSize" min="0" max="80" step="0.01" subfix="px" :default="cs.fontSize")
         FieldSet
