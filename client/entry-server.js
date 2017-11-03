@@ -34,12 +34,12 @@ export default context => {
     store.state.user = context.user
     store.state.token = context.token
 
-    if (context.user){
-      let tk = context.user.tokens.filter(function(t){
-        return t.kind == 'facebook'
-      })
-      store.state.tokenFB = tk[0].accessToken
-    }
+    // if (context.user){
+    //   let tk = context.user.tokens.filter(function(t){
+    //     return t.kind == 'facebook'
+    //   })
+    //   store.state.tokenFB = tk[0].accessToken
+    // }
 
     // wait until router has resolved possible async components and hooks
     router.onReady(() => {
