@@ -82,5 +82,6 @@ export default {
 
 <style lang="stylus" module>
 .page
+  min-height 100vh
   padding-top 10px
 </style>

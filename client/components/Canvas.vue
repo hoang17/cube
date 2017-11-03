@@ -192,7 +192,6 @@ $right := 28em
   margin 0
   padding 48px 0 0
   min-height 100vh
-  height 100%
   outline none
   transition padding .3s cubic-bezier(.25,.8,.5,1)
 </style>

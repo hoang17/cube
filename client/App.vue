@@ -24,6 +24,8 @@ export default {
 </script>
 
 <style lang="stylus">
-  @require './reset'
-  @require './app'
+@require './reset'
+@require './app'
+#app
+  min-height 100vh
 </style>
