@@ -36,11 +36,11 @@ TODO:
 ✔ Background @done(2017-11-01 14:55)
 ✔ Checkbox/Radio/Select options @done(2017-11-01 22:10)
 ✔ Photo @done(2017-11-02 18:05)
-☐ Upload Photo
-☐ Local storage
-☐ Firebase support
-☐ Build a blog plugin (cubes are package into plugin)
+✔ Upload Photo @done(2017-11-02 23:24)
+✔ Firebase support @done(2017-11-02 23:24)
 ☐ Payment
+☐ Build a blog plugin (cubes are package into plugin)
 ☐ New page suggestion similar to notion.io
 ☐ Remove vue modal from front end
 ☐ Theming
+☐ Local storage

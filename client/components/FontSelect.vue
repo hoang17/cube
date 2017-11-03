@@ -9,7 +9,7 @@
       Input(
         :value="value"
         :ph="ph"
-        :style="{fontFamily: value}"
+        :style="{fontFamily: value || ph}"
         :class="$style.input"
         @input="select"
         @click.native.stop="show=true")
