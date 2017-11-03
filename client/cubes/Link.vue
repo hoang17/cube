@@ -36,6 +36,7 @@ export default {
 <style lang="stylus" module>
 .link
   composes cube from "./cube.css"
+  padding 10px
   display inline-block
   &[edit]
     cursor pointer

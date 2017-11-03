@@ -58,5 +58,6 @@ export default {
 <style lang="stylus" module>
 .form
   composes cube con from "../cubes/cube.css"
+  padding 10px
   min-height 38px
 </style>

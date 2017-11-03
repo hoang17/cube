@@ -70,5 +70,6 @@ export default {
 <style lang="stylus" module>
 .container
   composes cube con from "./cube.css"
+  padding 10px
   min-height 38px
 </style>

@@ -45,6 +45,7 @@ export default {
 <style lang="stylus" module>
 .text
   composes cube from "./cube.css"
+  padding 10px
   &[edit]
     cursor default
 </style>

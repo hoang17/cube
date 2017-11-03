@@ -34,6 +34,7 @@ export default {
 <style lang="stylus" module>
 .select
   composes cube from "./cube.css"
+  padding 10px
   text-align left !important
   align-items center
   display flex
