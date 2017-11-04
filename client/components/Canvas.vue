@@ -1,6 +1,6 @@
 <template lang="pug">
   .build(:class="{[$style.left]:left,[$style.right]:right}")
-    link(v-for="f in currentFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
+    link(v-for="f in currentFonts" v-if="fonts[f]", :href="fontUrl+fonts[f]" rel='stylesheet')
     //-style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
     Toolbar(
       :class="$style.toolbar"
@@ -35,6 +35,7 @@ import clone from 'lodash/clone'
 import { css } from '../css-js/stylish'
 // import { getFonts } from '../plugins/helpers'
 // import css from '../css-js/styl'
+const isProd = process.env.NODE_ENV === 'production'
 
 export default {
   title: 'Build',
@@ -75,6 +76,9 @@ export default {
         return state.user
       },
     }),
+    fontUrl(){
+      return isProd ? 'http://bin.netlify.com//types/' :'/types/'
+    },
     css(){
       return [
         this.$style.canvas,

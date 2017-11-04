@@ -7,13 +7,14 @@
           div(:class="$style.label") {{ type.name }}
           div(:class="$style.line")
         li(v-for="font in type.fonts", :class="{[$style.active]: value==font.family}" @click="selectFont(font)")
-          img(:src="'/types/'+font.png", height='30', :alt='font.family')
+          img(:src="fontUrl+font.png", height='30', :alt='font.family')
 </template>
 
 <script>
 import { types } from '../data/types'
 import { mapGetters } from 'vuex'
 const ImportWebFont = () => import('webfontloader')
+const isProd = process.env.NODE_ENV === 'production'
 
 const MODAL_WIDTH = 300
 
@@ -33,6 +34,9 @@ export default {
     ...mapGetters([
       'page'
     ]),
+    fontUrl(){
+      return isProd ? 'http://bin.netlify.com//types/' :'/types/'
+    },
   },
   methods: {
     selectFont({family, css}) {
@@ -41,7 +45,7 @@ export default {
         WebFont.load({
           custom: {
             families: [family],
-            urls: ['/types/'+css]
+            urls: [this.fontUrl+css]
           },
           active: () => {
             this.setFont(family)

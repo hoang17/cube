@@ -1,6 +1,6 @@
 <template lang="pug">
   div(:class="css")
-    link(v-for="f in pageFonts" v-if="fonts[f]", :href="'/types/'+fonts[f]" rel='stylesheet')
+    link(v-for="f in pageFonts" v-if="fonts[f]", :href="fontUrl+fonts[f]" rel='stylesheet')
     //-style(v-for="c,i in blocks" v-if="c.name!='Block'" v-html="getRule(c)")
     component(v-for="(cube, i) in cubes", :cube="cube", :is="map(cube.type)", :key="i", :edit="false")
 </template>
@@ -9,6 +9,7 @@
 import { getFonts } from '../plugins/helpers'
 import { fonts } from '../data/fonts'
 import { css } from '../css-js/stylish'
+const isProd = process.env.NODE_ENV === 'production'
 
 export default {
   title(){
@@ -43,6 +44,9 @@ export default {
     },
     pageCss(){
       return css(this.page.style, 'c'+this.page._id)
+    },
+    fontUrl(){
+      return isProd ? 'http://bin.netlify.com//types/' :'/types/'
     },
     path(){
       return this.$route.path

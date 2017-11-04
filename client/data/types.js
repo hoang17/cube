@@ -110,11 +110,11 @@ exports.types = [
         "css": "Helveticish.css",
         "png": "Helveticish@2x.png"
       },
-      {
-        "family": "HelveticaNeue",
-        "css": "HelveticaNeue.css",
-        "png": "Helvetica@2x.png"
-      },
+      // {
+      //   "family": "HelveticaNeue",
+      //   "css": "HelveticaNeue.css",
+      //   "png": "Helvetica@2x.png"
+      // },
       {
         "family": "Josefin Sans",
         "css": "Josefin-Sans.css",
@@ -359,16 +359,16 @@ exports.types = [
         "css": "OpenSans-ExtraBold.css",
         "png": "Open-Sans-Extra-Bold@2x.png"
       },
-      {
-        "family": "Proxima Nova",
-        "css": "proxima-nova.css",
-        "png": "proxima-nova.png"
-      },
-      {
-        "family": "SF Pro Display",
-        "css": "sf-pro.css",
-        "png": "san-francisco.png"
-      },      
+      // {
+      //   "family": "Proxima Nova",
+      //   "css": "proxima-nova.css",
+      //   "png": "proxima-nova.png"
+      // },
+      // {
+      //   "family": "SF Pro Display",
+      //   "css": "sf-pro.css",
+      //   "png": "san-francisco.png"
+      // },
       {
         "family": "Racing Sans One",
         "css": "Racing-Sans-One.css",
