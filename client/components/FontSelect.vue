@@ -100,22 +100,22 @@ export default {
         this.recentFonts.unshift(font)
       }
 
-      // UPDATE FONT COUNT
-      let p, i = this.value
+      if (font){
+        // UPDATE FONT COUNT
+        let i = this.value
+        // Add new font to page
+        if (!this.page.fonts) this.page.fonts = {}
+        let p = this.page.fonts
+        let count = p[font]
+        count = count ? count + 1 : 1
+        this.$set(p, font, count)
 
-      // Add new font to page
-      if (!this.page.fonts) this.page.fonts = {}
-      p = this.page.fonts
-      let count = p[font]
-      count = count ? count + 1 : 1
-      this.$set(p, font, count)
-
-      // Remove old font
-      if (p[i]){
-        p[i]--
-        if (p[i] == 0) this.$delete(p, i)
+        // Remove old font
+        if (p[i]){
+          p[i]--
+          if (p[i] == 0) this.$delete(p, i)
+        }
       }
-
     },
     open(){
       // this.showBasicDialog()
