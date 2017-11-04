@@ -77,7 +77,7 @@ export default {
       },
     }),
     fontUrl(){
-      return isProd ? 'http://bin.netlify.com//types/' :'/types/'
+      return isProd ? 'https://bin.netlify.com/types/' :'/types/'
     },
     css(){
       return [

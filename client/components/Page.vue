@@ -46,7 +46,7 @@ export default {
       return css(this.page.style, 'c'+this.page._id)
     },
     fontUrl(){
-      return isProd ? 'http://bin.netlify.com//types/' :'/types/'
+      return isProd ? 'https://bin.netlify.com/types/' :'/types/'
     },
     path(){
       return this.$route.path
