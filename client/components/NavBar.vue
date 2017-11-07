@@ -17,12 +17,12 @@
           :active="page._id == p._id"
           :badge="showBadge(p)"
           @click.native.stop="selectPage(p)")
-      Expand(title="Basic Cubes" :inner="$style.inner")
+      Expand(title="Cubes" :inner="$style.inner")
         MenuButton(
           v-for='(cube, i) in baseCubes'
           :w="1/2"
           :icon="cube.icon"
-          :lb="cube.name", :key='i'
+          :lb="cube.name | capitalize", :key='i'
           @click.native="addBaseCube(cube)")
       Expand(title="Custom Cubes" inner)
         MenuButton(

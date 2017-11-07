@@ -48,3 +48,12 @@ export function cropTxt(txt, length = 300){
       'separator': /,? +/
     })
 }
+
+// Capitalize camelCase => Camel Case
+export function capitalize(str){
+  return str
+    // insert a space before all caps
+    .replace(/([A-Z])/g, ' $1')
+    // uppercase the first character
+    .replace(/^./, str => str.toUpperCase())
+}

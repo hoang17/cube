@@ -335,7 +335,7 @@ export const stripeButton = {
   type: 'stripe-bn',
   name: 'StripeButton',
   content: '$10.00',
-  icon: 'icon-button',
+  icon: 'fa fa-cc-stripe',
   url: null,
   amount: 1000,
   description: null,

@@ -1,7 +1,7 @@
 <template lang="pug">
   div(:class="$style.sidebar")
     Expansion
-      Expand(:title="cube.name" expand)
+      Expand(:title="cube.name | capitalize" expand)
         component(:cube="cube", :is="cube.type + '-pane'" @keydown.native.enter.stop="")
       Expand(title="Font")
         FieldSet
