@@ -3,6 +3,13 @@ const { plans, customers, subs, charges } = require('../modules/mongo')
 const stripe = require('stripe')(process.env.STRIPE_SKEY)
 stripe.setApiVersion("2017-08-15")
 
+function getAmount(handle){
+  if (handle == 'basic-plan')
+    return 1000
+  if (handle == 'med-plan')
+    return 5000
+}
+
 exports.charge = async (req, res) => {
   try {
     // const plan = await stripe.plans.create({
@@ -10,23 +17,39 @@ exports.charge = async (req, res) => {
     //   id: "basic-yearly-2",
     //   interval: "year",
     //   currency: "usd",
-    //   amount: 2000
+    //   amount: 1000
     // })
     // console.log(plan);
     // res.send(plan)
 
     // plans.insert(plan)
 
-    let amount = 1000
+    // console.log(req.body);
+
+    // const amount = getAmount(req.body.handle)
+
+    // if (!amount)
+    //   res.status(500).send({ message: 'Invalid amount' })
+
+    const plan = req.body.handle
+
+    console.log('plan', plan);
+
+    if (!plan)
+      res.status(500).send({ message: 'Invalid plan' })
 
     const customer = await stripe.customers.create({
        email: req.body.stripeEmail,
       source: req.body.stripeToken
     })
 
+    const stripeTokenType = req.body.stripeTokenType // 'card'
+
     customer._id = customer.id
+
     delete customer.id
-    console.log('customer', customer);
+
+    // console.log('customer', customer);
 
     customers.insert(customer)
 
@@ -129,7 +152,7 @@ exports.charge = async (req, res) => {
       customer: customer._id,
       items: [
         {
-          plan: "basic-monthly",
+          plan,
         },
       ],
     })
@@ -203,8 +226,10 @@ exports.charge = async (req, res) => {
     // }
 
     subscription._id = subscription.id
+
     delete subscription.id
-    console.log('subscription', subscription);
+
+    // console.log('subscription', subscription);
 
     res.render('payment', {
       title: 'Payment',
