@@ -112,6 +112,9 @@ export function createStore (context) {
         state.routes[url] = page._id
         return page._id
       },
+      async stripeSubscribe({ state, commit }, plan) {
+        return await api.stripeSubscribe(plan)
+      },
     },
     mutations: {
       setActivePage(state, id){

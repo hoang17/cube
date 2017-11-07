@@ -13,15 +13,17 @@
       ul.nav.navbar-nav
         li(class=(title == 'Home') ? 'active' : undefined)
           a(href='/') Home
-        //-li(class=(title == 'API Examples') ? 'active' : undefined)
+        li
+          a(href='/pricing') Pricing
+        li(class=(title == 'API Examples') ? 'active' : undefined)
           a(href='/api') API Examples
-        //-li(class=(title == 'Contact') ? 'active' : undefined)
+        li(class=(title == 'Contact') ? 'active' : undefined)
           a(href='/contact') Contact
-        //-li
-          a(href='/status') Status
-        li(class=(title == 'Groups') ? 'active' : undefined)
+        //- li
+        //-   a(href='/status') Status
+        //- li(class=(title == 'Groups') ? 'active' : undefined)
           a(href='/groups') Groups
-        li(class=(title == 'Pages') ? 'active' : undefined)
+        //- li(class=(title == 'Pages') ? 'active' : undefined)
           a(href='/pages') Pages
         //- li(class=(title == 'Likes') ? 'active' : undefined)
           a(href='/likes') Likes

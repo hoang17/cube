@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Payment
+  div
+  - console.log(customer)
+  - console.log(subscription)
+  div
+    pre=JSON.stringify(customer, null, 2)
+    pre=JSON.stringify(subscription, null, 2)

@@ -330,6 +330,39 @@ export const photo = {
   }
 }
 
+export const stripeButton = {
+  _id: null,
+  type: 'stripe-bn',
+  name: 'StripeButton',
+  content: 'Stripe Button',
+  icon: 'icon-button',
+  url: null,
+  uid: null,
+  src: null,
+  order: 3,
+  style: {
+    color: null,
+    display: null,
+    width: null,
+    height: null,
+    fontFamily: null,
+    fontSize: null,
+    fontWeight: null,
+    lineHeight: null,
+    letterSpacing: null,
+    textTransform: null,
+    textAlign: 'center',
+    padding: null,
+    margin: null,
+    '&:hover': {
+      color: null,
+      backgroundColor: null,
+      borderColor: null
+    }
+  }
+}
+
+
 // { name: 'Icon', type: 'icon' },
 // { name: 'DataTable', type: 'data-table' },
 // { name: 'DataForm', type: 'data-form' },

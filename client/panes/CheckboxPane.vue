@@ -10,8 +10,7 @@
           Input(v-model='option.name' ph='Option Name')
           Input(v-model='option.value' ph='Option Value')
           i.fa.fa-trash-o(@click="trash(option)")
-      Button(:class="$style.button" @click="add") Add
-        i.fa.fa-plus
+      Button(:class="$style.button" @click="add") + Add
 </template>
 
 <script>

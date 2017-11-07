@@ -10,7 +10,7 @@ const createAPI = (token) => {
     baseURL: `${host}/api/`,
     headers: {'x-token': token},
     withCredentials: false,
-    timeout: 1000,
+    timeout: 10000,
   })
 }
 
@@ -75,6 +75,10 @@ export function setup(token){
       if (!page) return { page }
       let cubes = key(res.data.cubes)
       return { page, cubes }
+    },
+    async stripeSubscribe(plan){
+      let res = await api.post('stripe', plan)
+      return res.data
     },
   }
 }

@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken')
 
-const options = {  keepAlive: 300000, connectTimeoutMS: 30000 }
+const db = require('./modules/mongo')
 
-const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, options)
-
-const cubes = db.get('cubes')
-const pages = db.get('pages')
+const cubes = db.cubes
+const pages = db.pages
 
 try {
   cubes.createIndex('uid')
