@@ -8,7 +8,7 @@ const pug = require('pug')
 
 const isProd = process.env.NODE_ENV === 'production'
 
-module.exports = function(app) {
+module.exports = function(app, passportConfig) {
 
   const resolve = file => path.resolve(__dirname, file)
 
@@ -127,6 +127,10 @@ module.exports = function(app) {
       }
     })
   }
+
+  app.get('/build', passportConfig.isAuthenticated, isProd ? render : (req, res) => {
+    readyPromise.then(() => render(req, res))
+  })
 
   app.get('*', isProd ? render : (req, res) => {
     readyPromise.then(() => render(req, res))

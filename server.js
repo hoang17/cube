@@ -259,7 +259,7 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 app.use('/api', require('./api-routes.js'))
 
 // Setup SSR
-require('./ssr-routes')(app)
+require('./ssr-routes')(app, passportConfig)
 
 /**
  * Error Handler.
