@@ -76,8 +76,8 @@ export function setup(token){
       let cubes = key(res.data.cubes)
       return { page, cubes }
     },
-    async stripeSubscribe(plan){
-      let res = await api.post('stripe', plan)
+    async stripeSubscribe(data){
+      let res = await api.post('stripeSubscribe', data)
       return res.data
     },
   }

@@ -31,6 +31,8 @@ exports.charge = async (req, res) => {
     // if (!amount)
     //   res.status(500).send({ message: 'Invalid amount' })
 
+    console.log(req.body.stripeToken);
+
     const plan = req.body.handle
 
     console.log('plan', plan);
@@ -39,7 +41,7 @@ exports.charge = async (req, res) => {
       res.status(500).send({ message: 'Invalid plan' })
 
     const customer = await stripe.customers.create({
-       email: req.body.stripeEmail,
+      email: req.body.stripeEmail,
       source: req.body.stripeToken
     })
 

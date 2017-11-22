@@ -5,22 +5,9 @@
     :class="css"
     @click.stop="onClick"
     @mouseover.stop="")
-    form(:action="cube.url", method="post")
-      div(:class="$style.amount") {{ cube.content }}
-      input(type='hidden' name='handle' :value="cube.handle")
-      button(type="submit" @click.prevent="checkout" :class="$style.stripeButton")
-        span Pay with Card
-      //- script(
-        src="//checkout.stripe.com/checkout.js"
-        class="stripe-button"
-        data-name="Cube"
-        data-key="pk_test_QMK3N95W3aCt9eydN1zUzFE8"
-        data-locale="auto"
-        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        :data-amount="cube.amount"
-        :data-label="cube.label"
-        :data-panel-label="cube.panelLabel"
-        :data-description="cube.description")
+    div(:class="$style.amount") {{ cube.content }}
+    button(type="submit" @click.prevent="checkout" :class="$style.stripeButton")
+      span Pay with Card
 </template>
 
 <script>
@@ -42,9 +29,9 @@ export default {
       key: 'pk_test_QMK3N95W3aCt9eydN1zUzFE8',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
-      token: function(token) {
-        // You can access the token ID with `token.id`.
-        // Get the token ID to your server-side code for use.
+      token: token => {
+        console.log(token);
+        this.$store.dispatch('stripeSubscribe', { token: token.id, email: token.email, handle: this.cube.handle })
       }
     })
   },

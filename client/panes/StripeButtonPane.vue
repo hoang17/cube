@@ -2,7 +2,7 @@
   div
     FieldSet
       Field(lb='Name' v-model='cube.content')
-    FieldSet
+    //- FieldSet
       Field(lb='URL' v-model='cube.url')
     FieldSet
       Field(lb='Amount' v-model='cube.amount')
