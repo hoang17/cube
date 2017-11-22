@@ -28,7 +28,8 @@ export default {
         if (this.cube.url == 'back')
           this.$router.go(-1)
         else
-          this.$router.push(this.cube.url)
+          window.location = this.cube.url
+          // this.$router.push(this.cube.url)
       }
     },
   },
