@@ -41,4 +41,5 @@ export default {
 <style lang="stylus" module>
 .block
   composes cube con from "../cubes/cube.css"
+  padding 10px
 </style>
