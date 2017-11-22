@@ -7,7 +7,6 @@ const Canvas = () => import('./components/Canvas')
 const Page = () => import('./components/Page')
 const Lab = () => import('./lab/Lab')
 const JSS = () => import('./css-js/JSS')
-const Fela = () => import('./css-js/Fela')
 const Emotion = () => import('./css-js/Emotion')
 const Glamor = () => import('./css-js/Glamor')
 const ASS = () => import('./css-js/ASS')
@@ -24,7 +23,6 @@ export function createRouter () {
       { path: '/build/:id?', name: 'build', component: Canvas },
       { path: '/lab', name: 'lab', component: Lab },
       { path: '/jss', name: 'jss', component: JSS },
-      { path: '/fela', name: 'fela', component: Fela },
       { path: '/emotion', name: 'emotion', component: Emotion },
       { path: '/glamor', name: 'glamor', component: Glamor },
       { path: '/ass', name: 'ass', component: ASS },

@@ -2300,7 +2300,7 @@ css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
 
-css-in-js-utils@2.0.0, css-in-js-utils@^2.0.0:
+css-in-js-utils@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/css-in-js-utils/-/css-in-js-utils-2.0.0.tgz#5af1dd70f4b06b331f48d22a3d86e0786c0b9435"
   dependencies:
@@ -3486,85 +3486,6 @@ fd-slicer@~1.0.1:
   resolved "https://registry.yarnpkg.com/fd-slicer/-/fd-slicer-1.0.1.tgz#8b5bcbd9ec327c5041bf9ab023fd6750f1177e65"
   dependencies:
     pend "~1.2.0"
-
-fela-dom@^6.0.5:
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-6.0.5.tgz#fe4eb3308b94ba3194df3bf1cc0f75cf647bb5b4"
-  dependencies:
-    fela-tools "^5.0.12"
-    fela-utils "^7.0.4"
-
-fela-plugin-custom-property@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/fela-plugin-custom-property/-/fela-plugin-custom-property-6.0.0.tgz#4c4f6a022b2c7691df8138cf94520345f2b49299"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-plugin-embedded@^5.1.7:
-  version "5.1.7"
-  resolved "https://registry.yarnpkg.com/fela-plugin-embedded/-/fela-plugin-embedded-5.1.7.tgz#6d74e4dfbf87de0c5df5f689b47c0dde6be3ad7a"
-  dependencies:
-    fela-utils "^7.0.4"
-
-fela-plugin-extend@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/fela-plugin-extend/-/fela-plugin-extend-6.0.0.tgz#464dcf8c997486dfc58596d70536f608f7b8c83b"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-plugin-lvha@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-plugin-lvha/-/fela-plugin-lvha-5.0.12.tgz#ff996aa0e2403da90cd86b8e931efff99968648b"
-  dependencies:
-    fela-utils "^7.0.4"
-
-fela-plugin-named-media-query@^5.0.11:
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/fela-plugin-named-media-query/-/fela-plugin-named-media-query-5.0.11.tgz#320a8f1f6bc5f7a92bddc5bba2a813ddb56fb00e"
-  dependencies:
-    fela-utils "^7.0.3"
-
-fela-plugin-placeholder-prefixer@^5.0.13:
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/fela-plugin-placeholder-prefixer/-/fela-plugin-placeholder-prefixer-5.0.13.tgz#6cc2c8e81a0fdc5c574eb91c188a33f21380045a"
-  dependencies:
-    fela-plugin-custom-property "^6.0.0"
-    fela-utils "^7.0.4"
-
-fela-plugin-unit@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-plugin-unit/-/fela-plugin-unit-5.0.12.tgz#11069d9ac4a5ae0762ee4dea989c33523a46826b"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-tools@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-tools/-/fela-tools-5.0.12.tgz#9311bc6e1e4d4139d35d9277908e74d6a41e113f"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-utils@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/fela-utils/-/fela-utils-7.0.3.tgz#77b82d83157e016ac1c10b90e3149991fface6c2"
-  dependencies:
-    css-in-js-utils "2.0.0"
-
-fela-utils@^7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/fela-utils/-/fela-utils-7.0.4.tgz#26dd1d6b11a0fedc8920bfa62538672ed846fd5e"
-  dependencies:
-    css-in-js-utils "2.0.0"
-
-fela@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/fela/-/fela-6.0.4.tgz#f1403d8b718122b98aec2020eca8512acbd80998"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
 
 figures@^2.0.0:
   version "2.0.0"
