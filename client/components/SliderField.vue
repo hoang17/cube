@@ -61,5 +61,5 @@ export default {
   flex 1 1 20%
 
 :global(.range-slider-fill)
-  background-color #ccc
+  background-color #ccc!important
 </style>
