@@ -38,10 +38,10 @@ TODO:
 ✔ Photo @done(2017-11-02 18:05)
 ✔ Upload Photo @done(2017-11-02 23:24)
 ✔ Firebase support @done(2017-11-02 23:24)
-☐ Payment
+✔ Payment @done(2017-11-23 13:51)
 ☐ Build a blog plugin (cubes are package into plugin)
 ☐ New page suggestion similar to notion.io
-☐ Remove vue modal from front end
-☐ Theming
 ☐ Local storage
 ☐ Google font
+☐ Remove vue modal from front end
+☐ Theming
