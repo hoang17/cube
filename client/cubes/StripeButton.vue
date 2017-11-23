@@ -7,7 +7,7 @@
     @mouseover.stop="")
     div(:class="$style.amount") {{ cube.content }}
     button(type="submit" @click.prevent="checkout" :class="$style.stripeButton")
-      span Pay with Card
+      span {{ cube.label }}
 </template>
 
 <script>

@@ -17,7 +17,7 @@
           :active="page._id == p._id"
           :badge="showBadge(p)"
           @click.native.stop="selectPage(p)")
-      Expand(title="Cubes" :inner="$style.inner")
+      Expand(title="Cubes" :inner="$style.inner" expand)
         MenuButton(
           v-for='(cube, i) in baseCubes'
           :w="1/2"

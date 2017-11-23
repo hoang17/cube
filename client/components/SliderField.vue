@@ -62,4 +62,7 @@ export default {
 
 :global(.range-slider-fill)
   background-color #ccc!important
+:global(.range-slider-knob)
+  width 16px
+  height 16px
 </style>
