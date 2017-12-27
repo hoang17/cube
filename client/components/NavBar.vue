@@ -13,7 +13,7 @@
           v-if="p._id != newId"
           icon="fa fa-file-o"
           :lb="p.content", :key='i'
-          :meta="p.url"
+          :meta="p.url + ' - ' + p.user.email"
           :active="page._id == p._id"
           :badge="showBadge(p)"
           @click.native.stop="selectPage(p)")

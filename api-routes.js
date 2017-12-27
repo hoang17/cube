@@ -67,8 +67,8 @@ router.route('/pages')
     // const uid = req.decoded.id
     // const data = await pages.find({ uid:uid })
     const data = await pages.find()
-    // for(var i = 0; i < data.length; i++)
-    //   data[i].user = await users.findOne({_id:data[i].uid})
+    for(var i = 0; i < data.length; i++)
+      data[i].user = await users.findOne({_id:data[i].uid})
     res.json(data)
   })
   .post(async function(req, res) {

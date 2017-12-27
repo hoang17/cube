@@ -3,6 +3,7 @@ const db = require('monk')(process.env.MONGODB_URI || process.env.MONGOLAB_URI, 
 
 const cubes = db.get('cubes')
 const pages = db.get('pages')
+const users = db.get('users')
 const plans = db.get('plans', { castIds: false })
 const customers = db.get('customers', { castIds: false })
 const subs = db.get('subscriptions', { castIds: false })
@@ -25,4 +26,4 @@ try {
   console.error(e)
 }
 
-module.exports = { cubes, pages, plans, customers, subs, charges, coupons, invoices }
+module.exports = { cubes, pages, users, plans, customers, subs, charges, coupons, invoices }
