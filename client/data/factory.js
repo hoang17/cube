@@ -113,12 +113,13 @@ export function History(page, state){
   }
 }
 
-export function Page(uid, host){
+export function Page(uid, host, appId){
   let path = NanoSlug()
   return {
     _id: ObjectId(),
     type: 'pg',
     name: 'Page',
+    appId: appId,
     host: host,
     path: path,
     url: host + '/' + path,

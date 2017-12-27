@@ -155,6 +155,10 @@ app.use(express.static(publicDir, { maxAge: 31557600000 })) // one year
  */
 // app.get('/', homeController.index);
 // app.get('/privacy', homeController.privacy);
+const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) => s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
+app.get('/start', (req, res) => {
+  res.redirect('/build/' + ObjectId())
+})
 app.post('/charge', paymentController.charge);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);

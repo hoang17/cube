@@ -30,7 +30,7 @@ export default {
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       token: token => {
-        console.log(token);
+        // console.log(token);
         this.$store.dispatch('stripeSubscribe', { token: token.id, email: token.email, handle: this.cube.handle })
       }
     })

@@ -13,6 +13,7 @@ export function createStore (context) {
   let api = setup(context.token)
   return new Vuex.Store({
     state: {
+      appId: null,
       newId: null,
       pageId: null,
       activeCube: null,
@@ -64,34 +65,9 @@ export function createStore (context) {
       async updatePage({ state, commit }, page) {
         return await api.updatePage(page)
       },
-      async fetchPages({ state, commit }) {
-        state.pages = await api.fetchPages()
-      },
-      async fetchBuild({state, commit, dispatch}, id){
-        // state.styles = await api.fetchStyles()
-        state.pages = await api.fetchPages()
+      async fetchBuild({state, commit, dispatch}, { appId, pageId }){
+        state.pages = await api.fetchPages(appId)
         state.cubes = await api.fetchCubes()
-
-        // for (let i in state.styles) {
-        //   let e = state.styles[i]
-        //   let c
-        //   if (e.name == 'header' || e.name == 'text' || e.name == 'sub text'){
-        //     c = clone(cubes.text, state.user._id)
-        //   }
-        //   else if (e.name == 'link'){
-        //     c = clone(cubes.link, state.user._id)
-        //   }
-        //   else if (e.name == 'button' || e.name == 'fire'){
-        //     c = clone(cubes.button, state.user._id)
-        //   }
-        //   else if (e.name == 'wrapper'){
-        //     c = clone(cubes.container, state.user._id)
-        //   }
-        //   c._id = e._id
-        //   c.style = e.style
-        //   c.content = e.name
-        //   dispatch('addCube', c)
-        // }
 
         // build routes & histories
         for (let i in state.pages){
@@ -100,8 +76,9 @@ export function createStore (context) {
           let history = History(p, state)
           Vue.set(state.histories, i, history)
         }
+        state.appId = appId
         commit('addNewPage')
-        commit('setActivePage', id ? id : state.newId)
+        commit('setActivePage', pageId ? pageId : state.newId)
       },
       async fetchView({state, commit}, { url }){
         if (state.routes[url]) return state.routes[url]
@@ -121,7 +98,7 @@ export function createStore (context) {
         state.pageId = id
       },
       addNewPage(state) {
-        let page = Page(state.user._id, state.host)
+        let page = Page(state.user._id, state.host, state.appId)
         state.newId = page._id
         Vue.set(state.pages, page._id, page)
         Vue.set(state.histories, page._id, History(page, state))

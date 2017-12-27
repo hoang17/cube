@@ -45,8 +45,8 @@ export function setup(token){
       let res = await api.get('cubes')
       return key(res.data)
     },
-    async fetchPages(){
-      let res = await api.get('pages')
+    async fetchPages(appId){
+      let res = await api.get('pages/?appId='+appId)
       return key(res.data)
     },
     async fetchPage(id){

@@ -42,7 +42,7 @@ export default {
   async asyncData ({ store, route, context }) {
     store.state.e = context.e
     // store.state.env = context.env
-    return store.dispatch('fetchBuild', route.params.id)
+    return store.dispatch('fetchBuild', { appId: route.params.appId, pageId: route.params.id })
   },
   components: {
     Toolbar,

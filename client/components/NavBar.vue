@@ -20,6 +20,7 @@
       Expand(title="Cubes" :inner="$style.inner" expand)
         MenuButton(
           v-for='(cube, i) in baseCubes'
+          v-if="cube.name!='StripeButton'"
           :w="1/2"
           :icon="cube.icon"
           :lb="cube.name | capitalize", :key='i'
@@ -111,7 +112,7 @@ export default {
     },
     selectPage(page){
       let id = page ? page._id : null
-      this.$router.push({ name: 'build', params: { id: id }})
+      this.$router.push({ name: 'build', params: { id: id, appId: this.$store.state.appId }})
     },
     addBaseCube(cube){
       let c = clone(cube, this.user._id)

@@ -64,8 +64,8 @@ router.route('/view')
 
 router.route('/pages')
   .get(async function(req, res) {
-    const uid = req.decoded.id
-    const data = await pages.find({ uid:uid })
+    const appId = req.query.appId
+    const data = await pages.find({ appId:appId })
     res.json(data)
   })
   .post(async function(req, res) {
