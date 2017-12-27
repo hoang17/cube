@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const { plans, customers, subs, charges, cubes, pages } = require('./modules/mongo')
+const { users, plans, customers, subs, charges, cubes, pages } = require('./modules/mongo')
 
 const stripe = require('stripe')(process.env.STRIPE_SKEY)
 stripe.setApiVersion("2017-08-15")
@@ -64,8 +64,11 @@ router.route('/view')
 
 router.route('/pages')
   .get(async function(req, res) {
-    const uid = req.decoded.id
-    const data = await pages.find({ uid:uid })
+    // const uid = req.decoded.id
+    // const data = await pages.find({ uid:uid })
+    const data = await pages.find()
+    // for(var i = 0; i < data.length; i++)
+    //   data[i].user = await users.findOne({_id:data[i].uid})
     res.json(data)
   })
   .post(async function(req, res) {
@@ -100,9 +103,10 @@ router.route('/pages/:id')
   })
   .delete(async function(req, res) {
     try {
-      const uid = req.user._id+''
+      // const uid = req.user._id+''
       const id = req.params.id
-      const data = await pages.remove({ _id: id, uid: uid })
+      const data = await pages.remove({ _id: id })
+      // const data = await pages.remove({ _id: id, uid: uid })
       if (data.deletedCount > 0)
         res.json({ message: 'Page deleted', _id: req.params.id, data })
       else
@@ -124,8 +128,9 @@ router.route('/routes')
 
 router.route('/cubes')
   .get(async function(req, res) {
-    const uid = req.decoded.id
-    const data = await cubes.find({ uid:uid },{sort : { order : 1 }})
+    // const uid = req.decoded.id
+    // const data = await cubes.find({ uid:uid },{sort : { order : 1 }})
+    const data = await cubes.find({}, {sort : { order : 1 }})
     res.json(data)
   })
   .post(async function(req, res) {
@@ -155,9 +160,10 @@ router.route('/cubes')
 router.route('/cubes/:id')
   .delete(async function(req, res) {
     try {
-      const uid = req.user._id+''
+      // const uid = req.user._id+''
       const id = req.params.id
-      const data = await cubes.remove({ _id: id, uid: uid })
+      const data = await cubes.remove({ _id: id })
+      // const data = await cubes.remove({ _id: id, uid: uid })
       if (data.deletedCount > 0)
         res.json({ message: 'Cube deleted', _id: id, data })
       else
