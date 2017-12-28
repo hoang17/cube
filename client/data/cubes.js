@@ -339,7 +339,7 @@ export const stripeButton = {
   url: null,
   amount: 1000,
   description: null,
-  label: null,
+  label: 'Pay',
   panelLabel: null,
   uid: null,
   src: null,
